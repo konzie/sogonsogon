@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd" >
+<configuration>
+	<!--  마이바티스 설정 파일 -->
+
+
+	<settings>
+	<setting name="jdbcTypeForNull" value="NULL"/>
+	<!-- 
+			jdbcTypeForNull : insert, update시 파라미터에 null 값이 있을 경우
+			해당 세팅이 없다면 mybatis는 에러를 발생 시킴.
+			
+			해당 세팅은 파라미터에 null값이 있을 경우 value에 지정된 값을 파라미터로 사용해라 라는 의미.
+	 -->
+	</settings>
+
+	<!--  VO클래스의 별칭을 작성하는 태그
+		ex) Member VO의 정식 이름(풀네임) :
+			com.kh.spring.member.model.vo.Member 
+	 -->
+	<typeAliases>
+		
+	</typeAliases>
+
+	<!-- mapper.xml파일을 등록하는 태그  -->
+	<mappers>
+
+	</mappers>
+</configuration>
