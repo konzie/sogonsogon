@@ -11,7 +11,7 @@
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdn.materialdesignicons.com/4.8.95/css/materialdesignicons.min.css">
-<link rel="stylesheet" href="resources/css/login.css">
+<link rel="stylesheet" href="${contextPath}/resources/css/login.css">
 <style>
 header.masthead {
 	padding-top: 10rem;
@@ -87,8 +87,16 @@ select {
 	top: -50px;
 }
 </style>
+<!-- sweetalert : alert창을 꾸밀 수 있게 해주는 라이브러리 https://sweetalert.js.org/ -->
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </head>
 <body>
+<c:if test="${!empty msg}"> 
+	<script>
+   	swal("${msg}");
+	</script>
+   <c:remove var="msg"/>
+ </c:if>
       <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
             <div class="container">
                 <a class="navbar-brand js-scroll-trigger" href="${contextPath}">소곤소곤</a>
@@ -153,12 +161,12 @@ select {
       <div class="card login-card">
         <div class="row no-gutters">
           <div class="col-md-5">
-            <img src="resources/images/jacob-bentzinger-euprCXIZhas-unsplash.jpg" alt="login" class="login-card-img">
+            <img src="${contextPath}/resources/images/jacob-bentzinger-euprCXIZhas-unsplash.jpg" alt="login" class="login-card-img">
           </div>
           <div class="col-md-7">
             <div class="card-body">
               <div class="brand-wrapper">
-                <img src="resources/images/로고2.jpg" alt="logo" class="logo">
+                <img src="${contextPath}/resources/images/로고2.jpg" alt="logo" class="logo">
               </div>
               <form class="form-signin" method="POST" action="#" onsubmit="return loginValidate();">
                   <div class="form-group">
@@ -175,7 +183,7 @@ select {
                 &nbsp;
                 <a href="#" class="forgot-password-link">비밀번호 찾기</a>
                 <p class="login-card-footer-text">
-                <a href="#" class="text-reset">회원가입</a></p>
+                <a href="${contextPath}/member/signUpView" class="text-reset">회원가입</a></p>
         
             </div>
           </div>
@@ -197,6 +205,7 @@ select {
 
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>        
         <script>
             var didScroll;

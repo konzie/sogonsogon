@@ -24,8 +24,8 @@
 	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
 		<property name = "driverClassName" value="oracle.jdbc.driver.OracleDriver" />
 		<property name = "url" value="jdbc:oracle:thin:@localhost:1521:xe" />
-		<property name = "username" value="spring" />
-		<property name = "password" value="spring" />
+		<property name = "username" value="sogon" />
+		<property name = "password" value="sogon" />
 		
 		<!--  defaultAutoCommit :  커넥션풀을 이용해서 DB와 연결할 경우 기본적으로 auto commit 상태 
 							false로 지정할 경우 Spring Framework 또는 개발자에 의해서 트랜잭션을 제어하겠다 라는 의미
