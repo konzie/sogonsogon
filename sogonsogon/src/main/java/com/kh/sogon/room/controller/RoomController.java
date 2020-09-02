@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.kh.sogon.member.model.vo.Member;
 import com.kh.sogon.room.model.service.RoomService;
 import com.kh.sogon.room.model.vo.Room;
 
@@ -30,7 +31,12 @@ public class RoomController {
 		@RequestMapping("roomDetail/{roomNo}")
 		public String roomDetailView(@PathVariable int roomNo, @RequestParam(value = "inputPwd", required = false, defaultValue = "-1") String inputPwd, Model model, RedirectAttributes rdAttr, HttpServletRequest request) {
 			
-			Room roomDetail = roomService.roomDetailInfo(roomNo, inputPwd);
+			Member loginMember = (Member)model.getAttribute("loginMember");
+			
+			if(loginMember != null)
+				loginMember.setMemberPwd(inputPwd);
+			
+			Room roomDetail = roomService.roomDetailInfo(roomNo, loginMember);
 			
 			String returnPath = null;
 			if(roomDetail != null) {
@@ -38,7 +44,7 @@ public class RoomController {
 				returnPath = "room/roomDetail";
 			} else {
 		        rdAttr.addFlashAttribute("status", "error");
-		        rdAttr.addFlashAttribute("msg", "삭제되었거나 없는 방입니다.");
+		        rdAttr.addFlashAttribute("msg", "삭제되었거나 없는 방 또는 권한이 없습니다");
 				returnPath = "redirect:/room/roomList";
 			}
 			

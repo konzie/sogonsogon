@@ -1,9 +1,13 @@
 package com.kh.sogon.room.model.dao;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.sogon.member.model.vo.Member;
 import com.kh.sogon.room.model.vo.Room;
 
 @Repository
@@ -28,5 +32,33 @@ public class RoomDAO {
 	 */
 	public String roomDetailInfoPwd(int roomNo) {
 		return sqlSession.selectOne("roomMapper.roomdetailInfoPwd", roomNo);
+	}
+
+
+	/** 방 회원 조회 리스트 DAO
+	 * @param roomNo
+	 * @param logMember
+	 * @return chkBookmark
+	 */
+	public int roomBookmarkChk(int roomNo, Member loginMember) {
+		Map<String, Integer> bookmarkMap = new HashMap<String, Integer>();
+		
+		bookmarkMap.put("roomNo", roomNo);
+		bookmarkMap.put("memberNo", loginMember.getMemberNo());
+		return sqlSession.selectOne("roomMapper.roomBookmarkChk", bookmarkMap);
+	}
+
+
+	/** 방 즐겨찾기 삽입 DAO
+	 * @param roomNo
+	 * @param loginMember
+	 * @return result
+	 */
+	public int insertBookmark(int roomNo, Member loginMember) {
+		Map<String, Integer> bookmarkMap = new HashMap<String, Integer>();
+		
+		bookmarkMap.put("roomNo", roomNo);
+		bookmarkMap.put("memberNo", loginMember.getMemberNo());
+		return sqlSession.insert("roomMapper.insertBookmark", bookmarkMap);
 	}
 }
