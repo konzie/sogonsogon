@@ -3,6 +3,13 @@
 <!DOCTYPE html>
 <html>
 <head>
+<style>
+footer{	
+	clear:both;
+	hegith:10%;
+	width:100%;
+}
+</style>
 </head>
 <body>
   <footer class="py-3 mt-3 bg-dark">

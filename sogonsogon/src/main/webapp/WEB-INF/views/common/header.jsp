@@ -114,13 +114,14 @@ select {
 	                        <li class="nav-item"><a class="nav-link js-scroll-trigger" data-toggle="modal" href="#modal-container-1">로그인</a></li>
 	                    </c:when>
 	            		<c:otherwise>
-	            		 <li class="nav-item"><a class="nav-link js-scroll-trigger" href="${contextPath}/member/logout">로그아웃</a></li>
-	                   
-	            		</c:otherwise>
+                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="${contextPath}/mypage/myroom">${loginMember.memberName}</a></li>
+                          <li class="nav-item"><a class="nav-link js-scroll-trigger">|</a></li>
+                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="${contextPath}/member/logout">로그아웃</a></li>
+                        </c:otherwise>
             		</c:choose>
             		    
                         <li class="nav-item"><a class="nav-link js-scroll-trigger">|</a></li>
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="${contextPath}/member/signUpView">회원가입</a></li>
+                  		<li class="nav-item"><a class="nav-link js-scroll-trigger" href="${contextPath}/member/signUpView">회원가입</a></li>
                     </ul>
                 </div>
             </div>
