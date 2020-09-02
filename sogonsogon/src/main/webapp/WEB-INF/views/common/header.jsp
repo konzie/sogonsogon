@@ -102,7 +102,7 @@ select {
                         <li class="nav-item">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" data-toggle="modal" href="#modal-container-1">로그인</a></li>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger">|</a></li>
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="${contextPath}/member/signUpView">회원가입</a></li>
+                  		<li class="nav-item"><a class="nav-link js-scroll-trigger" href="${contextPath}/member/signUpView">회원가입</a></li>
                     </ul>
                 </div>
             </div>
@@ -175,7 +175,7 @@ select {
                 &nbsp;
                 <a href="#" class="forgot-password-link">비밀번호 찾기</a>
                 <p class="login-card-footer-text">
-                <a href="#" class="text-reset">회원가입</a></p>
+                <a href="${contextPath}/member/signUpView" class="text-reset">회원가입</a></p>
         
             </div>
           </div>
