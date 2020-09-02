@@ -23,7 +23,7 @@
 	<!-- destroy-method="close" : 주어진 SqlSession 작업이 종료되면 close 하라는 의미   -->				
 	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
 		<property name = "driverClassName" value="oracle.jdbc.driver.OracleDriver" />
-		<property name = "url" value="jdbc:oracle:thin:@localhost:1521:orcl" />
+		<property name = "url" value="jdbc:oracle:thin:@115.90.212.22:1521:xe" />
 		<property name = "username" value="sogon" />
 		<property name = "password" value="sogon" />
 		
