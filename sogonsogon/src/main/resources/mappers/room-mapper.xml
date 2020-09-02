@@ -15,11 +15,34 @@
         <result property="roomModifyDate" column="ROOM_MODIFY_DATE"/>
         <result property="roomOpen" column="ROOM_OPEN"/>
     </resultMap>
-	<select id="roomdetailInfo" parameterType="Room" resultMap="roomResultSet">
-		SELECT ROOM_NO, ROOM_TITLE, ROOM_CONTENT, ROOM_CREATE_DATE, ROOM_BOARD_STATUS, MEMBER_NO, MEMBER_ID, ROOM_TYPE_NAME, ROOM_OPEN
+    <!-- room 정보 조회 쿼리 -->
+	<select id="roomdetailInfo" parameterType="_int" resultMap="roomResultSet">
+		SELECT ROOM_NO, ROOM_TITLE, ROOM_CONTENT, ROOM_CREATE_DATE, ROOM_STATUS, MEMBER_NO, MEMBER_ID, ROOM_TYPE_NAME, ROOM_OPEN
 		FROM STUDY_ROOM 
 		JOIN MEMBER ON (ROOM_MEMBER_NO = MEMBER_NO)
 		JOIN STUDY_ROOM_CATEGORY ON (ROOM_TYPE = ROOM_CATEGORY_NO)
 		WHERE ROOM_NO = #{roomNo}
 	</select>
+	
+	<!-- room 패스워드 조회 쿼리 -->
+	<select id="roomdetailInfoPwd" parameterType="_int" resultType="string">
+		SELECT ROOM_PWD
+		FROM STUDY_ROOM 
+		WHERE ROOM_NO = #{roomNo}
+		AND ROOM_OPEN = 'N'
+		AND ROOM_STATUS = 'Y'
+	</select>
+	
+	<!-- 즐겨찾기 리스트 조회 쿼리 -->
+	<select id="roomBookmarkChk" parameterType="map" resultType="_int">
+		SELECT COUNT(*)
+		FROM BOOKMARK
+		WHERE BOOKMARK_ROOM_NO = #{roomNo}
+		AND BOOKMARK_MEMBER_NO = #{memberNo}
+	</select>
+	
+	<!-- 즐겨찾기 리스트 삽입 쿼리 -->
+	<insert id="insertBookmark" parameterType="map">
+		INSERT INTO BOOKMARK VALUES(#{roomNo}, #{memberNo}, SYSDATE, NULL)
+	</insert>
 </mapper>
