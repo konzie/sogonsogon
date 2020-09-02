@@ -139,9 +139,8 @@
       }
       
       .pagination2 a.active {
-        background-color:  #212121;
+        background-color:  rgb(248, 162, 113);
         color: white;
-        border: 1px solid #4CAF50;
       }
       
       .pagination2 a:hover:not(.active) {background-color: #ddd;}
@@ -245,7 +244,43 @@
      .modal-body{
         text-align: center;
      }
-
+     
+      .button-area {
+            height: 40px;
+            width: 100%;
+        }
+        
+        .button-area .btn{
+           width: 80px;
+          height: 38px;
+          padding: 0px;
+          border-radius: 10px;
+          font-size: 18px;
+          font-family: 'GmarketSansMedium'; 
+        }
+        .modal-body img{
+           width: 70px;
+        }
+        .modal-btn-area2{
+        margin: 0;
+        width: 50%;
+        box-sizing: border-box;
+        float: left;
+        }
+        .modal-button2{
+           margin-left: 50px;
+        }
+        .m-title{
+        height: 20%;
+        font-size: 24px;
+        margin: 0px 8px 0px 0px;
+   }
+      .m-passnotice{
+         font-size: 13px;
+      }
+      #makeRoombtn{
+      margin-right: 200px;
+      }
 </style>
 </head>
 <body>
@@ -303,7 +338,12 @@
     </div><!--room-container end-->
       <%} %>
       
+      <hr>
+      <!-- 방만들기 영역 -->
+     <button type="button" class="btn btn-primary float-right" id="makeRoombtn" onclick="location.href = '{contextPath}/room/insertRoom';">방만들기</button>
+
       
+     <!-- 페이징 -->
    <div class="pageN">
       <div class="pagination2">
         <a href="#">&laquo;</a>
@@ -317,6 +357,7 @@
       </div>
    </div>
        
+       <!-- 검색 영역 -->
        <div class="top-area">    
                <div class="search-box">
                 <div class="search-icon"><i class="fa fa-search search-icon"></i></div>
@@ -335,28 +376,43 @@
       
      <!-- Modal -->
      <div class="modal fade" id="myModal" role="dialog">
-       <div class="modal-dialog modal-lg">
+       <div class="modal-dialog ">
          <div class="modal-content">
-           <div class="modal-header">
+           <div class="modal-header">입장하기
              <button type="button" class="close" data-dismiss="modal">&times;</button>
              <h4 class="modal-title"></h4>
            </div>
            <div class="modal-body">
 
-                <p>초보 자바 개발자들 모임</p>
-               <p>방소개</p>
-               <input type="password"> 
+                <p  class="m-title">초보 자바 개발자들 모임</p>
+               <p class="m-content" style="margin-bottom: 6px;">방소개부분입니다. <br>아마 두줄정도 들어가면 예쁠거같네용</p>
+              
+              <div>
+                 <img src="${contextPath}/resources/images/lock.png">
+                 <p style="margin: 0px;">참여 번호 입력</p>
+                 <p class="m-passnotice">
+                       참여 비밀 번호가 필요한 채팅방입니다.<br>
+                       방장이 알려준 참여 비밀 번호를 입력해 주세요.
+                 </p>
+                  <input type="password" placeholder="영문/숫자 4~10자리"> 
+              </div>
             
+            <div class="modal-btn-area2" style="height: 50px;"> 
                 <a data-dismiss="modal"><div class="modal-button2">뒤로가기</div></a>
-                <a href="roomDetail"><div class="modal-button2">참여하기</div></a>
+            </div>
+            <div class="modal-btn-area2" style="height: 50px;"> 
+              <a href="roomDetail"><div class="modal-button2">참여하기</div></a>
+            </div>
       
 
            </div>
-    
+           
          </div>
        </div>
      </div> <!-- modal end -->
    
+   
+  
    
       
    <jsp:include page="../common/footer.jsp" />
