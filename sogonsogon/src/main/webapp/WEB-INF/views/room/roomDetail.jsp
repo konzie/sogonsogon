@@ -1,84 +1,11 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <style>
-		header.masthead {
-			padding-top: 10rem;
-			padding-bottom: calc(10rem - 8.5rem);
-			background: linear-gradient(to bottom, rgba(192, 155, 155, 0.8) 0%,
-				rgba(179, 118, 72, 0.8) 100%), url("./assets/img/bg-masthead.jpg");
-			background-position: center;
-			background-repeat: no-repeat;
-			background-attachment: scroll;
-			background-size: cover;
-		}
-		
-		header.masthead h1 {
-			font-size: 2.25rem;
-		}
-		
-		@media ( min-width : 1200px) {
-			header.masthead h1 {
-				font-size: 3.5rem;
-			}
-		}
-		
-		.searchbar {
-			margin-bottom: auto;
-			margin-top: auto;
-			height: 60px;
-			background-color: #353b48;
-			border-radius: 30px;
-			padding: 10px;
-		}
-		
-		.search_input {
-			color: white;
-			border: 0;
-			outline: 0;
-			background: none;
-			width: 0;
-			caret-color: transparent;
-			line-height: 40px;
-			transition: width 0.4s linear;
-		}
-		
-		.searchbar:hover>.search_input {
-			padding: 0 10px;
-			width: 450px;
-			caret-color: red;
-			transition: width 0.4s linear;
-		}
-		
-		.searchbar:hover>.search_icon {
-			background: white;
-			color: #e74c3c;
-		}
-		
-		.search_icon {
-			height: 40px;
-			width: 40px;
-			float: right;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			border-radius: 50%;
-			color: white;
-			text-decoration: none;
-		}
-		
-		select {
-			background-color: #353b48;
-			color: white;
-		}
-		
-		.nav-up {
-			top: -50px;
-		}
-		
         #list-table td{
         cursor : pointer;
         }
@@ -93,9 +20,20 @@
 			<div class="col-lg-3">
 				<h1 class="my-4 card-header">방 정보</h1>
 				<div class="list-group">
-					<p>카테고리 : JAVA</p>
-					<p>방장 : 김반장</p>
+					<p>카테고리 : ${roomDetail.roomTypeName}</p>
+					<p>방장 : ${roomDetail.memberId}</p>
 					<p>회원 수 : 10명</p>
+					<p>공개 여부 :
+					<c:set var="roomOpenValue" value="${roomDetail.roomOpen}"/> 
+						<c:choose>
+							<c:when test="${fn:contains(roomDetail.roomOpen, 'Y')}">
+								공개
+							</c:when>
+							<c:otherwise>
+								비공개
+							</c:otherwise>
+						</c:choose>
+					</p>
 					<p class="list-group-item fas fa-angle-down" id="moreInfo"
 						style="cursor: pointer; color: blue;">&nbsp;더 보기</p>
 					<div id="infoList"></div>
@@ -106,8 +44,7 @@
 
 				</div>
 				<div>
-					<button id="prevAtag" class="btn-secondary"
-						style="margin-top: 10px;">방 나가기</button>
+					<button id="prevAtag" class="btn-secondary" style="margin-top: 10px;" onclick="location.href='../roomList'">방 나가기</button>
 				</div>
 			</div>
 			<!-- /.col-lg-3 -->
@@ -116,7 +53,7 @@
 
 				<div class="card mt-4">
 					<div class="card-body">
-						<h3 class="card-title">방 제목입니다</h3>
+						<h3 class="card-title">${roomDetail.roomTitle}</h3>
 					</div>
 				</div>
 				<!-- /.card -->
@@ -124,33 +61,19 @@
 				<div class="card card-outline-secondary my-4">
 					<div class="card-body">
 						<table class="table" id="list-table">
-							<tr>
-								<th>글 번호</th>
-								<th>말머리</th>
-								<th>제목</th>
-								<th>작성자</th>
-								<th>작성일</th>
-								<th>조회</th>
-								<th>좋아요</th>
-							</tr>
-							<tr>
-								<td>1</td>
-								<td>질문</td>
-								<td>코드 오류 질문 합니다</td>
-								<td>예시요</td>
-								<td>15:35</td>
-								<td>1</td>
-								<td>12</td>
-							</tr>
-							<tr>
-								<td>2</td>
-								<td>자유</td>
-								<td>태풍이 온다</td>
-								<td>강태풍</td>
-								<td>11일전</td>
-								<td>10</td>
-								<td>1</td>
-							</tr>
+							<thead>
+								<tr>
+									<th>글 번호</th>
+									<th>말머리</th>
+									<th>제목</th>
+									<th>작성자</th>
+									<th>작성일</th>
+									<th>조회</th>
+									<th>좋아요</th>
+								</tr>
+							</thead>
+							<tbody>
+							</tbody>
 						</table>
 						<a class="btn btn-primary float-right" href="#">글쓰기</a>
 						<form action="#" method="get">
@@ -181,7 +104,7 @@
             var enterChk = false;
             $("#moreInfo").on("click", function() {
                 if(!enterChk) {
-                    var $p1 = $("<p>").html("<br>방 가입날짜 : 2020-08-27<br> 현재 방 내에서 채택된 답변 수 : 10 <br> 작성한 글 수  : 1<br> 작성한 글 수 : 3<br>");
+                    var $p1 = $("<p>").html("<br><h6>방 생성날짜 : ${roomDetail.roomCreateDate}</h6><br> 현재 방 내에서 채택된 답변 수 : 10 <br> 작성한 글 수  : 1<br> 작성한 글 수 : 3<br>");
                     var $button = $("<button>", {type : "button" , id : "outRoom", class : "btn-primary"}).text("방 탈퇴");
                     $("#infoList").append($p1, $button);
                     $("#moreInfo").hide();
@@ -207,7 +130,38 @@
           		// 게시글 상세조회 요청
           		location.href = roomBoardUrl;
           	  });
+          	  
+	  			var url = "${contextPath}/roomBoard/boardList/${roomDetail.roomNo}";
+				$.ajax({
+					url : url,
+					type : "POST",
+					dataType:"json",
+					success : function(rbList){
+						console.log(rbList);
+						
+						
+						$.each(rbList, function(i){
+							$table = $("#list-table > tbody");
+							$tr = $("<tr>");
+							$td1 = $("<td>").text(rbList[i].roomBoardNo);
+							$td2 = $("<td>").text(rbList[i].roomBoardType);
+							$td3 = $("<td>").text(rbList[i].roomBoardTitle);
+							$td4 = $("<td>").text(rbList[i].roomBoardWriter);
+							$td5 = $("<td>").text(rbList[i].roomBoardCreateDate);
+							$td6 = $("<td>").text(rbList[i].roomBoardReadCount);
+							$td7 = $("<td>").text('0');
+							
+							$tr.append($td1,$td2,$td3,$td4,$td5,$td6,$td7);
+							$table.append($tr);
+						});
+						
+					},error : function(){
+						console.log("통신 실패");
+					}
+				});
             });
+         	
+
         </script>
 </body>
 </html>

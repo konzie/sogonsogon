@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="roomBoardMapper">
+
+	<resultMap type="RoomBoard" id="roomBoardResultSet">
+        <id property="roomBoardNo" column="ROOM_BOARD_NO"/>
+        <result property="roomNo" column="ROOM_NO"/>
+        <result property="roomBoardType" column="ROOM_BOARD_TYPE"/>
+        <result property="roomBoardTitle" column="ROOM_BOARD_TITLE"/>
+        <result property="roomBoardContent" column="ROOM_BOARD_CONTENT"/>
+        <result property="roomBoardWriterNo" column="ROOM_BOARD_WRITER"/>
+        <result property="roomBoardCreateDate" column="ROOM_BOARD_CREATE_DATE"/>
+        <result property="roomBoardModifyDate" column="ROOM_BOARD_MODIFY_DATE"/>
+        <result property="roomBoardReadCount" column="ROOM_BOARD_READ_COUNT"/>
+        <result property="roomBoardWriter" column="MEMBER_ID"/>
+    </resultMap>
+    
+	<select id="roomBoardSelectList" parameterType="_int" resultMap="roomBoardResultSet">
+		SELECT ROOM_BOARD_NO, ROOM_BOARD_TYPE, ROOM_BOARD_TITLE, MEMBER_ID, ROOM_BOARD_CREATE_DATE, ROOM_BOARD_READ_COUNT
+		FROM ROOMBOARD
+		JOIN MEMBER ON (ROOM_BOARD_WRITER = MEMBER_NO)
+		WHERE ROOM_NO = #{roomNo}
+		AND ROOM_BOARD_STATUS = 'Y'
+		ORDER BY ROOM_BOARD_NO DESC
+	</select>
+</mapper>

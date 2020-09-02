@@ -7,11 +7,11 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 @SessionAttributes({"loginMember"})
 @Controller
 @RequestMapping("/board/*")
-public class BoardController {
-	
-	   @RequestMapping("boardList")
+public class QnAController {
+	   
+	   @RequestMapping("qnaList")
 	   public String boardListView() {
-		   return "board/boardList";
+		   return "board/qnaList";
 	   }
 	   
 }
