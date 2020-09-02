@@ -108,7 +108,17 @@ select {
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="${contextPath}/room/roomList">방 리스트</a></li>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#">즐겨찾기</a></li>
                         <li class="nav-item">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" data-toggle="modal" href="#modal-container-1">로그인</a></li>
+             
+                    <c:choose>
+	            		<c:when test="${empty loginMember}">
+	                        <li class="nav-item"><a class="nav-link js-scroll-trigger" data-toggle="modal" href="#modal-container-1">로그인</a></li>
+	                    </c:when>
+	            		<c:otherwise>
+	            		 <li class="nav-item"><a class="nav-link js-scroll-trigger" href="${contextPath}/member/logout">로그아웃</a></li>
+	                   
+	            		</c:otherwise>
+            		</c:choose>
+            		    
                         <li class="nav-item"><a class="nav-link js-scroll-trigger">|</a></li>
                   		<li class="nav-item"><a class="nav-link js-scroll-trigger" href="${contextPath}/member/signUpView">회원가입</a></li>
                     </ul>
@@ -168,7 +178,7 @@ select {
               <div class="brand-wrapper">
                 <img src="${contextPath}/resources/images/로고2.jpg" alt="logo" class="logo">
               </div>
-              <form class="form-signin" method="POST" action="#" onsubmit="return loginValidate();">
+              <form class="form-signin" method="POST" action="${contextPath}/member/loginAction" onsubmit="return loginValidate();">
                   <div class="form-group">
                     <label for="email" class="sr-only">아이디</label>
                     <input type="email" name="memberId" id="memberId" class="form-control" placeholder="아이디" value="">

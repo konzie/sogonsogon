@@ -1,5 +1,6 @@
 package com.kh.sogon.room.model.service;
 
+import com.kh.sogon.member.model.vo.Member;
 import com.kh.sogon.room.model.vo.Room;
 
 public interface RoomService {
@@ -8,6 +9,6 @@ public interface RoomService {
 	 * @param roomNO
 	 * @return room
 	 */
-	Room roomDetailInfo(int roomNO);
+	Room roomDetailInfo(int roomNo, Member loginMember);
 
 }
