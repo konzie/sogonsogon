@@ -97,38 +97,57 @@
        </div>
        <div class="content2">       
 	   <h4 class="mb-5">회원정보 수정</h4>
-		<form method="POST" action="updateInfo" onsubmit="return validate();" class="form-horizontal" role="form">
 	    <table id="myInfoTable">
 	        <tr>
 	            <td>아이디</td>
-	            <td>${loginMember.memberId}</td>
+	            <td>user01@naver.com</td>
 	        </tr>
 	        <tr>
 	            <td>비밀번호</td>
-	            <td><input type="password" name="checkPwd" placeholder="비밀번호를 입력해주세요." size="25px"></td>
+	            <td><input type="text" name="pwd1" placeholder="비밀번호를 입력해주세요." size="25px"></td>
+	        </tr>
+	        <tr>
+	            <td>비밀번호 확인</td>
+	            <td><input type="text" name="pwd2" placeholder="비밀번호를 입력해주세요." size="25px"></td>
+	        </tr>
+	        <tr>
+	            <td>닉네임</td>
+	            <td><input type="text" name="nick" placeholder="유저이" size="25px"></td>
+	        </tr>
+	        <tr>
+	            <td>전화번호</td>                               
+	            <td>
+	                <select name="tel1">
+	                    <option selected>010</option>
+	                    <option>011</option>
+	                    <option>017</option>
+	                    <option>019</option>
+	                </select>
+	                -
+	                <input type="tel" name="tel2" placeholder="1234">
+	                -
+	                <input type="tel" name="tel3" placeholder="5678">
+	            </td>
+	        </tr>
+	        <tr>
+	            <td>관심분야</td> 
+	            <td>
+	                <input type="radio" name="interest" id="IT"><label for="IT">IT</label>
+	                <input type="radio" name="interest" id="cook"><label for="cook">요리</label>
+	                <input type="radio" name="interest" id="book"><label for="book">독서</label>
+	                <input type="radio" name="interest" id="eng"><label for="eng">외국어</label>
+	                <input type="radio" name="interest" id="music"><label for="music">음악</label>
+	                <input type="radio" name="interest" id="movie"><label for="monvie">영화</label>
+	                <input type="radio" name="interest" id="game"><label for="game">게임</label>
+	            </td> 
 	        </tr>
 	    </table>
 	    <div align="right">
-	    	<button type="submit">회원 정보 수정</button>
-	    	</div>
-	    	</form>
-	   </div>
+	        <input type="button" value="회원 정보 수정" id="updateInfo">
+	        <input type="button" value="회원 탈퇴" id="deleteInfo">
+	    </div>
+	</div>
 	</section>
 	   <jsp:include page="../common/footer.jsp" />
-	   
-<script>
-
-		function validate() {
-			// 비밀번호  유효성 검사
-			//영어 대,소문자 + 숫자, 총 6~12글자
-			var regExp = /^[A-Za-z0-9]{6,12}$/;
-			if(!regExp.test($("#checkPwd").val())){ 
-				alert("유효하지 않은 비밀번호 입니다.");
-				$("#checkPwd").focus();
-				
-				return false;
-            }
-</script>
-	
 </body>
 </html>

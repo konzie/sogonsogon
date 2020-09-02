@@ -5,12 +5,9 @@
 <head>
 <style>
 footer{	
-	position:absolute;
-    margin:auto;
-    top:0;
-    bottom:0;
-    left:0;
-    right:0;
+	clear:both;
+	hegith:10%;
+	width:100%;
 }
 </style>
 </head>

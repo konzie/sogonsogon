@@ -28,4 +28,9 @@ public class MypageController {
 	public String myInfo() {
 		return "mypage/myInfo";
 		}
+	
+	@RequestMapping("updateInfo")
+	public String myInfo2() {
+		return "mypage/myInfo2";
+		}
 }

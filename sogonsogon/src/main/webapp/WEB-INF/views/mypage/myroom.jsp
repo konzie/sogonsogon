@@ -14,30 +14,29 @@
         }
 
         .room-box {
-            width: 100%;
-            height: 350px;
-            display: flex;
+            width: 40%;
+            height: 35%;
             justify-content: center;
             flex-wrap: unset;
             font-family: 'GmarketSansMedium';
         }
 
         .roomlist-box {
-            width: 360px;
-            height: 220px;
+            width: 100%;
+            height: 50%;
             border-radius: 2.5px;
             box-sizing: border-box;
             border: 2px solid black;
-            margin: 50px;
+            margin: 1%;
             display: inline-block;
             text-align: center;
-            box-shadow: 14px 14px rgb(255, 178, 181), -14px 14px rgb(255, 178, 181);
+            box-shadow: 3% 3% rgb(255, 178, 181), -3% 3% rgb(255, 178, 181);
             position: relative;
             text-align: center;
         }
 
         .roomlist-box>img{
-            width: 70px;
+            width: 30%;
             position: absolute;
             margin: auto;
             top: 0;
@@ -107,11 +106,7 @@
            text-align: center;
            margin-top: 40px;
         }
-        .empty{
-           width: 100%;
-           height: 40px;
-        }
-    
+        
       .pageN{
           width: 100%;
           height: 50px;
@@ -240,31 +235,33 @@
       .table-title {
       color: #fff;
       background: #ff9d38;      
-      padding: 16px 25px;
-      margin: -20px 160px 10px;
-      border-radius: 3px 3px 0 0;
+      width:100%;
+      height:15%;
     }
 
       .content{
-          width: 100%;
-          height: 100%;
-  		  margin: -20px 160px 10px;
+          width: 90%;
+          height: 80%;
           margin-top:10px;
+          position:relative;
       }
                 
       .mypageNav {
-          width: 20%;
+          float:left; 
+          width: 25%;
+          height:80%;
           color: #fff;
           background: #ff9d38;  
-          float:left; 
+    	  font-size: 100%;
           padding:0;
+          margin:0;
       }
       
       .content2{
-      	width:80%; 
+      	width:75%;
+        height:80%;
         float:left; 
-        padding:0;
-      	
+        padding:3%;
       }
       
       .mypageNav>ul{
@@ -276,10 +273,12 @@
       .mypageNav>ul li{
           list-style-type: none;
           width:100%;
-          height:20%;
-          font-size:18px;
+          height:25%;
+          font-size:20px;
           line-height: 40px;
           text-align: center;
+          margin:0%;
+          padding:0;
       }
       
       .mypageNav>ul li a{
@@ -311,25 +310,15 @@
    
       <section class="content">
       	<div class="mypageNav">
-            <ul class="navbar-nav">
+            <ul>
                 <li><a href="${contextPath}/mypage/myroom"> <img src="${contextPath}/resources/images/meeting.png" width="50px" height="50px">참여 스터디 방</a></li>
                 <li><a href="${contextPath}/mypage/myboard"> <img src="${contextPath}/resources/images/classroom.png" width="50px" height="50px">내가 작성한 글</a></li>
                 <li><a href="${contextPath}/mypage/myreply"> <img src="${contextPath}/resources/images/answer.png" width="50px" height="50px">채택된 댓글</a></li>
                 <li><a href="${contextPath}/mypage/myInfo"> <img src="${contextPath}/resources/images/personal-information.png" width="50px" height="50px">내정보</a></li>
             </ul>
        </div>
-       <div class="content2">
-      <div class="selectList">
-         <select>
-              <option>IT</option>
-              <option>공모전</option>
-              <option>면접</option>
-              <option>전공</option>
-              <option>외국어</option>
-              <option>기타</option>
-          </select>      
-       </div>             
-
+       <div class="content2">       
+	   <h4 class="mb-5">참여한 스터디방</h4>
    <%int num=0; %>
     <!-- 1 -->
     <%for(int i=0; i<2; i++){ %>
