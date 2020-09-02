@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="roomMapper">
+
+	<resultMap type="Room" id="roomResultSet">
+        <id property="roomNo" column="ROOM_NO"/>
+        <result property="memberNo" column="ROOM_MEMBER_NO"/>
+        <result property="memberId" column="MEMBER_ID"/>
+        <result property="roomTitle" column="ROOM_TITLE"/>
+        <result property="roomContent" column="ROOM_CONTENT"/>
+        <result property="roomPassword" column="ROOM_PWD"/>
+        <result property="roomType" column="ROOM_TYPE"/>
+        <result property="roomTypeName" column="ROOM_TYPE_NAME"/>
+        <result property="roomCreateDate" column="ROOM_CREATE_DATE"/>
+        <result property="roomModifyDate" column="ROOM_MODIFY_DATE"/>
+        <result property="roomOpen" column="ROOM_OPEN"/>
+    </resultMap>
+	<select id="roomdetailInfo" parameterType="Room" resultMap="roomResultSet">
+		SELECT ROOM_NO, ROOM_TITLE, ROOM_CONTENT, ROOM_CREATE_DATE, ROOM_BOARD_STATUS, MEMBER_NO, MEMBER_ID, ROOM_TYPE_NAME, ROOM_OPEN
+		FROM STUDY_ROOM 
+		JOIN MEMBER ON (ROOM_MEMBER_NO = MEMBER_NO)
+		JOIN STUDY_ROOM_CATEGORY ON (ROOM_TYPE = ROOM_CATEGORY_NO)
+		WHERE ROOM_NO = #{roomNo}
+	</select>
+</mapper>
