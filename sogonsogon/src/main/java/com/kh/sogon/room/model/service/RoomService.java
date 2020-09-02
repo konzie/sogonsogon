@@ -8,6 +8,6 @@ public interface RoomService {
 	 * @param roomNO
 	 * @return room
 	 */
-	Room roomDetailInfo(int roomNO);
+	Room roomDetailInfo(int roomNo, String inputPwd);
 
 }

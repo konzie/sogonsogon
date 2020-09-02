@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -27,10 +28,9 @@ public class RoomController {
 		}
 	   
 		@RequestMapping("roomDetail/{roomNo}")
-		public String roomDetailView(@PathVariable int roomNo, Model model, RedirectAttributes rdAttr, HttpServletRequest request) {
+		public String roomDetailView(@PathVariable int roomNo, @RequestParam(value = "inputPwd", required = false, defaultValue = "-1") String inputPwd, Model model, RedirectAttributes rdAttr, HttpServletRequest request) {
 			
-			Room roomDetail = roomService.roomDetailInfo(roomNo);
-			System.out.println(roomDetail);
+			Room roomDetail = roomService.roomDetailInfo(roomNo, inputPwd);
 			
 			String returnPath = null;
 			if(roomDetail != null) {

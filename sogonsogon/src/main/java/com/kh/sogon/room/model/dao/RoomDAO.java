@@ -20,4 +20,13 @@ public class RoomDAO {
 	public Room roomDetailInfo(int roomNo) {
 		return sqlSession.selectOne("roomMapper.roomdetailInfo", roomNo);
 	}
+
+
+	/** 방 비밀번호 가져오기 DAO
+	 * @param roomNo
+	 * @return string
+	 */
+	public String roomDetailInfoPwd(int roomNo) {
+		return sqlSession.selectOne("roomMapper.roomdetailInfoPwd", roomNo);
+	}
 }
