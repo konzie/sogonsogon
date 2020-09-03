@@ -14,6 +14,9 @@
         <result property="roomCreateDate" column="ROOM_CREATE_DATE"/>
         <result property="roomModifyDate" column="ROOM_MODIFY_DATE"/>
         <result property="roomOpen" column="ROOM_OPEN"/>
+        <result property="memberNick" column="MEMBER_NICK"/>
+        <result property="roomTag" column="ROOM_TAG"/>
+        
     </resultMap>
     <!-- room 정보 조회 쿼리 -->
 	<select id="roomdetailInfo" parameterType="_int" resultMap="roomResultSet">
@@ -45,4 +48,26 @@
 	<insert id="insertBookmark" parameterType="map">
 		INSERT INTO BOOKMARK VALUES(#{roomNo}, #{memberNo}, SYSDATE, NULL)
 	</insert>
+	
+	<!-- 페이징 처리용 조회 쿼리-->
+	<select id="getListCount" parameterType="_int" resultType="_int">
+		SELECT COUNT(*)
+		FROM STUDY_ROOM
+	</select>
+	
+	<!-- 방 리스트 조회 쿼리 -->
+	<select id="selectList" parameterType="_int" resultMap="roomResultSet">
+		SELECT ROOM_NO,ROOM_TYPE,ROOM_TITLE,MEMBER_NICK,ROOM_CREATE_DATE,ROOM_TAG 
+        FROM STUDY_ROOM
+		JOIN MEMBER ON(ROOM_MEMBER_NO=MEMBER_NO)
+        ORDER BY ROOM_NO DESC
+	</select>
+	
+	<!-- 방 입장용 조회 쿼리 -->
+	<select id="enterRoom" parameterType="Room" resultMap="roomResultSet">
+		SELECT ROOM_PWD FROM STUDY_ROOM
+		WHERE ROOM_NO= #{roomNo}
+		AND ROOM_STATUS = 'Y'
+	</select>
+	
 </mapper>

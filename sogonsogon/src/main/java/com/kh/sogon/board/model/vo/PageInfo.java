@@ -139,8 +139,14 @@ public class PageInfo {
 	    	
 	    }
 	    
-	    
-	    
+	    // Room list를 위한 setter
+	    public void setPageInfo(int currentPage, int listCount) {
+	    	this.currentPage = currentPage;
+	    	this.listCount = listCount;
+	    	makePageInfo();
+	    	
+	    	
+	    }
 	    
 	    
 	    

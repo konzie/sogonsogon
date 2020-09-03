@@ -6,7 +6,7 @@ public class Room {
 
 	private int roomNo;
 	private int memberNo;
-	private String memberId;
+	private String memberId; // 삭제한 컬럼임
 	private String roomTitle;
 	private String roomContent;
 	private String roomPassword;
@@ -15,6 +15,8 @@ public class Room {
 	private Timestamp roomCreateDate;
 	private Timestamp roomModifyDate;
 	private char roomOpen;
+	private String memberNick;
+	private String roomTag;
 
 	public int getRoomNo() {
 		return roomNo;
@@ -104,12 +106,36 @@ public class Room {
 		this.roomOpen = roomOpen;
 	}
 
+	
+	public String getMemberNick() {
+		return memberNick;
+	}
+
+	public void setMemberNick(String memberNick) {
+		this.memberNick = memberNick;
+	}
+
+	public String getRoomTag() {
+		return roomTag;
+	}
+
+	public void setRoomTag(String roomTag) {
+		this.roomTag = roomTag;
+	}
+
 	@Override
 	public String toString() {
 		return "Room [roomNo=" + roomNo + ", memberNo=" + memberNo + ", memberId=" + memberId + ", roomTitle="
 				+ roomTitle + ", roomContent=" + roomContent + ", roomPassword=" + roomPassword + ", roomType="
 				+ roomType + ", roomTypeName=" + roomTypeName + ", roomCreateDate=" + roomCreateDate
-				+ ", roomModifyDate=" + roomModifyDate + ", roomOpen=" + roomOpen + "]";
+				+ ", roomModifyDate=" + roomModifyDate + ", roomOpen=" + roomOpen + ", memberNick=" + memberNick
+				+ ", roomTag=" + roomTag + "]";
 	}
+
+	
+	
+	
+
+
 
 }

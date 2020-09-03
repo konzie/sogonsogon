@@ -1,12 +1,15 @@
 package com.kh.sogon.room.model.dao;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kh.sogon.board.model.vo.PageInfo;
 import com.kh.sogon.member.model.vo.Member;
 import com.kh.sogon.room.model.vo.Room;
 
@@ -61,4 +64,38 @@ public class RoomDAO {
 		bookmarkMap.put("memberNo", loginMember.getMemberNo());
 		return sqlSession.insert("roomMapper.insertBookmark", bookmarkMap);
 	}
+
+
+	/** 페이징 처리를 위한 DAO
+	 * @return result
+	 */
+	public int getListCount() {
+		return sqlSession.selectOne("roomMapper.getListCount", null);
+	}
+	
+	/** 방 목록 조회 DAO
+	 * @param pInfo
+	 * @return Room
+	 */
+	public List<Room> selectList(PageInfo pInfo) {
+		 pInfo.setLimit(6);
+		 int offset =(pInfo.getCurrentPage()-1)*pInfo.getLimit();
+		 
+		 RowBounds rowBounds = new RowBounds(offset,pInfo.getLimit());
+		 
+		return sqlSession.selectList("roomMapper.selectList", rowBounds);
+		
+	}
+
+	/** 방 입장용 조회 DAO
+	 * @param room
+	 * @return 
+	 */
+	public Room enterRoom(Room room) {
+		return sqlSession.selectOne("roomMapper.enterRoom",room);
+	}
+
+
+
+	
 }
