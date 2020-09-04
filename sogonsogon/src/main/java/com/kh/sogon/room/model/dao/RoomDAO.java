@@ -43,12 +43,12 @@ public class RoomDAO {
 	 * @param logMember
 	 * @return chkBookmark
 	 */
-	public int roomBookmarkChk(int roomNo, Member loginMember) {
+	public int roomMemberChk(int roomNo, Member loginMember) {
 		Map<String, Integer> bookmarkMap = new HashMap<String, Integer>();
 		
 		bookmarkMap.put("roomNo", roomNo);
 		bookmarkMap.put("memberNo", loginMember.getMemberNo());
-		return sqlSession.selectOne("roomMapper.roomBookmarkChk", bookmarkMap);
+		return sqlSession.selectOne("roomMapper.roomMemberChk", bookmarkMap);
 	}
 
 
@@ -57,12 +57,12 @@ public class RoomDAO {
 	 * @param loginMember
 	 * @return result
 	 */
-	public int insertBookmark(int roomNo, Member loginMember) {
+	public int insertRoomMember(int roomNo, Member loginMember) {
 		Map<String, Integer> bookmarkMap = new HashMap<String, Integer>();
 		
 		bookmarkMap.put("roomNo", roomNo);
 		bookmarkMap.put("memberNo", loginMember.getMemberNo());
-		return sqlSession.insert("roomMapper.insertBookmark", bookmarkMap);
+		return sqlSession.insert("roomMapper.insertRoomMember", bookmarkMap);
 	}
 
 
