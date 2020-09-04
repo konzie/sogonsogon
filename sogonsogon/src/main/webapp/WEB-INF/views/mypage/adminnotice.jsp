@@ -7,7 +7,7 @@
     <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>내가 쓴 게시글</title>
+    <title>공지 사항</title>
         
 <style>
       .content{
@@ -29,13 +29,13 @@
   <jsp:include page="../common/header.jsp" />
   
   <div>
-  <jsp:include page="mypage.jsp" />
+  <jsp:include page="adminpage.jsp" />
   </div>
   
   <div class="content">
-  <jsp:include page="mypage2.jsp"/>
-  <div class="content2">              
-       <h4 class="mb-5">내가 쓴 게시글</h4>
+  <jsp:include page="adminpage2.jsp"/>
+	<div class="content2">       
+      <h4 class="mb-5">공지 사항</h4>
        <table class="table table-striped table-hover">
                 <thead>
                     <tr>
@@ -101,6 +101,8 @@
             </div>
         </div>
     </div>    
-       <jsp:include page="../common/footer.jsp" />
+   
+   <jsp:include page="../common/footer.jsp" />
+    
     </body>
 </html>

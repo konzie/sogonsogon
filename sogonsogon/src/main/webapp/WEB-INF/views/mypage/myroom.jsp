@@ -14,7 +14,7 @@
         }
 
         .room-box {
-            width: 40%;
+            width: 100%;
             height: 35%;
             justify-content: center;
             flex-wrap: unset;
@@ -27,12 +27,11 @@
             border-radius: 2.5px;
             box-sizing: border-box;
             border: 2px solid black;
-            margin: 50px;
+            margin: 0px 30px 50px 30px;
             display: inline-block;
             text-align: center;
             box-shadow: 14px 14px rgb(255, 178, 181), -14px 14px rgb(255, 178, 181);
             position: relative;
-            text-align: center;
             
         }
 
@@ -232,100 +231,38 @@
      .modal-body{
         text-align: center;
      }
-
-      .table-title {
-      color: #fff;
-      background: #ff9d38;      
+     
+      .content{
+      float:left;
       width:100%;
-      height:15%;
-    }
-
-           .content{
-          width: 100%;
-          height: 100%;
-          margin-top:10px;
-          position:relative;
-      }
-                
-      .mypageNav {
-          float:left; 
-          width: 25%;
-          height:1000px;
-          color: #fff;
-          background: #ff9d38;  
-         font-size: 100%;
-          padding:0;
-          margin:0;
+      height:100%;
       }
       
       .content2{
-         width:75%;
-        height:80%;
-        float:left; 
-        padding:3%;
-      }
-      
-      .mypageNav>ul{
-          margin:0;
-          padding:0;
-          height:100%;
-      }
-      
-      .mypageNav>ul li{
-          list-style-type: none;
-          width:100%;
-          height:25%;
-          font-size:20px;
-          line-height: 40px;
-          text-align: center;
-          margin:0%;
-          padding:0;
-      }
-      
-      .mypageNav>ul li a{
-          text-decoration: none;
-          color:white;
-          font-weight:bold;
-          width:100%;
-          height:100%;
-          display:block;
-      }
-      
-      .mypageNav>ul li:hover{
-          background-color: crimson;
+      float:left; 
+      width:72%;
+      height:100%;
+      padding:20px 0px 0px 30px;
       }
 </style>
 </head>
-<body>
+<body>   
+
   <jsp:include page="../common/header.jsp" />
-   
-   <div class="empty"></div>
-   
-   <div class="table-title">
-      <div class="row">
-         <div class="col-sm-4">
-            <h2><b>My Page</b></h2>
-         </div>
-      </div>
-   </div>
-      
-         <div class="mypageNav">
-            <ul>
-                <li><a href="${contextPath}/mypage/myroom"> <img src="${contextPath}/resources/images/meeting.png" width="50px" height="50px">참여 스터디 방</a></li>
-                <li><a href="${contextPath}/mypage/myboard"> <img src="${contextPath}/resources/images/classroom.png" width="50px" height="50px">내가 작성한 글</a></li>
-                <li><a href="${contextPath}/mypage/myreply"> <img src="${contextPath}/resources/images/answer.png" width="50px" height="50px">채택된 댓글</a></li>
-                <li><a href="${contextPath}/mypage/myInfo"> <img src="${contextPath}/resources/images/personal-information.png" width="50px" height="50px">내정보</a></li>
-            </ul>
-       </div>
-      <section class="content">
-      
-       <div class="content2">       
+  
+  <div>
+  <jsp:include page="mypage.jsp" />
+  </div>
+  
+  <div class="content">
+  <jsp:include page="mypage2.jsp"/>
+  <div class="content2">       
       <h4 class="mb-5">참여한 스터디방</h4>
    <%int num=0; %>
     <!-- 1 -->
     <%for(int i=0; i<2; i++){ %>
     <div class="room-box"> <!--review box 1-1-->
-        <%for(int j=0; j<2; j++){ %>
+        <%for(int j=0; j<3; j++){ %>
         <div class="roomlist-box">
         
             <p class="room-content">
@@ -396,16 +333,14 @@
             
                 <a data-dismiss="modal"><div class="modal-button2">뒤로가기</div></a>
                 <a href="roomDetail"><div class="modal-button2">참여하기</div></a>
-      
-
            </div>
-    
          </div>
        </div>
      </div> <!-- modal end -->
+     
+     
      </div>
-   </section>
-      
+ </div>    
    <jsp:include page="../common/footer.jsp" />
 
 <script>

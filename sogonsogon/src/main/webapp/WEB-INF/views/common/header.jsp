@@ -109,26 +109,26 @@ select {
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#">즐겨찾기</a></li>
                         <li class="nav-item">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
              
-                    <c:choose>
+                         <c:choose>
 	            		<c:when test="${empty loginMember}">
 	                        <li class="nav-item"><a class="nav-link js-scroll-trigger" data-toggle="modal" href="#modal-container-1">로그인</a></li>
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger">|</a></li>
-                  		<li class="nav-item"><a class="nav-link js-scroll-trigger" href="${contextPath}/member/signUpView">회원가입</a></li>
 	                    </c:when>
 	            		<c:otherwise>
-	            		
-                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="${contextPath}/member/logout">로그아웃</a></li>
+	            		    <c:choose>
+	            			<c:when test="${loginMember.getMemberGrade().equals('G')}">
+                         		<li class="nav-item"><a class="nav-link js-scroll-trigger" href="${contextPath}/mypage/myroom">${loginMember.memberName}</a></li>
+                         	</c:when>
+                         	<c:otherwise>
+                         		<li class="nav-item"><a class="nav-link js-scroll-trigger" href="${contextPath}/mypage/adminpage">${loginMember.memberName}</a></li>
+                         	</c:otherwise>
+                         	</c:choose>
                           <li class="nav-item"><a class="nav-link js-scroll-trigger">|</a></li>
-                        	<c:choose>
-	                            <c:when test="${loginMember.getMemberGrade().equals('G')}">
-	                                 <li class="nav-item"><a class="nav-link js-scroll-trigger" href="${contextPath}/mypage/myroom">${loginMember.memberName}</a></li>
-	                             </c:when>
-	                             <c:otherwise>
-	                                 <li class="nav-item"><a class="nav-link js-scroll-trigger" href="${contextPath}/mypage/adminpage">${loginMember.memberName}</a></li>
-	                             </c:otherwise>
-                             </c:choose>
+                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="${contextPath}/member/logout">로그아웃</a></li>
                         </c:otherwise>
             		</c:choose>
+            		    
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger">|</a></li>
+                  		<li class="nav-item"><a class="nav-link js-scroll-trigger" href="${contextPath}/member/signUpView">회원가입</a></li>
             		    
                     </ul>
                 </div>
