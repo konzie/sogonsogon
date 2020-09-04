@@ -59,6 +59,12 @@ public class RoomServiceImpl implements RoomService{
 		} else {
 			// 공개방일때
 			room = roomDAO.roomDetailInfo(roomNo);
+			if(loginMember != null) {
+				chkBookmark = roomDAO.roomMemberChk(roomNo, loginMember);
+				if(chkBookmark == 0) {
+					result = roomDAO.insertRoomMember(roomNo, loginMember);
+				}
+			}
 		}
 
 		
