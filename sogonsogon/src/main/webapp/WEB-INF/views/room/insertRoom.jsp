@@ -82,6 +82,8 @@
 </head>
 
 <body>
+ <jsp:include page="../common/header.jsp" />
+ 
    <div class="empty"></div>
    <div class="container">
       <h3>방 만들기</h3>
@@ -111,10 +113,11 @@
             <label for="exampleFormControlInput1">카테고리</label> <br>
             <select class="custom-select" id="category" name="category" style="width: 150px;">
                   <option value="1">IT</option>
-                  <option value="2">음악</option>
-                  <option value="3">요리</option>
-                        <option value="4">자격증</option>
-                        <option value="5">외국어</option>
+                  <option value="2">공모전</option>
+                  <option value="3">면접</option>
+                  <option value="4">전공</option>
+                  <option value="5">외국어</option>
+                  <option value="6">기타</option>
                 </select>
          </div>
 

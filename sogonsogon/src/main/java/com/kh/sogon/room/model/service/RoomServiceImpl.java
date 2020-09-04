@@ -1,10 +1,13 @@
 package com.kh.sogon.room.model.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.kh.sogon.board.model.vo.PageInfo;
 import com.kh.sogon.member.model.vo.Member;
 import com.kh.sogon.room.model.dao.RoomDAO;
 import com.kh.sogon.room.model.vo.Room;
@@ -17,6 +20,9 @@ public class RoomServiceImpl implements RoomService{
 	
 	@Autowired
 	private BCryptPasswordEncoder bcPwd;
+	
+	@Autowired
+	private PageInfo pInfo;
 
 	// 방 상세 정보 출력 Service 구현
 	@Transactional(rollbackFor = Exception.class)
@@ -58,4 +64,36 @@ public class RoomServiceImpl implements RoomService{
 		
 		return room;
 	}
+
+	// 페이징 처리를 위한 Service 구현
+	@Override
+	public PageInfo pagination(int cp) {
+		int listCount = roomDAO.getListCount();
+		pInfo.setPageInfo(cp, listCount);
+		
+		return pInfo;
+	}
+
+	//  방 목록 조회 Service 구현
+	@Override
+	public List<Room> selectList(PageInfo pInfo) {
+		return roomDAO.selectList(pInfo);
+	}
+
+	// 방 입장용 조회 Service 구현
+	@Override
+	public int enterRoom(Room room) {
+		
+		Room selectRoom = roomDAO.enterRoom(room);
+		
+		int result = 0;
+		if(selectRoom.getRoomPassword().equals(room.getRoomPassword())) {
+			result =1;
+		}else {
+			result=0;
+		}
+		
+		return result;
+	}
+	
 }

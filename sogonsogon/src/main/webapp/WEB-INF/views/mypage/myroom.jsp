@@ -22,17 +22,18 @@
         }
 
         .roomlist-box {
-            width: 100%;
-            height: 50%;
+            width: 360px;
+            height: 220px;
             border-radius: 2.5px;
             box-sizing: border-box;
             border: 2px solid black;
-            margin: 1%;
+            margin: 50px;
             display: inline-block;
             text-align: center;
-            box-shadow: 3% 3% rgb(255, 178, 181), -3% 3% rgb(255, 178, 181);
+            box-shadow: 14px 14px rgb(255, 178, 181), -14px 14px rgb(255, 178, 181);
             position: relative;
             text-align: center;
+            
         }
 
         .roomlist-box>img{
@@ -239,9 +240,9 @@
       height:15%;
     }
 
-      .content{
-          width: 90%;
-          height: 80%;
+           .content{
+          width: 100%;
+          height: 100%;
           margin-top:10px;
           position:relative;
       }
@@ -249,16 +250,16 @@
       .mypageNav {
           float:left; 
           width: 25%;
-          height:80%;
+          height:1000px;
           color: #fff;
           background: #ff9d38;  
-    	  font-size: 100%;
+         font-size: 100%;
           padding:0;
           margin:0;
       }
       
       .content2{
-      	width:75%;
+         width:75%;
         height:80%;
         float:left; 
         padding:3%;
@@ -307,9 +308,8 @@
          </div>
       </div>
    </div>
-   
-      <section class="content">
-      	<div class="mypageNav">
+      
+         <div class="mypageNav">
             <ul>
                 <li><a href="${contextPath}/mypage/myroom"> <img src="${contextPath}/resources/images/meeting.png" width="50px" height="50px">참여 스터디 방</a></li>
                 <li><a href="${contextPath}/mypage/myboard"> <img src="${contextPath}/resources/images/classroom.png" width="50px" height="50px">내가 작성한 글</a></li>
@@ -317,16 +317,17 @@
                 <li><a href="${contextPath}/mypage/myInfo"> <img src="${contextPath}/resources/images/personal-information.png" width="50px" height="50px">내정보</a></li>
             </ul>
        </div>
+      <section class="content">
+      
        <div class="content2">       
-	   <h4 class="mb-5">참여한 스터디방</h4>
+      <h4 class="mb-5">참여한 스터디방</h4>
    <%int num=0; %>
     <!-- 1 -->
     <%for(int i=0; i<2; i++){ %>
     <div class="room-box"> <!--review box 1-1-->
         <%for(int j=0; j<2; j++){ %>
         <div class="roomlist-box">
-            <img src="${contextPath}/resources/images/clip.png">
-            
+        
             <p class="room-content">
                 <p class="category">[IT]</p>
                 <p class="room-title">초보 자바 개발자들 모임</p>

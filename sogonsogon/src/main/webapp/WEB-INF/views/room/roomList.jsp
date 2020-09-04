@@ -1,5 +1,8 @@
-</html><%@ page language="java" contentType="text/html; charset=UTF-8"
-   pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,11 +17,12 @@
 
         .room-box {
             width: 100%;
-            height: 350px;
-            display: flex;
+            height: 800px;
+           /*  display: flex; */
             justify-content: center;
             flex-wrap: unset;
             font-family: 'GmarketSansMedium';
+                text-align: center;
         }
 
         .roomlist-box {
@@ -262,14 +266,16 @@
            width: 70px;
         }
         .modal-btn-area2{
-        margin: 0;
+        margin: auto;
         width: 50%;
         box-sizing: border-box;
         float: left;
+        top: 0px;
+        bottom: 0px;
+        left: 0px;
+        right: 0px;
         }
-        .modal-button2{
-           margin-left: 50px;
-        }
+
         .m-title{
         height: 20%;
         font-size: 24px;
@@ -281,6 +287,18 @@
       #makeRoombtn{
       margin-right: 200px;
       }
+       .clear-btn{
+         border: 2px solid white;
+         color: white;
+         text-align: center;
+         text-decoration: none;
+         width: 90px;
+         height: 30px;
+         border-radius: 14px;
+         line-height: 160%;
+         cursor: pointer;
+      }
+
 </style>
 </head>
 <body>
@@ -291,56 +309,79 @@
    <div class="table-title">
       <div class="row">
          <div class="col-sm-4">
-            <h2><b>Study Room</b></h2>
+            <h2>Study Room</h2>
+             <a href="${contextPath}/room/insertRoom"><div class="clear-btn">방만들기</div></a>
          </div>
       </div>
    </div>
+<hr>
 
       <div class="selectList">
          <select>
-              <option>IT</option>
-              <option>공모전</option>
-              <option>면접</option>
-              <option>전공</option>
-              <option>외국어</option>
-              <option>기타</option>
+                  <option value="1">IT</option>
+                  <option value="2">공모전</option>
+                  <option value="3">면접</option>
+                  <option value="4">전공</option>
+                  <option value="5">외국어</option>
+                  <option value="6">기타</option>
           </select>      
-       </div>             
+       </div>
 
-   <%int num=0; %>
-    <!-- 1 -->
-    <%for(int i=0; i<2; i++){ %>
-    <div class="room-box"> <!--review box 1-1-->
-        <%for(int j=0; j<3; j++){ %>
+	<%--네모 박스위한 코드 --%>
+   <c:set var="roomList" value="${roomList}"/>
+    <div class="room-box">
+    <c:forEach var="roomList" items="${roomList}">
         <div class="roomlist-box">
             <img src="${contextPath}/resources/images/clip.png">
+          	
+          	<c:choose>
+           		<c:when test="${roomList.roomType ==1}">
+           			<c:set var="tag" value="IT"/>
+           		</c:when>
+           		 <c:when test="${roomList.roomType ==2}">
+           			<c:set var="tag"  value="공모전"/>
+           		</c:when>
+           		<c:when test="${roomList.roomType ==3}">
+           			<c:set var="tag"  value="면접"/>
+           		</c:when>
+           		<c:when test="${roomList.roomType ==4}">
+           			<c:set var="tag"  value="전공"/>
+           		</c:when>
+           	    <c:when test="${roomList.roomType ==5}">
+           			<c:set var="tag"  value="외국어"/>
+           		</c:when>
+           		  	    <c:when test="${roomList.roomType ==6}">
+           			<c:set var="tag"  value="기타"/>
+           		</c:when>
+            </c:choose>
+            
+            <fmt:formatDate var="createDate" value="${roomList.roomCreateDate}" pattern="yyyy-MM-dd"/>
             
             <p class="room-content">
-                <p class="category">[IT]</p>
-                <p class="room-title">초보 자바 개발자들 모임</p>
+                <p class="category">[${tag}]</p>
+                <p class="room-title">${roomList.roomTitle}</p>
                 <p class="enter-number">
-                    방장 : 누구누구님 <br>
+                    방장 : ${roomList.memberNick}<br>
                     참가인원 : /10명
-                    │ 개설일 : 2020. 05. 12.
-                </p>
-
+                    │ 개설일 : ${createDate}
+             </p>
+			
+			<c:set var="tags" value="${fn:split(roomList.roomTag, ',')}"/>
+	
             <div id="tagbox">
-                <div class="tags">#스터디</div> 
-                <div class="tags">#코딩</div> 
-                <div class="tags">#자바</div> 
-                <div class="tags">#개발자</div> 
-                <div class="tags">#스프링</div>
+             <c:forEach var="tag" items="${tags}">
+                <div class="tags"># ${tag}</div> 
+             </c:forEach>
             </div>
-            <a data-toggle="modal"  data-target="#myModal"><div class="join-button">참여하기</div></a>
             
-        </div> <!-- roomlist end-->
-       <%num++;} %>
+            <a data-toggle="modal"  data-target="#myModal"><div class="join-button" id="${roomList.roomNo}">참여하기</div></a>
+      </div> <!-- roomlist end-->
+      </c:forEach>
     </div><!--room-container end-->
-      <%} %>
       
       <hr>
       <!-- 방만들기 영역 -->
-     <button type="button" class="btn btn-primary float-right" id="makeRoombtn" onclick="location.href = '{contextPath}/room/insertRoom';">방만들기</button>
+     
 
       
      <!-- 페이징 -->
@@ -353,6 +394,10 @@
         <a href="#">4</a>
         <a href="#">5</a>
         <a href="#">6</a>
+        <a href="#">7</a>
+        <a href="#">8</a>
+        <a href="#">9</a>
+        <a href="#">10</a>
         <a href="#">&raquo;</a>
       </div>
    </div>
@@ -375,6 +420,7 @@
       
       
      <!-- Modal -->
+     <form action="${contextPath}/room/enterRoom" method="post">
      <div class="modal fade" id="myModal" role="dialog">
        <div class="modal-dialog ">
          <div class="modal-content">
@@ -384,7 +430,7 @@
            </div>
            <div class="modal-body">
 
-                <p  class="m-title">초보 자바 개발자들 모임</p>
+               <p class="m-title">초보 자바 개발자들 모임</p>
                <p class="m-content" style="margin-bottom: 6px;">방소개부분입니다. <br>아마 두줄정도 들어가면 예쁠거같네용</p>
               
               <div>
@@ -394,33 +440,36 @@
                        참여 비밀 번호가 필요한 채팅방입니다.<br>
                        방장이 알려준 참여 비밀 번호를 입력해 주세요.
                  </p>
-                  <input type="password" placeholder="영문/숫자 4~10자리"> 
+                  <input type="password" placeholder="영문/숫자 4~10자리"  name="roomPassword"> 
+   		          <input type="hidden"  class="hiddenNo" name="roomNo">
               </div>
             
-            <div class="modal-btn-area2" style="height: 50px;"> 
-                <a data-dismiss="modal"><div class="modal-button2">뒤로가기</div></a>
-            </div>
-            <div class="modal-btn-area2" style="height: 50px;"> 
-              <a href="roomDetail"><div class="modal-button2">참여하기</div></a>
+            <div class="modal-btn-area2" > 
+              	<button type="button"  class="modal-button2" data-dismiss="modal">뒤로가기</button>
+                <button type="submit"  class="modal-button2">참여하기</button>
             </div>
       
-
            </div>
            
          </div>
        </div>
      </div> <!-- modal end -->
+     </form>
    
    
-  
-   
-      
    <jsp:include page="../common/footer.jsp" />
-
+   
+     
 <script>
-   $(".join-button").on("click",function(){
-      
-   });
+
+// 방번호 넘기기 위한 함수
+$(".join-button").on("click",function(){
+	   var roomNo = $(this).attr("id");
+	   console.log(roomNo);
+	   
+	   $(".hiddenNo").val(roomNo);
+	   
+});
 </script>
 </body>
 </html>
