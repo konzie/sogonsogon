@@ -3,9 +3,6 @@
 <mapper namespace="boardMapper">
 
 
-
-
-
 		<resultMap type="Board" id="boardResultSet">
         <id property="qnaNo" column="QNA_NO"/>
         <result property="qnaCategory" column="QNA_TITLE"/>

@@ -233,6 +233,9 @@
 
     .write-Btn{float: right;}
 
+	.colsm{
+	 width :100% important;
+	}
         </style>
         <script>
             $(document).ready(function(){
@@ -242,54 +245,19 @@
        
     </head>
     <body>
+    
+    <jsp:include page="../common/header.jsp"/>
         <div class="container">
             <div class="table-wrapper" id="wrapper">
                 <div class="table-title">
                     <div class="row">
-                        <div class="col-sm-4">
-                            <h2><b>자유 질문방</b><hr> 자유롭게 질문과 답변을 주고 받으세요.</h2>
+                        <div class="col-sm-4" id="colsm">
+                            <h2><b>자유 질문방</b></h2><hr><h5>자유롭게 질문을 주고 받으세요 ! </h5>
                         </div>
 
                     </div>
                 </div>
-                <div class="table-filter">
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <div class="show-entries">
-                                <span>목록</span>
-                                <select class="form-control">
-                                    <option>5</option>
-                                    <option>10</option>
-                                    <option>15</option>
-                                    <option>20</option>
-                                </select>
-                                <span>개씩 보기</span>
-                            </div>
-                        </div>
-                        <div class="col-sm-9">
-                            <button type="button" class="btn btn-primary"><i class="fa fa-search"></i></button>
-                            <div class="filter-group">
-                                <input type="text" class="form-control" placeholder="검색어를 입력해주세요.">
-                            </div>
-                            <div class="filter-group">
-                                <select class="form-control">
-                                    <option>제목</option>
-                                    <option>내용</option>							
-                                </select>
-                            </div>
-                            <div class="filter-group">
-                                <select class="form-control">
-                                    <option>말머리</option>
-                                    <option>외국어</option>
-                                    <option>코딩</option>
-                                    <option>공시</option>
-                                    <option>자격증</option>
-                                </select>
-                            </div>
-                            <span class="filter-icon"><i class="fa fa-filter"></i></span>
-                        </div>
-                    </div>
-                </div>
+               
                 <table class="table table-striped table-hover">
                     <thead>
                         <tr>
@@ -362,6 +330,214 @@
                     <div class="write-Btn"><button class="btn btn-primary">글쓰기</button></div>
                 </div>
             </div>
-        </div>     
+        </div> 
+          
+      
+     	
+<c:if test="${!empty loginMember }">	
+      <a class="btn btn-primary float-right" href="../${boardList[0].boardType}/insert">글쓰기</a>
+</c:if>
+    
+	      <c:url var="searchParameter" value="${pInfo.boardType}">
+	      <c:if test="${!empty paramValues.ct }">
+	      <c:forEach var="ctName" items="${paramValues.ct}">
+	      	<c:param name ="ct" value="${ctName}"/>
+	      	
+	      </c:forEach>
+	      
+	      </c:if>
+	      <c:if test="${!empty param.sVal }">
+	       <c:param name="sKey" value="${param.sKey}"/>
+	       <c:param name="sVal" value="${param.sVal}"/>
+	      </c:if>
+	 </c:url>
+	
+	 <c:choose>
+	 	<c:when test="${!empty paramValues.ct || !empty param.sVal }">
+	 	 <c:set var="url" value="${searchParameter}&cp="/>
+	 	 <c:set var="listUrl" value="../search/${url}${pInfo.currentPage}" scope="session"/>
+	 	</c:when>
+	 	
+	 	<c:otherwise>
+	 	<c:set var="url" value="${searchParameter}?cp="/>
+	 	 <c:set var="listUrl" value="../list/${url}${pInfo.currentPage}" scope="session"/>
+	 	</c:otherwise>
+	 </c:choose>
+		<div class="my-4">
+            <ul class="pagination">
+            	<c:if test="${pInfo.currentPage > pInfo.pagingBarSize}">	
+            		
+            		
+	                <li>
+	                    <a class="page-link text-primary" href="${url}1">&lt;&lt;</a>
+	                </li>
+	                
+	                <li>
+	                	<fmt:parseNumber var="operand1" value="${(pInfo.currentPage-1)/pInfo.pagingBarSize}" integerOnly="true"/>
+	               		
+	               		<c:set var ="prev" value="${operand1 * 10 }"/>
+                   		<a class="page-link text-primary" href="${url}${prev}">&lt;</a>
+	                </li>
+                </c:if>
+                
+                <c:forEach var="p" begin="${pInfo.startPage}" end="${pInfo.endPage}">
+                
+                	<c:choose>
+                		<c:when test="${p==pInfo.currentPage}">
+                			<li><a class="page-link">${p}</a></li>
+                			</c:when>
+                			
+                			<c:otherwise>
+	                		<li>
+	                			<a class="page-link text-primary" href="${pInfo.boardType}?cp=${p}">${p}</a>
+		                	</li>
+		                	</c:otherwise>
+		            </c:choose>	
+                </c:forEach>
+              
+                <c:if test="${pInfo.maxPage > pInfo.endPage}">
+                
+               
+	                <li>
+	                <fmt:parseNumber var="operand2" value="${(pInfo.currentPage +(pInfo.pagingBarSize-1))/10 }" integerOnly="true"/>
+                	<c:set var="next" value="${operand2 * 10 + 1}"/>
+           
+						  <a class="page-link text-primary" href="${url}${p}">${p}</a>
+	                </li>
+	                
+	                <li>
+	                    <a class="page-link text-primary" href="${pInfo.boardType}?cp=${pInfo.maxPage}">&gt;&gt;</a>
+	                </li>
+	            </c:if>
+	                
+	                
+                
+            </ul>
+        </div>	     
+
+        <div>
+          <div  class="text-center" id="searchForm" style="margin-bottom:100px;">
+             
+                <br>
+                <select name="sKey" class="form-control" style="width:100px; display: inline-block;">
+                    <option value="tit">글제목</option>
+                    <option value="con">내용</option>
+                    <option value="tit-con">제목+내용</option>
+                </select>
+                 <select name="sKey" class="form-control" style="width:100px; display: inline-block;">
+                    <option value="horsehead">말머리</option>
+                    <option value="coding">코딩</option>
+                    <option value="for">외국어</option>
+                    <option value="test">공시</option>
+                </select>
+                <input type="text" name="sVal" class="form-control" style="width:25%; display: inline-block;">
+                <button class="form-control btn btn-primary" id="searchBtn" type="button" style="width:100px; display: inline-block;">검색</button>
+            </div>
+            
+            
+        </div>
+   	
+	</div>
+           <jsp:include page="../common/footer.jsp"/> 
+           
+           
+           	<script>
+		
+		$(function(){
+			
+			$("#list-table td").on("click",function(){
+				
+				var boardNo = $(this).parent().children().eq(0).text();
+				
+			
+				var boardUrl =
+					"${contextPath}/board/${pInfo.boardType}/" +
+					boardNo + "?cp=${pInfo.currentPage}";
+				
+			location.href = boardUrl;			
+			});
+		});;
+	
+	
+	// --------------------검색 버튼 동작 
+	$("#searchBtn").on("click", function(){
+		
+		var searchUrl = "";
+		
+		var $ct = $("input[name='ct']:checked");
+		var $sKey = $("select[name='sKey']");
+		var $sVal = $("input[name='sVal']");
+		
+		
+	$ct.each(function(index, item){
+			
+		
+		
+		
+		
+		if($ct.length == 0 && $sVal.val().trim().length == 0){
+			searchUrl = "${pInfo.boardType}";
+			
+		}
+		
+		
+		else{
+			searchUrl = "../search/${pInfo.boardType}?";
+			
+			
+			if($ct.length != 0){
+				
+				$ct.each(function(indext, item){
+					
+					if(indext != 0) searchUrl += "&";
+					searchUrl += "ct=" + $(item).val();
+				});
+				
+				
+				if($sVal.val().trim().length != 0 ) searchUrl += "&";
+			}
+			
+		
+			if($sVal.val().trim().length != 0){
+				searchUrl += "sKey=" + $sKey.val() + "&sVal=" + $sVal.val();
+			}
+		}
+		
+	
+		location.href = searchUrl;
+	});
+	
+
+	$(function(){
+		
+		var sKey = "${param.sKey}";
+		var sVal = "${param.sVal}";
+		
+		
+		
+		
+		if(sKey != "" && sVal != "") {
+			
+		
+		$("input[name='sVal']").val(sVal);
+		
+		$("select[name='sKey'] > option").each(function(index, item){
+			if($(item).val() == sKey){
+				$(item).prop("selected", true);
+			}
+		});
+		
+	}
+		
+	$("input[name='sVal']").on("keyup", function(event){
+	
+	 if(event.keyCode == 13){ 
+	  $("#searchBtn").click();	 
+	 }
+	 
+	});
+		
+	</script>
+	   
     </body>
 </html>
