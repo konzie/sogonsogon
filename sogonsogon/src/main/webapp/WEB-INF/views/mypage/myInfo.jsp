@@ -88,6 +88,7 @@
 				success : function(result){
 					if(result==0){
 						$("#checkPass").text("비밀번호가 일치합니다.").css("color","green");
+						return 
 					}else{
 						$("#checkPass").text("비밀번호가 일치하지 않습니다.").css("color","red");
 					}

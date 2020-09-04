@@ -53,10 +53,10 @@
 <body>
 	<div class="mypageNav">
             <ul>
-                <li><a href="${contextPath}/mypage/adminreport"> <img src="${contextPath}/resources/images/meeting.png" width="50px" height="50px">신고 게시글</a></li>
-                <li><a href="${contextPath}/mypage/adminqna"> <img src="${contextPath}/resources/images/classroom.png" width="50px" height="50px">Q&A 게시글</a></li>
-                <li><a href="${contextPath}/mypage/adminnotice"> <img src="${contextPath}/resources/images/answer.png" width="50px" height="50px">공지 사항</a></li>
-                <li><a href="${contextPath}/mypage/adminmember"> <img src="${contextPath}/resources/images/personal-information.png" width="50px" height="50px">회원 관리</a></li>
+                <li><a href="${contextPath}/mypage/adminreport"> <img src="${contextPath}/resources/images/caution.jpg" width="50px" height="50px">&nbsp;&nbsp;신고 게시글</a></li>
+                <li><a href="${contextPath}/mypage/adminqna"> <img src="${contextPath}/resources/images/question.png" width="50px" height="50px">&nbsp;&nbsp;Q&A 게시글</a></li>
+                <li><a href="${contextPath}/mypage/adminnotice"> <img src="${contextPath}/resources/images/noticeboard.png" width="50px" height="50px">&nbsp;&nbsp;공지 사항</a></li>
+                <li><a href="${contextPath}/mypage/adminmember"> <img src="${contextPath}/resources/images/group.png" width="50px" height="50px">&nbsp;&nbsp;회원 관리</a></li>
             </ul>
      </div>
 </body>
