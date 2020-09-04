@@ -7,15 +7,44 @@ public class Member {
 	private String memberId;
 	private String memberPwd;
 	private String memberName;
+	private String memberNick;
+	private int memberAge;
 	private String memberPhone;
 	private String memberEmail;
-	private String memberAddress;
 	private String memberInterest;
 	private Date memberEnrollDate;
 	private String memberStatus;
 	private String memberGrade;
 	
 	public Member() {
+	}
+
+	public Member(int memberNo, String memberId, String memberPwd, String memberName, String memberNick, int memberAge,
+			String memberPhone, String memberInterest, Date memberEnrollDate, String memberStatus, String memberGrade) {
+		super();
+		this.memberNo = memberNo;
+		this.memberId = memberId;
+		this.memberPwd = memberPwd;
+		this.memberName = memberName;
+		this.memberNick = memberNick;
+		this.memberAge = memberAge;
+		this.memberPhone = memberPhone;
+		this.memberInterest = memberInterest;
+		this.memberEnrollDate = memberEnrollDate;
+		this.memberStatus = memberStatus;
+		this.memberGrade = memberGrade;
+	}
+
+
+	
+
+	@Override
+	public String toString() {
+		return "Member [memberNo=" + memberNo + ", memberId=" + memberId + ", memberPwd=" + memberPwd + ", memberName="
+				+ memberName + ", memberNick=" + memberNick + ", memberAge=" + memberAge + ", memberPhone="
+				+ memberPhone + ", memberEmail=" + memberEmail + ", memberInterest=" + memberInterest
+				+ ", memberEnrollDate=" + memberEnrollDate + ", memberStatus=" + memberStatus + ", memberGrade="
+				+ memberGrade + "]";
 	}
 
 	public int getMemberNo() {
@@ -50,28 +79,28 @@ public class Member {
 		this.memberName = memberName;
 	}
 
+	public String getMemberNick() {
+		return memberNick;
+	}
+
+	public void setMemberNick(String memberNick) {
+		this.memberNick = memberNick;
+	}
+
+	public int getMemberAge() {
+		return memberAge;
+	}
+
+	public void setMemberAge(int memberAge) {
+		this.memberAge = memberAge;
+	}
+
 	public String getMemberPhone() {
 		return memberPhone;
 	}
 
 	public void setMemberPhone(String memberPhone) {
 		this.memberPhone = memberPhone;
-	}
-
-	public String getMemberEmail() {
-		return memberEmail;
-	}
-
-	public void setMemberEmail(String memberEmail) {
-		this.memberEmail = memberEmail;
-	}
-
-	public String getMemberAddress() {
-		return memberAddress;
-	}
-
-	public void setMemberAddress(String memberAddress) {
-		this.memberAddress = memberAddress;
 	}
 
 	public String getMemberInterest() {
@@ -105,7 +134,15 @@ public class Member {
 	public void setMemberGrade(String memberGrade) {
 		this.memberGrade = memberGrade;
 	}
+
+	public String getMemberEmail() {
+		return memberEmail;
+	}
+
+	public void setMemberEmail(String memberEmail) {
+		this.memberEmail = memberEmail;
+	}
+
 	
-	
-	
+
 }
