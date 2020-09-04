@@ -112,16 +112,24 @@ select {
                     <c:choose>
 	            		<c:when test="${empty loginMember}">
 	                        <li class="nav-item"><a class="nav-link js-scroll-trigger" data-toggle="modal" href="#modal-container-1">로그인</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger">|</a></li>
+                  		<li class="nav-item"><a class="nav-link js-scroll-trigger" href="${contextPath}/member/signUpView">회원가입</a></li>
 	                    </c:when>
 	            		<c:otherwise>
-                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="${contextPath}/mypage/myroom">${loginMember.memberName}</a></li>
-                          <li class="nav-item"><a class="nav-link js-scroll-trigger">|</a></li>
+	            		
                          <li class="nav-item"><a class="nav-link js-scroll-trigger" href="${contextPath}/member/logout">로그아웃</a></li>
+                          <li class="nav-item"><a class="nav-link js-scroll-trigger">|</a></li>
+                        	<c:choose>
+	                            <c:when test="${loginMember.getMemberGrade().equals('G')}">
+	                                 <li class="nav-item"><a class="nav-link js-scroll-trigger" href="${contextPath}/mypage/myroom">${loginMember.memberName}</a></li>
+	                             </c:when>
+	                             <c:otherwise>
+	                                 <li class="nav-item"><a class="nav-link js-scroll-trigger" href="${contextPath}/mypage/adminpage">${loginMember.memberName}</a></li>
+	                             </c:otherwise>
+                             </c:choose>
                         </c:otherwise>
             		</c:choose>
             		    
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger">|</a></li>
-                  		<li class="nav-item"><a class="nav-link js-scroll-trigger" href="${contextPath}/member/signUpView">회원가입</a></li>
                     </ul>
                 </div>
             </div>
@@ -189,6 +197,14 @@ select {
                     <input type="password" name="memberPwd" id="memberPwd" class="form-control" placeholder="비밀번호">
                   </div>
                   <button class="btn btn-block login-btn mb-4" type="submit">로그인</button>
+            
+               <div class="checkbox mb-3">
+				<label> 
+					<input type="checkbox" name="saveId"
+					<c:if test="${!empty cookie.saveId.value}"> checked </c:if> > 아이디 저장
+				</label>
+				</div>
+				
                 </form>
                 <a href="#" class="forgot-password-link">아이디 찾기 </a>
                 &nbsp;

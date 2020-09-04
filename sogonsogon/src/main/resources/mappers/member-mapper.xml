@@ -11,21 +11,38 @@
 		<result property="memberId" column="MEMBER_ID"/>
 		<result property="memberPwd" column="MEMBER_PWD"/>
 		<result property="memberName" column="MEMBER_NM"/>
+		<result property="memberNick" column="MEMBER_NICK"/>
+		<result property="memberAge" column="MEMBER_AGE"/>
 		<result property="memberPhone" column="MEMBER_PHONE"/>
 		<result property="memberEmail" column="MEMBER_EMAIL"/>
-		<result property="memberAddress" column="MEMBER_ADDR"/>
 		<result property="memberInterest" column="MEMBER_INTEREST"/>
 		<result property="memberEnrollDate" column="MEMBER_ENROLL_DT"/>
 		<result property="memberStatus" column="MEMBER_STATUS"/>
 		<result property="memberGrade" column="MEMBER_GRADE"/>
 	</resultMap>
 	
-	
+	<!-- 로그인 -->
 	<select id="loginMember" parameterType="Member" resultMap="memberResultSet">
 		SELECT * FROM MEMBER 
 		WHERE MEMBER_ID= #{memberId}
 		AND MEMBER_STATUS = 'Y'
 	</select>
+	
+	<!-- 회원가입(아이디 중복검사) -->
+	<select id="idDupCheck" parameterType="string" resultType = "_int">
+		SELECT COUNT(*) FROM MEMBER WHERE MEMBER_ID = #{memberId} AND MEMBER_STATUS = 'Y'
+	</select>
+	
+	
+	<!-- 회원가입 -->
+	<insert id="signUp" parameterType="Member">
+		INSERT INTO MEMBER VALUES(SEQ_MNO.NEXTVAL, #{memberId}, #{memberPwd}, 
+		#{memberName}, #{memberNick}, #{memberAge}, #{memberPhone}, 
+		#{memberId}, #{memberInterest},	DEFAULT, DEFAULT, DEFAULT)
+	</insert>
+	
+	
+	
 	
 	
 </mapper>
