@@ -37,16 +37,16 @@
 	</select>
 	
 	<!-- 즐겨찾기 리스트 조회 쿼리 -->
-	<select id="roomBookmarkChk" parameterType="map" resultType="_int">
+	<select id="roomMemberChk" parameterType="map" resultType="_int">
 		SELECT COUNT(*)
-		FROM BOOKMARK
-		WHERE BOOKMARK_ROOM_NO = #{roomNo}
-		AND BOOKMARK_MEMBER_NO = #{memberNo}
+		FROM ROOM_MEMBER
+		WHERE ROOM_MEMBER_ROOM_NO = #{roomNo}
+		AND ROOM_MEMBER_MEMBER_NO = #{memberNo}
 	</select>
 	
 	<!-- 즐겨찾기 리스트 삽입 쿼리 -->
-	<insert id="insertBookmark" parameterType="map">
-		INSERT INTO BOOKMARK VALUES(#{roomNo}, #{memberNo}, SYSDATE, NULL)
+	<insert id="insertRoomMember" parameterType="map">
+		INSERT INTO ROOM_MEMBER VALUES(#{roomNo}, #{memberNo}, 'G', NULL)
 	</insert>
 	
 	<!-- 페이징 처리용 조회 쿼리-->

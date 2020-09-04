@@ -39,7 +39,7 @@ public class RoomServiceImpl implements RoomService{
 		if(pwdLoad != null) {
 			// 비공개방이더라도 즐겨찾기에 추가가 되어있다면 입장 패스워드 확인 없이 입장 가능해야함
 			if(loginMember != null)
-				chkBookmark = roomDAO.roomBookmarkChk(roomNo, loginMember);
+				chkBookmark = roomDAO.roomMemberChk(roomNo, loginMember);
 			
 			if(chkBookmark > 0) {
 				// 즐겨찾기가 되어 있을 때
@@ -53,7 +53,7 @@ public class RoomServiceImpl implements RoomService{
 					
 					// 맞다면 즐겨찾기 등록
 					if(loginMember != null)
-						result = roomDAO.insertBookmark(roomNo, loginMember);
+						result = roomDAO.insertRoomMember(roomNo, loginMember);
 				}
 			}
 		} else {
