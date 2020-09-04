@@ -20,4 +20,32 @@ public class MemberDAO {
 		return sqlSession.selectOne("memberMapper.loginMember",member);
 	}
 
+	/** 아이디 중복검사 DAO
+	 * @param memberId
+	 * @return result
+	 */
+	public int idDupCheck(String memberId) {
+		return sqlSession.selectOne("memberMapper.idDupCheck", memberId);
+	}
+
+	/** 회원가입 DAO
+	 * @param signUpMember
+	 * @return result
+	 */
+	public int signUp(Member signUpMember)throws Exception {
+		return sqlSession.insert("memberMapper.signUp", signUpMember);
+	}
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }
