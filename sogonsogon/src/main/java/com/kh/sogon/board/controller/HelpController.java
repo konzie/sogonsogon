@@ -7,11 +7,16 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 @SessionAttributes({"loginMember"})
 @Controller
 @RequestMapping("/board/*")
-public class QnAController {
+public class HelpController {
 	   
-	   @RequestMapping("qnaList")
-	   public String boardListView() {
-		   return "board/qnaList";
+	   @RequestMapping("helpList")
+	   public String helpListView() {
+		   return "board/helpList";
+	   }
+	   
+	   @RequestMapping("helpwrite")
+	   public String helpWriteForm() {
+		   return "board/helpWrite";
 	   }
 	   
 }
