@@ -32,4 +32,13 @@ public interface RoomService {
 	 */
 	int enterRoom(Room room);
 
+	/** 방 생성 Service
+	 * @param room
+	 * @param memberNo
+	 * @return result
+	 */
+	int createRoom(Room room);
+
+
+
 }

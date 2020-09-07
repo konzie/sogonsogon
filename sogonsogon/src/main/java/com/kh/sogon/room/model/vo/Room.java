@@ -17,6 +17,7 @@ public class Room {
 	private char roomOpen;
 	private String memberNick;
 	private String roomTag;
+	private int roomMaxNumber;
 
 	public int getRoomNo() {
 		return roomNo;
@@ -122,6 +123,14 @@ public class Room {
 	public void setRoomTag(String roomTag) {
 		this.roomTag = roomTag;
 	}
+	
+	public int getRoomMaxNumber() {
+		return roomMaxNumber;
+	}
+
+	public void setRoomMaxNumber(int roomMaxNumber) {
+		this.roomMaxNumber = roomMaxNumber;
+	}
 
 	@Override
 	public String toString() {
@@ -129,12 +138,8 @@ public class Room {
 				+ roomTitle + ", roomContent=" + roomContent + ", roomPassword=" + roomPassword + ", roomType="
 				+ roomType + ", roomTypeName=" + roomTypeName + ", roomCreateDate=" + roomCreateDate
 				+ ", roomModifyDate=" + roomModifyDate + ", roomOpen=" + roomOpen + ", memberNick=" + memberNick
-				+ ", roomTag=" + roomTag + "]";
+				+ ", roomTag=" + roomTag + ", roomMaxNumber=" + roomMaxNumber + "]";
 	}
-
-	
-	
-	
 
 
 

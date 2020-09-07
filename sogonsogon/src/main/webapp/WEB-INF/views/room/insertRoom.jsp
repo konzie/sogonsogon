@@ -30,7 +30,7 @@
    }
    .empty {
       width: 100%;
-      height: 220px;
+      height: 100px;
    }
    
    body {
@@ -49,7 +49,7 @@
    
    h3 {font-family: 'GmarketSansMedium';}
    
-    .tags{
+    #tags{
         width: 80px;
         height: 30px;
         float: left;
@@ -61,7 +61,7 @@
       width: 15px;
       height: 15px;
       border-radius: 10px;
-      line-height: 14px;
+      line-height: 12px;
       text-align: center;
       font-size: 20px;
       float: left;
@@ -89,29 +89,28 @@
       <h3>방 만들기</h3>
       <hr>
       
-      <form action="#" method="post"
-          enctype="multipart/form-data" role="form" onsubmit="return validate();">
+      <form action="createRoom" method="post" role="form" onsubmit="return validate();">
          <div class="form-group">
             <label for="exampleFormControlInput1">방 이름</label> 
-            <input type="text" class="form-control" id="title" name="title"
+            <input type="text" class="form-control" id="title" name="roomTitle"
                placeholder="방 이름을 작성해주세요."  style="width: 400px;">
          </div>
          
        
-         
          <div class="form-group">
-          <label for="exampleFormControlInput1">개설일</label> 
-          <span class="my-0" id="today"></span>
-      </div>
+         	<label for="exampleFormControlInput1">개설일</label> 
+            <span class="my-0" id="today" ></span>
+      	</div>
 
       <div class="form-group">
-         <input type="radio"> 공개  <input type="radio"> 비공개
+         <input type="radio" id="o" name="roomOpen"  class="open"  value="Y"> <label for="o">공개</label>  &nbsp;
+         <input type="radio" id="c" name="roomOpen"  class="open"  value="N"> <label for="c">비공개</label>  
+         <input type="password" name="roomPassword"  class="form-control" style="width: 250px;" placeholder="비밀번호를 입력해 주세요.">
       </div>
-
 
          <div class="form-group">
             <label for="exampleFormControlInput1">카테고리</label> <br>
-            <select class="custom-select" id="category" name="category" style="width: 150px;">
+            <select class="custom-select" id="category" name="roomType" style="width: 150px;">
                   <option value="1">IT</option>
                   <option value="2">공모전</option>
                   <option value="3">면접</option>
@@ -123,36 +122,31 @@
 
          <div class="form-group">
             <label for="exampleFormControlInput1">참가 인원 수</label>
-            <input type="number " class="form-control" maxlength="2" style="width: 150px;">
+            <input type="number" class="form-control maxNumber" name="roomMaxNumber" maxlength="2" style="width: 150px;">
          </div>
          
          <div class="form-group">
             <label for="exampleFormControlTextarea1">방 소개</label>
-            <textarea class="form-control" id="content" name="content" rows="10" style="resize: none;"
+            <textarea class="form-control" id="content" name="roomContent" rows="10" style="resize: none;"
             placeholder="방에 대한 간략한 소개를 입력해주세요."></textarea>
          </div>
             
          
             <div class="form-group">
-                <label for="exampleFormControlTextarea1" class="tagform">
-               태그 입력
-            </label>
-            <div class="plusbutton">+</div>
-            <div class="tagbox">
-               <input type="text" class="form-control tags">
-               <input type="text" class="form-control tags">
-               <input type="text" class="form-control tags">
-
-            </div>
-            </div>
+                <label for="exampleFormControlTextarea1" class="tagform">태그 입력</label>
+	            <div class="plusbutton">+</div>
+	            <div class="tagbox">
+	               <input type="text" class="form-control tags"  id="tags" name="roomTag">
+	               <input type="text" class="form-control tags"  id="tags" name="roomTag">
+	               <input type="text" class="form-control tags"  id="tags" name="roomTag">
+	            </div>
    
-         <button type="button" class="btn btn-secondary">목록으로</button>
-         &nbsp;
-         <button type="submit" class="btn btn-info">등록하기</button>
-      
-      </div>
-
-      </form>
+		         <button type="button" class="btn btn-secondary">목록으로</button>
+		         &nbsp;
+		         <button type="submit" class="btn btn-info">등록하기</button>
+    	  </div>
+	
+   </form>
    </div>
 
 
@@ -170,24 +164,51 @@
       
       // 유효성 검사 
       function validate() {
+    	  // 방 이름
          if ($("#title").val().trim().length == 0) {
-            alert("제목을 입력해 주세요.");
+            alert("방 이름을 입력해 주세요.");
             $("#title").focus();
             return false;
          }
-
+    	  
+   	    // 공개 여부 -> 비공개 체크일때 제약조건확인하기
+         if ($(".open").prop("checked") == 0) {
+             alert("공개여부를 선택해주세요");
+             $(".open").focus();
+             return false;
+          }
+   	    
+   	 	 // 참가 인원 수
+         if ($(".maxNumber").val().trim().length == 0) {
+            alert("참가 인원 수를 입력해주세요.");
+            $(".maxNumber").focus();
+            return false;
+         }
+   	  
+     	  // 방 소개
          if ($("#content").val().trim().length == 0) {
-            alert("내용을 입력해 주세요.");
+            alert("방 소개를 입력해 주세요.");
             $("#content").focus();
+            return false;
+         }
+
+    	  // 태그
+         if ($(".tags").val().trim().length == 0) {
+            alert("태그를 입력해주세요");
+            
+            var tag =  $(".tags");
+            tag[0].focus();
             return false;
          }
       }
 
-      // 태그 입력창 생성
+      // 태그 입력창 생성 + 2번까지
       $(".plusbutton").on("click", function(){
-         $tag = $('<input type="text">').addClass("form-control tags");
+         $tag = $('<input type="text">').addClass("form-control").attr("id", "tags");
          $(".tagbox").append($tag);
       });
+  
+
    </script>
 </body>
 </html>

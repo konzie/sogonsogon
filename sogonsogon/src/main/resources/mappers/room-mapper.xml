@@ -16,6 +16,8 @@
         <result property="roomOpen" column="ROOM_OPEN"/>
         <result property="memberNick" column="MEMBER_NICK"/>
         <result property="roomTag" column="ROOM_TAG"/>
+        <result property="roomMaxNumber" column="ROOM_MAX_NUMBER"/>
+        
         
     </resultMap>
     <!-- room 정보 조회 쿼리 -->
@@ -57,7 +59,7 @@
 	
 	<!-- 방 리스트 조회 쿼리 -->
 	<select id="selectList" parameterType="_int" resultMap="roomResultSet">
-		SELECT ROOM_NO,ROOM_TYPE,ROOM_TITLE,MEMBER_NICK,ROOM_CREATE_DATE,ROOM_TAG 
+		SELECT ROOM_NO,ROOM_TYPE,ROOM_TITLE,MEMBER_NICK,ROOM_CREATE_DATE,ROOM_TAG,ROOM_OPEN 
         FROM STUDY_ROOM
 		JOIN MEMBER ON(ROOM_MEMBER_NO=MEMBER_NO)
         ORDER BY ROOM_NO DESC
@@ -69,5 +71,10 @@
 		WHERE ROOM_NO= #{roomNo}
 		AND ROOM_STATUS = 'Y'
 	</select>
+	
+	<insert id="createRoom"  parameterType="Room" >
+		INSERT INTO STUDY_ROOM VALUES (SEQ_ROOM.NEXTVAL, #{memberNo}, #{roomTitle}, #{roomContent}, #{roomPassword}
+		,#{roomType}, DEFAULT,DEFAULT, #{roomOpen},#{roomOpen}, #{roomTag}, #{roomMaxNumber})
+	</insert>
 	
 </mapper>
