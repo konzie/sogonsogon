@@ -21,7 +21,6 @@
 	<typeAliases>
 		<typeAlias type="com.kh.sogon.room.model.vo.Room" alias="Room"/>
 		<typeAlias type="com.kh.sogon.roomboard.model.vo.RoomBoard" alias="RoomBoard"/>
-	
 		<typeAlias type="com.kh.sogon.member.model.vo.Member" alias="Member"/>
 	</typeAliases>
 

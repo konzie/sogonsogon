@@ -11,16 +11,20 @@
         
 <style>
       .content{
-      float:left;
-      width:100%;
-      height:100%;
+	      float:left;
+	      width:100%;
+	      height:100%;
       }
       
       .content2{
-      float:left; 
-      width:72%;
-      height:100%;
-      padding:20px 0px 0px 30px;
+	      float:left; 
+	      width:72%;
+	      height:100%;
+	      padding:20px 0px 0px 30px;
+      }
+      
+      .pagination {
+      	justify-content: center;
       }
 </style>
 </head>
@@ -86,7 +90,7 @@
                 </tbody>
             </table>
             
-            <div class="page" align="center">
+            <div class="page">
                 <ul class="pagination">
                     <li class="page-item"><a href="#" class="page-link">Previous</a></li>
                     <li class="page-item"><a href="#" class="page-link">1</a></li>
