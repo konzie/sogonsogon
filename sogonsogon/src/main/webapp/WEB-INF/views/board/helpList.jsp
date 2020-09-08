@@ -32,7 +32,6 @@
 	.table-wrapper {
         background: #fff;
         padding: 20px 25px;
-        margin: 30px auto;
 		border-radius: 3px;
         box-shadow: 0 1px 1px rgba(0,0,0,.05);
     }
@@ -223,6 +222,8 @@
     }
 
     .write-Btn{float: right;}
+    
+    #col-sm-4>hr{background-color:white;}
 
         </style>
         <script>
@@ -239,7 +240,8 @@
                 <div class="table-title">
                     <div class="row">
                         <div class="col-sm-4">
-                            <h2><b>QnA</b></h2>
+                            <h2><b>QnA</b><hr></h2>                            
+                            <h5>궁금한 내용을 남겨주세요. 자세히 답변 드립니다.</h5>
                         </div>
 
                     </div>
@@ -356,7 +358,7 @@
                             <li class="page-item"><a href="#" class="page-link">Next</a></li>
                         </ul>
                     </div>
-                    <div class="write-Btn"><button class="btn btn-primary">글쓰기</button></div>
+                    <div class="write-Btn"><a class="btn btn-primary float-right" href="${contextPath}/board/helpwrite">글쓰기</a></div>
                 </div>
             </div>
         </div>
