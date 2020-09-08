@@ -22,6 +22,10 @@
       height:100%;
       padding:20px 0px 0px 30px;
       }
+      
+      .pagination {
+      	justify-content: center;
+      }
 </style>
 </head>
 <body>

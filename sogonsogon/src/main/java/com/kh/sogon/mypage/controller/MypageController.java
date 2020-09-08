@@ -1,6 +1,7 @@
 package com.kh.sogon.mypage.controller;
 
-import org.apache.ibatis.annotations.Param;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -9,10 +10,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.kh.sogon.board.model.vo.Board;
 import com.kh.sogon.member.model.vo.Member;
-import com.kh.sogon.mypage.service.MypageService;
+import com.kh.sogon.board.model.vo.PageInfo;
+import com.kh.sogon.mypage.model.service.MypageService;
 
 @SessionAttributes({"loginMember"})
 @Controller
@@ -55,7 +59,6 @@ public class MypageController {
 	@RequestMapping("checkPwd")
 	public int checkPwd(String memberPass, Model model, RedirectAttributes rdAttr) {
 		
-		System.out.println("memberPass : " + memberPass);
 		Member loginMember = (Member)model.getAttribute("loginMember");
 		loginMember.setMemberPwd(memberPass);
 		
@@ -89,12 +92,56 @@ public class MypageController {
 		}
 	
 	@RequestMapping("adminnotice")
-	public String adminnotice() {
+	public String adminnotice(@RequestParam(value="cp", required=false, defaultValue = "1") int cp, Model model) {
+		
+		PageInfo pInfo = mypageService.pagination(cp);
+		
+		List<Board> boardList = mypageService.selectList(pInfo);
 		return "mypage/adminnotice";
 		}
 	
 	@RequestMapping("adminmember")
-	public String adminmember() {
+	public String adminmember(@RequestParam(value="cp", required=false, defaultValue = "1") int cp, Model model) {
+		
+		PageInfo pInfo = mypageService.memberPage(cp);
+		
+		List<Member> memberList = mypageService.selectMList(pInfo);
+		
+		model.addAttribute("memberList", memberList);
+		model.addAttribute("pInfo", pInfo);
+		
 		return "mypage/adminmember";
 		}
+	
+	@RequestMapping("deleteInfo")
+	public String deleteInfo(Model model, RedirectAttributes rdAttr, SessionStatus sessionstatus) {
+		Member loginMember = (Member)model.getAttribute("loginMember");
+		System.out.println("loginMember :" + loginMember);
+		int result = mypageService.deleteInfo(loginMember.getMemberNo());
+		System.out.println(result);
+		String status = null;
+		String msg = null;
+		String text = null;
+		String url =null;
+		
+		if(result > 0) {
+			status = "success";
+			msg = "회원 탈퇴 성공";
+			url ="/";
+			
+			sessionstatus.setComplete(); // 로그인 된 계정 세션 만료
+		
+		}else {
+			status = "error";
+			msg = "회원 탈퇴 실패";
+			url = "updateInfo2";
+		}
+				
+		rdAttr.addFlashAttribute("status",status);
+		rdAttr.addFlashAttribute("msg",msg);
+		rdAttr.addFlashAttribute("text",text);
+		
+		return "redirect:/";
+		}	
+	
 }
