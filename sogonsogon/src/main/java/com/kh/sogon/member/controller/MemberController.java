@@ -1,6 +1,10 @@
 package com.kh.sogon.member.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -121,6 +125,74 @@ public class MemberController {
 		return "redirect:/";
 	}
 	
+	// 아이디찾기 화면 전환 메소드
+	@RequestMapping("findIdForm")
+	   public String findID() {
+		   return "member/findIdForm";
+	   }
 	
+	
+	
+	// 아이디찾기 동작
+		@RequestMapping("findIdAction")
+		public String findIdAction(HttpServletRequest request, HttpServletResponse response,
+									Model model,RedirectAttributes rdAttr) {
+			
+		String memberName = request.getParameter("memberName");
+		String memberPhone = request.getParameter("memberPhone");
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("memberName", memberName);
+		map.put("memberPhone", memberPhone);
+		
+		String findEmail = memberService.findId(map);
+		
+		String url = null;
+		
+		if(findEmail == null ) {
+			
+			rdAttr.addFlashAttribute("status","error");
+			rdAttr.addFlashAttribute("msg","해당 정보의 아이디가 존재하지 않습니다.");	
+			url="redirect:/member/findIdForm";
+			
+		} else { // 아이디찾기 성공시
+			// 결과가 올바르면 model로 네임과 체크값, 이메일을 보내준다.
+			model.addAttribute("memberName",memberName);
+			model.addAttribute("findEmail",findEmail);
+			url = "member/foundIdView";
+		}
+            return url;
+		}
+		
+		//주소값 매핑이 제대로 안돼 왜이럼...?
+		@RequestMapping("findIdForm/findIdAction")
+		public String findIdAction2(HttpServletRequest request, HttpServletResponse response,
+									Model model,RedirectAttributes rdAttr) {
+			
+		String memberName = request.getParameter("memberName");
+		String memberPhone = request.getParameter("memberPhone");
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("memberName", memberName);
+		map.put("memberPhone", memberPhone);
+		
+		String findEmail = memberService.findId(map);
+		
+		String url = null;
+		
+		if(findEmail == null ) {
+			
+			rdAttr.addFlashAttribute("status","error");
+			rdAttr.addFlashAttribute("msg","해당 정보의 아이디가 존재하지 않습니다.");	
+			url="redirect:/member/findIdForm";
+			
+		} else { // 아이디찾기 성공시
+			// 결과가 올바르면 model로 네임과 체크값, 이메일을 보내준다.
+			model.addAttribute("memberName",memberName);
+			model.addAttribute("findEmail",findEmail);
+			url = "member/foundIdView";
+		}
+            return url;
+		}
 	
 }

@@ -1,5 +1,7 @@
 package com.kh.sogon.member.model.service;
 
+import java.util.Map;
+
 import com.kh.sogon.member.model.vo.Member;
 
 public interface MemberService {
@@ -12,5 +14,8 @@ public interface MemberService {
 
 	//회원가입
 	int signUp(Member signUpMember) throws Exception;
+
+	// 아이디찾기
+	String findId(Map<String, Object> map);
 
 }

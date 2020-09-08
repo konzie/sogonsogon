@@ -41,6 +41,13 @@
 		#{memberId}, #{memberInterest},	DEFAULT, DEFAULT, DEFAULT)
 	</insert>
 	
+	<!-- 아이디찾기 -->
+	<select id="findId" parameterType="map" resultType="String">
+	SELECT
+     RPAD(SUBSTR(MEMBER_ID,1,4),length(SUBSTR(MEMBER_ID,1,INSTR(MEMBER_ID,'@')-1)) , '*') || '@' ||
+    SUBSTR(MEMBER_ID,INSTR(MEMBER_ID,'@')+1) 
+	FROM MEMBER WHERE MEMBER_NM = #{memberName} AND MEMBER_PHONE=#{memberPhone}
+	</select>
 	
 	
 	
