@@ -36,6 +36,13 @@
 		AND ROOM_STATUS = 'Y'
 	</select>
 	
+	<!-- 방 회원 수 조회를 위한 쿼리 -->
+	<select id="roomMemberCount" parameterType="_int" resultType="_int">
+		SELECT COUNT(*)
+		FROM ROOM_MEMBER
+		WHERE ROOM_MEMBER_ROOM_NO = #{roomNo}
+	</select>
+	
 	<!-- 즐겨찾기 리스트 조회 쿼리 -->
 	<select id="roomMemberChk" parameterType="map" resultType="_int">
 		SELECT COUNT(*)

@@ -23,4 +23,9 @@
 		AND ROOM_BOARD_STATUS = 'Y'
 		ORDER BY ROOM_BOARD_NO DESC
 	</select>
+	
+	<select id="getListCount" resultType="_int">
+		SELECT COUNT(*) FROM ROOMBOARD
+		WHERE ROOM_NO = #{roomNo}
+	</select>
 </mapper>

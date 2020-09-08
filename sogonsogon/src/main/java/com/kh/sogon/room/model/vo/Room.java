@@ -17,6 +17,7 @@ public class Room {
 	private char roomOpen;
 	private String memberNick;
 	private String roomTag;
+	private int roomMemberCount;
 
 	public int getRoomNo() {
 		return roomNo;
@@ -106,7 +107,6 @@ public class Room {
 		this.roomOpen = roomOpen;
 	}
 
-	
 	public String getMemberNick() {
 		return memberNick;
 	}
@@ -123,19 +123,21 @@ public class Room {
 		this.roomTag = roomTag;
 	}
 
+	public int getRoomMemberCount() {
+		return roomMemberCount;
+	}
+
+	public void setRoomMemberCount(int roomMemberCount) {
+		this.roomMemberCount = roomMemberCount;
+	}
+
 	@Override
 	public String toString() {
 		return "Room [roomNo=" + roomNo + ", memberNo=" + memberNo + ", memberId=" + memberId + ", roomTitle="
 				+ roomTitle + ", roomContent=" + roomContent + ", roomPassword=" + roomPassword + ", roomType="
 				+ roomType + ", roomTypeName=" + roomTypeName + ", roomCreateDate=" + roomCreateDate
 				+ ", roomModifyDate=" + roomModifyDate + ", roomOpen=" + roomOpen + ", memberNick=" + memberNick
-				+ ", roomTag=" + roomTag + "]";
+				+ ", roomTag=" + roomTag + ", roomMemberCount=" + roomMemberCount + "]";
 	}
-
-	
-	
-	
-
-
 
 }
