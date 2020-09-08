@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class HelpPageInfo {
 	private int currentPage;	//현재 페이지 번호
-	private int listCount;		//전체 게시글 수
+	private int allCount;		//전체 게시글 수
 	private int limit = 10;			//한 페이지 보여질 게시글 수
 	private int pagingBarSize = 10;	// 보여질 페이징바의 페이지 수
 	
@@ -20,11 +20,11 @@ public class HelpPageInfo {
 	}
 
 	
-	public HelpPageInfo(int currentPage, int listCount, int limit, int pagingBarSize, int maxPage, int startPage,
+	public HelpPageInfo(int currentPage, int allCount, int limit, int pagingBarSize, int maxPage, int startPage,
 			int endPage, int boardType) {
 		super();
 		this.currentPage = currentPage;
-		this.listCount = listCount;
+		this.allCount = allCount;
 		this.limit = limit;
 		this.pagingBarSize = pagingBarSize;
 		this.maxPage = maxPage;
@@ -42,12 +42,12 @@ public class HelpPageInfo {
 		makePageInfo();
 	}
 
-	public int getListCount() {
-		return listCount;
+	public int getAllCount() {
+		return allCount;
 	}
 
-	public void setListCount(int listCount) {
-		this.listCount = listCount;
+	public void setAllCount(int allCount) {
+		this.allCount = allCount;
 		makePageInfo();
 	}
 
@@ -103,7 +103,7 @@ public class HelpPageInfo {
 
 	@Override
 	public String toString() {
-		return "PageInfo [currentPage=" + currentPage + ", listCount=" + listCount + ", limit=" + limit
+		return "PageInfo [currentPage=" + currentPage + ", listCount=" + allCount + ", limit=" + limit
 				+ ", pagingBarSize=" + pagingBarSize + ", maxPage=" + maxPage + ", startPage=" + startPage
 				+ ", endPage=" + endPage + ", boardType=" + boardType + "]";
 	}
@@ -115,7 +115,7 @@ public class HelpPageInfo {
         // 게시글의 개수가 100개일 경우 필요 페이지 수 : 10 페이지
         // 게시글의 개수가 101개일 경우 필요 페이지 수 : 11 페이지
         // 전체 게시글 수 / 한 페이지에 보여질 개수 결과를 올림 처리함.
-        maxPage = (int)Math.ceil(((double)listCount / limit));
+        maxPage = (int)Math.ceil(((double)allCount / limit));
 
         // * startPage - 페이징바 시작 페이지 번호
         //   아래쪽에 페이지 수가 10개씩 보여지게 할 경우
@@ -137,10 +137,9 @@ public class HelpPageInfo {
         }
     }
     
-    public void setPageInfo(int currentPage, int listCount, int boardType) {
+    public void setPageInfo(int currentPage, int allCount) {
     	this.currentPage = currentPage;
-    	this.listCount = listCount;
-    	this.boardType = boardType;
+    	this.allCount = allCount;
     	
     	makePageInfo();
     }

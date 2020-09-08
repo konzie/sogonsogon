@@ -9,7 +9,7 @@ public class Help {
 	private String helpContent;
 	private String helpWriter;
 	private Timestamp helpCreateDate;
-	private int boardType;
+	private Timestamp helpModifyDate;
 	
 	
 	public Help() {
@@ -18,7 +18,7 @@ public class Help {
 
 
 	public Help(int helpNo, String helpCategory, String helpTitle, String helpContent, String helpWriter,
-			Timestamp helpCreateDate, int boardType) {
+			Timestamp helpCreateDate, Timestamp helpModifyDate) {
 		super();
 		this.helpNo = helpNo;
 		this.helpCategory = helpCategory;
@@ -26,7 +26,7 @@ public class Help {
 		this.helpContent = helpContent;
 		this.helpWriter = helpWriter;
 		this.helpCreateDate = helpCreateDate;
-		this.boardType = boardType;
+		this.helpModifyDate = helpModifyDate;
 	}
 
 
@@ -90,23 +90,23 @@ public class Help {
 	}
 
 
-	public int getBoardType() {
-		return boardType;
+	public Timestamp getHelpModifyDate() {
+		return helpModifyDate;
 	}
 
 
-	public void setBoardType(int boardType) {
-		this.boardType = boardType;
+	public void setHelpModifyDate(Timestamp helpModifyDate) {
+		this.helpModifyDate = helpModifyDate;
 	}
 
 
 	@Override
 	public String toString() {
-		return "Answer [helpNo=" + helpNo + ", helpCategory=" + helpCategory + ", helpTitle=" + helpTitle
+		return "Help [helpNo=" + helpNo + ", helpCategory=" + helpCategory + ", helpTitle=" + helpTitle
 				+ ", helpContent=" + helpContent + ", helpWriter=" + helpWriter + ", helpCreateDate=" + helpCreateDate
-				+ ", boardType=" + boardType + "]";
+				+ ", helpModifyDate=" + helpModifyDate + "]";
 	}
-	
+
 	
 	
 
