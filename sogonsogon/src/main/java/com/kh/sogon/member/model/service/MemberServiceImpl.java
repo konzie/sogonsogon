@@ -1,5 +1,7 @@
 package com.kh.sogon.member.model.service;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -51,6 +53,12 @@ public class MemberServiceImpl implements MemberService {
 		signUpMember.setMemberPwd(encPwd);
 		
 		return memberDAO.signUp(signUpMember);
+	}
+
+	// 아이디찾기
+	@Override
+	public String findId(Map<String, Object> map) {
+		return memberDAO.findId(map);
 	}
 
 	

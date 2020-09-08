@@ -1,6 +1,8 @@
 package com.kh.sogon.room.model.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -109,5 +111,17 @@ public class RoomServiceImpl implements RoomService{
 		
 		return result;
 	}
-	
+
+	//  방 생성 Service 구현
+	@Override
+	public int createRoom(Room room) {	
+		return roomDAO.createRoom(room);
+	}
+
+	@Override
+	public Room roomMList(int roomNo) {
+		return roomDAO.roomMList(roomNo);
+	}
+
+
 }

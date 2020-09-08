@@ -17,12 +17,12 @@
 
         .room-box {
             width: 100%;
-            height: 800px;
+            height: 650px;
            /*  display: flex; */
             justify-content: center;
             flex-wrap: unset;
             font-family: 'GmarketSansMedium';
-                text-align: center;
+            text-align: center;
         }
 
         .roomlist-box {
@@ -36,36 +36,21 @@
             text-align: center;
             box-shadow: 14px 14px rgb(255, 178, 181), -14px 14px rgb(255, 178, 181);
             position: relative;
-            text-align: center;
         }
 
         .roomlist-box>img{
             width: 70px;
             position: absolute;
             margin: auto;
-            top: 0;
-            bottom: 240px;
-            left: 0;
-            right: 0;
+            top: 0; bottom: 240px; left: 0; right: 0;
         } 
-       
-        #clip-imgs{
-            width: 160px;
-            position: absolute;
-            margin: auto;
-            top: 0;
-            bottom: 194px;
-            left: 0;
-            right: 0;
-        }
 
         #tagbox{
            width: 100%;
            height: 25px;
            text-align: center;
            position: relative;
-           margin: auto;
-           margin-top: 5px;
+           margin: 5px auto;
         }
 
         .tags{
@@ -117,13 +102,13 @@
         
         /*  */
         
-     .table-title {
-      color: #fff;
-      background: #ff9d38;      
-      padding: 16px 25px;
-      margin: -20px 160px 10px;
-      border-radius: 3px 3px 0 0;
-    }
+	    .table-title {
+	      color: #fff;
+	      background: #ff9d38;      
+	      padding: 16px 25px;
+	      margin: -20px 160px 10px;
+	      border-radius: 3px 3px 0 0;
+	   }
     
       .pageN{
           width: 100%;
@@ -169,87 +154,88 @@
        }
 
    
-   .search-box {
-     position: relative;
-     width: 100%;
-     max-width: 360px;
-     height: 60px;
-     border-radius: 120px;
-     margin: 0 auto;
-   }
-   
-   .search-border {
-     display: block;
-     width: 100%;
-     max-width: 360px;
-     height: 60px;
-   }
-   .border {
-     fill: none;
-     stroke: #ff8c1a;
-     stroke-width: 5;
-     stroke-miterlimit: 10;
-   }
-   
-   
-   #search {
-     font-family: 'Montserrat Alternates', sans-serif;
-     position: absolute;
-     top: 0;
-     left: 0;
-     width: 100%;
-     height: 100%;
-     border-radius: 120px;
-     border: none;
-     background: rgba(255,255,255,0);
-     padding: 0 68px 0 68px;
-     color: black;
-     font-size: 1.32em;
-     font-weight: 400;
-     letter-spacing: -0.015em;
-     outline: none;
-   }
-   #search::-webkit-input-placeholder {color: rgb(112, 112, 112);}
-   .search-icon,
-   .go-icon {
-      position: absolute;
-      top: 0;
-      height: 60px;
-      width: 86px;
-      line-height: 61px;
-      text-align: center;
-   }
-   .search-icon {
-      left: 0;
-      pointer-events: none;
-      font-size: 1.22em;
-      will-change: transform;
-      top: 9px;
-   }
-   .go-icon {
-      right: 0;
-      pointer-events: none;
-      font-size: 1.38em;
-      will-change: opacity;
-      cursor: default;
-      opacity: 0;
-   }
+	   .search-box {
+	     position: relative;
+	     width: 100%;
+	     max-width: 360px;
+	     height: 60px;
+	     border-radius: 120px;
+	     margin: 0 auto;
+	   }
+	   
+	   .search-border {
+	     display: block;
+	     width: 100%;
+	     max-width: 360px;
+	     height: 60px;
+	   }
+	   .border {
+	     fill: none;
+	     stroke: #ff8c1a;
+	     stroke-width: 5;
+	     stroke-miterlimit: 10;
+	   }
+	   
+	   
+	   #search {
+	     font-family: 'Montserrat Alternates', sans-serif;
+	     position: absolute;
+	     top: 0;
+	     left: 0;
+	     width: 100%;
+	     height: 100%;
+	     border-radius: 120px;
+	     border: none;
+	     background: rgba(255,255,255,0);
+	     padding: 0 68px 0 68px;
+	     color: black;
+	     font-size: 1.32em;
+	     font-weight: 400;
+	     letter-spacing: -0.015em;
+	     outline: none;
+	   }
+	   #search::-webkit-input-placeholder {color: rgb(112, 112, 112);}
+	   .search-icon,
+	   .go-icon {
+	      position: absolute;
+	      top: 0;
+	      height: 60px;
+	      width: 86px;
+	      line-height: 61px;
+	      text-align: center;
+	   }
+	   .search-icon {
+	      left: 0;
+	      pointer-events: none;
+	      font-size: 1.22em;
+	      will-change: transform;
+	      top: 9px;
+	   }
+	   .go-icon {
+	      right: 0;
+	      pointer-events: none;
+	      font-size: 1.38em;
+	      will-change: opacity;
+	      cursor: default;
+	      opacity: 0;
+	   }
    
       .modal-button2{
          width: 100px;
          height: 35px;
          border-radius: 18px;
-         background-color: cornflowerblue;
+         background-color: rgb(248, 162, 113);
          line-height: 200%;
          float: left;
          color: white;
          text-decoration: none;
+         margin: 0px 6px;
      }
-     .modal-body{
+      .modal-body{
         text-align: center;
-     }
+      }
      
-      .button-area {
+       .button-area {
             height: 40px;
             width: 100%;
         }
@@ -266,10 +252,9 @@
            width: 70px;
         }
         .modal-btn-area2{
-        margin: auto;
+        margin: 10px auto;
         width: 50%;
         box-sizing: border-box;
-        float: left;
         top: 0px;
         bottom: 0px;
         left: 0px;
@@ -284,9 +269,7 @@
       .m-passnotice{
          font-size: 13px;
       }
-      #makeRoombtn{
-      margin-right: 200px;
-      }
+
        .clear-btn{
          border: 2px solid white;
          color: white;
@@ -298,6 +281,7 @@
          line-height: 160%;
          cursor: pointer;
       }
+      
 
 </style>
 </head>
@@ -307,14 +291,13 @@
    <div class="empty"></div>
    
    <div class="table-title">
-      <div class="row">
-         <div class="col-sm-4">
             <h2>Study Room</h2>
-             <a href="${contextPath}/room/insertRoom"><div class="clear-btn">방만들기</div></a>
-         </div>
-      </div>
+            <c:if test="${!empty loginMember}">
+             <a href="${contextPath}/room/insertRoom"><div class="clear-btn">방만들기</div></a>            
+            </c:if>
    </div>
-<hr>
+
+	<hr>
 
       <div class="selectList">
          <select>
@@ -324,10 +307,10 @@
                   <option value="4">전공</option>
                   <option value="5">외국어</option>
                   <option value="6">기타</option>
-          </select>      
+          </select>
        </div>
 
-	<%--네모 박스위한 코드 --%>
+	<%--네모 박스 --%>
    <c:set var="roomList" value="${roomList}"/>
     <div class="room-box">
     <c:forEach var="roomList" items="${roomList}">
@@ -358,7 +341,7 @@
             <fmt:formatDate var="createDate" value="${roomList.roomCreateDate}" pattern="yyyy-MM-dd"/>
             
             <p class="room-content">
-                <p class="category">[${tag}]</p>
+                <p class="category" id="${tag}">[${tag}]</p>
                 <p class="room-title">${roomList.roomTitle}</p>
                 <p class="enter-number">
                     방장 : ${roomList.memberNick}<br>
@@ -370,11 +353,13 @@
 	
             <div id="tagbox">
              <c:forEach var="tag" items="${tags}">
-                <div class="tags"># ${tag}</div> 
+                <div class="tags">#${tag}</div> 
              </c:forEach>
             </div>
             
-            <a data-toggle="modal"  data-target="#myModal"><div class="join-button" id="${roomList.roomNo}">참여하기</div></a>
+            <a data-toggle="modal"  data-target="#myModal">
+            	<div class="join-button" id="${roomList.roomNo}">참여하기</div>
+            </a>
       </div> <!-- roomlist end-->
       </c:forEach>
     </div><!--room-container end-->
@@ -385,20 +370,25 @@
 
       
      <!-- 페이징 -->
+	<c:set var="url" value="/sogon/room/roomList?cp="  />
    <div class="pageN">
       <div class="pagination2">
-        <a href="#">&laquo;</a>
-        <a href="#">1</a>
-        <a href="#" class="active">2</a>
-        <a href="#">3</a>
-        <a href="#">4</a>
-        <a href="#">5</a>
-        <a href="#">6</a>
-        <a href="#">7</a>
-        <a href="#">8</a>
-        <a href="#">9</a>
-        <a href="#">10</a>
-        <a href="#">&raquo;</a>
+      
+        <a href="${url}1">&laquo;</a> <%-- '<<' --%>
+        
+        <%-- 10개 목록 --%>
+		<c:forEach var="p" begin="${pInfo.startPage}" end="${pInfo.endPage}">
+			<c:choose>
+				<c:when test="${p==pInfo.currentPage}">
+					<a class="active">${p}</a>
+				</c:when>
+				<c:otherwise>
+					<a href="${url}${p}">${p}</a>
+				</c:otherwise>
+			</c:choose>
+		</c:forEach>
+         
+        <a href="${url}${pInfo.maxPage}">&raquo;</a>  <%-- '>>' --%>
       </div>
    </div>
        
@@ -419,8 +409,8 @@
       </div> <!-- top-area end -->
       
       
+              
      <!-- Modal -->
-     <form action="${contextPath}/room/enterRoom" method="post">
      <div class="modal fade" id="myModal" role="dialog">
        <div class="modal-dialog ">
          <div class="modal-content">
@@ -430,10 +420,11 @@
            </div>
            <div class="modal-body">
 
-               <p class="m-title">초보 자바 개발자들 모임</p>
-               <p class="m-content" style="margin-bottom: 6px;">방소개부분입니다. <br>아마 두줄정도 들어가면 예쁠거같네용</p>
+               <p class="m-title"></p>
+               <p class="m-content" style="margin-bottom: 6px;"></p>
               
-              <div>
+              
+              <div class="pass-area">
                  <img src="${contextPath}/resources/images/lock.png">
                  <p style="margin: 0px;">참여 번호 입력</p>
                  <p class="m-passnotice">
@@ -441,12 +432,13 @@
                        방장이 알려준 참여 비밀 번호를 입력해 주세요.
                  </p>
                   <input type="password" placeholder="영문/숫자 4~10자리"  name="roomPassword"> 
-   		          <input type="hidden"  class="hiddenNo" name="roomNo">
+  	<input type="hidden"  class="hiddenNo" name="roomNo"> <!--  hiddenNo 영역보일시 display:none처리-->
               </div>
+
             
             <div class="modal-btn-area2" > 
               	<button type="button"  class="modal-button2" data-dismiss="modal">뒤로가기</button>
-                <button type="submit"  class="modal-button2">참여하기</button>
+                <button type="button"  class="modal-button2" id="modal-btn">참여하기</button>
             </div>
       
            </div>
@@ -454,7 +446,6 @@
          </div>
        </div>
      </div> <!-- modal end -->
-     </form>
    
    
    <jsp:include page="../common/footer.jsp" />
@@ -463,13 +454,40 @@
 <script>
 
 // 방번호 넘기기 위한 함수
-$(".join-button").on("click",function(){
-	   var roomNo = $(this).attr("id");
-	   console.log(roomNo);
-	   
-	   $(".hiddenNo").val(roomNo);
-	   
-});
+	$(".join-button").on("click",function(){
+		   var roomNo = $(this).attr("id");
+		   console.log(roomNo);
+		   $(".hiddenNo").val(roomNo);
+
+		   
+		   	$("#modal-btn").on("click",function(){
+				location.href = "${contextPath}/room/roomDetail/"+ roomNo;
+			});
+		   
+			$.ajax({
+				url : "${contextPath}/room/roomMList/"+roomNo,
+				type : "POST",
+				dataType : "JSON",
+				success : function(Room){
+					console.log(Room);
+					$(".m-title").html(Room.roomTitle);
+					$(".m-content").html(Room.roomContent);
+					
+					if(Room.roomOpen == 'Y'){
+						$(".pass-area").css("display","none");
+					}
+					
+				},error : function(){
+					 console.log("ajax 통신 실패");
+				}
+			});
+	});
+	
+
+	
+	
+
+
 </script>
 </body>
 </html>

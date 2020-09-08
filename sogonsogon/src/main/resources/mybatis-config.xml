@@ -21,8 +21,8 @@
 	<typeAliases>
 		<typeAlias type="com.kh.sogon.room.model.vo.Room" alias="Room"/>
 		<typeAlias type="com.kh.sogon.roomboard.model.vo.RoomBoard" alias="RoomBoard"/>
-	
 		<typeAlias type="com.kh.sogon.member.model.vo.Member" alias="Member"/>
+		<typeAlias type="com.kh.sogon.help.model.vo.Help" alias="Help"/>
 	</typeAliases>
 
 	<!-- mapper.xml파일을 등록하는 태그  -->
@@ -31,5 +31,6 @@
 		<mapper resource="/mappers/roomBoard-mapper.xml"/>		
 		<mapper resource="/mappers/mypage-mapper.xml"/>
 		<mapper resource="/mappers/member-mapper.xml"/>
+		<mapper resource="/mappers/help-mapper.xml"/>
 	</mappers>
 </configuration>

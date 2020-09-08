@@ -80,10 +80,10 @@ public class RoomDAO {
 	public List<Room> selectList(PageInfo pInfo) {
 		 pInfo.setLimit(6);
 		 int offset =(pInfo.getCurrentPage()-1)*pInfo.getLimit();
-		 
+
 		 RowBounds rowBounds = new RowBounds(offset,pInfo.getLimit());
 		 
-		return sqlSession.selectList("roomMapper.selectList", rowBounds);
+		return sqlSession.selectList("roomMapper.selectList" ,null,rowBounds);
 		
 	}
 
@@ -102,6 +102,22 @@ public class RoomDAO {
 	 */
 	public int roomMemberCount(int roomNo) {
 		return sqlSession.selectOne("roomMapper.roomMemberCount",roomNo);
+	}
+
+
+
+
+	/** 방 생성 DAO
+	 * @param room
+	 * @return result
+	 */
+	public int createRoom(Room room) {
+		return sqlSession.insert("roomMapper.createRoom", room);
+	}
+
+
+	public Room roomMList(int roomNo) {
+		return sqlSession.selectOne("roomMapper.roomMList", roomNo);
 	}
 
 

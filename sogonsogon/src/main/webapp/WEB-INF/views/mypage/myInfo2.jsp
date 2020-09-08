@@ -18,6 +18,10 @@
       height:100%;
       padding:20px 0px 0px 30px;
       }
+      
+      #deleteInfo{
+      text-decoration: none;
+      }
 </style>
 </head>
 <body>
@@ -79,7 +83,7 @@
 	    </table>
 	    <div align="right">
 	        <input type="button" value="회원 정보 수정" id="updateInfo">
-	        <input type="button" value="회원 탈퇴" id="deleteInfo">
+	        <a href="<%=request.getContextPath()%>/mypage/deleteInfo" id="deleteInfo">회원 탈퇴</a>
 	    </div>
 	</div>
 	</div>

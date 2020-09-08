@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="ko">
     <head>
@@ -19,7 +20,7 @@
 		background: #f5f5f5;
 		font-family: 'Varela Round', sans-serif;
 	}
-    th, td { text-align: center;}
+    table { text-align: center;}
 
     #category, #create_dt, #status{width: 120px;}
 
@@ -32,7 +33,6 @@
 	.table-wrapper {
         background: #fff;
         padding: 20px 25px;
-        margin: 30px auto;
 		border-radius: 3px;
         box-shadow: 0 1px 1px rgba(0,0,0,.05);
     }
@@ -223,6 +223,8 @@
     }
 
     .write-Btn{float: right;}
+    
+    #col-sm-4>hr{background-color:white;}
 
         </style>
         <script>
@@ -239,7 +241,8 @@
                 <div class="table-title">
                     <div class="row">
                         <div class="col-sm-4">
-                            <h2><b>QnA</b></h2>
+                            <h2><b>QnA</b><hr></h2>                            
+                            <h5>궁금한 내용을 남겨주세요. 자세히 답변 드립니다.</h5>
                         </div>
 
                     </div>
@@ -250,10 +253,9 @@
                             <div class="show-entries">
                                 <span>목록</span>
                                 <select class="form-control">
-                                    <option>5</option>
-                                    <option>10</option>
-                                    <option>15</option>
-                                    <option>20</option>
+                                    <option value="10">10</option>
+                                    <option value="15">15</option>
+                                    <option value="20">20</option>
                                 </select>
                                 <span>개씩 보기</span>
                             </div>
@@ -294,55 +296,46 @@
                         </tr>
                     </thead>
                     <tbody>
+                        <c:choose>
+                  <c:when test="${empty helpList}">
+                     <tr>
+                        <td colspan="7">존재하는 게시글이 없습니다.</td>
+                     </tr>
+                  </c:when>                   
+                  <c:otherwise>
+                     <c:forEach var="help" items="${helpList}">
+                        <!-- helpList에 있는 요소를 반복접근 하여 help라는 변수에 저장하여 내부에서 사용 -->
                         <tr>
-                            <td>1</td>
-                            <td>사이트 이용</td>
-                            <td>몇 개의 방까지 입장이 가능한가요?</td>
-                            <td>유저일</td>                        
-                            <td>2020-08-27</td>
-                            <td><span class="status text-wait">&bull;</span> 미답변</td>
-                            <td><a href="#" class="view" title="View Details" data-toggle="tooltip"><i class="material-icons">&#xE5C8;</i></a></td>
+                           <td>${help.helpNo}</td>
+                           <td>${help.helpCategory}</td>
+                           <td>${help.helpTitle}</td>
+                           <td>${help.helpWriter}</td>                           
+                           <td>    
+                              <jsp:useBean id="now" class="java.util.Date"/>
+                              <%-- Date now = new Date(); (현재시간) --%>
+                                 
+                              <fmt:formatDate var="today" value="${now}" pattern="yyyy-MM-dd"/>
+                              <fmt:formatDate var="createDate" value="${help.helpCreateDate}" pattern="yyyy-MM-dd"/>
+                              <fmt:formatDate var="createTime" value="${help.helpCreateDate}" pattern="hh:mm:ss"/>
+                              <c:choose>   
+                                 <c:when test="${today == createDate}">
+                                    ${createTime}
+                                 </c:when>
+                                 <c:otherwise>
+                                    ${createDate}
+                                 </c:otherwise>
+                              </c:choose>
+                           </td>
+                           <td><span class="status text-wait">&bull;</span> 미답변</td>
+                           <td><a href="#" class="view" title="View Details" data-toggle="tooltip"><i class="material-icons">&#xE5C8;</i></a></td>
                         </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>사이트 이용</td>
-                            <td>질문 있습니다!</td>                       
-                            <td>유저이</td>
-                            <td>2020-08-27</td>
-                            <td><span class="status text-wait">&bull;</span> 미답변</td>
-                            <td><a href="#" class="view" title="View Details" data-toggle="tooltip"><i class="material-icons">&#xE5C8;</i></a></td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>기타</td>
-                            <td>오프라인으로 만나면 안되나요?</td>
-                            <td>유저삼</td>
-                            <td>2020-08-27</td>
-                            <td><span class="status text-success">&bull;</span> 답변</td>
-                            <td><a href="#" class="view" title="View Details" data-toggle="tooltip"><i class="material-icons">&#xE5C8;</i></a></td>                        
-                        </tr>
-                        <tr>
-                            <td>4</td>
-                            <td>기타</td>
-                            <td>추방된 방의 자료는 백업 안되나요?</td>
-                            <td>유저사</td>						
-                            <td>2020-08-27</td>
-                            <td><span class="status text-success">&bull;</span> 답변</td>
-                            <td><a href="#" class="view" title="View Details" data-toggle="tooltip"><i class="material-icons">&#xE5C8;</i></a></td>
-                        </tr>
-                        <tr>
-                            <td>5</td>
-                            <td>시스템</td>
-                            <td>자꾸 방에서 나가져요ㅜㅠ</td>
-                            <td>유저오</td>
-                            <td>2020-08-27</td>
-                            <td><span class="status text-success">&bull;</span> 답변</td>
-                            <td><a href="#" class="view" title="View Details" data-toggle="tooltip"><i class="material-icons">&#xE5C8;</i></a></td>
-                        </tr>
+                     </c:forEach>
+                  </c:otherwise>
+                   </c:choose>
                     </tbody>
                 </table>
                 <div class="clearfix">
-                    <div class="hint-text">Showing <b>5</b> out of <b>25</b> entries</div>
+                    <div class="hint-text">Showing <b>10</b> out of <b>${hInfo.allCount}</b> entries</div>
                     <div class="page">
                         <ul class="pagination">
                             <li class="page-item disabled"><a href="#">Previous</a></li>
@@ -356,7 +349,9 @@
                             <li class="page-item"><a href="#" class="page-link">Next</a></li>
                         </ul>
                     </div>
-                    <div class="write-Btn"><button class="btn btn-primary">글쓰기</button></div>
+                    <c:if test="${!empty loginMember}">
+                    <div class="write-Btn"><a class="btn btn-primary float-right" href="${contextPath}/board/helpwrite">글쓰기</a></div>
+                	</c:if>
                 </div>
             </div>
         </div>

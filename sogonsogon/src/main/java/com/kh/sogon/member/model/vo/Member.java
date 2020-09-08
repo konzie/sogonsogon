@@ -35,18 +35,6 @@ public class Member {
 		this.memberGrade = memberGrade;
 	}
 
-
-	
-
-	@Override
-	public String toString() {
-		return "Member [memberNo=" + memberNo + ", memberId=" + memberId + ", memberPwd=" + memberPwd + ", memberName="
-				+ memberName + ", memberNick=" + memberNick + ", memberAge=" + memberAge + ", memberPhone="
-				+ memberPhone + ", memberEmail=" + memberEmail + ", memberInterest=" + memberInterest
-				+ ", memberEnrollDate=" + memberEnrollDate + ", memberStatus=" + memberStatus + ", memberGrade="
-				+ memberGrade + "]";
-	}
-
 	public int getMemberNo() {
 		return memberNo;
 	}
@@ -143,6 +131,14 @@ public class Member {
 		this.memberEmail = memberEmail;
 	}
 
-	
+
+	@Override
+	public String toString() {
+		return "Member [memberNo=" + memberNo + ", memberId=" + memberId + ", memberPwd=" + memberPwd + ", memberName="
+				+ memberName + ", memberNick=" + memberNick + ", memberAge=" + memberAge + ", memberPhone="
+				+ memberPhone + ", memberEmail=" + memberEmail + ", memberInterest=" + memberInterest + ", memberEnrollDate=" 
+				+ memberEnrollDate + ", memberStatus=" + memberStatus + ", memberGrade=" + memberGrade + "]";
+	}
+
 
 }

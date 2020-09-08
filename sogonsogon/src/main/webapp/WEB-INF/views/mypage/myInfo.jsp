@@ -82,7 +82,7 @@
 		$("#memberPass").on("input",function(){
 			
 			$.ajax({
-				url : "checkPwd",
+				url : "/checkPwd",
 				data : {"memberPass" : $("#memberPass").val()},
 				type : "GET",
 				success : function(result){
