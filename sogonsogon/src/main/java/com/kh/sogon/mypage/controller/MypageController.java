@@ -88,7 +88,7 @@ public class MypageController {
 		upMember.setMemberAge(loginMember.getMemberAge());
 		upMember.setMemberPhone(loginMember.getMemberPhone());
 		upMember.setMemberEmail(loginMember.getMemberEmail());
-		upMember.setMemberEmail(loginMember.getMemberEmail());
+		upMember.setMemberInterest(loginMember.getMemberInterest());
 		
 		// 회원 정보 수정 Service 호출
 		int result = mypageService.updateMember(upMember);
@@ -110,12 +110,14 @@ public class MypageController {
 		return "mypage/myInfo2";
 		}
 	
+	// 신고사항 조회
 	@RequestMapping("adminreport")
 	public String adminreport() {
 		return "mypage/adminreport";
 		}
 	
-	@RequestMapping("adminqna")
+	// 고객센터 조회
+	@RequestMapping("adminhelp")
 	public String adminqna(@RequestParam(value="cp", required=false, defaultValue = "1") int cp, Model model) {
 		
 		PageInfo pInfo = mypageService.qnaPage(cp);
@@ -125,7 +127,7 @@ public class MypageController {
 		model.addAttribute("helpList", helpList);
 		model.addAttribute("pInfo", pInfo);
 
-		return "mypage/adminqna";
+		return "mypage/adminhelp";
 		}
 	
 	// 공지사항 조회
@@ -142,6 +144,7 @@ public class MypageController {
 		return "mypage/adminnotice";
 		}
 	
+	// 멤버 조회
 	@RequestMapping("adminmember")
 	public String adminmember(@RequestParam(value="cp", required=false, defaultValue = "1") int cp, Model model) {
 		
@@ -155,6 +158,7 @@ public class MypageController {
 		return "mypage/adminmember";
 		}
 	
+	// 회원 탈퇴
 	@RequestMapping("deleteInfo")
 	public String deleteInfo(Model model, RedirectAttributes rdAttr, SessionStatus sessionstatus) {
 		Member loginMember = (Member)model.getAttribute("loginMember");

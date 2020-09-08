@@ -11,6 +11,8 @@ public class Board {
 	private String qnaAnswer;
 	private Date qnaModifyDate;
 	private Date qnaCreateDate;
+	private String writer;
+	private String writerName;
 	
 	public Board(){
 		
@@ -84,19 +86,27 @@ public class Board {
 		this.qnaCreateDate = qnaCreateDate;
 	}
 
+	public String getWriter() {
+		return writer;
+	}
+
+	public void setWriter(String writer) {
+		this.writer = writer;
+	}
+
+	public String getWriterName() {
+		return writerName;
+	}
+
+	public void setWriterName(String writerName) {
+		this.writerName = writerName;
+	}
+
 	@Override
 	public String toString() {
 		return "Board [qnaNo=" + qnaNo + ", qnaCategory=" + qnaCategory + ", qnaTitle=" + qnaTitle + ", qnaStatus="
 				+ qnaStatus + ", qnaAnswer=" + qnaAnswer + ", qnaModifyDate=" + qnaModifyDate + ", qnaCreateDate="
-				+ qnaCreateDate + "]";
+				+ qnaCreateDate + ", writer=" + writer + ", writerName=" + writerName + "]";
 	}
-
-	public String getBoardContent() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	
-	
 	
 }

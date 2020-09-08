@@ -22,14 +22,16 @@
 
 	<!-- 고객센터 -->
 	<resultMap id="helpResultSet" type="helpBoard" >
-        <id property="helpNo" column="QNA_NO"/>
-        <result property="qnaCategory" column="QNA_CATEGORY"/>
-        <result property="qnaTitle" column="QNA_TITLE"/>
-        <result property="writer" column="WRITER"/>
-        <result property="qnaStatus" column="QNA_STATUS"/>
-        <result property="qnaAnswer" column="QNA_ANSWER"/>
-        <result property="qnaCreateDate" column="QNA_CREATE_DATE"/>
-        <result property="qnaModifyDate" column="QNA_MODIFY_DATE"/>
+        <id property="helpNo" column="HELP_NO"/>
+        <result property="helpCategory" column="HELP_CATEGORY"/>
+        <result property="helpTitle" column="HELP_TITLE"/>
+        <result property="helpContent" column="HELP_CONTENT"/>
+        <result property="helpWriter" column="HELP_WRITER"/>
+        <result property="helpCreateDate" column="HELP_CREATE_DATE"/>
+        <result property="helpModifyDate" column="HELP_MODIFY_DATE"/>
+        <result property="helpStatus" column="HELP_STATUS"/>
+        <result property="boardType" column="BOARD_TYPE"/>
+        <result property="writeName" column="WRITER_NAME"/>
     </resultMap>
      
      <!-- 자유질문방 -->
@@ -60,6 +62,16 @@
 		UPDATE MEMBER SET MEMBER_STATUS='N' WHERE MEMBER_NO = #{memberNo}
 	</update>
 	
+	<!-- 고객센터 게시글 수 조회 -->
+	<select id="getListQCount" resultType="_int">
+		SELECT COUNT(*) FROM HELPBOARD
+	</select>
+	
+	<!-- 총 HelpList 조회 -->
+	<select id="selectQList" resultMap="helpResultSet">
+		SELECT * FROM HELPBOARD JOIN MEMBER ON(HELP_WRITER=MEMBER_NO) ORDER BY HELP_CREATE_DATE DESC
+	</select>
+			
 	<!-- 공지사항 수 조회 -->
 	<select id="getListNCount" resultType="_int">
 		SELECT COUNT(*) FROM QNABOARD WHERE WRITER = 1

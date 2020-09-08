@@ -49,29 +49,28 @@
                         <th id="writer">작성자</th>						
                         <th id="create_dt">작성일</th>						
                         <th id="status">답변/미답변</th>
-                        <th></th>
 
                     </tr>
                 </thead>
                 <tbody>
                 <c:choose>
-          			<c:when test="${empty boardList}">
+          			<c:when test="${empty helpList}">
 		         		<tr>		
 		         			<td colspan="6" align="center">존재하는 게시글이 없습니다.</td>
 		         		</tr>
           			</c:when>	
           			<c:otherwise>
-          				<c:forEach var="board" items="${boardList}">
+          				<c:forEach var="board" items="${helpList}">
 	              		<tr>		
-		              		<td>${board.boardNo}</td>
-		              		<td>${board.boardCategory}</td>
-		              		<td>${board.boardTitle}</td>
-		              		<td>${board.boardWriter}</td>
+		              		<td>${board.helpNo}</td>
+		              		<td>${board.helpCategory}</td>
+		              		<td>${board.helpTitle}</td>
+		              		<td>${board.writerName}</td>
 		              		<td>
 		              			<jsp:useBean id="now" class="java.util.Date"></jsp:useBean>
 		              			<fmt:formatDate var="today" value="${now}" pattern="yyyy-MM-dd"/>
-		              			<fmt:formatDate var="createDate" value="${board.boardCreateDate}" pattern="yyyy-MM-dd"/>
-		              			<fmt:formatDate var="createTime" value="${board.boardCreateDate}" pattern="hh:mm:ss"/>
+		              			<fmt:formatDate var="createDate" value="${board.helpCreateDate}" pattern="yyyy-MM-dd"/>
+		              			<fmt:formatDate var="createTime" value="${board.helpCreateDate}" pattern="hh:mm:ss"/>
 		              			
 		              			<c:choose>
 		              				<c:when test="${today == createDate }">
@@ -82,7 +81,7 @@
 		              				</c:otherwise>
 		              			</c:choose>
 		              		</td>
-		              		<td>${board.boardStatus}</td>
+		              		<td>${board.helpStatus}</td>
 	              		</tr>	
           				</c:forEach>
           			</c:otherwise>

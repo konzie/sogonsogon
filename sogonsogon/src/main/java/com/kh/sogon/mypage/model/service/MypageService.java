@@ -3,10 +3,15 @@ package com.kh.sogon.mypage.model.service;
 import java.util.List;
 
 import com.kh.sogon.board.model.vo.Board;
+import com.kh.sogon.board.model.vo.HelpBoard;
 import com.kh.sogon.member.model.vo.Member;
 import com.kh.sogon.board.model.vo.PageInfo;
 
 
+/**
+ * @author hyeonju
+ *
+ */
 public interface MypageService {
 
 	/** 비밀번호 확인 Service
@@ -57,5 +62,19 @@ public interface MypageService {
 	 * @return member
 	 */
 	public abstract int updateMember(Member upMember);
+
+	/** 고객센터 페이징 처리를 위한 Service
+	 * @param cp
+	 * @return pageIn
+	 */
+	public abstract PageInfo qnaPage(int cp);
+	
+	
+	/** 페이징바에 따라 고객센터 게시글 조회 Service
+	 * @param pInfo
+	 * @return boardList
+	 */
+	public abstract List<HelpBoard> selectQList(PageInfo pInfo);
+
 
 }

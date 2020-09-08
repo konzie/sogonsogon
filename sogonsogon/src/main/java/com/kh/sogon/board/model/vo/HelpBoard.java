@@ -4,99 +4,123 @@ import java.sql.Date;
 
 public class HelpBoard {
 
-	private int qnaNo;
-	private String qnaCategory;
-	private String qnaTitle;
-	private String qnaStatus;
-	private String qnaAnswer;
-	private Date qnaModifyDate;
-	private Date qnaCreateDate;
-	private int writer;
+	private int helpNo;
+	private String helpCategory;
+	private String helpTitle;
+	private String helpContent;
+	private String helpWwriter;
+	private Date helpCreateDate;
+	private Date helpModifyDate;
+	private int helpStatus;
+	private int boardType;
+	private String writerName;
 	
-	public HelpBoard(){
-		
+	public HelpBoard() {
+		// TODO Auto-generated constructor stub
 	}
 
-	public HelpBoard(int qnaNo, String qnaTitle, String qnaStatus, String qnaAnswer, Date qnaModifyDate,
-			Date qnaCreateDate, String qnaCategory) {
+	public HelpBoard(int helpNo, String helpCategory, String helpTitle, String helpContent, String helpWwriter,
+			Date helpCreateDate, Date helpModifyDate, int helpStatus, int boardType, String writerName) {
 		super();
-		this.qnaNo = qnaNo;
-		this.qnaTitle = qnaTitle;
-		this.qnaStatus = qnaStatus;
-		this.qnaAnswer = qnaAnswer;
-		this.qnaModifyDate = qnaModifyDate;
-		this.qnaCreateDate = qnaCreateDate;
-		this.qnaCategory = qnaCategory;
+		this.helpNo = helpNo;
+		this.helpCategory = helpCategory;
+		this.helpTitle = helpTitle;
+		this.helpContent = helpContent;
+		this.helpWwriter = helpWwriter;
+		this.helpCreateDate = helpCreateDate;
+		this.helpModifyDate = helpModifyDate;
+		this.helpStatus = helpStatus;
+		this.boardType = boardType;
+		this.writerName = writerName;
 	}
 
-	public String getQnaCategory() {
-		return qnaCategory;
+	public int getHelpNo() {
+		return helpNo;
 	}
 
-	public void setQnaCategory(String qnaCategory) {
-		this.qnaCategory = qnaCategory;
+	public void setHelpNo(int helpNo) {
+		this.helpNo = helpNo;
 	}
 
-	public int getQnaNo() {
-		return qnaNo;
+	public String getHelpCategory() {
+		return helpCategory;
 	}
 
-	public void setQnaNo(int qnaNo) {
-		this.qnaNo = qnaNo;
+	public void setHelpCategory(String helpCategory) {
+		this.helpCategory = helpCategory;
 	}
 
-	public String getQnaTitle() {
-		return qnaTitle;
+	public String getHelpTitle() {
+		return helpTitle;
 	}
 
-	public void setQnaTitle(String qnaTitle) {
-		this.qnaTitle = qnaTitle;
+	public void setHelpTitle(String helpTitle) {
+		this.helpTitle = helpTitle;
 	}
 
-	public String getQnaStatus() {
-		return qnaStatus;
+	public String getHelpContent() {
+		return helpContent;
 	}
 
-	public void setQnaStatus(String qnaStatus) {
-		this.qnaStatus = qnaStatus;
+	public void setHelpContent(String helpContent) {
+		this.helpContent = helpContent;
 	}
 
-	public String getQnaAnswer() {
-		return qnaAnswer;
+	public String getHelpWwriter() {
+		return helpWwriter;
 	}
 
-	public void setQnaAnswer(String qnaAnswer) {
-		this.qnaAnswer = qnaAnswer;
+	public void setHelpWwriter(String helpWwriter) {
+		this.helpWwriter = helpWwriter;
 	}
 
-	public Date getQnaModifyDate() {
-		return qnaModifyDate;
+	public Date getHelpCreateDate() {
+		return helpCreateDate;
 	}
 
-	public void setQnaModifyDate(Date qnaModifyDate) {
-		this.qnaModifyDate = qnaModifyDate;
+	public void setHelpCreateDate(Date helpCreateDate) {
+		this.helpCreateDate = helpCreateDate;
 	}
 
-	public Date getQnaCreateDate() {
-		return qnaCreateDate;
+	public Date getHelpModifyDate() {
+		return helpModifyDate;
 	}
 
-	public void setQnaCreateDate(Date qnaCreateDate) {
-		this.qnaCreateDate = qnaCreateDate;
-	}
-	
-	public int getWriter() {
-		return writer;
+	public void setHelpModifyDate(Date helpModifyDate) {
+		this.helpModifyDate = helpModifyDate;
 	}
 
-	public void setWriter(int writer) {
-		this.writer = writer;
+	public int getHelpStatus() {
+		return helpStatus;
+	}
+
+	public void setHelpStatus(int helpStatus) {
+		this.helpStatus = helpStatus;
+	}
+
+	public int getBoardType() {
+		return boardType;
+	}
+
+	public void setBoardType(int boardType) {
+		this.boardType = boardType;
+	}
+
+	public String getWriterName() {
+		return writerName;
+	}
+
+	public void setWriterName(String writerName) {
+		this.writerName = writerName;
 	}
 
 	@Override
 	public String toString() {
-		return "Board [qnaNo=" + qnaNo + ", qnaCategory=" + qnaCategory + ", qnaTitle=" + qnaTitle + ", qnaStatus="
-				+ qnaStatus + ", qnaAnswer=" + qnaAnswer + ", qnaModifyDate=" + qnaModifyDate + ", qnaCreateDate="
-				+ qnaCreateDate + ", writer=" + writer + "]";
+		return "HelpBoard [helpNo=" + helpNo + ", helpCategory=" + helpCategory + ", helpTitle=" + helpTitle
+				+ ", helpContent=" + helpContent + ", helpWwriter=" + helpWwriter + ", helpCreateDate=" + helpCreateDate
+				+ ", helpModifyDate=" + helpModifyDate + ", helpStatus=" + helpStatus + ", boardType=" + boardType
+				+ ", writerName=" + writerName + "]";
 	}
+	
+	
 }

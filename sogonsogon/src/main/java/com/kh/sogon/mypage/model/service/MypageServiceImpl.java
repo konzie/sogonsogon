@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.sogon.board.model.vo.Board;
+import com.kh.sogon.board.model.vo.HelpBoard;
 import com.kh.sogon.member.model.vo.Member;
 import com.kh.sogon.board.model.vo.PageInfo;
 import com.kh.sogon.mypage.model.dao.MypageDAO;
@@ -34,13 +35,34 @@ public class MypageServiceImpl implements MypageService{
 		return mypageDAO.updateInfo(loginMember, newPwd1);
 	}
 
+	
 	// 회원 탈퇴 Service 구현
+	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public int deleteInfo(int memberNo) {
 		return mypageDAO.deleteInfo(memberNo);
 	}
 
+	// 고객센터 페이징 처리를 위한 Service 구현
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public PageInfo qnaPage(int cp) {
+		int listNCount = mypageDAO.getListQCount();
+		
+		pInfo.setPageInfo(cp, listNCount);
+
+		return pInfo;
+	}
+
+	// 페이징바에 따라 고객센터 게시글 조회 Service 구현
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public List<HelpBoard> selectQList(PageInfo pInfo) {
+		return mypageDAO.selectQList(pInfo);
+	}
+	
 	// 공지사항 페이징바 Service 구현
+	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public PageInfo noticePage(int cp) {
 		int listNCount = mypageDAO.getListNCount();
@@ -51,12 +73,14 @@ public class MypageServiceImpl implements MypageService{
 	}
 
 	// 페이징바에 따라 공지사항 조회 Service 구현
+	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public List<Board> selectNList(PageInfo pInfo) {
 		return mypageDAO.selectNList(pInfo);
 	}
 
 	// 멤버 조회 페이징 처리를 위한 Service 구현
+	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public PageInfo memberPage(int cp) {
 		int listMCount = mypageDAO.getListMCount();
@@ -67,18 +91,21 @@ public class MypageServiceImpl implements MypageService{
 	}
 
 	// 페이징바에 따라 멤버 조회 Service 구현
+	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public List<Member> selectMList(PageInfo pInfo) {
 		return mypageDAO.selectMList(pInfo);
 		
 	}
  
-	// 회원 정보 수정 Service
+	// 회원 정보 수정 Service 구현
+	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public int updateMember(Member upMember) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
 	
 	
 

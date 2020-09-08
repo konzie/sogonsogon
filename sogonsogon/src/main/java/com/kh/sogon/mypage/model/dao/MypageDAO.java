@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.sogon.member.model.vo.Member;
 import com.kh.sogon.board.model.vo.Board;
+import com.kh.sogon.board.model.vo.HelpBoard;
 import com.kh.sogon.board.model.vo.PageInfo;
 
 @Repository
@@ -83,6 +84,21 @@ public class MypageDAO {
 		RowBounds rowBounds = new RowBounds(offset, pInfo.getLimit());
 		
 		return sqlSession.selectList("mypageMapper.selectMList", null, rowBounds);
+	}
+
+
+	public int getListQCount() {
+		return sqlSession.selectOne("mypageMapper.getListQCount");
+	}
+
+
+	public List<HelpBoard> selectQList(PageInfo pInfo) {
+		
+		int offset = (pInfo.getCurrentPage() - 1) * pInfo.getLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, pInfo.getLimit());
+		
+		return sqlSession.selectList("mypageMapper.selectQList", null, rowBounds);
 	}
 
 	
