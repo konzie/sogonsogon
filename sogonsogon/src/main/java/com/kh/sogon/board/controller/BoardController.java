@@ -16,8 +16,8 @@ public class BoardController {
 	  
 	   
 	   @RequestMapping("boardWrite")
-	   public String helpWriteForm() {
-		   return "board/helpWrite";
+	   public String boardWriteForm() {
+		   return "board/boardWrite";
 	   }
 		
 		
