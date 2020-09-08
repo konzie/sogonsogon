@@ -104,9 +104,9 @@ select {
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ml-auto my-2 my-lg-0">
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="${contextPath}/board/boardList">자유게시판</a></li>
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="${contextPath}/board/qnaList">Q&A게시판</a></li>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="${contextPath}/room/roomList">방 리스트</a></li>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#">즐겨찾기</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="${contextPath}/board/helpList">고객센터</a></li>
                         <li class="nav-item">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
              
                          <c:choose>

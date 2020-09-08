@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="ko">
     <head>
@@ -358,7 +358,9 @@
                             <li class="page-item"><a href="#" class="page-link">Next</a></li>
                         </ul>
                     </div>
+                    <c:if test="${!empty loginMember}">
                     <div class="write-Btn"><a class="btn btn-primary float-right" href="${contextPath}/board/helpwrite">글쓰기</a></div>
+                	</c:if>
                 </div>
             </div>
         </div>
