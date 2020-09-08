@@ -32,7 +32,7 @@ public interface MypageService {
 	 * @param cp
 	 * @return boardList
 	 */
-	public abstract PageInfo pagination(int cp);
+	public abstract PageInfo noticePage(int cp);
 
 	/** 페이징바에 따라 공지사항 조회 Service
 	 * @param pInfo

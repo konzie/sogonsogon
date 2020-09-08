@@ -40,9 +40,9 @@ public class MypageServiceImpl implements MypageService{
 		return mypageDAO.deleteInfo(memberNo);
 	}
 
-	// 페이징바 Service 구현
+	// 공지사항 페이징바 Service 구현
 	@Override
-	public PageInfo pagination(int cp) {
+	public PageInfo noticePage(int cp) {
 		int listNCount = mypageDAO.getListNCount();
 		
 		pInfo.setPageInfo(cp, listNCount);

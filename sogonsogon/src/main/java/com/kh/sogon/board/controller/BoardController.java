@@ -13,5 +13,13 @@ public class BoardController {
 	   public String boardListView() {
 		   return "board/boardList";
 	   }
+	  
 	   
+	   @RequestMapping("boardWrite")
+	   public String boardWriteForm() {
+		   return "board/boardWrite";
+	   }
+		
+		
+		
 }

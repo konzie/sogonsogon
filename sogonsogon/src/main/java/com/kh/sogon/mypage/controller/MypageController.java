@@ -14,6 +14,7 @@ import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kh.sogon.board.model.vo.Board;
+import com.kh.sogon.board.model.vo.HelpBoard;
 import com.kh.sogon.member.model.vo.Member;
 import com.kh.sogon.board.model.vo.PageInfo;
 import com.kh.sogon.mypage.model.service.MypageService;
@@ -115,7 +116,15 @@ public class MypageController {
 		}
 	
 	@RequestMapping("adminqna")
-	public String adminqna() {
+	public String adminqna(@RequestParam(value="cp", required=false, defaultValue = "1") int cp, Model model) {
+		
+		PageInfo pInfo = mypageService.qnaPage(cp);
+		
+		List<HelpBoard> helpList = mypageService.selectQList(pInfo);
+		                                                                   
+		model.addAttribute("helpList", helpList);
+		model.addAttribute("pInfo", pInfo);
+
 		return "mypage/adminqna";
 		}
 	
@@ -123,10 +132,10 @@ public class MypageController {
 	@RequestMapping("adminnotice")
 	public String adminnotice(@RequestParam(value="cp", required=false, defaultValue = "1") int cp, Model model) {
 		
-		PageInfo pInfo = mypageService.pagination(cp);
+		PageInfo pInfo = mypageService.noticePage(cp);
 		
 		List<Board> qnaList = mypageService.selectNList(pInfo);
-		
+		                                                                   
 		model.addAttribute("qnaList", qnaList);
 		model.addAttribute("pInfo", pInfo);
 		
