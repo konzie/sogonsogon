@@ -91,6 +91,11 @@ public class Board {
 				+ qnaCreateDate + "]";
 	}
 
+	public String getBoardContent() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	
 	
 	

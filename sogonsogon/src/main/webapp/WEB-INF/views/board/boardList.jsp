@@ -433,7 +433,9 @@
                 <input type="text" name="sVal" class="form-control" style="width:25%; display: inline-block;">
                 <button class="form-control btn btn-primary" id="searchBtn" type="button" style="width:100px; display: inline-block;">검색</button>
             </div>
-            
+            <c:if test="${!empty loginMember}">
+                    <div class="write-Btn"><a class="btn btn-primary float-right" href="${contextPath}/board/helpwrite">글쓰기</a></div>
+                	</c:if>
             
         </div>
    	
