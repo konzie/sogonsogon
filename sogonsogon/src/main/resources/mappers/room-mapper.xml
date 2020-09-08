@@ -77,4 +77,10 @@
 		,#{roomType}, DEFAULT,DEFAULT, #{roomOpen},#{roomOpen}, #{roomTag}, #{roomMaxNumber})
 	</insert>
 	
+	<select id="roomMList" parameterType="_int"  resultType="Room" resultMap="roomResultSet">
+			SELECT ROOM_TITLE,ROOM_CONTENT,ROOM_PWD,ROOM_OPEN
+			FROM STUDY_ROOM
+			WHERE ROOM_NO=#{roomNo}
+	</select>
+	
 </mapper>

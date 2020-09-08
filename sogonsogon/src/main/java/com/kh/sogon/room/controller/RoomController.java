@@ -11,9 +11,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.kh.sogon.board.model.vo.PageInfo;
 import com.kh.sogon.member.model.vo.Member;
 import com.kh.sogon.room.model.service.RoomService;
@@ -70,6 +73,8 @@ public class RoomController {
 			}
 			
 			return path;
+
+				
 		}
 
 	   
@@ -117,4 +122,15 @@ public class RoomController {
 			return  "redirect:"+ path;
 		}
 		
+		// 모달 영역에 데이터
+		@ResponseBody
+		@RequestMapping("roomMList/{roomNo}")
+		public String roomMList(@PathVariable int roomNo, Model model) {
+			
+			Room room = roomService.roomMList(roomNo);
+			Gson gson = new Gson();
+			return gson.toJson(room);
+		}
+		
+
 }

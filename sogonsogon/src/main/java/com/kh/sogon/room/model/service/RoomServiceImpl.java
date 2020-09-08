@@ -104,5 +104,10 @@ public class RoomServiceImpl implements RoomService{
 		return roomDAO.createRoom(room);
 	}
 
+	@Override
+	public Room roomMList(int roomNo) {
+		return roomDAO.roomMList(roomNo);
+	}
+
 
 }

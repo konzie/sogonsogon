@@ -281,6 +281,7 @@
          line-height: 160%;
          cursor: pointer;
       }
+      
 
 </style>
 </head>
@@ -291,7 +292,9 @@
    
    <div class="table-title">
             <h2>Study Room</h2>
-             <a href="${contextPath}/room/insertRoom"><div class="clear-btn">방만들기</div></a>
+            <c:if test="${!empty loginMember}">
+             <a href="${contextPath}/room/insertRoom"><div class="clear-btn">방만들기</div></a>            
+            </c:if>
    </div>
 
 	<hr>
@@ -354,7 +357,9 @@
              </c:forEach>
             </div>
             
-            <a data-toggle="modal"  data-target="#myModal"><div class="join-button" id="${roomList.roomNo}">참여하기</div></a>
+            <a data-toggle="modal"  data-target="#myModal">
+            	<div class="join-button" id="${roomList.roomNo}">참여하기</div>
+            </a>
       </div> <!-- roomlist end-->
       </c:forEach>
     </div><!--room-container end-->
@@ -404,8 +409,8 @@
       </div> <!-- top-area end -->
       
       
+              
      <!-- Modal -->
-     <form action="${contextPath}/room/enterRoom" method="post">
      <div class="modal fade" id="myModal" role="dialog">
        <div class="modal-dialog ">
          <div class="modal-content">
@@ -415,8 +420,8 @@
            </div>
            <div class="modal-body">
 
-               <p class="m-title">초보 자바 개발자들 모임</p>
-               <p class="m-content" style="margin-bottom: 6px;">방소개부분입니다. <br>아마 두줄정도 들어가면 예쁠거같네용</p>
+               <p class="m-title"></p>
+               <p class="m-content" style="margin-bottom: 6px;"></p>
               
               
               <div class="pass-area">
@@ -427,14 +432,13 @@
                        방장이 알려준 참여 비밀 번호를 입력해 주세요.
                  </p>
                   <input type="password" placeholder="영문/숫자 4~10자리"  name="roomPassword"> 
+  	<input type="hidden"  class="hiddenNo" name="roomNo"> <!--  hiddenNo 영역보일시 display:none처리-->
               </div>
 
-              
-  		     <input type="hidden"  class="hiddenNo" name="roomNo"> <!--  hiddenNo 영역보일시 display:none처리-->
             
             <div class="modal-btn-area2" > 
               	<button type="button"  class="modal-button2" data-dismiss="modal">뒤로가기</button>
-                <button type="submit"  class="modal-button2">참여하기</button>
+                <button type="button"  class="modal-button2" id="modal-btn">참여하기</button>
             </div>
       
            </div>
@@ -442,7 +446,6 @@
          </div>
        </div>
      </div> <!-- modal end -->
-     </form>
    
    
    <jsp:include page="../common/footer.jsp" />
@@ -454,10 +457,34 @@
 	$(".join-button").on("click",function(){
 		   var roomNo = $(this).attr("id");
 		   console.log(roomNo);
-		   
 		   $(".hiddenNo").val(roomNo);
+
 		   
+		   	$("#modal-btn").on("click",function(){
+				location.href = "${contextPath}/room/roomDetail/"+ roomNo;
+			});
+		   
+			$.ajax({
+				url : "${contextPath}/room/roomMList/"+roomNo,
+				type : "POST",
+				dataType : "JSON",
+				success : function(Room){
+					console.log(Room);
+					$(".m-title").html(Room.roomTitle);
+					$(".m-content").html(Room.roomContent);
+					
+					if(Room.roomOpen == 'Y'){
+						$(".pass-area").css("display","none");
+					}
+					
+				},error : function(){
+					 console.log("ajax 통신 실패");
+				}
+			});
 	});
+	
+
+	
 	
 
 
