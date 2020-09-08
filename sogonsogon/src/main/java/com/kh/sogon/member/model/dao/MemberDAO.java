@@ -1,5 +1,8 @@
 package com.kh.sogon.member.model.dao;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -11,6 +14,7 @@ public class MemberDAO {
 
 	@Autowired
 	private SqlSessionTemplate sqlSession;
+	
 	
 	/** 로그인DAO
 	 * @param member
@@ -34,6 +38,14 @@ public class MemberDAO {
 	 */
 	public int signUp(Member signUpMember)throws Exception {
 		return sqlSession.insert("memberMapper.signUp", signUpMember);
+	}
+
+	/** 아이디찾기 DAO 
+	 * @param findIdMember
+	 * @return
+	 */
+	public String findId(Map<String, Object> map) {
+		return sqlSession.selectOne("memberMapper.findId", map);
 	}
 
 	
