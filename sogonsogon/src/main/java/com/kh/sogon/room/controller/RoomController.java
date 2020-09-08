@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -33,14 +34,10 @@ public class RoomController {
 		public String roomView(@RequestParam(value="cp" , required=false, defaultValue ="1" )  int cp,
 												Model model) {
 			PageInfo pInfo = roomService.pagination(cp);
-			 System.out.println(pInfo);
 			
 			 List<Room> roomList = roomService.selectList(pInfo);
-			
-				/*
-				 * for(Room r : roomList) { System.out.println(r); }
-				 */
-			 
+			  /* for(Room r : roomList) { System.out.println(r); } */
+
 			 model.addAttribute("roomList", roomList);
 			 model.addAttribute("pInfo", pInfo);
 			 
@@ -56,11 +53,15 @@ public class RoomController {
 		public String enterRoom(Room room,RedirectAttributes rdAttr) {
 			
 			int result = roomService.enterRoom(room);
-
+			
+			int roomNo = room.getRoomNo();
+			System.out.println("번호" + roomNo);
 			String path = null;
 			if(result>0) {
 				System.out.println("비밀번호일치");
-				path = "room/roomDetail";
+				
+				path = "room/roomDetail/="+roomNo;
+				// 리턴값에 번호추가, 리다이렉트
 			}else {
 				System.out.println("비밀번호 불일치");
 				 rdAttr.addFlashAttribute("status", "error");
@@ -94,4 +95,26 @@ public class RoomController {
 			
 			return returnPath;
 		}
+
+		@RequestMapping("createRoom")
+		public String createRoom(Room room, RedirectAttributes rdAttr, Model model) {
+			
+			Member loginMember = (Member)model.getAttribute("loginMember");
+			int memberNo = loginMember.getMemberNo();
+			room.setMemberNo(memberNo);
+			
+			System.out.println("CONTROLLER"+room);
+			int result = roomService.createRoom(room);
+			
+			String path = null;
+			if(result>0) {
+				path = "/room/roomList?cp=1";
+				 rdAttr.addFlashAttribute("msg", "방 만들기 완료!");
+			}else {
+				path = "/room/createRoom";
+				 rdAttr.addFlashAttribute("msg", "방 만들기 실패!");
+			}
+			return  "redirect:"+ path;
+		}
+		
 }
