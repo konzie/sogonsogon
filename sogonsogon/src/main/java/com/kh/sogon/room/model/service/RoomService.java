@@ -39,6 +39,12 @@ public interface RoomService {
 	 */
 	int createRoom(Room room);
 
+	/** 방 입장 모달창 조회 Service
+	 * @param roomNo
+	 * @return room
+	 */
+	Room roomMList(int roomNo);
+
 
 
 }

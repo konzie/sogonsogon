@@ -107,6 +107,11 @@ public class RoomDAO {
 	}
 
 
+	public Room roomMList(int roomNo) {
+		return sqlSession.selectOne("roomMapper.roomMList", roomNo);
+	}
+
+
 
 	
 }
