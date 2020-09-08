@@ -76,8 +76,36 @@ public class MypageController {
 	}
 	// 회원 정보 수정
 	@RequestMapping("updateInfo")
-	public String myInfo2(Model model, RedirectAttributes rdAttr) {
+	public String myInfo2(Member upMember, Model model, RedirectAttributes rdAttr) {
 
+		Member loginMember = (Member)model.getAttribute("loginMember");
+		
+		upMember.setMemberNo(loginMember.getMemberNo());
+		upMember.setMemberId(loginMember.getMemberId());
+		upMember.setMemberName(loginMember.getMemberName());
+		upMember.setMemberNick(loginMember.getMemberNick());
+		upMember.setMemberAge(loginMember.getMemberAge());
+		upMember.setMemberPhone(loginMember.getMemberPhone());
+		upMember.setMemberEmail(loginMember.getMemberEmail());
+		upMember.setMemberEmail(loginMember.getMemberEmail());
+		
+		// 회원 정보 수정 Service 호출
+		int result = mypageService.updateMember(upMember);
+		String status=null;
+		String msg=null;
+		
+		if(result>0) {
+			model.addAttribute("loginMember", upMember);
+			status="success";
+			msg="회원 정보 수정 성공";
+		}else {
+			status="error";
+			msg="회원 정보 수정 실패";
+		}
+
+		rdAttr.addFlashAttribute("status",status);
+		rdAttr.addFlashAttribute("msg",msg);
+		
 		return "mypage/myInfo2";
 		}
 	
@@ -91,12 +119,17 @@ public class MypageController {
 		return "mypage/adminqna";
 		}
 	
+	// 공지사항 조회
 	@RequestMapping("adminnotice")
 	public String adminnotice(@RequestParam(value="cp", required=false, defaultValue = "1") int cp, Model model) {
 		
 		PageInfo pInfo = mypageService.pagination(cp);
 		
-		List<Board> boardList = mypageService.selectList(pInfo);
+		List<Board> qnaList = mypageService.selectNList(pInfo);
+		
+		model.addAttribute("qnaList", qnaList);
+		model.addAttribute("pInfo", pInfo);
+		
 		return "mypage/adminnotice";
 		}
 	
@@ -134,14 +167,14 @@ public class MypageController {
 		}else {
 			status = "error";
 			msg = "회원 탈퇴 실패";
-			url = "updateInfo2";
+			url = "/updateInfo2";
 		}
 				
 		rdAttr.addFlashAttribute("status",status);
 		rdAttr.addFlashAttribute("msg",msg);
 		rdAttr.addFlashAttribute("text",text);
 		
-		return "redirect:/";
+		return "redirect:"+url;
 		}	
 	
 }

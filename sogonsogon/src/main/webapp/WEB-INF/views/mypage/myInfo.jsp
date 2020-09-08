@@ -81,20 +81,23 @@
 		
 		$("#memberPass").on("input",function(){
 			
+			var checkPwd;
+			
 			$.ajax({
-				url : "/checkPwd",
+				url : "${contextPath}/mypage/checkPwd",
 				data : {"memberPass" : $("#memberPass").val()},
-				type : "GET",
+				type : "POST",
 				success : function(result){
 					if(result==0){
 						$("#checkPass").text("비밀번호가 일치합니다.").css("color","green");
-						return 
+						checkPwd = true;
 					}else{
 						$("#checkPass").text("비밀번호가 일치하지 않습니다.").css("color","red");
 					}
 				},
 				error : function(){
 					console.log("비밀번호 확인 실패");
+					checkPwd = false;
 				}
 			})
 		});

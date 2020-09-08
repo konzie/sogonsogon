@@ -43,15 +43,17 @@ public class MypageServiceImpl implements MypageService{
 	// 페이징바 Service 구현
 	@Override
 	public PageInfo pagination(int cp) {
-		// int listCount = boardDAO.getListCount(type);
-		return null;
+		int listNCount = mypageDAO.getListNCount();
+		
+		pInfo.setPageInfo(cp, listNCount);
+
+		return pInfo;
 	}
 
-	// 페이징바에 따라 게시글 조회 Service 구현
+	// 페이징바에 따라 공지사항 조회 Service 구현
 	@Override
-	public List<Board> selectList(PageInfo pInfo) {
-		
-		return null;
+	public List<Board> selectNList(PageInfo pInfo) {
+		return mypageDAO.selectNList(pInfo);
 	}
 
 	// 멤버 조회 페이징 처리를 위한 Service 구현
@@ -69,6 +71,13 @@ public class MypageServiceImpl implements MypageService{
 	public List<Member> selectMList(PageInfo pInfo) {
 		return mypageDAO.selectMList(pInfo);
 		
+	}
+ 
+	// 회원 정보 수정 Service
+	@Override
+	public int updateMember(Member upMember) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 	
 	

@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="mypageMapper">
+ 	
+ 	<!-- 멤버 -->
  	<resultMap id="memberResultSet" type="Member" >
 		<!-- id에는 DB 기본키에 해당하는 필드와 컬럼을 작성 -->
 		<id property="memberNo" column="MEMBER_NO"/>
-		
+	
 		<!-- result에는 DB 일반 컬럼에 해당하는 필드와 컬럼을 작성 -->
 		<result property="memberId" column="MEMBER_ID"/>
 		<result property="memberPwd" column="MEMBER_PWD"/>
@@ -18,8 +20,33 @@
 		<result property="memberGrade" column="MEMBER_GRADE"/>
 	</resultMap>
 
+	<!-- 고객센터 -->
+	<resultMap id="helpResultSet" type="helpBoard" >
+        <id property="helpNo" column="QNA_NO"/>
+        <result property="qnaCategory" column="QNA_CATEGORY"/>
+        <result property="qnaTitle" column="QNA_TITLE"/>
+        <result property="writer" column="WRITER"/>
+        <result property="qnaStatus" column="QNA_STATUS"/>
+        <result property="qnaAnswer" column="QNA_ANSWER"/>
+        <result property="qnaCreateDate" column="QNA_CREATE_DATE"/>
+        <result property="qnaModifyDate" column="QNA_MODIFY_DATE"/>
+    </resultMap>
+     
+     <!-- 자유질문방 -->
+	<resultMap id="qnaResultSet" type="board" >
+        <id property="qnaNo" column="QNA_NO"/>
+        <result property="qnaCategory" column="QNA_CATEGORY"/>
+        <result property="qnaTitle" column="QNA_TITLE"/>
+        <result property="writer" column="WRITER"/>
+        <result property="qnaStatus" column="QNA_STATUS"/>
+        <result property="qnaAnswer" column="QNA_ANSWER"/>
+        <result property="qnaCreateDate" column="QNA_CREATE_DATE"/>
+        <result property="qnaModifyDate" column="QNA_MODIFY_DATE"/>
+        <result property="writerName" column="MEMBER_NM"/>
+    </resultMap>
+    
 	<!-- 비밀번호 찾기 -->
-	<select id="selectPwd" parameterType="Member" resultType="string">
+	<select id="checkPwd" parameterType="_int" resultType="string">
 		SELECT MEMBER_PWD FROM MEMBER WHERE MEMBER_NO=#{memberNo}
 	</select>
 	
@@ -33,6 +60,16 @@
 		UPDATE MEMBER SET MEMBER_STATUS='N' WHERE MEMBER_NO = #{memberNo}
 	</update>
 	
+	<!-- 공지사항 수 조회 -->
+	<select id="getListNCount" resultType="_int">
+		SELECT COUNT(*) FROM QNABOARD WHERE WRITER = 1
+	</select>
+	
+	<!-- 총 NoticeList 조회 -->
+	<select id="selectNList" resultMap="qnaResultSet">
+		SELECT * FROM QNABOARD JOIN MEMBER ON(WRITER=MEMBER_NO)WHERE WRITER = 1 ORDER BY QNA_CREATE_DATE DESC
+	</select>
+		
 	<!-- 멤버 수 조회 -->
 	<select id="getListMCount" resultType="_int">
 		SELECT COUNT(*) FROM MEMBER
@@ -42,4 +79,5 @@
 	<select id="selectMList" resultMap="memberResultSet">
 		SELECT * FROM MEMBER ORDER BY MEMBER_NO DESC
 	</select>
+
 </mapper>

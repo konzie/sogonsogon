@@ -34,11 +34,11 @@ public interface MypageService {
 	 */
 	public abstract PageInfo pagination(int cp);
 
-	/** 페이징바에 따라 게시글 조회 Service
+	/** 페이징바에 따라 공지사항 조회 Service
 	 * @param pInfo
 	 * @return board
 	 */
-	public abstract List<Board> selectList(PageInfo pInfo);
+	public abstract List<Board> selectNList(PageInfo pInfo);
 
 	/** 멤버 조회 페이징 처리를 위한 Service
 	 * @param cp
@@ -51,5 +51,11 @@ public interface MypageService {
 	 * @return MemberList
 	 */
 	public abstract List<Member> selectMList(PageInfo pInfo);
+
+	/** 회원 정보 수정 Service
+	 * @param upMember
+	 * @return member
+	 */
+	public abstract int updateMember(Member upMember);
 
 }

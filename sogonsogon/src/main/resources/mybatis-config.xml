@@ -22,6 +22,8 @@
 		<typeAlias type="com.kh.sogon.room.model.vo.Room" alias="Room"/>
 		<typeAlias type="com.kh.sogon.roomboard.model.vo.RoomBoard" alias="RoomBoard"/>
 		<typeAlias type="com.kh.sogon.member.model.vo.Member" alias="Member"/>
+		<typeAlias type="com.kh.sogon.board.model.vo.Board" alias="Board"/>
+		<typeAlias type="com.kh.sogon.board.model.vo.HelpBoard" alias="helpBoard"/>
 	</typeAliases>
 
 	<!-- mapper.xml파일을 등록하는 태그  -->

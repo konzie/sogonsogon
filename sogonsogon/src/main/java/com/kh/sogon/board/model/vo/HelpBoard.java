@@ -2,7 +2,7 @@ package com.kh.sogon.board.model.vo;
 
 import java.sql.Date;
 
-public class Board {
+public class HelpBoard {
 
 	private int qnaNo;
 	private String qnaCategory;
@@ -11,12 +11,13 @@ public class Board {
 	private String qnaAnswer;
 	private Date qnaModifyDate;
 	private Date qnaCreateDate;
+	private int writer;
 	
-	public Board(){
+	public HelpBoard(){
 		
 	}
 
-	public Board(int qnaNo, String qnaTitle, String qnaStatus, String qnaAnswer, Date qnaModifyDate,
+	public HelpBoard(int qnaNo, String qnaTitle, String qnaStatus, String qnaAnswer, Date qnaModifyDate,
 			Date qnaCreateDate, String qnaCategory) {
 		super();
 		this.qnaNo = qnaNo;
@@ -83,15 +84,19 @@ public class Board {
 	public void setQnaCreateDate(Date qnaCreateDate) {
 		this.qnaCreateDate = qnaCreateDate;
 	}
+	
+	public int getWriter() {
+		return writer;
+	}
+
+	public void setWriter(int writer) {
+		this.writer = writer;
+	}
 
 	@Override
 	public String toString() {
 		return "Board [qnaNo=" + qnaNo + ", qnaCategory=" + qnaCategory + ", qnaTitle=" + qnaTitle + ", qnaStatus="
 				+ qnaStatus + ", qnaAnswer=" + qnaAnswer + ", qnaModifyDate=" + qnaModifyDate + ", qnaCreateDate="
-				+ qnaCreateDate + "]";
+				+ qnaCreateDate + ", writer=" + writer + "]";
 	}
-
-	
-	
-	
 }

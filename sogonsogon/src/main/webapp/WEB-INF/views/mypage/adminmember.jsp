@@ -69,23 +69,29 @@
                                   <td>${member.memberId}</td>
                                   <td>${member.memberName}</td>
                                   <td>${member.memberNick}</td>
+                                  <c:if test="{${member.memberPhone}}">
+                                  </c:if>
                                   <td>${member.memberPhone}</td>
                                   <td>${member.memberEmail}</td>
                                   <td>${member.memberInterest}</td>
                                   <td>${member.memberEnrollDate}</td>
                                   
-                                  <c:if test="${member.memberStatus}=='Y'">
-                                  	<td>정상</td>
-                                  </c:if>
-                                  <c:otherwise>
-                                  	<td>탈퇴</td>
-                                  </c:otherwise>
-                                  <c:if test="${member.memberGrade}=='G'">
-                                  	<td>관리자</td>
-                                  </c:if>
-                                  <c:otherwise>
+                                  <c:choose>
+	                                 <c:when test="${member.memberStatus.equals('Y')}">
+	                                 	<td>정상</td>
+	                                 </c:when>
+	                                 <c:otherwise>
+	                                 	<td>탈퇴</td>
+	                                 </c:otherwise>
+                                  </c:choose>
+                                  <c:choose>
+                                  <c:when test="${member.memberGrade.equals('G')}">
                                   	<td>일반 회원</td>
+                                  </c:when>
+                                  <c:otherwise>
+                                  	<td>관리자</td>
                                   </c:otherwise>
+                                  </c:choose>
                                </tr>
                          </c:forEach>
                       </c:otherwise>
