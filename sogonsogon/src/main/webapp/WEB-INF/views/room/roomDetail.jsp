@@ -38,10 +38,13 @@
 					<p class="list-group-item fas fa-angle-down" id="moreInfo"
 						style="cursor: pointer; color: blue;">&nbsp;더 보기</p>
 					<div id="infoList"></div>
+					
 					<!-- 방장 회원 전용 메뉴-->
+					<c:if test="${loginMember.getMemberId() eq roomDetail.memberId}">
 					<a href="#" class="list-group-item" id="roomMemberInfo">방 회원
 						조회</a> <a href="#" class="list-group-item">공지사항 작성</a> <a href="#"
 						class="list-group-item">방 정보 수정</a>
+					</c:if>
 
 				</div>
 				<div>
@@ -79,13 +82,15 @@
 
 
 						<div class="my-4">
-							<ul class="pagination">
+							<ul class="pagination" style="justify-content: center;">
 
 							</ul>
 						</div>
 
-
-						<a class="btn btn-primary float-right" href="#">글쓰기</a>
+						<c:if test="${!empty loginMember}">
+								<a class="btn btn-primary float-right" href="${contextPath}/roomBoard/${roomDetail.roomNo}/boardInsertView">글쓰기</a>
+						</c:if>
+						
 						<form action="#" method="get">
 							<select name="searchKey" class="form-control"
 								style="width: 100px; display: inline-block;">
@@ -128,7 +133,7 @@
 	          		  var roomBoardNum = $(this).parent().children().eq(0).text();
 	      				
 	          		  var roomBoardUrl =
-	          			  "${contextPath}/room/roomDetail/"+ ${roomDetail.roomNo} + "/" + roomBoardNum/*  +"?cp=${pInfo.currentPage}" */;	
+	          			  "${contextPath}/roomBoard/"+ ${roomDetail.roomNo} + "/" + roomBoardNum/*  +"?cp=${pInfo.currentPage}" */;	
 	          					  
 	          		// 게시글 상세조회 요청
 	          		location.href = roomBoardUrl;
