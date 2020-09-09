@@ -3,16 +3,20 @@ package com.kh.sogon.member.controller;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
@@ -28,6 +32,9 @@ public class MemberController {
 	@Autowired
 	private MemberService memberService;
 	
+	@Autowired // bcrypt 암호화 객체 의존성 주입(DI)
+	private BCryptPasswordEncoder bcPwd;
+	
 	// 회원가입 화면 전환 메소드
 	@RequestMapping("signUpView")
 	   public String signUpView() {
@@ -38,14 +45,13 @@ public class MemberController {
 	@RequestMapping("loginAction")
 	public String loginAction(Member member, Model model, 
 							RedirectAttributes rdAttr, String saveId, 
-							HttpServletResponse response) { 
+							HttpServletResponse response, HttpServletRequest request) { 
 		
 		
 		System.out.println(member.getMemberId()+"/"+member.getMemberPwd());
 		
 		Member loginMember = memberService.login(member);
 		
-		System.out.println(loginMember);
 		
 		if(loginMember==null) {
 			rdAttr.addFlashAttribute("status","error");
@@ -54,18 +60,24 @@ public class MemberController {
 		}else {
 			model.addAttribute("loginMember",loginMember);
 
+			// 쿠키 객체  생성
 			Cookie cookie = new Cookie("saveId", member.getMemberId());
-			
+
 			if(saveId != null) { // 아이디 저장이 체크된 경우
-				cookie.setMaxAge(60 * 60 * 24 * 3); // 쿠키 3일 유지
+				// 쿠키 생성
+				cookie.setMaxAge(60 * 60 * 24 * 7); // 쿠키를 1주일 유지
 			}else {
 				cookie.setMaxAge(0); // 쿠키 삭제
 			}
 			
-			response.addCookie(cookie);		
+			response.addCookie(cookie);			
 		}
+		model.addAttribute("loginMember", loginMember);
+		// request scope로 "loginMember"라는 key를 추가하고
+		// value로 loginMember 객체를 지정
 		
-		return "redirect:/"; //메인 페이지 재요청
+		 String referer = request.getHeader("Referer");
+		 return "redirect:"+ referer;
 	}
 	
 	// 로그아웃
@@ -194,5 +206,81 @@ public class MemberController {
 		}
             return url;
 		}
+		
+
+		// 비밀번호 찾기 화면 전환 메소드
+		@RequestMapping("findPwdForm")
+		   public String findPwd() {
+			   return "member/findPwdForm";
+		   }
+		
+		
+		// 비밀번호 찾기
+		
+		@Autowired
+		private JavaMailSender mailSender;
+		
+		@RequestMapping("sendPwd")
+		public String sendEmailAction (@RequestParam Map<String, Object> paramMap,
+										RedirectAttributes rdAttr) throws Exception {
+		     
+				String setFrom = "sogontest@gmail.com";
+		        String memberName=(String) paramMap.get("memberName");
+		        String memberId=(String) paramMap.get("memberId"); // 받는사람 이메일(아이디)
+		        String memberPhone=(String) paramMap.get("memberPhone");
+		        
+		        // 임시 비밀번호 생성
+		        String pw="";
+		        for (int i=0; i<12 ; i++) {
+		        	pw += (char) ((Math.random()*26)+97);
+		        }
+		        
+		        paramMap.put("pw",pw);
+		        
+		        System.out.println(pw);
+		        
+		        int result=memberService.findPwd(paramMap);
+//		        String memberPwd=memberService.findPwd(paramMap);
+
+		        
+				String url="";
+		        
+		        if( result >0 ) {
+//		        	if(memberPwd!=null) {
+		        	
+		            
+		            try {
+		            	
+		            	MimeMessage message = mailSender.createMimeMessage();
+		    			MimeMessageHelper messageHelper = new MimeMessageHelper(message,
+		    					true, "UTF-8");
+		    			
+		    			messageHelper.setFrom(setFrom); // 보내는사람 생략하면 정상작동을 안함
+		    			messageHelper.setTo(memberId); // 받는사람 이메일
+		    			messageHelper.setSubject(memberName+"님 비밀번호 찾기 메일입니다."); // 메일제목은 생략이 가능하다
+		    			messageHelper.setText("임시 비밀번호는 "+pw+" 입니다."); // 메일 내용
+		            	
+		    			mailSender.send(message);
+		    			  
+		            } catch (Exception e) {
+		            	e.printStackTrace();
+		            }
+		            
+		            rdAttr.addFlashAttribute("status","success");
+					rdAttr.addFlashAttribute("msg","임시비밀번호가 발송되었습니다. 메일함을 확인해주세요.");	
+		          
+		            url="redirect:/";
+		            
+		        }else {
+		        	rdAttr.addFlashAttribute("status","error");
+					rdAttr.addFlashAttribute("msg","아이디, 이름, 휴대폰번호를 확인해주세요.");	
+					url="redirect:/member/findIdForm";
+		        }
+		        
+		        return url;
+		    }
+
+
+		
 	
 }
