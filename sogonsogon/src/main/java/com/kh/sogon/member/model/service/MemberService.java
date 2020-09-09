@@ -18,4 +18,7 @@ public interface MemberService {
 	// 아이디찾기
 	String findId(Map<String, Object> map);
 
+	// 비밀번호 찾기
+	int findPwd(Map<String, Object> paramMap);
+
 }

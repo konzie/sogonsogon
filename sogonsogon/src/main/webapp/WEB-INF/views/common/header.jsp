@@ -207,7 +207,7 @@ select {
                 </form>
                 <a href="${contextPath}/member/findIdForm" class="forgot-password-link">아이디 찾기 </a>
                 &nbsp;
-                <a href="#" class="forgot-password-link">비밀번호 찾기</a>
+                <a href="${contextPath}/member/findPwdForm" class="forgot-password-link">비밀번호 찾기</a>
                 <p class="login-card-footer-text">
                 <a href="${contextPath}/member/signUpView" class="text-reset">회원가입</a></p>
         
