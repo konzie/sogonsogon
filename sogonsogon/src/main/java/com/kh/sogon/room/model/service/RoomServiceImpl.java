@@ -35,8 +35,11 @@ public class RoomServiceImpl implements RoomService{
 		String inputPwd = loginMember != null ? loginMember.getMemberPwd() : "";
 		int chkBookmark = 0;
 		int result = 0;
+		int memberCount = 0;
 		
 		String pwdLoad = roomDAO.roomDetailInfoPwd(roomNo);
+		memberCount = roomDAO.roomMemberCount(roomNo);
+		
 		
 		if(pwdLoad != null) {
 			// 비공개방이더라도 즐겨찾기에 추가가 되어있다면 입장 패스워드 확인 없이 입장 가능해야함
@@ -61,8 +64,19 @@ public class RoomServiceImpl implements RoomService{
 		} else {
 			// 공개방일때
 			room = roomDAO.roomDetailInfo(roomNo);
+
+			if(loginMember != null) {
+				chkBookmark = roomDAO.roomMemberChk(roomNo, loginMember);
+				if(chkBookmark == 0) {
+					result = roomDAO.insertRoomMember(roomNo, loginMember);
+				}
+			}
 		}
 
+		if(room != null) {
+			// 회원수 출력을 위한 세터 등록
+			room.setRoomMemberCount(memberCount);
+		}
 		
 		return room;
 	}

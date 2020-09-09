@@ -96,6 +96,15 @@ public class RoomDAO {
 	}
 
 
+	/** 방 회원 수 조회를 위한 DAO
+	 * @param roomNo
+	 * @return memberCount
+	 */
+	public int roomMemberCount(int roomNo) {
+		return sqlSession.selectOne("roomMapper.roomMemberCount",roomNo);
+	}
+
+
 
 
 	/** 방 생성 DAO

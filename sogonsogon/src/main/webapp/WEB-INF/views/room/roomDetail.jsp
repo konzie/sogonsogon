@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,7 +23,7 @@
 				<div class="list-group">
 					<p>카테고리 : ${roomDetail.roomTypeName}</p>
 					<p>방장 : ${roomDetail.memberId}</p>
-					<p>회원 수 : 10명</p>
+					<p>회원 수 : ${roomDetail.roomMemberCount}명</p>
 					<p>공개 여부 :
 					<c:set var="roomOpenValue" value="${roomDetail.roomOpen}"/> 
 						<c:choose>
@@ -75,6 +76,15 @@
 							<tbody>
 							</tbody>
 						</table>
+
+
+						<div class="my-4">
+							<ul class="pagination">
+
+							</ul>
+						</div>
+
+
 						<a class="btn btn-primary float-right" href="#">글쓰기</a>
 						<form action="#" method="get">
 							<select name="searchKey" class="form-control"
@@ -114,53 +124,104 @@
             
          	// 게시글 상세보기 기능 구현
             $(function(){
-          	  $("#list-table td").on("click", function(){
-          		  var roomBoardNo = $(this).parent().children().eq(0).text();
-      				
-          		  // 게시글 상세조회 요청 주소
-          		  var roomBoardUrl =
-          			  "${contextPath}/room/${pInfo.boardType}/"+ roomBoardNo + "?cp=${pInfo.currentPage}";	
-          			  
-          			  // @PathValue 방식 : 구분되어야 하는 리소스를 호출하는 url로 사용
-          			  // spring/board/1/500?cp=3
-          					  
-          			  // 파라미터(쿼리스트링) : 정렬, 필터링
-          			  // spring/board?type=1&boardNo=500&cp=3
-          					  
-          		// 게시글 상세조회 요청
-          		location.href = roomBoardUrl;
-          	  });
-          	  
-	  			var url = "${contextPath}/roomBoard/boardList/${roomDetail.roomNo}";
+	          	  $("#list-table > tbody").on("click", "td", function(){
+	          		  var roomBoardNum = $(this).parent().children().eq(0).text();
+	      				
+	          		  var roomBoardUrl =
+	          			  "${contextPath}/room/roomDetail/"+ ${roomDetail.roomNo} + "/" + roomBoardNum/*  +"?cp=${pInfo.currentPage}" */;	
+	          					  
+	          		// 게시글 상세조회 요청
+	          		location.href = roomBoardUrl;
+	          	  });
+	          	  	
+	          	var url = "${contextPath}/roomBoard/boardList/${roomDetail.roomNo}?cp=${param.cp}";
+	  			
 				$.ajax({
 					url : url,
 					type : "POST",
 					dataType:"json",
-					success : function(rbList){
-						console.log(rbList);
+					success : function(object){
+						var currentPage = object.pInfo.currentPage;
+						var endPage = object.pInfo.endPage;
+						var startPage = object.pInfo.startPage;
+						var pagingBarSize = object.pInfo.pagingBarSize;
+						var boardType = object.pInfo.boardType;
+						var maxPage = object.pInfo.maxPage;
 						
 						
-						$.each(rbList, function(i){
+						$.each(object.rbList, function(i){
 							$table = $("#list-table > tbody");
 							$tr = $("<tr>");
-							$td1 = $("<td>").text(rbList[i].roomBoardNo);
-							$td2 = $("<td>").text(rbList[i].roomBoardType);
-							$td3 = $("<td>").text(rbList[i].roomBoardTitle);
-							$td4 = $("<td>").text(rbList[i].roomBoardWriter);
-							$td5 = $("<td>").text(rbList[i].roomBoardCreateDate);
-							$td6 = $("<td>").text(rbList[i].roomBoardReadCount);
-							$td7 = $("<td>").text('0');
+							$td1 = $("<td>").text(object.rbList[i].roomBoardNo);
+							$td2 = $("<td>").text(object.rbList[i].roomBoardType);
+							$td3 = $("<td>").text(object.rbList[i].roomBoardTitle);
+							$td4 = $("<td>").text(object.rbList[i].roomBoardWriter);
+							$td5 = $("<td>").text(object.rbList[i].roomBoardCreateDate);
+							$td6 = $("<td>").text(object.rbList[i].roomBoardReadCount);
+							$td7 = $("<td>").text("0");
 							
 							$tr.append($td1,$td2,$td3,$td4,$td5,$td6,$td7);
 							$table.append($tr);
+							
 						});
+						
+						
+						if(currentPage > pagingBarSize) {
+							
+							$li1 = $("<li>")
+							$a1 = $("<a>").addClass("page-link text-primary").attr("href",boardType+"?cp=1").html("&lt;&lt;");
+							
+							
+							var operand1 = (currentPage - 1) / pagingBarSize;
+			                var prev = operand1 * 10;
+		                    
+		                    $li2 = $("<li>")
+							$a2 = $("<a>").addClass("page-link text-primary").attr("href",boardType + "?cp=" + prev).html("&lt;");
+		                    
+							$li1.append($a1);
+							$li2.append($a2);
+							$(".pagination").append($li1, $li2);
+						}
+						
+		                
+		                
+		                for (var p = startPage; p <= endPage; p++) {
+							if (currentPage == p) {
+				                   $li3 = $("<li>")
+								   $a3 = $("<a>").addClass("page-link").html(p);
+							} else {
+		                          $li3 = $("<li>")
+								  $a3 = $("<a>").addClass("page-link text-primary").attr("href",boardType + "?cp=" + p).html(p);
+							}
+	                        $li3.append($a3);
+	                        $(".pagination").append($li3);
+						}
+		                
+		                
+		               
+		               if (maxPage > endPage) {
+		            	   var operand2 = (currentPage + (pagingBarSize-1)) / pagingBarSize;
+		            	   var next = operand2 * pagingBarSize + 1;
+		            	   $li4 = $("<li>")
+						   $a4 = $("<a>").addClass("page-link text-primary").attr("href",boardType + "?cp=" + next).html("&gt;");
+		            	   
+		            	   $li5 = $("<li>")
+						   $a5 = $("<a>").addClass("page-link text-primary").attr("href",boardType + "?cp=" + maxPage).html("&gt;&gt;");
+		            	   
+		            	   $li4.append($a4);
+		            	   $li5.append($a5);
+		            	   $(".pagination").append($li4, $li5);
+						} 
 						
 					},error : function(){
 						console.log("통신 실패");
 					}
 				});
+				
+
             });
          	
+
 
         </script>
 </body>
