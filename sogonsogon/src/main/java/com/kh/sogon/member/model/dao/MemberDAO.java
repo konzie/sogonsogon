@@ -48,6 +48,15 @@ public class MemberDAO {
 		return sqlSession.selectOne("memberMapper.findId", map);
 	}
 
+	/** 비밀번호찾기 DAO (임시비밀번호로 변경)
+	 * @param paramMap
+	 * @return
+	 */
+	public int findPwd(Map<String, Object> paramMap) {
+		return sqlSession.update("memberMapper.findPwd", paramMap);
+
+	}
+
 	
 	
 	

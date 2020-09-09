@@ -27,7 +27,15 @@ public class MemberServiceImpl implements MemberService {
 	      if(loginMember!=null) {
 	    	  if(!bcPwd.matches(member.getMemberPwd(), loginMember.getMemberPwd())) {
 	    		 
+	    		  // 임시비밀번호 발급받은사람일때
+	    		  if(member.getMemberPwd().equals(loginMember.getMemberPwd())) {
+	    			  loginMember.setMemberPwd(null);
+	    			  
+	    		  } else {
+	    		  // 임시비밀번호 발급받은사람아닐때	    		  
 	    		  loginMember = null;
+	    		  
+	    		  }
 	    	  }else {
 	              loginMember.setMemberPwd(null);
 	           }
@@ -59,6 +67,14 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public String findId(Map<String, Object> map) {
 		return memberDAO.findId(map);
+	}
+
+	// 비밀번호 찾기
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public int findPwd(Map<String, Object> paramMap) {
+		
+		return memberDAO.findPwd(paramMap);
 	}
 
 	
