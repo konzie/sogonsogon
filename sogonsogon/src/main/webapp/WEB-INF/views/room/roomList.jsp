@@ -431,7 +431,7 @@
                        참여 비밀 번호가 필요한 채팅방입니다.<br>
                        방장이 알려준 참여 비밀 번호를 입력해 주세요.
                  </p>
-                  <input type="password" placeholder="영문/숫자 4~10자리"  name="roomPassword"> 
+                  <input type="password" placeholder="영문/숫자 4~10자리"  name="inputPwd	"> 
   	<input type="hidden"  class="hiddenNo" name="roomNo"> <!--  hiddenNo 영역보일시 display:none처리-->
               </div>
 
@@ -483,10 +483,6 @@
 			});
 	});
 	
-
-	
-	
-
 
 </script>
 </body>
