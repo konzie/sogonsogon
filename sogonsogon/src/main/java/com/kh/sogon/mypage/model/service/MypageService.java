@@ -3,7 +3,7 @@ package com.kh.sogon.mypage.model.service;
 import java.util.List;
 
 import com.kh.sogon.board.model.vo.Board;
-import com.kh.sogon.board.model.vo.HelpBoard;
+import com.kh.sogon.help.model.vo.Help;
 import com.kh.sogon.member.model.vo.Member;
 import com.kh.sogon.board.model.vo.PageInfo;
 
@@ -18,14 +18,14 @@ public interface MypageService {
 	 * @param loginMember
 	 * @return result
 	 */
-	public abstract String checkPwd(Member loginMember);
+	public abstract int checkPwd(Member loginMember);
 
 	/** 회원 정보 수정 Service
 	 * @param loginMember
 	 * @param newPwd1
 	 * @return Member
 	 */
-	public abstract int updateInfo(Member loginMember, String newPwd1);
+	public abstract int updateInfo(Member upMember);
 
 	/** 회원 탈퇴 Service
 	 * @param memberNo
@@ -57,12 +57,6 @@ public interface MypageService {
 	 */
 	public abstract List<Member> selectMList(PageInfo pInfo);
 
-	/** 회원 정보 수정 Service
-	 * @param upMember
-	 * @return member
-	 */
-	public abstract int updateMember(Member upMember);
-
 	/** 고객센터 페이징 처리를 위한 Service
 	 * @param cp
 	 * @return pageIn
@@ -74,7 +68,7 @@ public interface MypageService {
 	 * @param pInfo
 	 * @return boardList
 	 */
-	public abstract List<HelpBoard> selectQList(PageInfo pInfo);
+	public abstract List<Help> selectQList(PageInfo pInfo);
 
 
 }

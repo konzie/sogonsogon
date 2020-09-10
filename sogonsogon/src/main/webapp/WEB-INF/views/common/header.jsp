@@ -106,7 +106,7 @@ select {
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="${contextPath}/board/boardList">자유게시판</a></li>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="${contextPath}/room/roomList">방 리스트</a></li>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#">즐겨찾기</a></li>
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="${contextPath}/board/helpList">고객센터</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="${contextPath}/help/helpList">고객센터</a></li>
                         <li class="nav-item">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
              
                          <c:choose>
@@ -207,7 +207,7 @@ select {
                 </form>
                 <a href="${contextPath}/member/findIdForm" class="forgot-password-link">아이디 찾기 </a>
                 &nbsp;
-                <a href="#" class="forgot-password-link">비밀번호 찾기</a>
+                <a href="${contextPath}/member/findPwdForm" class="forgot-password-link">비밀번호 찾기</a>
                 <p class="login-card-footer-text">
                 <a href="${contextPath}/member/signUpView" class="text-reset">회원가입</a></p>
         

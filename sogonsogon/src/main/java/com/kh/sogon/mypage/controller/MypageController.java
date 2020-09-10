@@ -14,7 +14,7 @@ import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kh.sogon.board.model.vo.Board;
-import com.kh.sogon.board.model.vo.HelpBoard;
+import com.kh.sogon.help.model.vo.Help;
 import com.kh.sogon.member.model.vo.Member;
 import com.kh.sogon.board.model.vo.PageInfo;
 import com.kh.sogon.mypage.model.service.MypageService;
@@ -48,50 +48,54 @@ public class MypageController {
 		return "mypage/myroom";
 		}
 
+	// 회원 정보 수정 메뉴 클릭 시
 	@RequestMapping("myInfo")
 	public String myInfo() {
 
 		return "mypage/myInfo";
 	}
 	
-	@Autowired // bcrypt 암호화 객체 의존성 주입(DI)
-	private BCryptPasswordEncoder bcPwd;
+	// 비밀번호 확인
 	@ResponseBody
 	@RequestMapping("checkPwd")
 	public int checkPwd(String memberPass, Model model, RedirectAttributes rdAttr) {
 		
 		Member loginMember = (Member)model.getAttribute("loginMember");
+		
 		loginMember.setMemberPwd(memberPass);
 		
-		String checkPass = mypageService.checkPwd(loginMember);
-		
-		int result = 1;
-		
-		if(checkPass != null) { 
-			if(bcPwd.matches(loginMember.getMemberPwd(), checkPass)) {
-				result=0;
-			}
-		}
+		int result = mypageService.checkPwd(loginMember);
 		
 		return result;
 	}
+	
+	// 비밀번호 확인 후 넘어가기
+	@RequestMapping("myInfoView")
+	public String myInfoView(Member member, Model model, RedirectAttributes rdAttr) {
+		return "mypage/myInfoView";
+		
+	}
+	
 	// 회원 정보 수정
 	@RequestMapping("updateInfo")
-	public String myInfo2(Member upMember, Model model, RedirectAttributes rdAttr) {
+	public String myInfo2(String pwd1,String nick, String tel1, String tel2, String tel3, String interest, Member upMember, Model model, RedirectAttributes rdAttr) {
 
 		Member loginMember = (Member)model.getAttribute("loginMember");
 		
-		upMember.setMemberNo(loginMember.getMemberNo());
-		upMember.setMemberId(loginMember.getMemberId());
-		upMember.setMemberName(loginMember.getMemberName());
-		upMember.setMemberNick(loginMember.getMemberNick());
-		upMember.setMemberAge(loginMember.getMemberAge());
-		upMember.setMemberPhone(loginMember.getMemberPhone());
-		upMember.setMemberEmail(loginMember.getMemberEmail());
-		upMember.setMemberInterest(loginMember.getMemberInterest());
+		System.out.println("loginMember : " + loginMember);
 		
+		String tel = tel1 + "-" + tel2 + "-" + tel3;
+		
+		upMember.setMemberPwd(pwd1);
+		upMember.setMemberNick(nick);
+		upMember.setMemberPhone(tel);
+		
+		System.out.println(interest);
+		upMember.setMemberInterest(interest);
+		
+		System.out.println("upMember : " +upMember);
 		// 회원 정보 수정 Service 호출
-		int result = mypageService.updateMember(upMember);
+		int result = mypageService.updateInfo(upMember);
 		String status=null;
 		String msg=null;
 		
@@ -107,9 +111,8 @@ public class MypageController {
 		rdAttr.addFlashAttribute("status",status);
 		rdAttr.addFlashAttribute("msg",msg);
 		
-		return "mypage/myInfo2";
-		}
-	
+		return "mypage/board";
+	}
 	// 신고사항 조회
 	@RequestMapping("adminreport")
 	public String adminreport() {
@@ -122,7 +125,7 @@ public class MypageController {
 		
 		PageInfo pInfo = mypageService.qnaPage(cp);
 		
-		List<HelpBoard> helpList = mypageService.selectQList(pInfo);
+		List<Help> helpList = mypageService.selectQList(pInfo);
 		                                                                   
 		model.addAttribute("helpList", helpList);
 		model.addAttribute("pInfo", pInfo);

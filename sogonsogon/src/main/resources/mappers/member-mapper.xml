@@ -49,7 +49,11 @@
 	FROM MEMBER WHERE MEMBER_NM = #{memberName} AND MEMBER_PHONE=#{memberPhone}
 	</select>
 	
-	
+	<!-- 비밀번호 찾기 -->
+	<update id="findPwd" parameterType="map">
+		UPDATE MEMBER SET MEMBER_PWD=#{pw} 
+		WHERE MEMBER_NM = #{memberName} AND MEMBER_PHONE=#{memberPhone} AND MEMBER_ID=#{memberId} AND MEMBER_STATUS = 'Y'
+	</update>
 	
 	
 </mapper>

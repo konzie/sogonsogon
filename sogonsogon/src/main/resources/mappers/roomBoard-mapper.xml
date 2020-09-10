@@ -16,11 +16,48 @@
     </resultMap>
     
 	<select id="roomBoardSelectList" parameterType="_int" resultMap="roomBoardResultSet">
-		SELECT ROOM_BOARD_NO, ROOM_BOARD_TYPE, ROOM_BOARD_TITLE, MEMBER_ID, ROOM_BOARD_CREATE_DATE, ROOM_BOARD_READ_COUNT
+		SELECT ROOM_BOARD_NO, ROOM_BOARD_TYPE, ROOM_BOARD_TITLE, MEMBER_ID, ROOM_BOARD_CREATE_DATE, ROOM_BOARD_READ_COUNT, ROOM_BOARD_TYPE, ROOM_BOARD_MODIFY_DATE
 		FROM ROOMBOARD
 		JOIN MEMBER ON (ROOM_BOARD_WRITER = MEMBER_NO)
 		WHERE ROOM_NO = #{roomNo}
 		AND ROOM_BOARD_STATUS = 'Y'
 		ORDER BY ROOM_BOARD_NO DESC
 	</select>
+	
+	<select id="getListCount" resultType="_int">
+		SELECT COUNT(*) FROM ROOMBOARD
+		WHERE ROOM_NO = #{roomNo}
+	</select>
+	
+	<!-- 게시글 삭제용 쿼리 -->
+	<update id="deleteBoard" parameterType="_int">
+		UPDATE ROOMBOARD SET ROOM_BOARD_STATUS = 'N' WHERE ROOM_BOARD_NO = #{boardNo}
+	</update>
+	
+	<!-- 게시글 상세 조회 -->
+	<select id="selectBoard" parameterType="_int" resultMap="roomBoardResultSet">
+		SELECT ROOM_BOARD_NO, ROOM_BOARD_TYPE, ROOM_BOARD_TITLE,ROOM_BOARD_CONTENT, MEMBER_ID, ROOM_BOARD_CREATE_DATE, ROOM_BOARD_READ_COUNT
+		FROM ROOMBOARD
+		JOIN MEMBER ON (ROOM_BOARD_WRITER = MEMBER_NO)
+		WHERE ROOM_BOARD_NO = #{boardNo} 
+		AND ROOM_BOARD_STATUS = 'Y'
+	</select>
+	
+	<!-- 조회 수 증가 쿼리 -->
+	<update id="increaseCount" parameterType="_int">
+		UPDATE ROOMBOARD SET
+		ROOM_BOARD_READ_COUNT = ROOM_BOARD_READ_COUNT+1
+		WHERE ROOM_BOARD_NO = #{boardNo}
+	</update>
+	
+	<!-- 다음 게시글 번호 조회 -->
+    <select id="selectNextNo" resultType="_int">
+        SELECT SEQ_ROOMBOARD.NEXTVAL FROM DUAL
+    </select>
+    
+    <!-- 게시글 삽입 -->
+    <insert id="insertBoard" parameterType="RoomBoard">
+      INSERT INTO ROOMBOARD
+      VALUES (#{roomBoardNo},#{roomNo},#{roomBoardType},#{roomBoardTitle},#{roomBoardContent}, #{roomBoardWriter}, DEFAULT, SYSDATE, DEFAULT, 0)
+   </insert>
 </mapper>

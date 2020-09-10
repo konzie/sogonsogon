@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.sogon.member.model.vo.Member;
 import com.kh.sogon.board.model.vo.Board;
-import com.kh.sogon.board.model.vo.HelpBoard;
+import com.kh.sogon.help.model.vo.Help;
 import com.kh.sogon.board.model.vo.PageInfo;
 
 @Repository
@@ -23,8 +23,8 @@ public class MypageDAO {
 	 * @param memberNo
 	 * @return result
 	 */
-	public String checkPwd(Member loginMember) {
-		return sqlSession.selectOne("myapageMapper.checkPwd", loginMember.getMemberNo());
+	public String checkPwd(int memberNo) {
+		return sqlSession.selectOne("myapageMapper.checkPwd", memberNo);
 	}
 
 
@@ -33,10 +33,9 @@ public class MypageDAO {
 	 * @param newPwd1
 	 * @return result
 	 */
-	public int updateInfo(Member loginMember, String newPwd1) {
-		return sqlSession.update("myapageMapper.updateInfo", loginMember);
+	public int updateInfo(Member upMember) {
+		return sqlSession.update("myapageMapper.updateInfo", upMember);
 	}
-
 
 	/** 회원 탈퇴 DAO
 	 * @param memberNo
@@ -92,7 +91,7 @@ public class MypageDAO {
 	}
 
 
-	public List<HelpBoard> selectQList(PageInfo pInfo) {
+	public List<Help> selectQList(PageInfo pInfo) {
 		
 		int offset = (pInfo.getCurrentPage() - 1) * pInfo.getLimit();
 		

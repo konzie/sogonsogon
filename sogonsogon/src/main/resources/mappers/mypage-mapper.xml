@@ -21,7 +21,7 @@
 	</resultMap>
 
 	<!-- 고객센터 -->
-	<resultMap id="helpResultSet" type="helpBoard" >
+	<resultMap id="helpResultSet" type="Help" >
         <id property="helpNo" column="HELP_NO"/>
         <result property="helpCategory" column="HELP_CATEGORY"/>
         <result property="helpTitle" column="HELP_TITLE"/>
@@ -30,12 +30,11 @@
         <result property="helpCreateDate" column="HELP_CREATE_DATE"/>
         <result property="helpModifyDate" column="HELP_MODIFY_DATE"/>
         <result property="helpStatus" column="HELP_STATUS"/>
-        <result property="boardType" column="BOARD_TYPE"/>
-        <result property="writeName" column="WRITER_NAME"/>
+        <result property="writerName" column="WRITER_NAME"/>
     </resultMap>
      
      <!-- 자유질문방 -->
-	<resultMap id="qnaResultSet" type="board" >
+	<resultMap id="qnaResultSet" type="Board" >
         <id property="qnaNo" column="QNA_NO"/>
         <result property="qnaCategory" column="QNA_CATEGORY"/>
         <result property="qnaTitle" column="QNA_TITLE"/>
@@ -49,12 +48,12 @@
     
 	<!-- 비밀번호 찾기 -->
 	<select id="checkPwd" parameterType="_int" resultType="string">
-		SELECT MEMBER_PWD FROM MEMBER WHERE MEMBER_NO=#{memberNo}
+		SELECT MEMBER_PWD FROM MEMBER WHERE MEMBER_NO = 1
 	</select>
 	
 	<!-- 회원 정보 변경 -->
 	<update id="updateInfo" parameterType="Member">
-		UPDATE MEMBER SET MEMBER_PWD=#{memberPwd}, MEMBER_PHONE=#{memberPhone}, MEMBER_EMAIL=#{memberEmail}, MEMBER_NICK=#{memberNick}, MEMBER_INTEREST=#{memberInterest} WHERE MEMBER_NO = #{memberNo}
+		UPDATE MEMBER SET MEMBER_PWD=#{memberPwd}, MEMBER_NICK=#{memberNick}, MEMBER_PHONE=#{memberPhone}, MEMBER_INTEREST=#{memberInterest} WHERE MEMBER_NO = #{memberNo}
 	</update>
 	
 	<!-- 회원 탈퇴 -->
@@ -74,12 +73,12 @@
 			
 	<!-- 공지사항 수 조회 -->
 	<select id="getListNCount" resultType="_int">
-		SELECT COUNT(*) FROM QNABOARD WHERE WRITER = 1
+		SELECT COUNT(*) FROM QNABOARD WHERE QNA_WRITER = 1
 	</select>
 	
 	<!-- 총 NoticeList 조회 -->
 	<select id="selectNList" resultMap="qnaResultSet">
-		SELECT * FROM QNABOARD JOIN MEMBER ON(WRITER=MEMBER_NO)WHERE WRITER = 1 ORDER BY QNA_CREATE_DATE DESC
+		SELECT * FROM QNABOARD JOIN MEMBER ON(QNA_WRITER=MEMBER_NO)WHERE QNA_WRITER = 1 ORDER BY QNA_CREATE_DATE DESC
 	</select>
 		
 	<!-- 멤버 수 조회 -->
