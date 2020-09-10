@@ -13,6 +13,7 @@ import com.kh.sogon.board.model.vo.PageInfo;
 import com.kh.sogon.member.model.vo.Member;
 import com.kh.sogon.room.model.dao.RoomDAO;
 import com.kh.sogon.room.model.vo.Room;
+import com.kh.sogon.room.model.vo.RoomMember;
 
 @Service
 public class RoomServiceImpl implements RoomService{
@@ -118,9 +119,16 @@ public class RoomServiceImpl implements RoomService{
 		return roomDAO.createRoom(room);
 	}
 
+	// 모달 정보 조회 Service 구현
 	@Override
 	public Room roomMList(int roomNo) {
 		return roomDAO.roomMList(roomNo);
+	}
+
+	// 방 가입 여부 조회 Service 구현
+	@Override
+	public List<RoomMember> selectRoomMember(int roomMemberRoomNo) {
+		return roomDAO.selectRoomMember(roomMemberRoomNo);
 	}
 
 

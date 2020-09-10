@@ -10,6 +10,8 @@ public class Help {
 	private String helpWriter;
 	private Timestamp helpCreateDate;
 	private Timestamp helpModifyDate;
+	private String helpStatus;
+	private String WriterName;
 	
 	
 	public Help() {
@@ -100,11 +102,32 @@ public class Help {
 	}
 
 
+	public String getHelpStatus() {
+		return helpStatus;
+	}
+
+
+	public void setHelpStatus(String helpStatus) {
+		this.helpStatus = helpStatus;
+	}
+
+
+	public String getWriterName() {
+		return WriterName;
+	}
+
+
+	public void setWriterName(String writerName) {
+		WriterName = writerName;
+	}
+
+
 	@Override
 	public String toString() {
 		return "Help [helpNo=" + helpNo + ", helpCategory=" + helpCategory + ", helpTitle=" + helpTitle
 				+ ", helpContent=" + helpContent + ", helpWriter=" + helpWriter + ", helpCreateDate=" + helpCreateDate
-				+ ", helpModifyDate=" + helpModifyDate + "]";
+				+ ", helpModifyDate=" + helpModifyDate + ", helpStatus=" + helpStatus + ", WriterName=" + WriterName
+				+ "]";
 	}
 
 	

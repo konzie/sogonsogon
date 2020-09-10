@@ -57,7 +57,7 @@
                 <c:choose>
           			<c:when test="${empty boardList}">
 		         		<tr>		
-		         			<td colspan="6" align="center">존재하는 게시글이 없습니다.</td>
+		         			<td colspan="6" align="center">신고된 게시글이 없습니다.</td>
 		         		</tr>
           			</c:when>	
           			<c:otherwise>
@@ -90,19 +90,52 @@
                 </tbody>
             </table>
             
-            <div class="page" align="center">
-                <ul class="pagination">
-                    <li class="page-item"><a href="#" class="page-link">Previous</a></li>
-                    <li class="page-item"><a href="#" class="page-link">1</a></li>
-                    <li class="page-item"><a href="#" class="page-link">2</a></li>
-                    <li class="page-item"><a href="#" class="page-link">3</a></li>
-                    <li class="page-item active"><a href="#" class="page-link">4</a></li>
-                    <li class="page-item"><a href="#" class="page-link">5</a></li>
-                    <li class="page-item"><a href="#" class="page-link">6</a></li>
-                    <li class="page-item"><a href="#" class="page-link">7</a></li>
-                    <li class="page-item"><a href="#" class="page-link">Next</a></li>
-                </ul>
-            </div>
+            <div class="my-4">
+            <ul class="pagination">
+               <c:if test="${pInfo.currentPage  > pInfo.pagingBarSize}">   
+                   <li>
+                   	<a class="page-link text-primary" href="?cp=1">&lt;&lt;</a>
+                   </li>
+                   <li>
+                      <fmt:parseNumber var="operand1" value="${(pInfo.currentPage-1)/pInfo.pagingBarSize}" integerOnly="true" />
+                      <c:set var="prev" value="${operand1 * 10 }" />
+                      <a class="page-link text-primary" href="?cp=${prev}">&lt;</a>
+                   </li>
+                </c:if>
+                
+                <!-- 10개의 페이지 목록 -->
+                <c:forEach var="p" begin="${pInfo.startPage}" end="${pInfo.endPage}">
+                   <c:choose>
+                      <c:when test="${p==pInfo.currentPage}">
+                         <li><a class="page-link">${p}</a></li>
+                      </c:when>
+                      <c:otherwise>
+                         <li>
+                        <%-- <a class="page-link text-primary" href="${pInfo.boardType}?cp=${p}">${p}</a> --%>
+                            <a class="page-link text-primary" href="?cp=${p}">${p}</a>
+                         </li>
+                      </c:otherwise>
+                   </c:choose>
+                </c:forEach>
+                
+                
+                 <!-- 다음 페이지로(>) -->
+                <!-- next 생성 식:(현재페이지+9)/10*10+1 -->
+                <c:if test="${pInfo.maxPage>pInfo.endPage}">
+                <!-- 다음페이지(>) -->
+                   <li>
+                   <fmt:parseNumber var="operand2" value="${(pInfo.currentPage+9)/10}" integerOnly="true"/>
+                   <c:set var="next" value="${operand2*10+1}"/>
+                     <a class="page-link text-primary" href="?cp=${next}">&gt;</a>
+                   </li>
+                   
+                   <!-- 맨 끝으로(>>) -->
+                   <li>
+                       <a class="page-link text-primary" href="?cp=${pInfo.maxPage}">&gt;&gt;</a>
+                   </li>
+                </c:if>
+            </ul>
+        </div> 
         </div>
     </div>    
    

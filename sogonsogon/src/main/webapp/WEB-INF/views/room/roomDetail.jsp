@@ -10,6 +10,11 @@
         #list-table td{
         cursor : pointer;
         }
+        
+        .boardTitle > img{
+           width: 50px;
+           height: 50px;
+        }
 </style>
 </head>
 <body>
@@ -153,13 +158,27 @@
 						var boardType = object.pInfo.boardType;
 						var maxPage = object.pInfo.maxPage;
 						
+						console.log(object.thList);
+
 						
 						$.each(object.rbList, function(i){
 							$table = $("#list-table > tbody");
 							$tr = $("<tr>");
 							$td1 = $("<td>").text(object.rbList[i].roomBoardNo);
 							$td2 = $("<td>").text(object.rbList[i].roomBoardType);
-							$td3 = $("<td>").text(object.rbList[i].roomBoardTitle);
+							$td3 = $("<td>").addClass("boardTitle");
+							for (var j = 0; j < object.thList.length; j++) {
+								
+								if (object.thList[j].parentBoardNo == object.rbList[i].roomBoardNo) {
+									var src = "${contextPath}" + object.thList[j].filePath + "/" +  object.thList[j].fileChangeName;
+									console.log(src);
+									$thImg = $("<img>").attr("src",src);
+									$td3.append($thImg);
+								}
+							}
+							
+							 $td3.append(object.rbList[i].roomBoardTitle);
+							
 							$td4 = $("<td>").text(object.rbList[i].roomBoardWriter);
 							$td5 = $("<td>").text(object.rbList[i].roomBoardCreateDate);
 							$td6 = $("<td>").text(object.rbList[i].roomBoardReadCount);

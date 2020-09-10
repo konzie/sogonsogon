@@ -11,6 +11,8 @@ public class Board {
 	private String qnaAnswer;
 	private Date qnaModifyDate;
 	private Date qnaCreateDate;
+	private String writer;
+	private String writerName;
 	private String qnaContent;
 	private String qnaWriter;
 	public Board(){
@@ -117,8 +119,22 @@ public class Board {
 		this.qnaCreateDate = qnaCreateDate;
 	}
 
+	public String getWriter() {
+		return writer;
+	}
 
+	public void setWriter(String writer) {
+		this.writer = writer;
+	}
 
+	public String getWriterName() {
+		return writerName;
+	}
+
+	public void setWriterName(String writerName) {
+		this.writerName = writerName;
+	}
+	
 	public String getQnaContent() {
 		return qnaContent;
 	}
@@ -141,19 +157,12 @@ public class Board {
 		this.qnaWriter = qnaWriter;
 	}
 
-
-
 	@Override
 	public String toString() {
 		return "Board [qnaNo=" + qnaNo + ", qnaCategory=" + qnaCategory + ", qnaTitle=" + qnaTitle + ", qnaStatus="
 				+ qnaStatus + ", qnaAnswer=" + qnaAnswer + ", qnaModifyDate=" + qnaModifyDate + ", qnaCreateDate="
-				+ qnaCreateDate + ", qnaContent=" + qnaContent + ", qnaWriter=" + qnaWriter + "]";
+				+ qnaCreateDate + ", writer=" + writer + ", writerName=" + writerName + ", qnaContent=" + qnaContent
+				+ ", qnaWriter=" + qnaWriter + "]";
 	}
-
-
-
-
-	
-	
 	
 }

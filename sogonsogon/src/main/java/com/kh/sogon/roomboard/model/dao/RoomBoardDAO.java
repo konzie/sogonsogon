@@ -86,4 +86,45 @@ public class RoomBoardDAO {
 		sqlSession.delete("roomBoardMapper.deleteAttachment", boardNo);
 	}
 
+	/** 게시글 이미지 조회 DAO
+	 * @param boardNo
+	 * @return result
+	 */
+	public List<RoomBoardAttachment> selectFiles(int boardNo) {
+		return sqlSession.selectList("roomBoardMapper.selectFiles", boardNo);
+	}
+
+	/** 게시글 썸네일 목록 조회 DAO
+	 * @param rbList
+	 * @return thList
+	 */
+	public List<RoomBoardAttachment> selectThumbnailList(List<RoomBoard> rbList) {
+		return sqlSession.selectList("roomBoardMapper.selectThumbnailList", rbList);
+	}
+
+	
+	/** 게시글 수정 DAO
+	 * @param upBoard
+	 * @return result
+	 */
+	public int updateBoard(RoomBoard upBoard) {
+		return sqlSession.update("roomBoardMapper.updateBoard", upBoard);
+	}
+
+	/** 파일 수정 DAO
+	 * @param at
+	 * @return result
+	 */
+	public int updateAttachment(RoomBoardAttachment at) {
+		return sqlSession.update("roomBoardMapper.updateAttachment", at);
+	}
+
+	/** 파일 1개 정보 삭제 DAO
+	 * @param fileNo
+	 * @return result
+	 */
+	public int deleteAttachment2(int fileNo) {
+		return sqlSession.delete("roomBoardMapper.deleteAttachment2", fileNo);
+	}
+
 }

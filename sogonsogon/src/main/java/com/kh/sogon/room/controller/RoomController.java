@@ -1,6 +1,8 @@
 package com.kh.sogon.room.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -21,6 +23,7 @@ import com.kh.sogon.board.model.vo.PageInfo;
 import com.kh.sogon.member.model.vo.Member;
 import com.kh.sogon.room.model.service.RoomService;
 import com.kh.sogon.room.model.vo.Room;
+import com.kh.sogon.room.model.vo.RoomMember;
 
 @SessionAttributes({"loginMember"})
 @Controller
@@ -36,6 +39,7 @@ public class RoomController {
 		@RequestMapping("roomList")
 		public String roomView(@RequestParam(value="cp" , required=false, defaultValue ="1" )  int cp,
 												Model model) {
+			//  ------------------------------------ 페이징, 방 목록 조회 ------------------------------------
 			PageInfo pInfo = roomService.pagination(cp);
 			
 			 List<Room> roomList = roomService.selectList(pInfo);
@@ -43,6 +47,14 @@ public class RoomController {
 
 			 model.addAttribute("roomList", roomList);
 			 model.addAttribute("pInfo", pInfo);
+			 
+			//  ------------------------------------ ROOM_MEMBER테이블조회 ------------------------------------
+			// room_member테이블에서 가입한 ROOM_MEMBER_ROOM_NO를 조회하고 
+			// 그 값을 화면에 넘겨 비밀번호화면 유무 조건 추가
+			 // 로그인한 회원 no를 넘기는 방법은 오류가뜸
+			 Member loginMember = (Member)model.getAttribute("loginMember");
+
+	         model.addAttribute("loginMember", loginMember);
 			 
 			return "room/roomList";
 		}
@@ -108,7 +120,7 @@ public class RoomController {
 			int memberNo = loginMember.getMemberNo();
 			room.setMemberNo(memberNo);
 			
-			System.out.println("CONTROLLER"+room);
+			// System.out.println("CONTROLLER"+room);
 			int result = roomService.createRoom(room);
 			
 			String path = null;
@@ -126,10 +138,20 @@ public class RoomController {
 		@ResponseBody
 		@RequestMapping("roomMList/{roomNo}")
 		public String roomMList(@PathVariable int roomNo, Model model) {
-			
 			Room room = roomService.roomMList(roomNo);
+			
+			 Member loginMember = (Member)model.getAttribute("loginMember");
+			 int MemberNo = loginMember.getMemberNo();
+			 List<RoomMember> roomMember = roomService.selectRoomMember(MemberNo);
+			for(RoomMember no : roomMember) { System.out.println(no); }
+	 	
+			Map<String, Object> map = new HashMap<>();
+			map.put("room", room);
+			map.put("roomMember", roomMember);
+			
 			Gson gson = new Gson();
-			return gson.toJson(room);
+			return gson.toJson(map);
+			
 		}
 		
 
