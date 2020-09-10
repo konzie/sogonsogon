@@ -24,8 +24,8 @@ public class Room {
 		return roomNo;
 	}
 
-	public void setRoomNo(int rommNo) {
-		this.roomNo = rommNo;
+	public void setRoomNo(int roomNo) {
+		this.roomNo = roomNo;
 	}
 
 	public int getMemberNo() {

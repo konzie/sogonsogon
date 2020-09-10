@@ -162,4 +162,121 @@ public class RoomBoardServiceImpl implements RoomBoardService {
 
         return date + "" + str + ext;
     }
+
+ // 게시글 이미지 조회 구현 Service
+	@Override
+	public List<RoomBoardAttachment> selectFiles(int boardNo) {
+		return roomBoardDAO.selectFiles(boardNo);
+	}
+
+	// 게시글 썸네일 목록 조회 Service 구현
+	@Override
+	public List<RoomBoardAttachment> selectThumbnailList(List<RoomBoard> rbList) {
+		return roomBoardDAO.selectThumbnailList(rbList);
+	}
+
+	// 게시글 수정 구현 Service
+    @Transactional(rollbackFor = Exception.class)
+	@Override
+	public int updateBoard(RoomBoard upBoard, String savePath, List<MultipartFile> images, boolean[] deleteImages) {
+  	// images : 수정된 파일 리스트
+    	
+    	upBoard.setRoomBoardContent(replaceParameter(upBoard.getRoomBoardContent()));
+		int result = roomBoardDAO.updateBoard(upBoard); // 게시글만 수정
+		
+		if(result > 0) {
+			// 1) 이전 업로드 파일 목록 조회
+			List<RoomBoardAttachment> oldFiles = roomBoardDAO.selectFiles(upBoard.getRoomBoardNo());
+			
+			// DB에 저장할 웹상에서의 이미지 접근 경로
+			String filePath = "/resources/uploadImages";
+			
+			List<RoomBoardAttachment> files = new ArrayList<RoomBoardAttachment>(); // 파일 정보를 모아 놓을 List
+			List<RoomBoardAttachment> removeFiles = new ArrayList<RoomBoardAttachment>(); // 서버측 파일 제거 List
+			RoomBoardAttachment at = null; // 임시로 사용할 참조 변수
+			for (int i = 0; i < images.size(); i++) {
+				if(!images.get(i).getOriginalFilename().equals("")) {
+					// 현재 접근중인 images 요소의 실제 파일명이 빈 문자열이 아닐 경우
+					// == 수정된 이미지가 업로드된 경우
+					
+					// 파일명 변경(rename 작업)
+					String changeFileName = rename(images.get(i).getOriginalFilename());
+					
+					// 수정된 이미지 파일 정보를 저장할 Attachment 객체 생성
+					at = new RoomBoardAttachment(upBoard.getRoomBoardNo(), images.get(i).getOriginalFilename(), changeFileName, filePath, i);
+					
+					// 기존 이미지가 존재하는 경우 -> update
+					// 기존 이미지가 존재하지 않는 경우 -> insert
+					
+					boolean flag = false; // 기존 이미지가 존재하는 경우 true, 아니면 false;
+					for (RoomBoardAttachment old : oldFiles) {
+						if(old.getFileLevel() == i) {
+							// 현재 접근한 이전 파일의 레벨이
+							// 새롭게 업로드된 (수정된) 파일의 레벨과 같을 경우
+							// == 이전 파일이 새로운 파일로 수정이 된 경우
+							
+							flag = true;
+							removeFiles.add(old); // 서버 파일 제거 List에 수정 예정인 이전 파일 정보를 저장
+							
+							at.setFileNo(old.getFileNo());
+							// 이전 파일의 번호를 얻어와
+							// DB상에서 데이터 수정할 수 있게
+							// 새로운 파일에 번호 세팅
+							break;
+						}
+					}
+					
+					if(flag) {
+						// update
+						result = roomBoardDAO.updateAttachment(at);
+					} else {
+						// insert
+						result = roomBoardDAO.insertAttachment(at);
+					}
+				} else { // if end
+					// 업로드(수정)된 이미지가 없을 경우
+					if(deleteImages[i]) { // 삭제 버튼이 눌러진 인덱스인 경우
+						for (RoomBoardAttachment old : oldFiles) {
+							// 이전 이미지 파일 목록에 반복 접근하여
+							// 삭제 버튼이 눌러진 인덱스(== 파일레벨)와
+							// 이전 이미지 중 가은 파일레벨을 가지고 있는 DB 정보를 삭제
+							if(old.getFileLevel() == i) {
+								result = roomBoardDAO.deleteAttachment2(old.getFileNo());
+								
+								// 서버측 파일 삭제 목록에 해당 파일 정보를 추가
+								removeFiles.add(old);
+							}
+							
+						}
+					}
+				}
+				files.add(at);
+			} // for end
+			
+			// 수정된 이미지를 서버에 저장
+			if(result > 0) {
+				for (int i = 0; i < images.size(); i++) {
+					if(!images.get(i).getOriginalFilename().equals("")) {
+						try {
+							// transferTo() : 지정된 경로에 업로드된 파일 정보를 실제 파일로 변환
+							images.get(i).transferTo(new File(savePath + "/" + files.get(i).getFileChangeName()));
+						} catch (Exception e) {
+							// 서버에 파일 저장 중 오류 발생 시
+							// -> DB에 있는 파일 정보도 삭제
+							roomBoardDAO.deleteAttachment(upBoard.getRoomBoardNo());
+						}
+					}
+				}
+			}
+			
+			// 제거 목록에 있는 파일 삭제
+			for (RoomBoardAttachment removeFile : removeFiles) {
+				File rm = new File(savePath + "/" + removeFile.getFileChangeName());
+				rm.delete(); // 파일 삭제
+			}
+			
+		}
+		return result;
+	}
+	
 }
