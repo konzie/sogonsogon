@@ -7,7 +7,7 @@ public class HelpPageInfo {
 	private int currentPage;	//현재 페이지 번호
 	private int allCount;		//전체 게시글 수
 	private int limit = 10;			//한 페이지 보여질 게시글 수
-	private int pagingBarSize = 10;	// 보여질 페이징바의 페이지 수
+	private int pagingBarSize = 7;	// 보여질 페이징바의 페이지 수
 	
 	private int maxPage;	//전체 페이지 수(== 가장 마지막 페이지)
 	private int startPage;	//페이징바 시작 페이지 번호
