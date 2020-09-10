@@ -38,11 +38,24 @@
         <id property="qnaNo" column="QNA_NO"/>
         <result property="qnaCategory" column="QNA_CATEGORY"/>
         <result property="qnaTitle" column="QNA_TITLE"/>
-        <result property="writer" column="WRITER"/>
+        <result property="writer" column="QNA_WRITER"/>
         <result property="qnaStatus" column="QNA_STATUS"/>
         <result property="qnaAnswer" column="QNA_ANSWER"/>
         <result property="qnaCreateDate" column="QNA_CREATE_DATE"/>
         <result property="qnaModifyDate" column="QNA_MODIFY_DATE"/>
+        <result property="writerName" column="MEMBER_NM"/>
+    </resultMap>
+    
+         <!-- 자유질문방 댓글 -->
+	<resultMap id="ReplyResultSet" type="Reply" >
+        <id property="replyNo" column="REPLY_NO"/>
+        <id property="qnaNo" column="QNA_NO"/>
+        <result property="content" column="REPLY_CONTENT"/>
+        <result property="replyWriter" column="REPLY_WRITER"/>
+        <result property="replySelect" column="REPLY_SELECT"/>
+        <result property="replyStatus" column="REPLY_STATUS"/>
+        <result property="replyCreateDate" column="REPLY_CREATE_DATE"/>
+        <result property="replyModifyDate" column="REPLY_MODIFY_DATE"/>
         <result property="writerName" column="MEMBER_NM"/>
     </resultMap>
     
@@ -90,5 +103,24 @@
 	<select id="selectMList" resultMap="memberResultSet">
 		SELECT * FROM MEMBER ORDER BY MEMBER_NO DESC
 	</select>
+	
+	<!-- 내가 쓴 글 수 조회 -->
+	<select id="getListBCount" parameterType="_int" resultType="_int">
+		SELECT COUNT(*) FROM QNABOARD WHERE QNA_WRITER = #{writer}
+	</select>
 
+	<!-- 총 boardList 조회 -->
+	<select id="selectBList" parameterType="_int" resultMap="qnaResultSet">
+		SELECT * FROM QNABOARD WHERE QNA_WRITER = #{replyWriter} ORDER BY QNA_CREATE_DATE DESC
+	</select>
+	
+	<!-- 채택된 댓글 수 조회 -->
+	<select id="getListRCount" parameterType="_int" resultType="_int">
+		SELECT COUNT(*) FROM REPLY WHERE REPLY_WRITER = #{replyWriter} AND REPLY_SELECT='Y'
+	</select>
+
+	<!-- 총 replyList 조회 -->
+	<select id="selectRList" parameterType="_int" resultMap="qnaResultSet">
+		SELECT * FROM REPLY JOIN MEMBER ON(REPLY_WRITER=MEMBER_NO) WHERE REPLY_WRITER = #{replyWriter} AND REPLY_SELECT='Y' ORDER BY REPLY_CREATE_DATE DESC
+	</select>
 </mapper>

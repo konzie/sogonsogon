@@ -22,6 +22,10 @@
       #deleteInfo{
       text-decoration: none;
       }
+      
+      #id{
+      style:none;
+      }
 </style>
 </head>
 <body>
@@ -56,16 +60,16 @@
 	        <tr>
 	            <td>전화번호</td>                               
 	            <td>
-	                <select name="tel1">
+	                <select name="tel1" id="tel1">
 	                    <option value="010">010</option>
 	                    <option value="011">011</option>
 	                    <option value="017">017</option>
 	                    <option value="019">019</option>
 	                </select>
 	                -
-	                <input type="tel" name="tel2" placeholder="${loginMember.memberPhone}.substring(3,7)">
+	                <input type="tel" name="tel2" placeholder="${tel2}">
 	                -
-	                <input type="tel" name="tel3" placeholder="${loginMember.memberPhone}.substring(7,11)">
+	                <input type="tel" name="tel3" placeholder="${tel3}">
 	            </td>
 	        </tr>
 	        <tr>
@@ -91,14 +95,17 @@
 	   
 	<script>
 	
-	var memberInterest = "${loginMember.memberInterest}".split(",");
+	var interest = "${loginMember.memberInterest}";
+	consol.log(interest);
+	
+	var memberInterest = interest.split(",");
+	consol.log(memberInterest);
 	
 	$.each($("input[name='interest']"), function(index, item){
-		for(var i=0 ; i<memberInterest.length ; i++){
+		for(var i=0 ; i<memberInterest.length; i++){
 			if($(item).val() == memberInterest[i]){
 				console.log($(item).val());
 				$(item).prop("checked",true);
-				break;
 			}
 		}
 	});

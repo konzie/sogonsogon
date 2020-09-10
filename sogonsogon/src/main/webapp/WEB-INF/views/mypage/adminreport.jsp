@@ -57,7 +57,7 @@
                 <c:choose>
           			<c:when test="${empty boardList}">
 		         		<tr>		
-		         			<td colspan="6" align="center">존재하는 게시글이 없습니다.</td>
+		         			<td colspan="6" align="center">신고된 게시글이 없습니다.</td>
 		         		</tr>
           			</c:when>	
           			<c:otherwise>

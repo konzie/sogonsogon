@@ -11,6 +11,7 @@ import com.kh.sogon.board.model.vo.Board;
 import com.kh.sogon.help.model.vo.Help;
 import com.kh.sogon.member.model.vo.Member;
 import com.kh.sogon.board.model.vo.PageInfo;
+import com.kh.sogon.board.model.vo.Reply;
 import com.kh.sogon.mypage.model.dao.MypageDAO;
 
 @Service
@@ -29,7 +30,6 @@ public class MypageServiceImpl implements MypageService{
 	@Transactional(rollbackFor = Exception.class)	
 	@Override
 	public int checkPwd(Member loginMember) {
-		System.out.println("loginMember : " +loginMember);
 		String savePwd = mypageDAO.checkPwd(loginMember.getMemberNo());
 		
 		int result = 1;
@@ -109,6 +109,39 @@ public class MypageServiceImpl implements MypageService{
 	public List<Member> selectMList(PageInfo pInfo) {
 		return mypageDAO.selectMList(pInfo);
 		
+	}
+
+	// 내가 쓴 글 페이징 처리를 위한 Service 구현
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public PageInfo boardPage(int cp, int memberNo) {
+		int listBCount = mypageDAO.getListBCount(memberNo);
+		
+		pInfo.setPageInfo(cp, listBCount);
+		
+		return pInfo;
+	}
+
+	// 페이징바에 따라 내가 쓴 게시글 조회 Service 구현
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public List<Board> selectBList(PageInfo pInfo, int memberNo) {
+		return mypageDAO.selectBList(pInfo, memberNo);
+	}
+
+	@Override
+	public PageInfo replyPage(int cp, int memberNo) {
+		int listRCount = mypageDAO.getListBCount(memberNo);
+		
+		pInfo.setPageInfo(cp, listRCount);
+		
+		return pInfo;
+
+	}
+
+	@Override
+	public List<Reply> selectRList(PageInfo pInfo, int memberNo) {
+		return mypageDAO.selectRList(pInfo, memberNo);
 	}
  	
 

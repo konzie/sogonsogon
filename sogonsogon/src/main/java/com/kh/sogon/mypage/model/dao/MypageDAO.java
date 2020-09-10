@@ -11,6 +11,7 @@ import com.kh.sogon.member.model.vo.Member;
 import com.kh.sogon.board.model.vo.Board;
 import com.kh.sogon.help.model.vo.Help;
 import com.kh.sogon.board.model.vo.PageInfo;
+import com.kh.sogon.board.model.vo.Reply;
 
 @Repository
 public class MypageDAO {
@@ -100,5 +101,30 @@ public class MypageDAO {
 		return sqlSession.selectList("mypageMapper.selectQList", null, rowBounds);
 	}
 
+
+	public int getListBCount(int memberNo) {
+
+		return sqlSession.selectOne("mypageMapper.getListBCount", memberNo);
+	}
+
+
+	public List<Board> selectBList(PageInfo pInfo, int memberNo) {
+
+		int offset = (pInfo.getCurrentPage() - 1) * pInfo.getLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, pInfo.getLimit());
+		
+		return sqlSession.selectList("mypageMapper.selectBList", memberNo, rowBounds);
+	}
+
+
+	public List<Reply> selectRList(PageInfo pInfo, int memberNo) {
+
+		int offset = (pInfo.getCurrentPage() - 1) * pInfo.getLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, pInfo.getLimit());
+		
+		return sqlSession.selectList("mypageMapper.selectRList", memberNo, rowBounds);
+	}
 	
 }

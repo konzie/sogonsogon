@@ -6,6 +6,8 @@ import com.kh.sogon.board.model.vo.Board;
 import com.kh.sogon.help.model.vo.Help;
 import com.kh.sogon.member.model.vo.Member;
 import com.kh.sogon.board.model.vo.PageInfo;
+import com.kh.sogon.board.model.vo.Reply;
+import com.kh.sogon.boardreply.model.vo.BoardReply;
 
 
 /**
@@ -69,6 +71,31 @@ public interface MypageService {
 	 * @return boardList
 	 */
 	public abstract List<Help> selectQList(PageInfo pInfo);
+
+	/** 내가 쓴 글 페이징 처리를 위한 Service
+	 * @param cp
+	 * @return pageIn
+	 */
+	public abstract PageInfo boardPage(int cp, int memberNo);
+
+	/** 페이징바에 따라 내가 쓴 게시글 조회 Service
+	 * @param pInfo
+	 * @return boardList
+	 */
+	public abstract List<Board> selectBList(PageInfo pInfo, int memberNo);
+
+	/** 채택된 댓글 페이징 처리를 위한 Service
+	 * @param cp
+	 * @return pageIn
+	 */
+	public abstract PageInfo replyPage(int cp, int memberNo);
+
+	/** 페이징바에 따라 채택된 댓글 조회 Service
+	 * @param pInfo
+	 * @return boardList
+	 */
+	public abstract List<Reply> selectRList(PageInfo pInfo, int memberNo);
+
 
 
 }

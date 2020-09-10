@@ -17,7 +17,11 @@ import com.kh.sogon.board.model.vo.Board;
 import com.kh.sogon.help.model.vo.Help;
 import com.kh.sogon.member.model.vo.Member;
 import com.kh.sogon.board.model.vo.PageInfo;
+import com.kh.sogon.board.model.vo.Reply;
+import com.kh.sogon.boardreply.model.vo.BoardReply;
 import com.kh.sogon.mypage.model.service.MypageService;
+
+import sun.security.util.Length;
 
 @SessionAttributes({"loginMember"})
 @Controller
@@ -27,27 +31,46 @@ public class MypageController {
 	@Autowired
 	private MypageService mypageService;
 	
-	
-	@RequestMapping("myboard")
-	public String mypage() {
-			return "mypage/myboard";
-	}
-	
 	@RequestMapping("adminpage")
 	public String adminpage() {
 			return "mypage/adminmain";
 	}
 	
 	@RequestMapping("myreply")
-	public String myreply() {
+	public String myreply(@RequestParam(value="cp", required=false, defaultValue = "1") int cp, Model model) {
+		
+		Member loginMember = (Member)model.getAttribute("loginMember");
+		
+		PageInfo pInfo = mypageService.replyPage(cp, loginMember.getMemberNo());
+		
+		List<Reply> replyList = mypageService.selectRList(pInfo, loginMember.getMemberNo());
+		                                                                   
+		model.addAttribute("replyList", replyList);
+		model.addAttribute("pInfo", pInfo);
+		
 		return "mypage/myreply";
 		}
 	
 	@RequestMapping("myroom")
-	public String myroom() {
+	public String myroom(@RequestParam(value="cp", required=false, defaultValue = "1") int cp, Model model) {
 		return "mypage/myroom";
 		}
-
+	
+	@RequestMapping("myboard")
+	public String mypage(Member member, Model model, @RequestParam(value="cp", required=false, defaultValue = "1") int cp) {
+		
+		Member loginMember = (Member)model.getAttribute("loginMember");
+		
+		PageInfo pInfo = mypageService.boardPage(cp, loginMember.getMemberNo());
+		
+		List<Board> boardList = mypageService.selectBList(pInfo, loginMember.getMemberNo());
+		                                                                   
+		model.addAttribute("boardList", boardList);
+		model.addAttribute("pInfo", pInfo);	
+		
+		return "mypage/myboard";
+	}
+	
 	// 회원 정보 수정 메뉴 클릭 시
 	@RequestMapping("myInfo")
 	public String myInfo() {
@@ -72,8 +95,16 @@ public class MypageController {
 	// 비밀번호 확인 후 넘어가기
 	@RequestMapping("myInfoView")
 	public String myInfoView(Member member, Model model, RedirectAttributes rdAttr) {
-		return "mypage/myInfoView";
 		
+		Member loginMember = (Member)model.getAttribute("loginMember");
+		
+		String tel2 = loginMember.getMemberPhone().substring(3,7);
+		String tel3 = loginMember.getMemberPhone().substring(7,11);	
+	
+		model.addAttribute("tel2", tel2);
+		model.addAttribute("tel3", tel3);
+		
+		return "mypage/myInfoView";
 	}
 	
 	// 회원 정보 수정

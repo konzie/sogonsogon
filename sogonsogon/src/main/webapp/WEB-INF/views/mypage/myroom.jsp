@@ -289,33 +289,52 @@
       <%} %>
       
       
-   <div class="pageN">
-      <div class="pagination2">
-        <a href="#">&laquo;</a>
-        <a href="#">1</a>
-        <a href="#" class="active">2</a>
-        <a href="#">3</a>
-        <a href="#">4</a>
-        <a href="#">5</a>
-        <a href="#">6</a>
-        <a href="#">&raquo;</a>
-      </div>
-   </div>
-       
-       <div class="top-area">    
-               <div class="search-box">
-                <div class="search-icon"><i class="fa fa-search search-icon"></i></div>
-                <form action="" class="search-form">
-                    <input type="text" placeholder="Search" id="search" autocomplete="off">
-                </form>
-                <svg class="search-border" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:a="http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/" x="0px" y="0px" viewBox="0 0 671 111" style="enable-background:new 0 0 671 111;"
-                 xml:space="preserve">
-              <path class="border" d="M335.5,108.5h-280c-29.3,0-53-23.7-53-53v0c0-29.3,23.7-53,53-53h280"/>
-              <path class="border" d="M335.5,108.5h280c29.3,0,53-23.7,53-53v0c0-29.3-23.7-53-53-53h-280"/>
-            </svg>
-                <div class="go-icon"><i class="fa fa-arrow-right"></i></div>
-            </div>
-      </div> <!-- top-area end -->
+   <div class="my-4">
+            <ul class="pagination">
+               <c:if test="${pInfo.currentPage  > pInfo.pagingBarSize}">   
+                   <li>
+                   	<a class="page-link text-primary" href="?cp=1">&lt;&lt;</a>
+                   </li>
+                   <li>
+                      <fmt:parseNumber var="operand1" value="${(pInfo.currentPage-1)/pInfo.pagingBarSize}" integerOnly="true" />
+                      <c:set var="prev" value="${operand1 * 10 }" />
+                      <a class="page-link text-primary" href="?cp=${prev}">&lt;</a>
+                   </li>
+                </c:if>
+                
+                <!-- 10개의 페이지 목록 -->
+                <c:forEach var="p" begin="${pInfo.startPage}" end="${pInfo.endPage}">
+                   <c:choose>
+                      <c:when test="${p==pInfo.currentPage}">
+                         <li><a class="page-link">${p}</a></li>
+                      </c:when>
+                      <c:otherwise>
+                         <li>
+                        <%-- <a class="page-link text-primary" href="${pInfo.boardType}?cp=${p}">${p}</a> --%>
+                            <a class="page-link text-primary" href="?cp=${p}">${p}</a>
+                         </li>
+                      </c:otherwise>
+                   </c:choose>
+                </c:forEach>
+                
+                
+                 <!-- 다음 페이지로(>) -->
+                <!-- next 생성 식:(현재페이지+9)/10*10+1 -->
+                <c:if test="${pInfo.maxPage>pInfo.endPage}">
+                <!-- 다음페이지(>) -->
+                   <li>
+                   <fmt:parseNumber var="operand2" value="${(pInfo.currentPage+9)/10}" integerOnly="true"/>
+                   <c:set var="next" value="${operand2*10+1}"/>
+                     <a class="page-link text-primary" href="?cp=${next}">&gt;</a>
+                   </li>
+                   
+                   <!-- 맨 끝으로(>>) -->
+                   <li>
+                       <a class="page-link text-primary" href="?cp=${pInfo.maxPage}">&gt;&gt;</a>
+                   </li>
+                </c:if>
+            </ul>
+        </div> 
       
      <!-- Modal -->
      <div class="modal fade" id="myModal" role="dialog">
