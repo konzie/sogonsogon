@@ -17,9 +17,15 @@
         <result property="memberNick" column="MEMBER_NICK"/>
         <result property="roomTag" column="ROOM_TAG"/>
         <result property="roomMaxNumber" column="ROOM_MAX_NUMBER"/>
-        
-        
     </resultMap>
+    
+    <resultMap type="RoomMember" id="roomMemberResultSet">
+        <id property="roomMemberRoomNo" column="ROOM_MEMBER_ROOM_NO"/>
+        <result property="roomMemberMemberNo" column="ROOM_MEMBER_MEMBER_NO"/>
+        <result property="roomMemberMemberGrade" column="ROOM_MEMBER_MEMBER_GRADE"/>
+        <result property="roomMemberEnrollDate" column="ROOM_MEMBER_ENROLL_DATE"/>
+    </resultMap>
+    
     <!-- room 정보 조회 쿼리 -->
 	<select id="roomdetailInfo" parameterType="_int" resultMap="roomResultSet">
 		SELECT ROOM_NO, ROOM_TITLE, ROOM_CONTENT, ROOM_CREATE_DATE, ROOM_STATUS, MEMBER_NO, MEMBER_ID, ROOM_TYPE_NAME, ROOM_OPEN
@@ -88,6 +94,12 @@
 			SELECT ROOM_TITLE,ROOM_CONTENT,ROOM_PWD,ROOM_OPEN
 			FROM STUDY_ROOM
 			WHERE ROOM_NO=#{roomNo}
+	</select>
+	
+	<select id="selectRoomMember" parameterType="_int" resultType="list"   resultMap="roomMemberResultSet">
+		SELECT ROOM_MEMBER_ROOM_NO 
+		FROM ROOM_MEMBER
+		WHERE  ROOM_MEMBER_MEMBER_NO = #{roomMemberRoomNo}
 	</select>
 	
 </mapper>

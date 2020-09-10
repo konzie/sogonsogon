@@ -5,6 +5,7 @@ import java.util.List;
 import com.kh.sogon.board.model.vo.PageInfo;
 import com.kh.sogon.member.model.vo.Member;
 import com.kh.sogon.room.model.vo.Room;
+import com.kh.sogon.room.model.vo.RoomMember;
 
 public interface RoomService {
 
@@ -44,6 +45,13 @@ public interface RoomService {
 	 * @return room
 	 */
 	Room roomMList(int roomNo);
+
+	/** 방 가입 여부 조회 Service
+	 * @param memberNo 
+	 * @param loginMemberNo
+	 * @return 
+	 */
+	List<RoomMember> selectRoomMember(int memberNo);
 
 
 
