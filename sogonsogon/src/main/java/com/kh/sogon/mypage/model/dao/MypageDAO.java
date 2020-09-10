@@ -117,6 +117,9 @@ public class MypageDAO {
 		return sqlSession.selectList("mypageMapper.selectBList", memberNo, rowBounds);
 	}
 
+	public int getListRCount(int memberNo) {
+		return sqlSession.selectOne("mypageMapper.getListRCount", memberNo);
+	}
 
 	public List<Reply> selectRList(PageInfo pInfo, int memberNo) {
 
@@ -126,5 +129,30 @@ public class MypageDAO {
 		
 		return sqlSession.selectList("mypageMapper.selectRList", memberNo, rowBounds);
 	}
+
+	public int reportCount() {
+		return sqlSession.selectOne("mypageMapper.reportCount");
+	}
+
+
+	public int qnaCount() {
+		return sqlSession.selectOne("mypageMapper.qnaCount");
+	}
+
+
+	public int roomCount() {
+		return sqlSession.selectOne("mypageMapper.roomCount");
+	}
+
+
+	public int memberCount() {
+		return sqlSession.selectOne("mypageMapper.memberCount");
+	}
+
+
+	public List<Board> selectReport() {
+		return sqlSession.selectList("mypageMapper.selectReport");
+	}
+
 	
 }

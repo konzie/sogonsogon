@@ -3,7 +3,6 @@ package com.kh.sogon.mypage.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,10 +17,7 @@ import com.kh.sogon.help.model.vo.Help;
 import com.kh.sogon.member.model.vo.Member;
 import com.kh.sogon.board.model.vo.PageInfo;
 import com.kh.sogon.board.model.vo.Reply;
-import com.kh.sogon.boardreply.model.vo.BoardReply;
 import com.kh.sogon.mypage.model.service.MypageService;
-
-import sun.security.util.Length;
 
 @SessionAttributes({"loginMember"})
 @Controller
@@ -32,8 +28,12 @@ public class MypageController {
 	private MypageService mypageService;
 	
 	@RequestMapping("adminpage")
-	public String adminpage() {
-			return "mypage/adminmain";
+	public String adminpage(Model model) {
+		
+		List<Board> reportList = mypageService.selectReport();
+		model.addAttribute("boardList", reportList);
+		
+		return "mypage/adminmain";
 	}
 	
 	@RequestMapping("myreply")
@@ -149,6 +149,42 @@ public class MypageController {
 	public String adminreport() {
 		return "mypage/adminreport";
 		}
+	
+	@ResponseBody
+	@RequestMapping("qnaCount")
+	public int qnaCount() {
+		
+		int count = mypageService.qnaCount();
+		
+		return count;
+	}
+	
+	@ResponseBody
+	@RequestMapping("reportCount")
+	public int reportCount() {
+		
+		int count = mypageService.reportCount();
+		
+		return count;
+	}
+	
+	@ResponseBody
+	@RequestMapping("roomCount")
+	public int roomCount() {
+		
+		int count = mypageService.roomCount();
+		
+		return count;
+	}
+	
+	@ResponseBody
+	@RequestMapping("memberCount")
+	public int memberCount() {
+		
+		int count = mypageService.memberCount();
+		
+		return count;
+	}
 	
 	// 고객센터 조회
 	@RequestMapping("adminhelp")

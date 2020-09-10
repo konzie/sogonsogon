@@ -13,6 +13,10 @@ public class Reply {
 	private int qnaNo;
 	private int replyWriter;
 	private String writerName;
+	private String qnaTitle;
+	private String qnaContent;
+	private int qnaWriter;
+	
 	
 	public Reply() {
 		// TODO Auto-generated constructor stub
@@ -104,11 +108,35 @@ public class Reply {
 		this.writerName = writerName;
 	}
 
+	public String getQnaTitle() {
+		return qnaTitle;
+	}
+
+	public void setQnaTitle(String qnaTitle) {
+		this.qnaTitle = qnaTitle;
+	}
+
+	public String getQnaContent() {
+		return qnaContent;
+	}
+
+	public void setQnaContent(String qnaContent) {
+		this.qnaContent = qnaContent;
+	}
+
+	public int getQnaWriter() {
+		return qnaWriter;
+	}
+
+	public void setQnaWriter(int qnaWriter) {
+		this.qnaWriter = qnaWriter;
+	}
+
 	@Override
 	public String toString() {
 		return "Reply [replyNo=" + replyNo + ", content=" + content + ", replyCreateDate=" + replyCreateDate
 				+ ", replyModifyDate=" + replyModifyDate + ", replyStatus=" + replyStatus + ", replySelect="
 				+ replySelect + ", qnaNo=" + qnaNo + ", replyWriter=" + replyWriter + ", writerName=" + writerName
-				+ "]";
+				+ ", qnaTitle=" + qnaTitle + ", qnaContent=" + qnaContent + ", qnaWriter=" + qnaWriter + "]";
 	}
 }

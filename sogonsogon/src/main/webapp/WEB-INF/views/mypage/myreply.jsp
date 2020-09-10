@@ -26,6 +26,10 @@
       .pagination {
       	justify-content: center;
       }
+      
+      .tr:nth-child(2) {
+      	color:gray;
+      }
 </style>
 </head>
 <body>
@@ -43,35 +47,30 @@
        <table class="table table-striped table-hover">
                 <thead>
                     <tr>
-                        <th id="boardNo">댓글번호</th>
-                        <th id="category">글번호</th>
-                        <th id="title">댓글내용</th>
-                        <th id="writer">작성자</th>						
-                        <th id="create_dt">작성일</th>						
-                        <th id="status">채택</th>
-                        <th></th>
-
+                        <th id="boardNo">번호</th>
+                        <th colspan="2">내용</th>					
+                        <th id="create_dt">작성자</th>						
+                        <th id="create_dt">작성일</th>	
                     </tr>
                 </thead>
                 <tbody>
                 <c:choose>
           			<c:when test="${empty replyList}">
 		         		<tr>		
-		         			<td colspan="6" align="center">채택된 댓글이 없습니다.</td>
+		         			<td colspan="4" align="center">채택된 댓글이 없습니다.</td>
 		         		</tr>
           			</c:when>	
           			<c:otherwise>
           				<c:forEach var="reply" items="${replyList}">
 	              		<tr>		
 		              		<td>${reply.replyNo}</td>
-		              		<td>${reply.qnaNo}</td>
-		              		<td>${reply.replyContent}</td>
+		              		<td colspan="2">${reply.content}</td>
 		              		<td>${reply.writerName}</td>
 		              		<td>
 		              			<jsp:useBean id="now" class="java.util.Date"></jsp:useBean>
 		              			<fmt:formatDate var="today" value="${now}" pattern="yyyy-MM-dd"/>
 		              			<fmt:formatDate var="createDate" value="${reply.replyCreateDate}" pattern="yyyy-MM-dd"/>
-		              			<fmt:formatDate var="createTime" value="${reply.boardreplyCreateDate}" pattern="hh:mm:ss"/>
+		              			<fmt:formatDate var="createTime" value="${reply.replyCreateDate}" pattern="hh:mm:ss"/>
 		              			
 		              			<c:choose>
 		              				<c:when test="${today == createDate }">
@@ -82,8 +81,12 @@
 		              				</c:otherwise>
 		              			</c:choose>
 		              		</td>
-		              		<td>${reply.replyStatus}</td>
 	              		</tr>	
+	              		<tr>
+		              		<td>└  ${reply.qnaNo}</td>
+		              		<td>${reply.qnaTitle}</td>
+		              		<td>${reply.qnaContent}</td>
+		              		<td>${reply.qnaWriter}</td>
           				</c:forEach>
           			</c:otherwise>
           		</c:choose>
@@ -111,7 +114,6 @@
                       </c:when>
                       <c:otherwise>
                          <li>
-                        <%-- <a class="page-link text-primary" href="${pInfo.boardType}?cp=${p}">${p}</a> --%>
                             <a class="page-link text-primary" href="?cp=${p}">${p}</a>
                          </li>
                       </c:otherwise>

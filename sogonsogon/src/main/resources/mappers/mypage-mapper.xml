@@ -38,6 +38,7 @@
         <id property="qnaNo" column="QNA_NO"/>
         <result property="qnaCategory" column="QNA_CATEGORY"/>
         <result property="qnaTitle" column="QNA_TITLE"/>
+        <result property="qnaTitleContent" column="QNA_CONTENT"/>
         <result property="writer" column="QNA_WRITER"/>
         <result property="qnaStatus" column="QNA_STATUS"/>
         <result property="qnaAnswer" column="QNA_ANSWER"/>
@@ -57,6 +58,9 @@
         <result property="replyCreateDate" column="REPLY_CREATE_DATE"/>
         <result property="replyModifyDate" column="REPLY_MODIFY_DATE"/>
         <result property="writerName" column="MEMBER_NM"/>
+        <result property="qnaTitle" column="QNA_TITLE"/>
+        <result property="qnaContent" column="QNA_CONTENT"/>
+        <result property="qnaWriter" column="QNA_WRITER"/>
     </resultMap>
     
 	<!-- 비밀번호 찾기 -->
@@ -120,7 +124,27 @@
 	</select>
 
 	<!-- 총 replyList 조회 -->
-	<select id="selectRList" parameterType="_int" resultMap="qnaResultSet">
-		SELECT * FROM REPLY JOIN MEMBER ON(REPLY_WRITER=MEMBER_NO) WHERE REPLY_WRITER = #{replyWriter} AND REPLY_SELECT='Y' ORDER BY REPLY_CREATE_DATE DESC
+	<select id="selectRList" parameterType="_int" resultMap="ReplyResultSet">
+		SELECT * FROM REPLY JOIN MEMBER ON(REPLY_WRITER=MEMBER_NO) JOIN QNABOARD USING(QNA_NO) WHERE REPLY_WRITER = #{replyWriter} AND REPLY_SELECT='Y' ORDER BY REPLY_CREATE_DATE DESC
+	</select>
+	
+	<select id="reportCount" resultType="_int">
+		SELECT COUNT(*) FROM QNABOARD WHERE QNA_STATUS='D' AND QNA_CREATE_DATE=SYSDATE
+	</select>	
+	
+	<select id="qnaCount" resultType="_int">
+		SELECT COUNT(*) FROM HELPBOARD WHERE HELP_CREATE_DATE=SYSDATE
+	</select>	
+	
+	<select id="roomCount" resultType="_int">
+		SELECT COUNT(*) FROM STUDY_ROOM WHERE ROOM_CREATE_DATE=SYSDATE
+	</select>	
+	
+	<select id="memberCount" resultType="_int">
+		SELECT COUNT(*) FROM MEMBER WHERE MEMBER_ENROLL_DATE =SYSDATE
+	</select>
+	
+	<select id="selectReport" resultMap="qnaResultSet">
+		SELECT * FROM QNABOARD WHERE QNA_STATUS='D' AND QNA_CREATE_DATE=SYSDATE
 	</select>
 </mapper>

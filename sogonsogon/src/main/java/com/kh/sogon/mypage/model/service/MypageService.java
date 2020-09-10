@@ -96,6 +96,19 @@ public interface MypageService {
 	 */
 	public abstract List<Reply> selectRList(PageInfo pInfo, int memberNo);
 
+	/** 새 신고 게시글 조회
+	 * @return count
+	 */
+	public abstract int reportCount();
+
+	public abstract int qnaCount();
+
+	public abstract int roomCount();
+
+	public abstract int memberCount();
+
+	public abstract List<Board> selectReport();
+
 
 
 }
