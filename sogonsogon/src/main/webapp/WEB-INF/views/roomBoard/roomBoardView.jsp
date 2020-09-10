@@ -113,7 +113,8 @@
 				<div>
 					<div class="float-right">
 						<a class="btn btn-primary" 
-							href="${listUrl}">목록으로</a>
+							<%-- href="${listUrl}">목록으로</a> --%>
+							href="${contextPath}/room/roomDetail/${board.roomNo}">목록으로</a>
 				<%-- 	<a class="btn btn-primary" 
 							href="<c:url value="../list/${board.boardType}">
 								<c:param name="cp" value="${param.cp}" />							
