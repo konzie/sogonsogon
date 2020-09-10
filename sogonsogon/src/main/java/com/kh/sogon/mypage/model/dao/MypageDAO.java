@@ -8,7 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.sogon.member.model.vo.Member;
+import com.kh.sogon.board.model.vo.Board;
+import com.kh.sogon.help.model.vo.Help;
 import com.kh.sogon.board.model.vo.PageInfo;
+import com.kh.sogon.board.model.vo.Reply;
 
 @Repository
 public class MypageDAO {
@@ -21,8 +24,8 @@ public class MypageDAO {
 	 * @param memberNo
 	 * @return result
 	 */
-	public String checkPwd(Member loginMember) {
-		return sqlSession.selectOne("myapageMapper.selectPwd", loginMember);
+	public String checkPwd(int memberNo) {
+		return sqlSession.selectOne("myapageMapper.checkPwd", memberNo);
 	}
 
 
@@ -31,10 +34,9 @@ public class MypageDAO {
 	 * @param newPwd1
 	 * @return result
 	 */
-	public int updateInfo(Member loginMember, String newPwd1) {
-		return sqlSession.selectOne("myapageMapper.updateInfo", loginMember);
+	public int updateInfo(Member upMember) {
+		return sqlSession.update("myapageMapper.updateInfo", upMember);
 	}
-
 
 	/** 회원 탈퇴 DAO
 	 * @param memberNo
@@ -44,7 +46,26 @@ public class MypageDAO {
 		return sqlSession.update("mypageMapper.deleteInfo", memberNo);
 	}
 
+	/** 전체 공지사항 수 조회 DAO
+	 * @return noticeList
+	 */
+	public int getListNCount() {
+		return sqlSession.selectOne("mypageMapper.getListNCount");
+	}
 
+	/** 페이징바에 따라 공지사항 조회 DAO
+	 * @param pInfo
+	 * @return
+	 */
+	public List<Board> selectNList(PageInfo pInfo) {
+		
+		int offset = (pInfo.getCurrentPage() - 1) * pInfo.getLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, pInfo.getLimit());
+		
+		return sqlSession.selectList("mypageMapper.selectNList", null, rowBounds);
+	}
+	
 	/** 전체 멤버 수 조회 DAO
 	 * @return listCount
 	 */
@@ -64,6 +85,46 @@ public class MypageDAO {
 		
 		return sqlSession.selectList("mypageMapper.selectMList", null, rowBounds);
 	}
-	
+
+
+	public int getListQCount() {
+		return sqlSession.selectOne("mypageMapper.getListQCount");
+	}
+
+
+	public List<Help> selectQList(PageInfo pInfo) {
+		
+		int offset = (pInfo.getCurrentPage() - 1) * pInfo.getLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, pInfo.getLimit());
+		
+		return sqlSession.selectList("mypageMapper.selectQList", null, rowBounds);
+	}
+
+
+	public int getListBCount(int memberNo) {
+
+		return sqlSession.selectOne("mypageMapper.getListBCount", memberNo);
+	}
+
+
+	public List<Board> selectBList(PageInfo pInfo, int memberNo) {
+
+		int offset = (pInfo.getCurrentPage() - 1) * pInfo.getLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, pInfo.getLimit());
+		
+		return sqlSession.selectList("mypageMapper.selectBList", memberNo, rowBounds);
+	}
+
+
+	public List<Reply> selectRList(PageInfo pInfo, int memberNo) {
+
+		int offset = (pInfo.getCurrentPage() - 1) * pInfo.getLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, pInfo.getLimit());
+		
+		return sqlSession.selectList("mypageMapper.selectRList", memberNo, rowBounds);
+	}
 	
 }

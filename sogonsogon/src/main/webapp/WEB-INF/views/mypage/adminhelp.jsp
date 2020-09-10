@@ -7,7 +7,7 @@
     <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>회원 관리</title>
+    <title>고객센터</title>
         
 <style>
       .content{
@@ -39,62 +39,52 @@
   <div class="content">
   <jsp:include page="adminpage2.jsp"/>
 	<div class="content2">       
-      <h4 class="mb-5">회원 관리</h4>
+      <h4 class="mb-5">고객센터</h4>
        <table class="table table-striped table-hover">
                 <thead>
                     <tr>
-                        <th id="memberNo">no.</th>
-                        <th id="id">아이디</th>
-                        <th id="name">이름</th>
-                        <th id="nick">닉네임</th>						
-                        <th id="phone">연락처</th>						
-                        <th id="phone">이메일</th>						
-                        <th id="interest">관심사</th>
-                        <th id="enrollDate">가입일</th>
-                        <th id="status">회원 상태</th>
-                        <th id="grade">회원 등급</th>
+                        <th id="boardNo">글번호</th>
+                        <th id="category">분류</th>
+                        <th id="title">제목</th>
+                        <th id="writer">작성자</th>						
+                        <th id="create_dt">작성일</th>						
+                        <th id="status">답변/미답변</th>
+
                     </tr>
                 </thead>
                 <tbody>
                 <c:choose>
-          			<c:when test="${empty memberList}">
+          			<c:when test="${empty helpList}">
 		         		<tr>		
-		         			<td colspan="10" align="center">존재하는 회원이 없습니다.</td>
+		         			<td colspan="6" align="center">존재하는 게시글이 없습니다.</td>
 		         		</tr>
           			</c:when>	
           			<c:otherwise>
-                         <c:forEach var="member" items="${memberList}">
-                               <tr>
-                                  <td>${member.memberNo}</td>
-                                  <td>${member.memberId}</td>
-                                  <td>${member.memberName}</td>
-                                  <td>${member.memberNick}</td>
-                                  <c:if test="{${member.memberPhone}}">
-                                  </c:if>
-                                  <td>${member.memberPhone}</td>
-                                  <td>${member.memberEmail}</td>
-                                  <td>${member.memberInterest}</td>
-                                  <td>${member.memberEnrollDate}</td>
-                                  
-                                  <c:choose>
-	                                 <c:when test="${member.memberStatus.equals('Y')}">
-	                                 	<td>정상</td>
-	                                 </c:when>
-	                                 <c:otherwise>
-	                                 	<td>탈퇴</td>
-	                                 </c:otherwise>
-                                  </c:choose>
-                                  <c:choose>
-                                  <c:when test="${member.memberGrade.equals('G')}">
-                                  	<td>일반 회원</td>
-                                  </c:when>
-                                  <c:otherwise>
-                                  	<td>관리자</td>
-                                  </c:otherwise>
-                                  </c:choose>
-                               </tr>
-                         </c:forEach>
-                      </c:otherwise>
+          				<c:forEach var="board" items="${helpList}">
+	              		<tr>		
+		              		<td>${board.helpNo}</td>
+		              		<td>${board.helpCategory}</td>
+		              		<td>${board.helpTitle}</td>
+		              		<td>${board.writerName}</td>
+		              		<td>
+		              			<jsp:useBean id="now" class="java.util.Date"></jsp:useBean>
+		              			<fmt:formatDate var="today" value="${now}" pattern="yyyy-MM-dd"/>
+		              			<fmt:formatDate var="createDate" value="${board.helpCreateDate}" pattern="yyyy-MM-dd"/>
+		              			<fmt:formatDate var="createTime" value="${board.helpCreateDate}" pattern="hh:mm:ss"/>
+		              			
+		              			<c:choose>
+		              				<c:when test="${today == createDate }">
+		              					${createTime}
+		              				</c:when>
+		              				<c:otherwise>
+		              				${createDate}
+		              				</c:otherwise>
+		              			</c:choose>
+		              		</td>
+		              		<td>${board.helpStatus}</td>
+	              		</tr>	
+          				</c:forEach>
+          			</c:otherwise>
           		</c:choose>
                 </tbody>
             </table>
@@ -144,8 +134,7 @@
                    </li>
                 </c:if>
             </ul>
-        </div>  
-        
+        </div> 
         </div>
     </div>    
    

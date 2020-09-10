@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="mypageMapper">
+ 	
+ 	<!-- 멤버 -->
  	<resultMap id="memberResultSet" type="Member" >
 		<!-- id에는 DB 기본키에 해당하는 필드와 컬럼을 작성 -->
 		<id property="memberNo" column="MEMBER_NO"/>
-		
+	
 		<!-- result에는 DB 일반 컬럼에 해당하는 필드와 컬럼을 작성 -->
 		<result property="memberId" column="MEMBER_ID"/>
 		<result property="memberPwd" column="MEMBER_PWD"/>
@@ -18,14 +20,53 @@
 		<result property="memberGrade" column="MEMBER_GRADE"/>
 	</resultMap>
 
+	<!-- 고객센터 -->
+	<resultMap id="helpResultSet" type="Help" >
+        <id property="helpNo" column="HELP_NO"/>
+        <result property="helpCategory" column="HELP_CATEGORY"/>
+        <result property="helpTitle" column="HELP_TITLE"/>
+        <result property="helpContent" column="HELP_CONTENT"/>
+        <result property="helpWriter" column="HELP_WRITER"/>
+        <result property="helpCreateDate" column="HELP_CREATE_DATE"/>
+        <result property="helpModifyDate" column="HELP_MODIFY_DATE"/>
+        <result property="helpStatus" column="HELP_STATUS"/>
+        <result property="writerName" column="WRITER_NAME"/>
+    </resultMap>
+     
+     <!-- 자유질문방 -->
+	<resultMap id="qnaResultSet" type="Board" >
+        <id property="qnaNo" column="QNA_NO"/>
+        <result property="qnaCategory" column="QNA_CATEGORY"/>
+        <result property="qnaTitle" column="QNA_TITLE"/>
+        <result property="writer" column="QNA_WRITER"/>
+        <result property="qnaStatus" column="QNA_STATUS"/>
+        <result property="qnaAnswer" column="QNA_ANSWER"/>
+        <result property="qnaCreateDate" column="QNA_CREATE_DATE"/>
+        <result property="qnaModifyDate" column="QNA_MODIFY_DATE"/>
+        <result property="writerName" column="MEMBER_NM"/>
+    </resultMap>
+    
+         <!-- 자유질문방 댓글 -->
+	<resultMap id="ReplyResultSet" type="Reply" >
+        <id property="replyNo" column="REPLY_NO"/>
+        <id property="qnaNo" column="QNA_NO"/>
+        <result property="content" column="REPLY_CONTENT"/>
+        <result property="replyWriter" column="REPLY_WRITER"/>
+        <result property="replySelect" column="REPLY_SELECT"/>
+        <result property="replyStatus" column="REPLY_STATUS"/>
+        <result property="replyCreateDate" column="REPLY_CREATE_DATE"/>
+        <result property="replyModifyDate" column="REPLY_MODIFY_DATE"/>
+        <result property="writerName" column="MEMBER_NM"/>
+    </resultMap>
+    
 	<!-- 비밀번호 찾기 -->
-	<select id="selectPwd" parameterType="Member" resultType="string">
-		SELECT MEMBER_PWD FROM MEMBER WHERE MEMBER_NO=#{memberNo}
+	<select id="checkPwd" parameterType="_int" resultType="string">
+		SELECT MEMBER_PWD FROM MEMBER WHERE MEMBER_NO = 1
 	</select>
 	
 	<!-- 회원 정보 변경 -->
 	<update id="updateInfo" parameterType="Member">
-		UPDATE MEMBER SET MEMBER_PWD=#{memberPwd}, MEMBER_PHONE=#{memberPhone}, MEMBER_EMAIL=#{memberEmail}, MEMBER_NICK=#{memberNick}, MEMBER_INTEREST=#{memberInterest} WHERE MEMBER_NO = #{memberNo}
+		UPDATE MEMBER SET MEMBER_PWD=#{memberPwd}, MEMBER_NICK=#{memberNick}, MEMBER_PHONE=#{memberPhone}, MEMBER_INTEREST=#{memberInterest} WHERE MEMBER_NO = #{memberNo}
 	</update>
 	
 	<!-- 회원 탈퇴 -->
@@ -33,6 +74,26 @@
 		UPDATE MEMBER SET MEMBER_STATUS='N' WHERE MEMBER_NO = #{memberNo}
 	</update>
 	
+	<!-- 고객센터 게시글 수 조회 -->
+	<select id="getListQCount" resultType="_int">
+		SELECT COUNT(*) FROM HELPBOARD
+	</select>
+	
+	<!-- 총 HelpList 조회 -->
+	<select id="selectQList" resultMap="helpResultSet">
+		SELECT * FROM HELPBOARD JOIN MEMBER ON(HELP_WRITER=MEMBER_NO) ORDER BY HELP_CREATE_DATE DESC
+	</select>
+			
+	<!-- 공지사항 수 조회 -->
+	<select id="getListNCount" resultType="_int">
+		SELECT COUNT(*) FROM QNABOARD WHERE QNA_WRITER = 1
+	</select>
+	
+	<!-- 총 NoticeList 조회 -->
+	<select id="selectNList" resultMap="qnaResultSet">
+		SELECT * FROM QNABOARD JOIN MEMBER ON(QNA_WRITER=MEMBER_NO)WHERE QNA_WRITER = 1 ORDER BY QNA_CREATE_DATE DESC
+	</select>
+		
 	<!-- 멤버 수 조회 -->
 	<select id="getListMCount" resultType="_int">
 		SELECT COUNT(*) FROM MEMBER
@@ -41,5 +102,25 @@
 	<!-- 총 MemberList 조회 -->
 	<select id="selectMList" resultMap="memberResultSet">
 		SELECT * FROM MEMBER ORDER BY MEMBER_NO DESC
+	</select>
+	
+	<!-- 내가 쓴 글 수 조회 -->
+	<select id="getListBCount" parameterType="_int" resultType="_int">
+		SELECT COUNT(*) FROM QNABOARD WHERE QNA_WRITER = #{writer}
+	</select>
+
+	<!-- 총 boardList 조회 -->
+	<select id="selectBList" parameterType="_int" resultMap="qnaResultSet">
+		SELECT * FROM QNABOARD WHERE QNA_WRITER = #{replyWriter} ORDER BY QNA_CREATE_DATE DESC
+	</select>
+	
+	<!-- 채택된 댓글 수 조회 -->
+	<select id="getListRCount" parameterType="_int" resultType="_int">
+		SELECT COUNT(*) FROM REPLY WHERE REPLY_WRITER = #{replyWriter} AND REPLY_SELECT='Y'
+	</select>
+
+	<!-- 총 replyList 조회 -->
+	<select id="selectRList" parameterType="_int" resultMap="qnaResultSet">
+		SELECT * FROM REPLY JOIN MEMBER ON(REPLY_WRITER=MEMBER_NO) WHERE REPLY_WRITER = #{replyWriter} AND REPLY_SELECT='Y' ORDER BY REPLY_CREATE_DATE DESC
 	</select>
 </mapper>
