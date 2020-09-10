@@ -35,7 +35,7 @@
   <jsp:include page="mypage2.jsp"/>
   <div class="content2">           
 	   <h4 class="mb-5">회원정보 수정</h4>
-		<form action="updateInfo" onsubmit="return checkPwd();" class="form-horizontal" role="form">
+		<form action="myInfoView" onsubmit="return checkPwd();" class="form-horizontal" role="form">
     
 		<div class="row mb-3 form-row">
 			<div class="col-md-3">
@@ -68,29 +68,22 @@
 	</div>
 	   <jsp:include page="../common/footer.jsp" />
 	   
-	 <script>
-		function checkPwd(){
-				if($("#memberPass").val() == ""){
-					alert("비밀번호를 입력해주세요");
-					$("#memberPass").focus();
-		
-					return false;
-				}
-		};
-		
-		
+	 <script>		
 		$("#memberPass").on("input",function(){
 			
+			var checkPwd;
+			
 			$.ajax({
-				url : "/checkPwd",
+				url : "${contextPath}/mypage/checkPwd",
 				data : {"memberPass" : $("#memberPass").val()},
-				type : "GET",
+				type : "POST",
 				success : function(result){
 					if(result==0){
 						$("#checkPass").text("비밀번호가 일치합니다.").css("color","green");
-						return 
+						checkPwd = true;
 					}else{
 						$("#checkPass").text("비밀번호가 일치하지 않습니다.").css("color","red");
+						checkPwd = false;
 					}
 				},
 				error : function(){
@@ -98,6 +91,18 @@
 				}
 			})
 		});
+		
+
+		function checkPwd(){
+				if($("#memberPass").val() == ""){
+					alert("비밀번호를 입력해주세요");
+					$("#memberPass").focus();
+		
+					return false;
+				}else{
+					return checkPwd;
+				}
+		};
 	</script>
 </body>
 </html>
