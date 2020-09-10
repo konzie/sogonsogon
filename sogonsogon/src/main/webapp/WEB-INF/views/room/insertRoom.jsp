@@ -76,6 +76,10 @@
       clear: both;
       width: 100%;
       height: 40px;
+      margin-bottom: 10px;
+   }
+   #roomPassword{
+   	  display: none;
    }
 </style>
 <title>방 만들기</title>
@@ -96,16 +100,11 @@
                placeholder="방 이름을 작성해주세요."  style="width: 400px;">
          </div>
          
-       
-         <div class="form-group">
-         	<label for="exampleFormControlInput1">개설일</label> 
-            <span class="my-0" id="today" ></span>
-      	</div>
 
       <div class="form-group">
-         <input type="radio" id="o" name="roomOpen"  class="open"  value="Y"> <label for="o">공개</label>  &nbsp;
+         <input type="radio" id="o" name="roomOpen"  class="open"  value="Y" checked> <label for="o">공개</label>  &nbsp;
          <input type="radio" id="c" name="roomOpen"  class="open"  value="N"> <label for="c">비공개</label>  
-         <input type="password" name="roomPassword"  class="form-control" style="width: 250px;" placeholder="비밀번호를 입력해 주세요.">
+         <input type="password" name="roomPassword" id="roomPassword"  class="form-control passArea" style="width: 250px;" placeholder="비밀번호를 입력해 주세요.">
       </div>
 
          <div class="form-group">
@@ -119,10 +118,11 @@
                   <option value="6">기타</option>
                 </select>
          </div>
-
+		
          <div class="form-group">
             <label for="exampleFormControlInput1">참가 인원 수</label>
-            <input type="number" class="form-control maxNumber" name="roomMaxNumber" maxlength="2" style="width: 150px;">
+            <input type="number" class="form-control maxNumber" name="roomMaxNumber" maxlength="2" style="width: 150px;" min="1" max="50"
+            	placeholder="최대 50명">
          </div>
          
          <div class="form-group">
@@ -141,27 +141,16 @@
 	               <input type="text" class="form-control tags"  id="tags" name="roomTag">
 	            </div>
    
-		         <button type="button" class="btn btn-secondary">목록으로</button>
+		         <button type="button" class="btn btn-secondary"  id="return-btn">목록으로</button>
 		         &nbsp;
-		         <button type="submit" class="btn btn-info">등록하기</button>
+		         <button type="submit" class="btn btn-secondary">등록하기</button>
     	  </div>
 	
    </form>
    </div>
 
 
-   <script>
-      // 오늘 날짜 출력 
-      var today = new Date();
-      var month = (today.getMonth()+1);
-   
-      var str = today.getFullYear() + "-"
-            + (month < 10 ? "0"+month : month) + "-"
-            + today.getDate();
-      $("#today").html(str);
-
-
-      
+   <script>  
       // 유효성 검사 
       function validate() {
     	  // 방 이름
@@ -170,13 +159,6 @@
             $("#title").focus();
             return false;
          }
-    	  
-   	    // 공개 여부 -> 비공개 체크일때 제약조건확인하기
-         if ($(".open").prop("checked") == 0) {
-             alert("공개여부를 선택해주세요");
-             $(".open").focus();
-             return false;
-          }
    	    
    	 	 // 참가 인원 수
          if ($(".maxNumber").val().trim().length == 0) {
@@ -194,20 +176,36 @@
 
     	  // 태그
          if ($(".tags").val().trim().length == 0) {
-            alert("태그를 입력해주세요");
-            
+            alert("태그를 입력해 주세요");  
             var tag =  $(".tags");
             tag[0].focus();
             return false;
          }
+    	  
+    	  if($("#c").prop("checked")){
+    		  if($(".passArea").val().trim() == ""){
+    			  alert("비밀번호를 입력해주세요");
+    			  return false;
+    		  }
+    	  }
       }
+      
 
-      // 태그 입력창 생성 + 2번까지
+      // 태그 입력창 생성 + 2번까지(수정)
       $(".plusbutton").on("click", function(){
          $tag = $('<input type="text">').addClass("form-control").attr("id", "tags");
          $(".tagbox").append($tag);
       });
-  
+  	 
+      // 비공개 버튼 누를시 password input태그 생성
+      $("#c").on("change",function(){
+			$("#roomPassword").css("display","block");
+      });
+      
+      // 이전으로
+      $("#return-btn").on("click",function(){
+    	 location.href = "${header.referer}";
+      });
 
    </script>
 </body>

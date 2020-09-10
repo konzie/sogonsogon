@@ -1,3 +1,4 @@
+<%@page import="com.kh.sogon.member.model.vo.Member"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -7,13 +8,26 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;800;900&display=swap" rel="stylesheet">
+            <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css">
+  
 <style>
+
         @font-face {
             font-family: 'GmarketSansMedium';
             src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
             font-weight: normal;
             font-style: normal;
         }
+        
+        @font-face {
+		     font-family: 'Handon3gyeopsal600g';
+		     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_seven@1.2/Handon3gyeopsal600g.woff') format('woff');
+		     font-weight: normal;
+		     font-style: normal;
+		}
+            
+        
 
         .room-box {
             width: 100%;
@@ -21,7 +35,8 @@
            /*  display: flex; */
             justify-content: center;
             flex-wrap: unset;
-            font-family: 'GmarketSansMedium';
+            /* font-family: 'GmarketSansMedium'; */
+              font-family: 'Handon3gyeopsal600g';
             text-align: center;
         }
 
@@ -81,7 +96,7 @@
             clear: both;
         }
         .room-title{
-            font-size: 20px;
+            font-size: 22px;
             margin:0px;
         }
         .enter-number{
@@ -145,7 +160,8 @@
       }
       
       .selectList{
-         text-align: center;
+         text-align: right;
+         margin-right: 160px;
       }
       
         *, *:before, *:after {
@@ -292,6 +308,9 @@
    
    <div class="table-title">
             <h2>Study Room</h2>
+            <p>소곤소곤은 어쩌구저꺼구를 위한 모임을 제공해줍니다.<br>
+            소곤소곤은 어쩌구저꺼구를 위한 모임을 제공해줍니다.
+            </p>
             <c:if test="${!empty loginMember}">
              <a href="${contextPath}/room/insertRoom"><div class="clear-btn">방만들기</div></a>            
             </c:if>
@@ -358,7 +377,7 @@
             </div>
             
             <a data-toggle="modal"  data-target="#myModal">
-            	<div class="join-button" id="${roomList.roomNo}">참여하기</div>
+            	<div class="join-button" id="${roomList.roomNo}"   onclick="return validate();">참여하기</div>
             </a>
       </div> <!-- roomlist end-->
       </c:forEach>
@@ -366,7 +385,7 @@
       
       <hr>
       <!-- 방만들기 영역 -->
-     
+
 
       
      <!-- 페이징 -->
@@ -431,8 +450,8 @@
                        참여 비밀 번호가 필요한 채팅방입니다.<br>
                        방장이 알려준 참여 비밀 번호를 입력해 주세요.
                  </p>
-                  <input type="password" placeholder="영문/숫자 4~10자리"  name="inputPwd	"> 
-  	<input type="hidden"  class="hiddenNo" name="roomNo"> <!--  hiddenNo 영역보일시 display:none처리-->
+                  <input type="password" placeholder="영문/숫자 4~10자리"  name="roomPassword"> 
+  				  <input type="hidden"  class="hiddenNo" name="roomNo"> <!--  hiddenNo 영역보일시 display:none처리-->
               </div>
 
             
@@ -447,42 +466,63 @@
        </div>
      </div> <!-- modal end -->
    
+          <div class="loginText" >${loginMember.memberNo}</div>
+
    
    <jsp:include page="../common/footer.jsp" />
    
-     
 <script>
-
 // 방번호 넘기기 위한 함수
 	$(".join-button").on("click",function(){
-		   var roomNo = $(this).attr("id");
-		   console.log(roomNo);
-		   $(".hiddenNo").val(roomNo);
+		if($(".loginText").text() ==""){ // 로그인안됐을때 경고창
+			alert("로그인을 해주세요");
+			return false;
+		
+		}else{
 
-		   
-		   	$("#modal-btn").on("click",function(){
-				location.href = "${contextPath}/room/roomDetail/"+ roomNo;
-			});
-		   
-			$.ajax({
-				url : "${contextPath}/room/roomMList/"+roomNo,
-				type : "POST",
-				dataType : "JSON",
-				success : function(Room){
-					console.log(Room);
-					$(".m-title").html(Room.roomTitle);
-					$(".m-content").html(Room.roomContent);
-					
-					if(Room.roomOpen == 'Y'){
-						$(".pass-area").css("display","none");
+			$(".pass-area").css("display","block");   
+			   var roomNo = $(this).attr("id");
+			   console.log(roomNo);
+			   $(".hiddenNo").val(roomNo);
+	
+			   
+			   	$("#modal-btn").on("click",function(){
+					location.href = "${contextPath}/room/roomDetail/"+ roomNo;
+				});
+			   
+				$.ajax({
+					url : "${contextPath}/room/roomMList/"+roomNo,
+					type : "POST",
+					dataType : "JSON",
+					success : function(map){
+						//console.log(Room);
+						$(".m-title").html(map.room.roomTitle);
+						$(".m-content").html(map.room.roomContent);
+						
+						if(map.room.roomOpen == 'Y' ){
+							$(".pass-area").css("display","none");
+						}
+						
+						console.log(map.roomMember); // object타입
+						console.log(map.roomMember[0].roomMemberRoomNo);
+						console.log("----------------");
+						console.log(roomNo); // roomNo
+						
+						// 로그인한 멤버가 이미 가입한 방일때 
+						for(var i=0; i<map.roomMember.length; i++){
+							if(roomNo == map.roomMember[i].roomMemberRoomNo){
+								$(".pass-area").css("display","none");
+							}
+						} 
+			
+					},error : function(){
+						 console.log("ajax 통신 실패");
 					}
-					
-				},error : function(){
-					 console.log("ajax 통신 실패");
-				}
-			});
+				});
+		} // else end
 	});
 	
+
 
 </script>
 </body>

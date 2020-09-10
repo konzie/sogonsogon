@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import com.kh.sogon.board.model.vo.PageInfo;
 import com.kh.sogon.member.model.vo.Member;
 import com.kh.sogon.room.model.vo.Room;
+import com.kh.sogon.room.model.vo.RoomMember;
 
 @Repository
 public class RoomDAO {
@@ -116,8 +117,22 @@ public class RoomDAO {
 	}
 
 
+	/** 방 입장 모달창 조회 DAO
+	 * @param roomNo
+	 * @return room
+	 */
 	public Room roomMList(int roomNo) {
 		return sqlSession.selectOne("roomMapper.roomMList", roomNo);
+	}
+
+
+	/** 입장
+	 * @param memberNo 
+	 * @param loginMemberNo
+	 * @return
+	 */
+	public List<RoomMember> selectRoomMember(int roomMemberRoomNo) {
+		return  sqlSession.selectList("roomMapper.selectRoomMember", roomMemberRoomNo);
 	}
 
 
