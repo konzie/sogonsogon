@@ -5,13 +5,15 @@
 
 		<resultMap type="Board" id="boardResultSet">
         <id property="qnaNo" column="QNA_NO"/>
-        <result property="qnaCategory" column="QNA_TITLE"/>
-        <result property="qnaTitle" column="QNA_CONTENT"/>
-        <result property="qnaStatus" column="QNA_COUNT"/>
-        <result property="qnaAnswer" column="QNA_CREATE_DT"/>
-        <result property="qnaModifyDate" column="QNA_MODIFY_DT"/>
-        <result property="qnaCreateDate" column="QNA_ID"/>
-     
+        <result property="qnaTitle" column="QNA_TITLE"/>
+        <result property="qnaContent" column="QNA_CONTENT"/>
+        <result property="qnaStatus" column="QNA_STATUS"/>
+        <result property="qnaAnswer" column="QNA_ANSWER"/>
+        <result property="qnaModifyDate" column="QNA_MODIFY_DATE"/>
+        <result property="qnaCreateDate" column="QNA_CREATE_DATE"/>
+     	<result property="qnaWriter" column="QNA_WRITER"/>
+     	<result property="qnaCategory" column="QNA_CATEGORY"/>
+     	
     </resultMap>
 
 	
