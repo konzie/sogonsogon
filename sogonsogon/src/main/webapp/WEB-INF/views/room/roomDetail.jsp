@@ -124,9 +124,14 @@
             var enterChk = false;
             $("#moreInfo").on("click", function() {
                 if(!enterChk) {
-                    var $p1 = $("<p>").html("<br><h6>방 생성날짜 : ${roomDetail.roomCreateDate}</h6><br> 현재 방 내에서 채택된 답변 수 : 10 <br> 작성한 글 수  : 1<br> 작성한 글 수 : 3<br>");
-                    var $button = $("<button>", {type : "button" , id : "outRoom", class : "btn-primary"}).text("방 탈퇴");
-                    $("#infoList").append($p1, $button);
+                    /* var $p1 = $("<p>").html("<br><h6>방 생성날짜 : ${roomDetail.roomCreateDate}</h6><br> 현재 방 내에서 채택된 답변 수 : 10 <br> 작성한 글 수  : 1<br> 작성한 글 수 : 3<br>"); */
+                    var $p1 = $("<p>").html("<br><h6>방 생성날짜 : ${roomDetail.roomCreateDate}</h6><br>");
+                    $("#infoList").append($p1);
+                    <c:if test="${!empty loginMember}">
+	                    var $p2 = $("<p>").html("현재 방 내에서 채택된 답변 수 : 10 <br> 작성한 글 수  : 1<br> 작성한 글 수 : 3<br>");
+	                    var $button = $("<button>", {type : "button" , id : "outRoom", class : "btn-primary"}).text("방 탈퇴");
+	                    $("#infoList").append($p2, $button);
+                    </c:if>
                     $("#moreInfo").hide();
                     enterChk = true;
                 }
