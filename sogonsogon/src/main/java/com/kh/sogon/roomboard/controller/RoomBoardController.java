@@ -27,6 +27,7 @@ import com.kh.sogon.roomboard.model.service.RoomBoardService;
 import com.kh.sogon.roomboard.model.vo.RoomBoard;
 import com.kh.sogon.roomboard.model.vo.RoomBoardAttachment;
 import com.kh.sogon.roomboard.model.vo.RoomBoardPageInfo;
+import com.kh.sogon.roomboard.model.vo.RoomBoardSearch;
 
 @SessionAttributes({ "loginMember" })
 @Controller
@@ -39,11 +40,28 @@ public class RoomBoardController {
 	@ResponseBody
 	@RequestMapping("boardList/{roomNo}")
 	public String selectList(@PathVariable int roomNo,
-			@RequestParam(value = "cp", required = false, defaultValue = "1") int cp) {
+			@RequestParam(value = "cp", required = false, defaultValue = "1") int cp,
+			@RequestParam(value = "sKey", required = false, defaultValue = "") String sKey,
+			@RequestParam(value = "sVal", required = false, defaultValue = "") String sVal) {
 
-		RoomBoardPageInfo pInfo = roomBoardService.pagination(roomNo, cp);
+		RoomBoardSearch roomBoardSearch = null;
+		RoomBoardPageInfo pInfo = null;
+		List<RoomBoard> rbList = null;
+		
+		if(!sVal.equals("")) {
+			roomBoardSearch = new RoomBoardSearch();
+			roomBoardSearch.setsKey(sKey);
+			roomBoardSearch.setsVal(sVal);
+			
+			pInfo = roomBoardService.pagination(roomNo, cp, roomBoardSearch);
+			System.out.println(pInfo);
+			rbList = roomBoardService.roomBoardSelectSearchList(pInfo, roomBoardSearch);
+			System.out.println(rbList);
+		} else {
+			pInfo = roomBoardService.pagination(roomNo, cp);
+			rbList = roomBoardService.roomBoardSelectList(pInfo);
+		}
 
-		List<RoomBoard> rbList = roomBoardService.roomBoardSelectList(pInfo);
 
 		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 
@@ -195,7 +213,8 @@ public class RoomBoardController {
 	// 게시글 수정
 	@RequestMapping("{roomNo}/{boardNo}/updateAction")
 	public ModelAndView updateAction(@PathVariable int roomNo, @PathVariable int boardNo, ModelAndView mv,
-			RoomBoard upBoard,@RequestParam(value = "cp", required = false, defaultValue = "1") int cp, boolean[] deleteImages, RedirectAttributes rdAttr, HttpServletRequest request,
+			RoomBoard upBoard, @RequestParam(value = "cp", required = false, defaultValue = "1") int cp,
+			boolean[] deleteImages, RedirectAttributes rdAttr, HttpServletRequest request,
 			@RequestParam(value = "thumbnail", required = false) MultipartFile thumbnail,
 			@RequestParam(value = "images", required = false) List<MultipartFile> images) {
 
@@ -230,7 +249,7 @@ public class RoomBoardController {
 			status = "success";
 			msg = "게시글 수정 완료";
 			url = "../" + boardNo;
-			
+
 		} else {
 			// 실패시 이전 요청 주소(수정화면)
 			status = "error";
@@ -245,5 +264,36 @@ public class RoomBoardController {
 		return mv;
 
 	}
+
+	// 게시글 검색
+//	@RequestMapping("search/{type}")
+//	public String search(@PathVariable int type,
+//			@RequestParam(value = "cp", required = false, defaultValue = "1") int cp, Search search, Model model) {
+//
+//		System.out.println(type);
+//		System.out.println(search);
+//
+//		// 1. 검색 내용이 포함된 전체 게시글 수 조회
+//		RoomBoardPageInfo pInfo = roomBoardService.pagination(type, cp, search);
+//
+//		System.out.println(pInfo);
+//		// 2. 검색 게시글 목록 조회
+//		List<RoomBoard> boardList = roomBoardService.selectSearchList(pInfo, search);
+//
+//		for (RoomBoard b : boardList) {
+//			System.out.println(b);
+//		}
+//
+//		// 3. 썸네일 목록 조회
+//		if (!boardList.isEmpty()) {
+//			List<RoomBoardAttachment> thList = roomBoardService.selectThumbnailList(boardList);
+//			model.addAttribute("thList", thList);
+//		}
+//
+//		model.addAttribute("boardList", boardList);
+//		model.addAttribute("pInfo", pInfo);
+//
+//		return "room/roomDetail";
+//	}
 
 }

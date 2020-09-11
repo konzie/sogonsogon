@@ -8,7 +8,12 @@ import com.kh.sogon.board.model.vo.PageInfo;
 import com.kh.sogon.roomboard.model.vo.RoomBoard;
 import com.kh.sogon.roomboard.model.vo.RoomBoardAttachment;
 import com.kh.sogon.roomboard.model.vo.RoomBoardPageInfo;
+import com.kh.sogon.roomboard.model.vo.RoomBoardSearch;
 
+/**
+ * @author KSHan
+ *
+ */
 /**
  * @author KSHan
  *
@@ -69,5 +74,21 @@ public interface RoomBoardService {
 	 * @return
 	 */
 	int updateBoard(RoomBoard upBoard, String savePath, List<MultipartFile> images, boolean[] deleteImages);
+
+	/** 검색 조건이 추가된 페이징 처리 Service
+	 * @param roomNo
+	 * @param cp
+	 * @param roomBoardSearch
+	 * @return pInfo
+	 */ 
+	RoomBoardPageInfo pagination(int roomNo, int cp, RoomBoardSearch roomBoardSearch);
+
+	/** 검색 목록 조회 Service
+	 * @param pInfo
+	 * @param roomBoardSearch
+	 * @return
+	 */
+	List<RoomBoard> roomBoardSelectSearchList(RoomBoardPageInfo pInfo, RoomBoardSearch roomBoardSearch);
+
 
 }
