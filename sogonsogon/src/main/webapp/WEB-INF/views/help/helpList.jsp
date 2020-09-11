@@ -26,8 +26,14 @@
 
     #write{float: left;}
 
-    .clearfix{width: 1090px; height: 33px; padding-bottom: 70px;}
+    .clearfix{width: 1060px; height: 33px; padding-top:5px; padding-bottom: 70px;}
     .hint-text,.write-Btn{width: 33%;}
+    #writeBtn{	text-decoration:none;
+    			border:1px solid #e4e4e4;
+    			float:right; font-size:13px; 
+    			color:#ff7600; border-radius:2px;
+    			background-color:#fff; padding:6px 14px;}
+    #writeBtn:hover{border:1px solid #ff7600; background-color:#fff6ed;}			
     .page{width: 34%; float: left;}
 
 	.table-wrapper {
@@ -282,7 +288,7 @@
                         </div>
                     </div>
                 </div>
-                <table class="table table-striped table-hover">
+                <table class="table table-striped table-hover" id="list-table">
                     <thead>
                         <tr>
                             <th id="boardNo">글번호</th>
@@ -336,25 +342,78 @@
                 </table>
                 <div class="clearfix">
                     <div class="hint-text">Showing <b>10</b> out of <b>${hInfo.allCount}</b> entries</div>
+                    
+                    
+                    <c:set var="url" value="${searchParameter}?cp="/>
+         			<c:set var="listUrl" value="../list/${url}${hInfo.currentPage}" scope="session"/>
                     <div class="page">
                         <ul class="pagination">
-                            <li class="page-item disabled"><a href="#">Previous</a></li>
-                            <li class="page-item"><a href="#" class="page-link">1</a></li>
-                            <li class="page-item"><a href="#" class="page-link">2</a></li>
-                            <li class="page-item"><a href="#" class="page-link">3</a></li>
-                            <li class="page-item active"><a href="#" class="page-link">4</a></li>
-                            <li class="page-item"><a href="#" class="page-link">5</a></li>
-                            <li class="page-item"><a href="#" class="page-link">6</a></li>
-                            <li class="page-item"><a href="#" class="page-link">7</a></li>
-                            <li class="page-item"><a href="#" class="page-link">Next</a></li>
+                        	<c:if test="${hInfo.currentPage > hInfo.pagingBarSize }">         
+			                   <li class="page-item">			                   
+			                      <!-- fmt 태그를 이용한 소수점 제거 -->
+			                      <c:set var="prev" value="${hInfo.currentPage-1}"/>	                      
+			                         <%--<a class="page-link text-primary" href="${pInfo.boardType}?cp=${prev}">&lt;</a> --%>
+			                         <a href="${url}${prev}">Previous</a>
+			                   </li>
+			                   <li><a href="${url}1">1</a></li>
+			                   <li><a>...</a><li>
+                            </c:if>                       
+                            
+                            <c:forEach var="p" begin="${hInfo.startPage }" end="${hInfo.endPage }">
+								
+								<c:choose>
+			                   
+								<c:when test="${p == hInfo.currentPage}">
+			                         <li class="page-item active" ><a>${p}</a></li>
+			                    </c:when>
+								<c:otherwise>
+			                         <li class="page-item ">
+			                            <%-- <a class="page-link text-primary" href="${pInfo.boardType}?cp=${p}">${p}</a>--%>
+			                            <a href="${url}${p}">${p}</a>
+			                         </li>
+								</c:otherwise>
+								</c:choose>            
+			                </c:forEach>
+                            
+                            
+                            
+                           <c:if test="${hInfo.maxPage > hInfo.endPage}">
+                           <li><a>...</a><li>
+						   <li><a href="${url}${hInfo.maxPage}">${hInfo.maxPage}</a></li> 
+                            <li class="page-item">
+		                   		<c:set var="next" value="${hInfo.currentPage+1 }"/>
+		                  		<%-- <a class="page-link text-primary" href="${pInfo.boardType}?cp=${next}">&gt;</a>--%>
+		                  		<a class="page-link" href="${url}${next}">Next</a>
+		                   </li>
+		                   </c:if>
                         </ul>
                     </div>
                     <c:if test="${!empty loginMember}">
-                    <div class="write-Btn"><a class="btn btn-primary float-right" href="${contextPath}/board/helpwrite">글쓰기</a></div>
+                    <div class="write-Btn"><a id="writeBtn" type="button" href="${contextPath}/help/helpwrite">글쓰기</a></div>
                 	</c:if>
                 </div>
             </div>
         </div>
         <jsp:include page="../common/footer.jsp"/>
+        
+        <script>
+        	//detail view 가기
+        	$(function(){
+        		$(".view").on("click",function(){
+        			
+        			var boardNo = $(this).parent().parent().children().eq(0).text();
+        			
+        			var boardUrl = "${contextPath}/help/no=" + boardNo + "?cp=${hInfo.currentPage}";
+        			
+        			location.href = boardUrl;
+        		});
+        		
+        		
+        	});
+        	
+        
+        
+        </script>
+        
     </body>
 </html>
