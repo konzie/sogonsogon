@@ -131,5 +131,31 @@ public class RoomServiceImpl implements RoomService{
 		return roomDAO.selectRoomMember(roomMemberRoomNo);
 	}
 
+	@Override
+	public List<Room> selectOption(PageInfo pInfo, int roomType) {
+		return roomDAO.selectOption(pInfo, roomType);
+	}
+
+	@Override
+	public PageInfo getListCount2(int cp, int option) {
+		int listCount = roomDAO.getListCount2(option);
+		pInfo.setPageInfo(cp, listCount);
+		
+		return pInfo;
+	}
+
+	@Override
+	public PageInfo getListCount3(int cp, String search) {
+		int listCount = roomDAO.getListCount3(search);
+		pInfo.setPageInfo(cp, listCount);
+		
+		return pInfo;
+	}
+
+	@Override
+	public List<Room> searchList(PageInfo pInfo, String search) {
+		 return roomDAO.searchList(pInfo,search);
+	}
+
 
 }

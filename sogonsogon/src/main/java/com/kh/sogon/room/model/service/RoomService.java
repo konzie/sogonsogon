@@ -53,6 +53,33 @@ public interface RoomService {
 	 */
 	List<RoomMember> selectRoomMember(int memberNo);
 
+	/** 카테고리별 목록 조회 Service
+	 * @param pInfo 
+	 * @param option
+	 * @return Room
+	 */
+	List<Room> selectOption(PageInfo pInfo, int option);
+
+	/** 카테고리별 페이징 조회 Service
+	 * @param cp
+	 * @param option
+	 * @return result
+	 */
+	PageInfo getListCount2(int cp, int option);
+
+	/** 검색어 페이징 조회 Service
+	 * @param cp
+	 * @param search
+	 * @return
+	 */
+	PageInfo getListCount3(int cp, String search);
+
+	/** 검색 조회 Service
+	 * @param pInfo 
+	 * @param search
+	 * @return Room
+	 */
+	List<Room> searchList(PageInfo pInfo, String search);
 
 
 }
