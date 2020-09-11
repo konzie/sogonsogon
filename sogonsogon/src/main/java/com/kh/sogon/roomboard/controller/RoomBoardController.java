@@ -264,36 +264,4 @@ public class RoomBoardController {
 		return mv;
 
 	}
-
-	// 게시글 검색
-//	@RequestMapping("search/{type}")
-//	public String search(@PathVariable int type,
-//			@RequestParam(value = "cp", required = false, defaultValue = "1") int cp, Search search, Model model) {
-//
-//		System.out.println(type);
-//		System.out.println(search);
-//
-//		// 1. 검색 내용이 포함된 전체 게시글 수 조회
-//		RoomBoardPageInfo pInfo = roomBoardService.pagination(type, cp, search);
-//
-//		System.out.println(pInfo);
-//		// 2. 검색 게시글 목록 조회
-//		List<RoomBoard> boardList = roomBoardService.selectSearchList(pInfo, search);
-//
-//		for (RoomBoard b : boardList) {
-//			System.out.println(b);
-//		}
-//
-//		// 3. 썸네일 목록 조회
-//		if (!boardList.isEmpty()) {
-//			List<RoomBoardAttachment> thList = roomBoardService.selectThumbnailList(boardList);
-//			model.addAttribute("thList", thList);
-//		}
-//
-//		model.addAttribute("boardList", boardList);
-//		model.addAttribute("pInfo", pInfo);
-//
-//		return "room/roomDetail";
-//	}
-
 }
