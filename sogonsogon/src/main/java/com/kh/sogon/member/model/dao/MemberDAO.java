@@ -36,10 +36,30 @@ public class MemberDAO {
 	 * @param signUpMember
 	 * @return result
 	 */
-	public int signUp(Member signUpMember)throws Exception {
-		return sqlSession.insert("memberMapper.signUp", signUpMember);
+	public void signUp(Member signUpMember)throws Exception {
+		sqlSession.insert("memberMapper.signUp", signUpMember);
 	}
 
+	
+	/** 회원가입 (이메일 인증 코드 확인)
+	 * @param authkey
+	 * @return
+	 * @throws Exception
+	 */
+	public Member chkAuth(String authKey) throws Exception {
+		return sqlSession.selectOne("memberMapper.chkAuthkey", authKey);
+	}
+	
+	/** 회원가입 (인증 후 계정 활성화)
+	 * @param member
+	 * @throws Exception
+	 */
+	public void successAuthkey(Member member) throws Exception {
+		sqlSession.update("memberMapper.keyConfirm", member);
+	}
+	
+	
+	
 	/** 아이디찾기 DAO 
 	 * @param findIdMember
 	 * @return
@@ -56,15 +76,6 @@ public class MemberDAO {
 		return sqlSession.update("memberMapper.findPwd", paramMap);
 
 	}
-
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	

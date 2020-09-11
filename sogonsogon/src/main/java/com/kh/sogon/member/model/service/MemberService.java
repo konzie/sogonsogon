@@ -13,12 +13,17 @@ public interface MemberService {
 	int idDupCheck(String memberId);
 
 	//회원가입
-	int signUp(Member signUpMember) throws Exception;
-
+	void signUp(Member signUpMember) throws Exception ;
+	
+	// 회원가입 (이메일 인증 키 검증)
+	Member userAuth(String authKey) throws Exception ;
+	
 	// 아이디찾기
 	String findId(Map<String, Object> map);
 
 	// 비밀번호 찾기
 	int findPwd(Map<String, Object> paramMap);
+
+
 
 }

@@ -15,6 +15,8 @@ public class Member {
 	private Date memberEnrollDate;
 	private String memberStatus;
 	private String memberGrade;
+	private String authKey;
+	private String emailVerify;
 	
 	public Member() {
 	}
@@ -131,14 +133,35 @@ public class Member {
 		this.memberEmail = memberEmail;
 	}
 
+	
+
+	public String getEmailVerify() {
+		return emailVerify;
+	}
+
+	public void setEmailVerify(String emailVerify) {
+		this.emailVerify = emailVerify;
+	}
 
 	@Override
 	public String toString() {
 		return "Member [memberNo=" + memberNo + ", memberId=" + memberId + ", memberPwd=" + memberPwd + ", memberName="
 				+ memberName + ", memberNick=" + memberNick + ", memberAge=" + memberAge + ", memberPhone="
-				+ memberPhone + ", memberEmail=" + memberEmail + ", memberInterest=" + memberInterest + ", memberEnrollDate=" 
-				+ memberEnrollDate + ", memberStatus=" + memberStatus + ", memberGrade=" + memberGrade + "]";
+				+ memberPhone + ", memberEmail=" + memberEmail + ", memberInterest=" + memberInterest
+				+ ", memberEnrollDate=" + memberEnrollDate + ", memberStatus=" + memberStatus + ", memberGrade="
+				+ memberGrade + ", authKey=" + authKey + ", emailVerify=" + emailVerify + "]";
 	}
+
+	public String getAuthKey() {
+		return authKey;
+	}
+
+	public void setAuthKey(String authKey) {
+		this.authKey = authKey;
+	}
+
+	
+
 
 
 }
