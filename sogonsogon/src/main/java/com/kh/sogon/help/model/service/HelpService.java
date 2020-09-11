@@ -12,12 +12,18 @@ public interface HelpService {
 	 * @param cp
 	 * @return hInfo
 	 */
-	HelpPageInfo pagination(int cp);
+	public abstract HelpPageInfo pagination(int cp);
 
 	/** 문의글 목록 Service
 	 * @param hInfo
 	 * @return helpList
 	 */
-	List<Help> selectList(HelpPageInfo hInfo);
+	public abstract List<Help> selectList(HelpPageInfo hInfo);
+
+	/** 문의글 자세히 Service
+	 * @param boardNo
+	 * @return help
+	 */
+	public abstract Help selectView(int boardNo);
 
 }

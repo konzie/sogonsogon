@@ -247,7 +247,7 @@
                 <div class="table-title">
                     <div class="row">
                         <div class="col-sm-4">
-                            <h2><b>QnA</b><hr></h2>                            
+                            <h2><b>고객센터</b><hr></h2>                            
                             <h5>궁금한 내용을 남겨주세요. 자세히 답변 드립니다.</h5>
                         </div>
 
