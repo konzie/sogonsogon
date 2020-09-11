@@ -17,6 +17,7 @@
         <result property="memberNick" column="MEMBER_NICK"/>
         <result property="roomTag" column="ROOM_TAG"/>
         <result property="roomMaxNumber" column="ROOM_MAX_NUMBER"/>
+        <result property="roomMemberCount" column="ROOM_ENTER_NUMBER"/>
     </resultMap>
     
     <resultMap type="RoomMember" id="roomMemberResultSet">
@@ -28,7 +29,8 @@
     
     <!-- room 정보 조회 쿼리 -->
 	<select id="roomdetailInfo" parameterType="_int" resultMap="roomResultSet">
-		SELECT ROOM_NO, ROOM_TITLE, ROOM_CONTENT, ROOM_CREATE_DATE, ROOM_STATUS, MEMBER_NO, MEMBER_ID, ROOM_TYPE_NAME, ROOM_OPEN
+		SELECT ROOM_NO, ROOM_TITLE, ROOM_CONTENT, ROOM_CREATE_DATE, ROOM_STATUS, 
+		MEMBER_NO, MEMBER_ID, ROOM_TYPE_NAME, ROOM_OPEN,ROOM_ENTER_NUMBER
 		FROM STUDY_ROOM 
 		JOIN MEMBER ON (ROOM_MEMBER_NO = MEMBER_NO)
 		JOIN STUDY_ROOM_CATEGORY ON (ROOM_TYPE = ROOM_CATEGORY_NO)
@@ -61,7 +63,7 @@
 	
 	<!-- 즐겨찾기 리스트 삽입 쿼리 -->
 	<insert id="insertRoomMember" parameterType="map">
-		INSERT INTO ROOM_MEMBER VALUES(#{roomNo}, #{memberNo}, 'G', NULL)
+		INSERT INTO ROOM_MEMBER VALUES(#{roomNo}, #{memberNo}, 'G', DEFAULT)
 	</insert>
 	
 	<!-- 페이징 처리용 조회 쿼리-->
@@ -72,7 +74,7 @@
 	
 	<!-- 방 리스트 조회 쿼리 -->
 	<select id="selectList" parameterType="_int" resultMap="roomResultSet">
-		SELECT ROOM_NO,ROOM_TYPE,ROOM_TITLE,MEMBER_NICK,ROOM_CREATE_DATE,ROOM_TAG,ROOM_OPEN,ROOM_MAX_NUMBER
+		SELECT ROOM_NO,ROOM_TYPE,ROOM_TITLE,MEMBER_NICK,ROOM_CREATE_DATE,ROOM_TAG,ROOM_OPEN,ROOM_MAX_NUMBER,ROOM_ENTER_NUMBER
         FROM STUDY_ROOM
 		JOIN MEMBER ON(ROOM_MEMBER_NO=MEMBER_NO)
         ORDER BY ROOM_NO DESC
@@ -87,7 +89,7 @@
 	
 	<insert id="createRoom"  parameterType="Room" >
 		INSERT INTO STUDY_ROOM VALUES (SEQ_ROOM.NEXTVAL, #{memberNo}, #{roomTitle}, #{roomContent}, #{roomPassword}
-		,#{roomType}, DEFAULT,DEFAULT, #{roomOpen},#{roomOpen}, #{roomTag}, #{roomMaxNumber})
+		,#{roomType}, DEFAULT,DEFAULT, #{roomOpen},#{roomOpen}, #{roomTag}, #{roomMaxNumber},DEFAULT)
 	</insert>
 	
 	<select id="roomMList" parameterType="_int"  resultType="Room" resultMap="roomResultSet">
@@ -137,5 +139,10 @@
 		OR ROOM_CONTENT LIKE '${sv}'
 		OR ROOM_TAG LIKE '${sv}'
 	</select>
+	
+	<insert id="insertCount" parameterType="_int">
+		UPDATE STUDY_ROOM SET ROOM_ENTER_NUMBER = ROOM_ENTER_NUMBER+1
+		WHERE ROOM_NO = #{roomNo}
+	</insert>
 	
 </mapper>

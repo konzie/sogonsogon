@@ -9,8 +9,7 @@
 <head>
 <meta charset="UTF-8">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;800;900&display=swap" rel="stylesheet">
-            <link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css">
-  
+<link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css">
 <style>
 
         @font-face {
@@ -283,7 +282,12 @@
          line-height: 160%;
          cursor: pointer;
       }
+      .noPart{
+      	pointer-events: none;
+      	background: gray;
+      }
 </style>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 </head>
 <body>
    <jsp:include page="../common/header.jsp" />
@@ -346,10 +350,11 @@
                 <p class="room-title">${roomList.roomTitle}</p>
                 <p class="enter-number">
                     방장 : ${roomList.memberNick}<br>
-                    참가인원 : /${roomList.roomMaxNumber}명
+                    참가인원 : <span class="count1">${roomList.roomMemberCount}</span>
+                    			/<span class="count2">${roomList.roomMaxNumber}</span>명
                     │ 개설일 : ${createDate}
              </p>
-			
+	
 			<c:set var="tags" value="${fn:split(roomList.roomTag, ',')}"/>
 	
              <c:set var="roomNo" value="${roomList.roomNo}" />
@@ -359,9 +364,20 @@
              </c:forEach>
             </div>
             
-            <a data-toggle="modal"  data-target="#myModal">
-            	<div class="join-button" id="${roomList.roomNo}"   onclick="return validate();">참여하기</div>
-            </a>
+			<c:choose>
+					<%-- test는 el만 적을 수 있음 (비교, 계산 같은걸 하나 EL 안에 작성가능) --%>
+				<c:when test="${roomList.roomMemberCount != roomList.roomMaxNumber}">
+		            <a data-toggle="modal"  data-target="#myModal">
+		            	<div class="join-button" id="${roomList.roomNo}"   onclick="return validate();">참여하기</div>
+		            </a>
+				</c:when>
+				<c:otherwise>
+		            <a data-toggle="modal" >
+		            	<div class="join-button noPart" id="${roomList.roomNo}"   onclick="return validate();">참여불가</div>
+		            </a>
+				</c:otherwise>
+			</c:choose>
+            
       </div> <!-- roomlist end-->
       </c:forEach>
     </div><!--room-container end-->
@@ -413,7 +429,7 @@
       
               
      <!-- Modal -->
-     <form class="transPage">
+     <form class="transPage" method="post">
      <div class="modal fade" id="myModal" role="dialog" style="text-align: center;">
        <div class="modal-dialog ">
          <div class="modal-content">
@@ -542,6 +558,25 @@ $(".clear-btn").on("click",function(){
 
 		});
 	});
+	
+	// 방 꽉찼을때
+/* 	$(function(){
+		var count = $(".roomlist-box").length; // 현재 페이지 방 수
+		var count1 = $(".count1"); // 방 인원수
+		var count2 = $(".count2"); // 최대 인원수
+		var btn = $(".join-button");
+		
+		console.log(btn[2]);
+		btn[2].text("입장불가");
+		
+		for(var i=0; i<count; i++){
+			if(count1[i] ==count2[i] ){
+				btn[i].text("입장불가");
+				
+			}
+		}
+		
+	}); */
 </script>
 </body>
 </html>
