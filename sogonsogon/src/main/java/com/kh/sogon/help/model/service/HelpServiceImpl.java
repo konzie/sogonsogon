@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.sogon.help.model.dao.HelpDAO;
 import com.kh.sogon.help.model.vo.Help;
@@ -37,6 +38,16 @@ public class HelpServiceImpl implements HelpService{
 	@Override
 	public List<Help> selectList(HelpPageInfo hInfo) {
 		return helpDAO.selectList(hInfo);
+	}
+
+	//문의글 자세히 Service 구현
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public Help selectView(int boardNo) {
+		
+		Help help = helpDAO.selectView(boardNo);
+		
+		return help;
 	}
 
 }
