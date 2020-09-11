@@ -72,7 +72,7 @@
 	
 	<!-- 방 리스트 조회 쿼리 -->
 	<select id="selectList" parameterType="_int" resultMap="roomResultSet">
-		SELECT ROOM_NO,ROOM_TYPE,ROOM_TITLE,MEMBER_NICK,ROOM_CREATE_DATE,ROOM_TAG,ROOM_OPEN 
+		SELECT ROOM_NO,ROOM_TYPE,ROOM_TITLE,MEMBER_NICK,ROOM_CREATE_DATE,ROOM_TAG,ROOM_OPEN,ROOM_MAX_NUMBER
         FROM STUDY_ROOM
 		JOIN MEMBER ON(ROOM_MEMBER_NO=MEMBER_NO)
         ORDER BY ROOM_NO DESC
@@ -100,6 +100,42 @@
 		SELECT ROOM_MEMBER_ROOM_NO 
 		FROM ROOM_MEMBER
 		WHERE  ROOM_MEMBER_MEMBER_NO = #{roomMemberRoomNo}
+	</select>
+	
+	<select id="selectOption" parameterType="_int" resultType="list" resultMap="roomResultSet">
+		SELECT ROOM_NO,ROOM_TYPE,ROOM_TITLE,MEMBER_NICK,ROOM_CREATE_DATE,ROOM_TAG,ROOM_OPEN,ROOM_MAX_NUMBER
+        FROM STUDY_ROOM
+		JOIN MEMBER ON(ROOM_MEMBER_NO=MEMBER_NO)
+		WHERE ROOM_TYPE = #{roomType}
+        ORDER BY ROOM_NO DESC
+	</select>
+	
+	<!-- 페이징 처리용 조회 쿼리-->
+	<select id="getListCount2" parameterType="_int" resultType="_int">
+		SELECT COUNT(*)
+		FROM STUDY_ROOM
+		WHERE ROOM_TYPE = #{roomType}
+	</select>
+	
+	<!-- 검색 조회용 페이징 위한 쿼리 -->
+	<select id="getListCount3" parameterType="_int" resultType="_int">
+		SELECT COUNT(*)
+		FROM STUDY_ROOM
+		<bind name="sv" value="'%' + search + '%'"/> 
+		WHERE ROOM_TITLE LIKE '${sv}'
+		OR ROOM_CONTENT LIKE '${sv}'
+		OR ROOM_TAG LIKE '${sv}'
+	</select>
+	
+	<!-- 검색 조회용 쿼리 -->
+	<select id="searchList" parameterType="string" resultType="list" resultMap="roomResultSet">
+		SELECT *
+		FROM STUDY_ROOM
+		JOIN MEMBER ON(ROOM_MEMBER_NO=MEMBER_NO)
+		<bind name="sv" value="'%' + search + '%'"/> 
+		WHERE ROOM_TITLE LIKE '${sv}'
+		OR ROOM_CONTENT LIKE '${sv}'
+		OR ROOM_TAG LIKE '${sv}'
 	</select>
 	
 </mapper>
