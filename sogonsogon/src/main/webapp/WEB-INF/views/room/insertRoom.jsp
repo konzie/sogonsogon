@@ -223,12 +223,17 @@
 
       // 태그 입력창 생성 + 2번까지(수정)
       for(var i=0; i<2; i++ ){
-      $(".plusbutton").on("click", function(){
-         $tag = $('<input type="text">').addClass("form-control").attr("id", "tags");
-         $(".tagbox").append($tag);
-      });
+	      $(".plusbutton").on("click", function(){
+	         $tag = $('<input type="text">').addClass("form-control").attr("id", "tags");
+	         $(".tagbox").append($tag);
+	      });
     	  i++;
+    	  if(i==2){
+    		  break;
+    		  $(".plusbutton").css("display","hidden");
+    	  }
       }
+
   	 
       // 비공개 버튼 누를시 password input태그 생성
       $("#c").on("change",function(){

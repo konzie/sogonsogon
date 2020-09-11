@@ -7,142 +7,102 @@
 <meta charset="UTF-8">
 <title>고객센터</title>
 <style>
-	#board-area{ margin-bottom:100px;}
-	#board-content{ padding-bottom:150px;}
-	#date-area{font-size: 12px; line-height: 12px}
-	#date-area>p{margin: 0}
- 
+    #back-color{
+        width: 100%;
+        height: 100%;
+        background-color:#ff9d38;}
+    #wrapper{   margin:auto; 
+                width: 880px;}          
+    .detailView{
+        width: 880px;
+        height: 610px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.1);
+        background-color: white;
+        border: solid 1px #c2c2c2;
+    }
 
-	.boardImgArea{
-		height: 300px;
-	}
+    .view-header{
+        padding:1.5rem 0 0;
+        margin-bottom: 1rem;
+        color:white;
+    }
+    
+    .detail-header{
+    				height:13%; 
+    				border-bottom: 1px solid #c2c2c2;
+    				padding:15px 20px 10px;
+    				}
+    #date{font-size:15px;}				
+    .detail-info{
+    			height : 8%; 
+    			border-bottom: 1px solid #c2c2c2;
+    			padding:12px 20px;
+    			}
+    .detail-info dl{float:left;}			
+    .detail-info dt{float:left; display:inline-block; padding-right:10px;}			
+    .detail-info dd{padding-right:30px; float:left;}	
+    		
+    .content{height : 69%; border-bottom: 1px solid #c2c2c2; padding:20px;}
+    .detail-footer{height:10%; padding:13px;}
+    
+    #updateBtn{	text-decoration:none;
+    			border:1px solid #e4e4e4;
+    			float:left; font-size:13px; 
+    			color:#007bff; border-radius:3px;
+    			background-color:#fff; padding:6px 14px;
+    			margin-right:10px;
+    			}
+    #updateBtn:hover{border:1px solid #007bff;}
+    
+    #deleteBtn{	text-decoration:none;
+    			border:1px solid #e4e4e4;
+    			font-size:13px; 
+    			color:#ff4d32; border-radius:3px; float:left;
+    			background-color:#fff; padding:6px 14px;}
+    #deleteBtn:hover{border:1px solid #ff4d32;}
+    
+    #listBtn{	text-decoration:none;
+    			border:1px solid #e4e4e4;
+    			float:right; font-size:13px; 
+    			color:black; border-radius:3px;
+    			background-color:#fff; padding:6px 14px;}
+    #listBtn:hover{border:1px solid #4d4d4d; }
 
-	.boardImg{
-		width : 100%;
-		height: 100%;
-		
-		max-width : 300px;
-		max-height: 300px;
-		
-		margin : auto;
-	}
-	
-	#content-main{ margin: 100px auto;}
-	
-	/* 이미지 화살표 색 조정
-	-> fill='%23000' 부분의 000을
-	   RGB 16진수 값을 작성하여 변경 가능 
-	 */
-	.carousel-control-prev-icon {
- 		background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23000' viewBox='0 0 8 8'%3E%3Cpath d='M5.25 0l-4 4 4 4 1.5-1.5-2.5-2.5 2.5-2.5-1.5-1.5z'/%3E%3C/svg%3E") !important;
-	}
-	
-	.carousel-control-next-icon {
-  		background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23000' viewBox='0 0 8 8'%3E%3Cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3E%3C/svg%3E") !important;
-	}
-	
-	
 </style>
 </head>
-<body>
+<body id="back-color">
 	<jsp:include page="../common/header.jsp"/>
-	<div class="container" id="content-main">
-
-		<div>
-			<h1>${board.boardName}</h1>
-			<hr>
-			<div id="board-area">
-
-				<!-- Category -->
-				<h6 class="mt-4">카테고리 : [${board.boardCategory}]</h6>
-				
-				<!-- Title -->
-				<h3 class="mt-4">${board.boardTitle}</h3>
-	
-				<hr>
-
-				<!-- Writer -->
-				<div class="lead">
-					작성자 : ${board.boardWriter}<br>
-				 	<span class="float-right">조회수 : ${board.readCount} </span>
-					<div id="date-area">
-						<p>작성일 : ${board.boardCreateDate }</p>
-						<p>마지막 수정일 : ${board.boardModifyDate }</p>  
-					</div>
-					
-				</div>
-
-				<hr>
-
-				
-				<!-- 이미지 부분 -->
-				<c:if test="${!empty files }">
-
-                    <div class="carousel slide m-3" id="carousel-325626">
-
-                        <div class="carousel-inner boardImgArea">
-
-
-                            <c:forEach var="at" items="${files}" varStatus="vs">
-                                <c:set var="src" value="${contextPath}${at.filePath}/${at.fileChangeName}"/>
-
-                                <div class="carousel-item <c:if test="${vs.index == 0}"> active</c:if>">
-                                    <img class="d-block w-100 boardImg" src="${src}" />
-                                    <input type="hidden" value="${at.fileNo}">
-                                </div>
-                            </c:forEach>
-
-                        </div> 
-
-
-                        <a class="carousel-control-prev" href="#carousel-325626" data-slide="prev"><span class="carousel-control-prev-icon"></span> <span class="sr-only">Previous</span></a> <a class="carousel-control-next" href="#carousel-325626" data-slide="next">
-						
-						<span class="carousel-control-next-icon"></span> 
-						
-                        <span class="sr-only">Next</span></a>
-                        
-                    </div>
-                </c:if>
-						
-
-
-				<!-- Content -->
-				<div id="board-content">
-				<% pageContext.setAttribute("newLine", "\n"); %>
-				${fn:replace(board.boardContent, "newLine","<br>")}
-				</div>
-				
-				
-
-				<hr>
-				
-				<div>
-					<div class="float-right">
-						<a class="btn btn-primary" href="${listUrl}">목록으로</a>
-							
-							
-							<!--상세조회 주소 예시 board/1/500?cp=1 -->
-							<!--목록으로 주소 예시 board/list/1?cp=1 -->
-							
-	                	
-	                	<!-- 글 작성자와 로그인한 회원이 같을 경우 -->
-	                	<c:if test="${board.boardWriter == sessionScope.loginMember.memberId }">	
-	                		<c:url var="updateUrl" value="${board.boardNo}/update">
-	                			<c:param name="cp" value="${param.cp}"/>
-	                		</c:url>
-	                	
-	                	                	
-							<a href="${updateUrl}" class="btn btn-primary ml-1 mr-1">수정</a>
-							<button id="deleteBtn" href="" class="btn btn-primary">삭제</button>
-	                	</c:if>
-					</div>
-				</div>
-			</div>
-
-			<hr>
-
-		</div>
-	</div>
+        <div id="wrapper">
+            <div class="view-header">
+	            <h4><b>고객센터</b></h4>
+	            <h6>- ${help.helpCategory}</h6>
+            </div>
+            <div class="detailView">
+            	<div class="detail-header">
+            		<h4 class="detail-title" style="margin-bottom: 0;" >${help.helpTitle}</h4>
+            		<span id="date" style="color:#4a4a4a;">${help.helpCreateDate}</span>
+            	</div>
+            	<div class="detail-info">
+            		<dl>
+            			<dt>작성자</dt> <dd>${help.helpWriter}</dd>
+            		</dl>
+            		<dl>
+            			<dt>수정일</dt> <dd>${help.helpModifyDate}</dd>
+            		</dl>
+            			
+            	</div>
+            	<div class="content">${help.helpContent}</div>
+            	<div class="detail-footer">
+            		<c:if test="${loginMember.memberNick == help.helpWriter}">
+            		<div class="update-Btn"><a id="updateBtn" type="button" href="${contextPath}/help/list/1">수정</a></div>
+            		<div class="delete-Btn"><a id="deleteBtn" type="button" href="${contextPath}/help/list/1">삭제</a></div>
+            		
+                    <div class="list-Btn"><a id="listBtn" type="button" href="${contextPath}/help/list/1">목록</a></div>
+                	</c:if>
+            	</div>
+            </div>
+        </div>
 	<jsp:include page="../common/footer.jsp"/>
 	
 	<script>

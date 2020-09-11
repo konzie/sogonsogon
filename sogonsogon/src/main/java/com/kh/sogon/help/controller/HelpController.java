@@ -55,7 +55,16 @@ public class HelpController {
 	   //help/no=1?cp=1
 	   @RequestMapping("no={boardNo}")
 	   public String helpView(@PathVariable int boardNo, Model model, RedirectAttributes rdAttr, HttpServletRequest request) {
-		return "help/helpView";		   
+		   
+		   Help help = helpService.selectView(boardNo);
+		   
+		   System.out.println(help);
+		   
+		   model.addAttribute("help", help);
+		   
+		   
+		   
+		   return "help/helpView";		   
 	   }
 	   
 }

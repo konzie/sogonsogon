@@ -27,7 +27,12 @@
   		ORDER BY HELP_NO DESC
   	</select>
     
-    
+    <!-- 문의글 상세 조회 -->
+	<select id="selectView" parameterType="_int" resultMap="helpResultSet">
+		SELECT * FROM All_HELP
+		WHERE HELP_NO = #{boardNo}
+		AND HELP_STATUS = 'Y'
+	</select>
 
 	
 </mapper>
