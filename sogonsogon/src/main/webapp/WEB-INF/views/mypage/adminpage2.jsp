@@ -12,7 +12,7 @@
           width: 15%;
           height:100%;
           color: #fff;
-          background: #ff9d38;  
+          background: rgba(241, 158, 48,0.7);  
           font-size: 100%;
           text-align: center;
   		  margin: 10px 0 10px 100px;

@@ -46,10 +46,10 @@
                         <th id="boardNo">글번호</th>
                         <th id="category">분류</th>
                         <th id="title">제목</th>
+                        <th id="title">내용</th>
                         <th id="writer">작성자</th>						
                         <th id="create_dt">작성일</th>						
-                        <th id="status">답변/미답변</th>
-
+                        <th id="lockStatus">비밀글</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -65,7 +65,8 @@
 		              		<td>${board.helpNo}</td>
 		              		<td>${board.helpCategory}</td>
 		              		<td>${board.helpTitle}</td>
-		              		<td>${board.writerName}</td>
+		              		<td>${board.helpContent}</td>
+		              		<td>${board.writerNick}</td>
 		              		<td>
 		              			<jsp:useBean id="now" class="java.util.Date"></jsp:useBean>
 		              			<fmt:formatDate var="today" value="${now}" pattern="yyyy-MM-dd"/>
@@ -81,7 +82,7 @@
 		              				</c:otherwise>
 		              			</c:choose>
 		              		</td>
-		              		<td>${board.helpStatus}</td>
+		              		<td>${board.lockStatus}</td>
 	              		</tr>	
           				</c:forEach>
           			</c:otherwise>
@@ -140,5 +141,14 @@
    
    <jsp:include page="../common/footer.jsp" />
     
+    <script>
+    $("td").on("click",function(){
+    	var boardNo = $(this).parent().children().eq(0).text(); 
+    	var cp = ${pInfo.currentPage};
+    	location.href = "${contextPath}/help/no="+boardNo+"&cp="+cp;
+    }).on("mouseenter", function(){
+    	$(this).parent().css("cursor", "pointer");
+    });
+    </script>
     </body>
 </html>

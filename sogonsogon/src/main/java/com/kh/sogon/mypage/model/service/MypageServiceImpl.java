@@ -143,6 +143,7 @@ public class MypageServiceImpl implements MypageService{
 	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public List<Reply> selectRList(PageInfo pInfo, int memberNo) {
+		
 		return mypageDAO.selectRList(pInfo, memberNo);
 	}
 
@@ -167,9 +168,19 @@ public class MypageServiceImpl implements MypageService{
 	}
 
 	@Override
-	public List<Board> selectReport() {
-		return mypageDAO.selectReport();
+	public PageInfo reportPage(int cp) {
+		int listDCount = mypageDAO.getListDCount();
+		
+		pInfo.setPageInfo(cp, listDCount);
+
+		return pInfo;
 	}
+	
+	@Override
+	public List<Board> selectDList(PageInfo pInfo) {
+		return mypageDAO.selectDList(pInfo);
+	}
+
  	
 
 }

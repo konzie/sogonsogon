@@ -30,8 +30,17 @@ public class MypageController {
 	@RequestMapping("adminpage")
 	public String adminpage(Model model) {
 		
-		List<Board> reportList = mypageService.selectReport();
-		model.addAttribute("boardList", reportList);
+		PageInfo pInfo = new PageInfo();
+		pInfo.setLimit(3);
+		
+		List<Board> reportList = mypageService.selectDList(pInfo);
+		model.addAttribute("reportList", reportList);
+		
+		List<Help> helpList = mypageService.selectQList(pInfo);
+		model.addAttribute("helpList", helpList);
+
+		List<Board> noticeList = mypageService.selectNList(pInfo);
+		model.addAttribute("noticeList", noticeList);
 		
 		return "mypage/adminmain";
 	}
@@ -42,6 +51,8 @@ public class MypageController {
 		Member loginMember = (Member)model.getAttribute("loginMember");
 		
 		PageInfo pInfo = mypageService.replyPage(cp, loginMember.getMemberNo());
+
+		pInfo.setLimit(10);
 		
 		List<Reply> replyList = mypageService.selectRList(pInfo, loginMember.getMemberNo());
 		                                                                   
@@ -146,10 +157,68 @@ public class MypageController {
 	}
 	// 신고사항 조회
 	@RequestMapping("adminreport")
-	public String adminreport() {
+	public String adminreport(Model model, @RequestParam(value="cp", required=false, defaultValue="1") int cp) {
+		
+		PageInfo pInfo = mypageService.reportPage(cp);
+
+		pInfo.setLimit(10);
+		
+		List<Board> reportList = mypageService.selectDList(pInfo);
+		                                                                   
+		model.addAttribute("reportList", reportList);
+		model.addAttribute("pInfo", pInfo);
+		
 		return "mypage/adminreport";
 		}
 	
+	// 고객센터 조회
+	@RequestMapping("adminhelp")
+	public String adminqna(@RequestParam(value="cp", required=false, defaultValue = "1") int cp, Model model) {
+		
+		PageInfo pInfo = mypageService.qnaPage(cp);
+		
+		pInfo.setLimit(10);
+		
+		List<Help> helpList = mypageService.selectQList(pInfo);
+		                                                                   
+		model.addAttribute("helpList", helpList);
+		model.addAttribute("pInfo", pInfo);
+
+		return "mypage/adminhelp";
+		}
+	
+	// 공지사항 조회
+	@RequestMapping("adminnotice")
+	public String adminnotice(@RequestParam(value="cp", required=false, defaultValue = "1") int cp, Model model) {
+		
+		PageInfo pInfo = mypageService.noticePage(cp);
+		
+		pInfo.setLimit(10);
+		
+		List<Board> qnaList = mypageService.selectNList(pInfo);
+		                                                                   
+		model.addAttribute("qnaList", qnaList);
+		model.addAttribute("pInfo", pInfo);
+		
+		return "mypage/adminnotice";
+		}
+	
+	// 멤버 조회
+	@RequestMapping("adminmember")
+	public String adminmember(@RequestParam(value="cp", required=false, defaultValue = "1") int cp, Model model) {
+		
+		PageInfo pInfo = mypageService.memberPage(cp);
+		
+		pInfo.setLimit(10);
+		
+		List<Member> memberList = mypageService.selectMList(pInfo);
+		
+		model.addAttribute("memberList", memberList);
+		model.addAttribute("pInfo", pInfo);
+		
+		return "mypage/adminmember";
+		}
+		
 	@ResponseBody
 	@RequestMapping("qnaCount")
 	public int qnaCount() {
@@ -185,49 +254,7 @@ public class MypageController {
 		
 		return count;
 	}
-	
-	// 고객센터 조회
-	@RequestMapping("adminhelp")
-	public String adminqna(@RequestParam(value="cp", required=false, defaultValue = "1") int cp, Model model) {
-		
-		PageInfo pInfo = mypageService.qnaPage(cp);
-		
-		List<Help> helpList = mypageService.selectQList(pInfo);
-		                                                                   
-		model.addAttribute("helpList", helpList);
-		model.addAttribute("pInfo", pInfo);
 
-		return "mypage/adminhelp";
-		}
-	
-	// 공지사항 조회
-	@RequestMapping("adminnotice")
-	public String adminnotice(@RequestParam(value="cp", required=false, defaultValue = "1") int cp, Model model) {
-		
-		PageInfo pInfo = mypageService.noticePage(cp);
-		
-		List<Board> qnaList = mypageService.selectNList(pInfo);
-		                                                                   
-		model.addAttribute("qnaList", qnaList);
-		model.addAttribute("pInfo", pInfo);
-		
-		return "mypage/adminnotice";
-		}
-	
-	// 멤버 조회
-	@RequestMapping("adminmember")
-	public String adminmember(@RequestParam(value="cp", required=false, defaultValue = "1") int cp, Model model) {
-		
-		PageInfo pInfo = mypageService.memberPage(cp);
-		
-		List<Member> memberList = mypageService.selectMList(pInfo);
-		
-		model.addAttribute("memberList", memberList);
-		model.addAttribute("pInfo", pInfo);
-		
-		return "mypage/adminmember";
-		}
-	
 	// 회원 탈퇴
 	@RequestMapping("deleteInfo")
 	public String deleteInfo(Model model, RedirectAttributes rdAttr, SessionStatus sessionstatus) {

@@ -109,7 +109,7 @@ public class MypageDAO {
 
 
 	public List<Board> selectBList(PageInfo pInfo, int memberNo) {
-
+		
 		int offset = (pInfo.getCurrentPage() - 1) * pInfo.getLimit();
 		
 		RowBounds rowBounds = new RowBounds(offset, pInfo.getLimit());
@@ -122,7 +122,7 @@ public class MypageDAO {
 	}
 
 	public List<Reply> selectRList(PageInfo pInfo, int memberNo) {
-
+		
 		int offset = (pInfo.getCurrentPage() - 1) * pInfo.getLimit();
 		
 		RowBounds rowBounds = new RowBounds(offset, pInfo.getLimit());
@@ -149,10 +149,23 @@ public class MypageDAO {
 		return sqlSession.selectOne("mypageMapper.memberCount");
 	}
 
+	public int getListDCount() {
+		return sqlSession.selectOne("mypageMapper.getListDCount");
+	}
 
 	public List<Board> selectReport() {
 		return sqlSession.selectList("mypageMapper.selectReport");
 	}
+	
+	public List<Board> selectDList(PageInfo pInfo) {
+				
+		int offset = (pInfo.getCurrentPage() - 1) * pInfo.getLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, pInfo.getLimit());
+		
+		return sqlSession.selectList("mypageMapper.selectDList", rowBounds);
+	}
+
 
 	
 }

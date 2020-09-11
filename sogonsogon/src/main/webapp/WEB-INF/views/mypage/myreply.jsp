@@ -65,7 +65,7 @@
 	              		<tr>		
 		              		<td>${reply.replyNo}</td>
 		              		<td colspan="2">${reply.content}</td>
-		              		<td>${reply.writerName}</td>
+		              		<td>${reply.writerNick}</td>
 		              		<td>
 		              			<jsp:useBean id="now" class="java.util.Date"></jsp:useBean>
 		              			<fmt:formatDate var="today" value="${now}" pattern="yyyy-MM-dd"/>
