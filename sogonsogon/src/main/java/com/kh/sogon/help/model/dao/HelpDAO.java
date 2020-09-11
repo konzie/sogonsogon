@@ -33,11 +33,14 @@ public class HelpDAO {
 	 */
 	public List<Help> selectList(HelpPageInfo hInfo) {
 		
-		int offset = (hInfo.getCurrentPage() - 1) *hInfo.getLimit();
+		int offset = (hInfo.getCurrentPage() - 1) * hInfo.getLimit();
+		
+		System.out.println("확 : " + offset);
+		System.out.println("인 : " + hInfo.getLimit());
 		
 		RowBounds rowBounds = new RowBounds(offset, hInfo.getLimit());
 		
-		return sqlSession.selectList("helpMapper.selectList", rowBounds);
+		return sqlSession.selectList("helpMapper.selectList", 0 ,rowBounds);
 	}
 
 }
