@@ -26,17 +26,14 @@
 		     font-weight: normal;
 		     font-style: normal;
 		}
-            
-        
-
+		
         .room-box {
             width: 100%;
             height: 650px;
-           /*  display: flex; */
             justify-content: center;
             flex-wrap: unset;
             /* font-family: 'GmarketSansMedium'; */
-              font-family: 'Handon3gyeopsal600g';
+            font-family: 'Handon3gyeopsal600g';
             text-align: center;
         }
 
@@ -92,9 +89,7 @@
             font-size: 14px;
             margin:28px 0px 2px 0px;
         }
-        .review-box>p{
-            clear: both;
-        }
+
         .room-title{
             font-size: 22px;
             margin:0px;
@@ -110,29 +105,24 @@
            text-align: center;
            margin-top: 40px;
         }
-        .empty{
-           width: 100%;
-           height: 40px;
-        }
-        
-        /*  */
-        
+    
 	    .table-title {
 	      color: #fff;
-	      background: #ff9d38;      
-	      padding: 16px 25px;
-	      margin: -20px 160px 10px;
+	      background: rgba(241, 158, 48,0.7);
+	      padding: 30px;
+	      /* margin: -20px 160px 10px; */
 	      border-radius: 3px 3px 0 0;
 	   }
     
+      /* 페이징 */
       .pageN{
           width: 100%;
           height: 50px;
           text-align: center;
        }
-      .pagination2 {
+/*       .pagination2 {
         display: inline-block;
-      }
+      } */
       
       .pagination2 a {
         color: black;
@@ -164,12 +154,12 @@
          margin-right: 160px;
       }
       
+      /* 검색 영역 */
         *, *:before, *:after {
           -webkit-box-sizing: border-box;
           box-sizing: border-box;
        }
 
-   
 	   .search-box {
 	     position: relative;
 	     width: 100%;
@@ -236,25 +226,24 @@
 	      opacity: 0;
 	   }
    
-      .modal-button2{
-         width: 100px;
-         height: 35px;
-         border-radius: 18px;
-         background-color: rgb(248, 162, 113);
-         line-height: 200%;
-         float: left;
-         color: white;
-         text-decoration: none;
-         margin: 0px 6px;
-     }
-      .modal-body{
-        text-align: center;
-      }
-     
+
+
        .button-area {
             height: 40px;
             width: 100%;
         }
+        
+	   .modal-button2{
+	         width: 100px;
+	         height: 35px;
+	         border-radius: 18px;
+	         background-color: rgb(248, 162, 113);
+	         line-height: 200%;
+	         float: left;
+	         color: white;
+	         text-decoration: none;
+	         margin: 0px 6px;
+	     }
         
         .button-area .btn{
            width: 80px;
@@ -263,9 +252,6 @@
           border-radius: 10px;
           font-size: 18px;
           font-family: 'GmarketSansMedium'; 
-        }
-        .modal-body img{
-           width: 70px;
         }
         .modal-btn-area2{
         margin: 10px auto;
@@ -281,10 +267,10 @@
         height: 20%;
         font-size: 24px;
         margin: 0px 8px 0px 0px;
-   }
+  		 }
       .m-passnotice{
          font-size: 13px;
-      }
+     	 }
 
        .clear-btn{
          border: 2px solid white;
@@ -297,29 +283,25 @@
          line-height: 160%;
          cursor: pointer;
       }
-      
-
 </style>
 </head>
 <body>
    <jsp:include page="../common/header.jsp" />
    
-   <div class="empty"></div>
    
    <div class="table-title">
             <h2>Study Room</h2>
             <p>소곤소곤은 어쩌구저꺼구를 위한 모임을 제공해줍니다.<br>
             소곤소곤은 어쩌구저꺼구를 위한 모임을 제공해줍니다.
             </p>
-            <c:if test="${!empty loginMember}">
              <a href="${contextPath}/room/insertRoom"><div class="clear-btn">방만들기</div></a>            
-            </c:if>
    </div>
 
 	<hr>
 
       <div class="selectList">
-         <select>
+         <select name="sKey">
+         		 <option value="0">option</option>
                   <option value="1">IT</option>
                   <option value="2">공모전</option>
                   <option value="3">면접</option>
@@ -364,12 +346,13 @@
                 <p class="room-title">${roomList.roomTitle}</p>
                 <p class="enter-number">
                     방장 : ${roomList.memberNick}<br>
-                    참가인원 : /10명
+                    참가인원 : /${roomList.roomMaxNumber}명
                     │ 개설일 : ${createDate}
              </p>
 			
 			<c:set var="tags" value="${fn:split(roomList.roomTag, ',')}"/>
 	
+             <c:set var="roomNo" value="${roomList.roomNo}" />
             <div id="tagbox">
              <c:forEach var="tag" items="${tags}">
                 <div class="tags">#${tag}</div> 
@@ -389,9 +372,9 @@
 
       
      <!-- 페이징 -->
-	<c:set var="url" value="/sogon/room/roomList?cp="  />
+    <c:set var="url" value="/sogon/room/roomList?cp="  />
    <div class="pageN">
-      <div class="pagination2">
+      <div class="pagination2" style="display: inline-block;">
       
         <a href="${url}1">&laquo;</a> <%-- '<<' --%>
         
@@ -430,7 +413,8 @@
       
               
      <!-- Modal -->
-     <div class="modal fade" id="myModal" role="dialog">
+     <form class="transPage">
+     <div class="modal fade" id="myModal" role="dialog" style="text-align: center;">
        <div class="modal-dialog ">
          <div class="modal-content">
            <div class="modal-header">입장하기
@@ -442,22 +426,21 @@
                <p class="m-title"></p>
                <p class="m-content" style="margin-bottom: 6px;"></p>
               
-              
               <div class="pass-area">
-                 <img src="${contextPath}/resources/images/lock.png">
+                 <img src="${contextPath}/resources/images/lock.png"  style="width: 70px;">
                  <p style="margin: 0px;">참여 번호 입력</p>
                  <p class="m-passnotice">
                        참여 비밀 번호가 필요한 채팅방입니다.<br>
                        방장이 알려준 참여 비밀 번호를 입력해 주세요.
                  </p>
-                  <input type="password" placeholder="영문/숫자 4~10자리"  name="roomPassword"> 
   				  <input type="hidden"  class="hiddenNo" name="roomNo"> <!--  hiddenNo 영역보일시 display:none처리-->
+                  <input type="password" placeholder="영문/숫자 4~10자리"  name="inputPwd"> 
               </div>
 
             
             <div class="modal-btn-area2" > 
               	<button type="button"  class="modal-button2" data-dismiss="modal">뒤로가기</button>
-                <button type="button"  class="modal-button2" id="modal-btn">참여하기</button>
+                <button type="submit"  class="modal-button2" id="modal-btn">참여하기</button>
             </div>
       
            </div>
@@ -465,6 +448,7 @@
          </div>
        </div>
      </div> <!-- modal end -->
+     </form>
    
           <div class="loginText" >${loginMember.memberNo}</div>
 
@@ -472,23 +456,32 @@
    <jsp:include page="../common/footer.jsp" />
    
 <script>
+// 방만들기 버튼 유효성 검사
+$(".clear-btn").on("click",function(){
+	if($(".loginText").text() ==""){
+		alert("로그인을 해주세요");
+		return false;
+	}
+});
+
 // 방번호 넘기기 위한 함수
 	$(".join-button").on("click",function(){
 		if($(".loginText").text() ==""){ // 로그인안됐을때 경고창
 			alert("로그인을 해주세요");
 			return false;
 		
+		
+	/*     $("#modal-btn").on("click",function(){
+            location.href = "${contextPath}/room/roomDetail/"+ roomNo;
+         }); */
+		    
 		}else{
-
 			$(".pass-area").css("display","block");   
 			   var roomNo = $(this).attr("id");
-			   console.log(roomNo);
+			   // console.log(roomNo);
 			   $(".hiddenNo").val(roomNo);
-	
-			   
-			   	$("#modal-btn").on("click",function(){
-					location.href = "${contextPath}/room/roomDetail/"+ roomNo;
-				});
+			
+			   $(".transPage").prop("action", "${contextPath}/room/roomDetail/"+ roomNo);
 			   
 				$.ajax({
 					url : "${contextPath}/room/roomMList/"+roomNo,
@@ -499,14 +492,10 @@
 						$(".m-title").html(map.room.roomTitle);
 						$(".m-content").html(map.room.roomContent);
 						
+						// 비공개 방인경우 비밀번호 입력창 사라짐
 						if(map.room.roomOpen == 'Y' ){
 							$(".pass-area").css("display","none");
 						}
-						
-						console.log(map.roomMember); // object타입
-						console.log(map.roomMember[0].roomMemberRoomNo);
-						console.log("----------------");
-						console.log(roomNo); // roomNo
 						
 						// 로그인한 멤버가 이미 가입한 방일때 
 						for(var i=0; i<map.roomMember.length; i++){
@@ -522,8 +511,37 @@
 		} // else end
 	});
 	
+	// 검색창 엔터시 동작
+	$("#search").on("keyup", function(event){
+		if(event.keyCode == 13){ // 엔터키가 눌러진 경우
+			var searchUrl = "";
+			
+			var $search = $("#search").val();
+			console.log( $search );
+			if($search.trim().length != 0){ // 검색어 있는 경우
+				//searchUrl ="${pInfo.boardType}";		
+				// http://localhost:8081/sogon/room/roomList 현재
+				// http://localhost:8081/sogon/room/0 검색어없을경우
+				location.href="${contextPath}/room/search/"+$search;
+			
+			}else{ // 검색어 없는 경우
+				alert("검색어없음");
+				
+			}
+			
+		}
+	});
 
+	
+	// 셀렉트박스 목록 정렬
+	$(function(){
+		$("select[name='sKey']").change(function() {
+			var option = $("select[name='sKey'] option:selected").val();
+			console.log(option); // option에는 번호담겨있음
+			location.href= "${contextPath}/room/select/"+option;
 
+		});
+	});
 </script>
 </body>
 </html>

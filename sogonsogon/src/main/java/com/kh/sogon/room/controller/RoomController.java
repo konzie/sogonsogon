@@ -35,26 +35,17 @@ public class RoomController {
 		
 		@Autowired
 		private PageInfo pInfo;
-	
+		
+
 		@RequestMapping("roomList")
-		public String roomView(@RequestParam(value="cp" , required=false, defaultValue ="1" )  int cp,
-												Model model) {
-			//  ------------------------------------ 페이징, 방 목록 조회 ------------------------------------
+		public String roomView(@RequestParam(value="cp" , required=false, defaultValue ="1" )  int cp, Model model) {
 			PageInfo pInfo = roomService.pagination(cp);
 			
 			 List<Room> roomList = roomService.selectList(pInfo);
-			  /* for(Room r : roomList) { System.out.println(r); } */
+			 //for(Room r : roomList) { System.out.println(r); }
 
 			 model.addAttribute("roomList", roomList);
 			 model.addAttribute("pInfo", pInfo);
-			 
-			//  ------------------------------------ ROOM_MEMBER테이블조회 ------------------------------------
-			// room_member테이블에서 가입한 ROOM_MEMBER_ROOM_NO를 조회하고 
-			// 그 값을 화면에 넘겨 비밀번호화면 유무 조건 추가
-			 // 로그인한 회원 no를 넘기는 방법은 오류가뜸
-			 Member loginMember = (Member)model.getAttribute("loginMember");
-
-	         model.addAttribute("loginMember", loginMember);
 			 
 			return "room/roomList";
 		}
@@ -92,7 +83,7 @@ public class RoomController {
 	   
 		@RequestMapping("roomDetail/{roomNo}")
 		public String roomDetailView(@PathVariable int roomNo, @RequestParam(value = "inputPwd", required = false, defaultValue = "-1") String inputPwd, Model model, RedirectAttributes rdAttr, HttpServletRequest request) {
-			
+			System.out.println("룸엔오"+roomNo);
 			Member loginMember = (Member)model.getAttribute("loginMember");
 			
 			if(loginMember != null)
@@ -120,7 +111,6 @@ public class RoomController {
 			int memberNo = loginMember.getMemberNo();
 			room.setMemberNo(memberNo);
 			
-			// System.out.println("CONTROLLER"+room);
 			int result = roomService.createRoom(room);
 			
 			String path = null;
@@ -134,7 +124,7 @@ public class RoomController {
 			return  "redirect:"+ path;
 		}
 		
-		// 모달 영역에 데이터
+		// 모달 영역에 방 데이터 & 로그인한 멤버 가입한 방정보
 		@ResponseBody
 		@RequestMapping("roomMList/{roomNo}")
 		public String roomMList(@PathVariable int roomNo, Model model) {
@@ -151,8 +141,36 @@ public class RoomController {
 			
 			Gson gson = new Gson();
 			return gson.toJson(map);
-			
 		}
 		
+		// 카테고리별 조회
+		 @RequestMapping("select/{option}") 
+		 public String selectOption(@RequestParam(value="cp" , required=false, defaultValue ="1" )  int cp, @PathVariable int option, Model model) { 
+			 PageInfo pInfo = roomService.getListCount2(cp,option);
+			 List<Room> roomList = roomService.selectOption(pInfo, option);
+
+			 model.addAttribute("pInfo", pInfo);
+			 model.addAttribute("roomList", roomList);
+			 
+		     return  "room/roomList"; 
+		    		 
+		 }
+		 
+		 // 검색어 조회
+		 @RequestMapping("search/{search}")
+		 public String searchList(@RequestParam(value="cp" , required=false, defaultValue ="1" )  int cp, @PathVariable String search, Model model) {
+			 System.out.println("검색어 " + search);
+			 
+			 PageInfo pInfo = roomService.getListCount3(cp,search);
+			 List<Room> roomList = roomService.searchList(pInfo,search);
+			 for(Room r : roomList) {
+				 System.out.println(r);
+			 }
+			 
+			 model.addAttribute("pInfo", pInfo);
+			 model.addAttribute("roomList", roomList);
+			 
+			return  "room/roomList";  
+		 }
 
 }

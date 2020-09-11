@@ -104,12 +104,6 @@
 	margin-top: 40px;
 }
 
-.empty {
-	width: 100%;
-	height: 40px;
-}
-
-/*  */
 .modal-button2 {
 	width: 100px;
 	height: 35px;
@@ -122,9 +116,7 @@
 	margin: 0px 6px;
 }
 
-.modal-body {
-	text-align: center;
-}
+
 
 .button-area {
 	height: 40px;
@@ -138,10 +130,6 @@
 	border-radius: 10px;
 	font-size: 18px;
 	font-family: 'GmarketSansMedium';
-}
-
-.modal-body img {
-	width: 70px;
 }
 
 .modal-btn-area2 {
@@ -333,7 +321,7 @@
 
 				<div class="room-box">
 					<div class="roomlist-box">
-						<img src="${contextPath}/resources/images/clip.png">
+						<img src="${contextPath}/resources/images/clip.png" style="width: 70px;">
 
 
 						<p class="room-content">
