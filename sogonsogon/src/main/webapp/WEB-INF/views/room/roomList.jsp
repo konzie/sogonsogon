@@ -470,7 +470,7 @@ $(".clear-btn").on("click",function(){
 			alert("로그인을 해주세요");
 			return false;
 		
-		$(".transPage").prop("action", "${contextPath}/room/roomDetail/"+ roomNo);
+		
 	/*     $("#modal-btn").on("click",function(){
             location.href = "${contextPath}/room/roomDetail/"+ roomNo;
          }); */
@@ -481,6 +481,8 @@ $(".clear-btn").on("click",function(){
 			   // console.log(roomNo);
 			   $(".hiddenNo").val(roomNo);
 			
+			   $(".transPage").prop("action", "${contextPath}/room/roomDetail/"+ roomNo);
+			   
 				$.ajax({
 					url : "${contextPath}/room/roomMList/"+roomNo,
 					type : "POST",
