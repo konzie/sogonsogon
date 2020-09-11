@@ -136,6 +136,50 @@ public class RoomDAO {
 	}
 
 
+	/** 카테고리별 목록 조회
+	 * @param pInfo
+	 * @param roomType
+	 * @return
+	 */
+	public List<Room> selectOption(PageInfo pInfo, int roomType) {
+		 pInfo.setLimit(6);
+		 int offset =(pInfo.getCurrentPage()-1)*pInfo.getLimit();
+
+		 RowBounds rowBounds = new RowBounds(offset,pInfo.getLimit());
+		 
+		return sqlSession.selectList("roomMapper.selectOption", roomType,rowBounds);
+	}
+
+
+	/** 카테고리별 목록 조회용 페이징
+	 * @param roomType
+	 * @return
+	 */
+	public int getListCount2(int roomType) {
+		return sqlSession.selectOne("roomMapper.getListCount2", roomType);
+	}
+
+	/** 검색어 조회용 페이징
+	 * @param search
+	 * @return
+	 */
+	public int getListCount3(String search) {
+		return sqlSession.selectOne("roomMapper.getListCount3", search);
+	}
+
+	/** 검색어 조회 DAO
+	 * @param pInfo
+	 * @param search
+	 * @return
+	 */
+	public List<Room> searchList(PageInfo pInfo, String search) {
+		 pInfo.setLimit(6);
+		 int offset =(pInfo.getCurrentPage()-1)*pInfo.getLimit();
+
+		 RowBounds rowBounds = new RowBounds(offset,pInfo.getLimit());
+		return sqlSession.selectList("roomMapper.searchList", search, rowBounds);
+	}
+
 
 	
 }
