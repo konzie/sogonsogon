@@ -1,6 +1,7 @@
 package com.kh.sogon.roomboard.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -11,6 +12,10 @@ import com.kh.sogon.roomboard.model.vo.RoomBoard;
 import com.kh.sogon.roomboard.model.vo.RoomBoardAttachment;
 import com.kh.sogon.roomboard.model.vo.RoomBoardPageInfo;
 
+/**
+ * @author KSHan
+ *
+ */
 @Repository
 public class RoomBoardDAO {
 	@Autowired
@@ -125,6 +130,27 @@ public class RoomBoardDAO {
 	 */
 	public int deleteAttachment2(int fileNo) {
 		return sqlSession.delete("roomBoardMapper.deleteAttachment2", fileNo);
+	}
+
+	/** 검색 조건이 추가된 페이징 처리 DAO
+	 * @param map
+	 * @return
+	 */
+	public int getSearchListCount(Map<String, Object> map) {
+		return sqlSession.selectOne("roomBoardMapper.getSearchListCount", map);
+	}
+
+	/** 검색 목록 죄회 DAO
+	 * @param pInfo
+	 * @param map
+	 * @return
+	 */
+	public List<RoomBoard> selectSearchList(RoomBoardPageInfo pInfo, Map<String, Object> map) {
+		int offset = (pInfo.getCurrentPage() - 1) * pInfo.getLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, pInfo.getLimit());
+		
+		return sqlSession.selectList("roomBoardMapper.selectSearchList", map, rowBounds);
 	}
 
 }

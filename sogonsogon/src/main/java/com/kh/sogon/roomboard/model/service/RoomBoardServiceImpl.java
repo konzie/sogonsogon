@@ -3,7 +3,9 @@ package com.kh.sogon.roomboard.model.service;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +16,7 @@ import com.kh.sogon.roomboard.model.dao.RoomBoardDAO;
 import com.kh.sogon.roomboard.model.vo.RoomBoard;
 import com.kh.sogon.roomboard.model.vo.RoomBoardAttachment;
 import com.kh.sogon.roomboard.model.vo.RoomBoardPageInfo;
+import com.kh.sogon.roomboard.model.vo.RoomBoardSearch;
 
 @Service
 public class RoomBoardServiceImpl implements RoomBoardService {
@@ -278,5 +281,32 @@ public class RoomBoardServiceImpl implements RoomBoardService {
 		}
 		return result;
 	}
+
+    // 검색 조건이 추가된 페이징 처리 Service 구현
+	@Override
+	public RoomBoardPageInfo pagination(int roomNo, int cp, RoomBoardSearch roomBoardSearch) {
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("search", roomBoardSearch);
+		map.put("roomNo", roomNo);
+		
+		int searchListCount = roomBoardDAO.getSearchListCount(map);
+		
+		// 2) setPageInfo 호출
+		pInfo.setPageInfo(cp, searchListCount, roomNo);
+		
+		return pInfo;
+	}
+
+	// 검색 목록 service 구현
+	@Override
+	public List<RoomBoard> roomBoardSelectSearchList(RoomBoardPageInfo pInfo, RoomBoardSearch roomBoardSearch) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("search", roomBoardSearch);
+		map.put("type", pInfo.getBoardType());
+		
+		return roomBoardDAO.selectSearchList(pInfo, map);
+	}
+	
 	
 }
