@@ -12,14 +12,18 @@ public class Reply {
 	private String replySelect;
 	private int qnaNo;
 	private int replyWriter;
-	private String writerName;
+	private String writerNick;
+	private String qnaTitle;
+	private String qnaContent;
+	private int qnaWriter;
 	
+
 	public Reply() {
 		// TODO Auto-generated constructor stub
 	}
 
 	public Reply(int replyNo, String content, Date replyCreateDate, Date replyModifyDate, String replyStatus,
-			String replySelect, int qnaNo, int replyWriter, String writerName) {
+			String replySelect, int qnaNo, int replyWriter, String writerNick) {
 		super();
 		this.replyNo = replyNo;
 		this.content = content;
@@ -29,7 +33,7 @@ public class Reply {
 		this.replySelect = replySelect;
 		this.qnaNo = qnaNo;
 		this.replyWriter = replyWriter;
-		this.writerName = writerName;
+		this.writerNick = writerNick;
 	}
 
 	public int getReplyNo() {
@@ -95,20 +99,43 @@ public class Reply {
 	public void setReplyWriter(int replyWriter) {
 		this.replyWriter = replyWriter;
 	}
-
-	public String getWriterName() {
-		return writerName;
+	public String getQnaTitle() {
+		return qnaTitle;
 	}
 
-	public void setWriterName(String writerName) {
-		this.writerName = writerName;
+	public void setQnaTitle(String qnaTitle) {
+		this.qnaTitle = qnaTitle;
+	}
+
+	public String getQnaContent() {
+		return qnaContent;
+	}
+
+	public void setQnaContent(String qnaContent) {
+		this.qnaContent = qnaContent;
+	}
+	
+	public int getQnaWriter() {
+		return qnaWriter;
+	}
+
+	public void setQnaWriter(int qnaWriter) {
+		this.qnaWriter = qnaWriter;
+	}
+
+	public String getWriterNick() {
+		return writerNick;
+	}
+
+	public void setWriterNick(String writerNick) {
+		this.writerNick = writerNick;
 	}
 
 	@Override
 	public String toString() {
 		return "Reply [replyNo=" + replyNo + ", content=" + content + ", replyCreateDate=" + replyCreateDate
 				+ ", replyModifyDate=" + replyModifyDate + ", replyStatus=" + replyStatus + ", replySelect="
-				+ replySelect + ", qnaNo=" + qnaNo + ", replyWriter=" + replyWriter + ", writerName=" + writerName
-				+ "]";
+				+ replySelect + ", qnaNo=" + qnaNo + ", replyWriter=" + replyWriter + ", writerNick=" + writerNick
+				+ ", qnaTitle=" + qnaTitle + ", qnaContent=" + qnaContent + ", qnaWriter=" + qnaWriter + "]";
 	}
 }

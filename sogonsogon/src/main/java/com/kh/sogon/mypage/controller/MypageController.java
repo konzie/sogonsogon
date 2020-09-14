@@ -3,7 +3,6 @@ package com.kh.sogon.mypage.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,10 +17,7 @@ import com.kh.sogon.help.model.vo.Help;
 import com.kh.sogon.member.model.vo.Member;
 import com.kh.sogon.board.model.vo.PageInfo;
 import com.kh.sogon.board.model.vo.Reply;
-import com.kh.sogon.boardreply.model.vo.BoardReply;
 import com.kh.sogon.mypage.model.service.MypageService;
-
-import sun.security.util.Length;
 
 @SessionAttributes({"loginMember"})
 @Controller
@@ -32,8 +28,21 @@ public class MypageController {
 	private MypageService mypageService;
 	
 	@RequestMapping("adminpage")
-	public String adminpage() {
-			return "mypage/adminmain";
+	public String adminpage(Model model) {
+		
+		PageInfo pInfo = new PageInfo();
+		pInfo.setLimit(3);
+		
+		List<Board> reportList = mypageService.selectDList(pInfo);
+		model.addAttribute("reportList", reportList);
+		
+		List<Help> helpList = mypageService.selectQList(pInfo);
+		model.addAttribute("helpList", helpList);
+
+		List<Board> noticeList = mypageService.selectNList(pInfo);
+		model.addAttribute("noticeList", noticeList);
+		
+		return "mypage/adminmain";
 	}
 	
 	@RequestMapping("myreply")
@@ -42,6 +51,8 @@ public class MypageController {
 		Member loginMember = (Member)model.getAttribute("loginMember");
 		
 		PageInfo pInfo = mypageService.replyPage(cp, loginMember.getMemberNo());
+
+		pInfo.setLimit(10);
 		
 		List<Reply> replyList = mypageService.selectRList(pInfo, loginMember.getMemberNo());
 		                                                                   
@@ -146,7 +157,17 @@ public class MypageController {
 	}
 	// 신고사항 조회
 	@RequestMapping("adminreport")
-	public String adminreport() {
+	public String adminreport(Model model, @RequestParam(value="cp", required=false, defaultValue="1") int cp) {
+		
+		PageInfo pInfo = mypageService.reportPage(cp);
+
+		pInfo.setLimit(10);
+		
+		List<Board> reportList = mypageService.selectDList(pInfo);
+		                                                                   
+		model.addAttribute("reportList", reportList);
+		model.addAttribute("pInfo", pInfo);
+		
 		return "mypage/adminreport";
 		}
 	
@@ -155,6 +176,8 @@ public class MypageController {
 	public String adminqna(@RequestParam(value="cp", required=false, defaultValue = "1") int cp, Model model) {
 		
 		PageInfo pInfo = mypageService.qnaPage(cp);
+		
+		pInfo.setLimit(10);
 		
 		List<Help> helpList = mypageService.selectQList(pInfo);
 		                                                                   
@@ -170,6 +193,8 @@ public class MypageController {
 		
 		PageInfo pInfo = mypageService.noticePage(cp);
 		
+		pInfo.setLimit(10);
+		
 		List<Board> qnaList = mypageService.selectNList(pInfo);
 		                                                                   
 		model.addAttribute("qnaList", qnaList);
@@ -184,6 +209,8 @@ public class MypageController {
 		
 		PageInfo pInfo = mypageService.memberPage(cp);
 		
+		pInfo.setLimit(10);
+		
 		List<Member> memberList = mypageService.selectMList(pInfo);
 		
 		model.addAttribute("memberList", memberList);
@@ -191,7 +218,43 @@ public class MypageController {
 		
 		return "mypage/adminmember";
 		}
+		
+	@ResponseBody
+	@RequestMapping("qnaCount")
+	public int qnaCount() {
+		
+		int count = mypageService.qnaCount();
+		
+		return count;
+	}
 	
+	@ResponseBody
+	@RequestMapping("reportCount")
+	public int reportCount() {
+		
+		int count = mypageService.reportCount();
+		
+		return count;
+	}
+	
+	@ResponseBody
+	@RequestMapping("roomCount")
+	public int roomCount() {
+		
+		int count = mypageService.roomCount();
+		
+		return count;
+	}
+	
+	@ResponseBody
+	@RequestMapping("memberCount")
+	public int memberCount() {
+		
+		int count = mypageService.memberCount();
+		
+		return count;
+	}
+
 	// 회원 탈퇴
 	@RequestMapping("deleteInfo")
 	public String deleteInfo(Model model, RedirectAttributes rdAttr, SessionStatus sessionstatus) {

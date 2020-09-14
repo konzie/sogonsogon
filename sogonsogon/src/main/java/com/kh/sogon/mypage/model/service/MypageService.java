@@ -41,6 +41,9 @@ public interface MypageService {
 	 */
 	public abstract PageInfo noticePage(int cp);
 
+
+	public abstract List<Board> selectDList(PageInfo pInfo);
+	
 	/** 페이징바에 따라 공지사항 조회 Service
 	 * @param pInfo
 	 * @return board
@@ -64,7 +67,6 @@ public interface MypageService {
 	 * @return pageIn
 	 */
 	public abstract PageInfo qnaPage(int cp);
-	
 	
 	/** 페이징바에 따라 고객센터 게시글 조회 Service
 	 * @param pInfo
@@ -95,6 +97,20 @@ public interface MypageService {
 	 * @return boardList
 	 */
 	public abstract List<Reply> selectRList(PageInfo pInfo, int memberNo);
+
+	/** 새 신고 게시글 조회
+	 * @return count
+	 */
+	public abstract int reportCount();
+
+	public abstract int qnaCount();
+
+	public abstract int roomCount();
+
+	public abstract int memberCount();
+
+	public abstract PageInfo reportPage(int cp);
+
 
 
 

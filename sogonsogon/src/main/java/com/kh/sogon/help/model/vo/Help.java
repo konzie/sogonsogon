@@ -12,8 +12,8 @@ public class Help {
 	private Timestamp helpModifyDate;
 	private String helpStatus;
 	private String lockStatus;
-	
-	
+	private String writerNick;
+		
 	public Help() {
 		// TODO Auto-generated constructor stub
 	}
@@ -122,6 +122,15 @@ public class Help {
 	public void setLockStatus(String lockStatus) {
 		this.lockStatus = lockStatus;
 	}
+	
+	public String getWriterNick() {
+		return writerNick;
+	}
+
+
+	public void setWriterNick(String writerNick) {
+		this.writerNick = writerNick;
+	}
 
 
 	@Override
@@ -129,7 +138,7 @@ public class Help {
 		return "Help [helpNo=" + helpNo + ", helpCategory=" + helpCategory + ", helpTitle=" + helpTitle
 				+ ", helpContent=" + helpContent + ", helpWriter=" + helpWriter + ", helpCreateDate=" + helpCreateDate
 				+ ", helpModifyDate=" + helpModifyDate + ", helpStatus=" + helpStatus + ", lockStatus=" + lockStatus
-				+ "]";
+				+ ", writerNick=" + writerNick + "]";
 	}
 
 	
