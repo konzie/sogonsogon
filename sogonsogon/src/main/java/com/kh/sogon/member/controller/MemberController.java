@@ -99,43 +99,54 @@ public class MemberController {
 	}
 	
 	
-	
 	// 회원가입
-										//여기서 POST방식으로 했는데.. GET이라서 안 넘어온다구..
-										//그래서 일단 GET을 같이써주니까 되긴되는데..괜찮은건가
-										//- > 해결... 
-//	@RequestMapping(value="signUpAction", method= {RequestMethod.POST,RequestMethod.GET})
+										
 	@RequestMapping(value="signUpAction", method= {RequestMethod.POST})
 	public String signUpAction(Member signUpMember, 
 								RedirectAttributes rdAttr) {
-		System.out.println(signUpMember);
 		
 		
 		try {
-			int result = memberService.signUp(signUpMember);
+			memberService.signUp(signUpMember);
 			
 			String msg=null;
 			String status=null;
 			
-			if(result>0) {
-	            status = "success";
-	            msg = "회원 가입 성공!";
-	         }else {
-	            status= "error";
-	            msg = "회원 가입 실패";
-	         }
-			
-			rdAttr.addFlashAttribute("msg", msg);
-	        rdAttr.addFlashAttribute("status", status);
-
+	        rdAttr.addFlashAttribute("msg", "로그인 전 가입시 사용한 이메일로 인증 완료해 주세요");
+	        rdAttr.addFlashAttribute("status", "error");
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
-		
 		return "redirect:/";
 	}
+	
+	// 회원가입 (이메일 인증)
+    @RequestMapping("emailConfirm")
+    public String emailConfirm(@RequestParam("authKey")String authKey, 
+                                Model model, RedirectAttributes rdAttr) throws Exception { 
+        
+        if(authKey == null) {
+        	rdAttr.addFlashAttribute("msg", "인증키가 잘못되었습니다. 다시 인증해 주세요");
+            return "redirect:/";
+        }
+        
+        Member member = memberService.userAuth(authKey);
+        
+        
+        if(member == null) {
+        	rdAttr.addFlashAttribute("msg", "잘못된 접근 입니다. 다시 인증해 주세요");
+            rdAttr.addFlashAttribute("status", "error");
+
+        }
+        
+        rdAttr.addFlashAttribute("msg", "이메일 인증이 완료되었습니다. 이제 로그인이 가능합니다.");
+        rdAttr.addFlashAttribute("status", "success");
+
+        return  "redirect:/";
+    }
+	
 	
 	// 아이디찾기 화면 전환 메소드
 	@RequestMapping("findIdForm")
@@ -240,14 +251,11 @@ public class MemberController {
 		        System.out.println(pw);
 		        
 		        int result=memberService.findPwd(paramMap);
-//		        String memberPwd=memberService.findPwd(paramMap);
 
 		        
 				String url="";
 		        
 		        if( result >0 ) {
-//		        	if(memberPwd!=null) {
-		        	
 		            
 		            try {
 		            	
@@ -281,6 +289,7 @@ public class MemberController {
 		    }
 
 
+	
 		
 	
 }
