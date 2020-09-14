@@ -30,7 +30,8 @@
         <result property="helpCreateDate" column="HELP_CREATE_DATE"/>
         <result property="helpModifyDate" column="HELP_MODIFY_DATE"/>
         <result property="helpStatus" column="HELP_STATUS"/>
-        <result property="writerName" column="WRITER_NAME"/>
+        <result property="writerNick" column="MEMBER_NICK"/>
+        <result property="lockStatus" column="LOCK_STATUS"/>
     </resultMap>
      
      <!-- 자유질문방 -->
@@ -38,12 +39,13 @@
         <id property="qnaNo" column="QNA_NO"/>
         <result property="qnaCategory" column="QNA_CATEGORY"/>
         <result property="qnaTitle" column="QNA_TITLE"/>
+        <result property="qnaTitleContent" column="QNA_CONTENT"/>
         <result property="writer" column="QNA_WRITER"/>
         <result property="qnaStatus" column="QNA_STATUS"/>
         <result property="qnaAnswer" column="QNA_ANSWER"/>
         <result property="qnaCreateDate" column="QNA_CREATE_DATE"/>
         <result property="qnaModifyDate" column="QNA_MODIFY_DATE"/>
-        <result property="writerName" column="MEMBER_NM"/>
+        <result property="writerNick" column="MEMBER_NICK"/>
     </resultMap>
     
          <!-- 자유질문방 댓글 -->
@@ -56,7 +58,10 @@
         <result property="replyStatus" column="REPLY_STATUS"/>
         <result property="replyCreateDate" column="REPLY_CREATE_DATE"/>
         <result property="replyModifyDate" column="REPLY_MODIFY_DATE"/>
-        <result property="writerName" column="MEMBER_NM"/>
+        <result property="writerNick" column="MEMBER_NICK"/>
+        <result property="qnaTitle" column="QNA_TITLE"/>
+        <result property="qnaContent" column="QNA_CONTENT"/>
+        <result property="qnaWriter" column="QNA_WRITER"/>
     </resultMap>
     
 	<!-- 비밀번호 찾기 -->
@@ -74,12 +79,22 @@
 		UPDATE MEMBER SET MEMBER_STATUS='N' WHERE MEMBER_NO = #{memberNo}
 	</update>
 	
+	<!-- 신고 게시글 수 조회 -->
+	<select id="getListDCount" resultType="_int">
+		SELECT COUNT(*) FROM QNABOARD WHERE QNA_STATUS='D'
+	</select>
+	
+	<!-- 총 신고 게시글 조회 -->
+	<select id="selectDList" resultMap="qnaResultSet">
+		SELECT * FROM QNABOARD JOIN MEMBER ON(QNA_WRITER=MEMBER_NO) WHERE QNA_STATUS='D' ORDER BY QNA_CREATE_DATE DESC
+	</select>
+		
 	<!-- 고객센터 게시글 수 조회 -->
 	<select id="getListQCount" resultType="_int">
 		SELECT COUNT(*) FROM HELPBOARD
 	</select>
 	
-	<!-- 총 HelpList 조회 -->
+	<!-- 총 고객센터 게시글 조회 -->
 	<select id="selectQList" resultMap="helpResultSet">
 		SELECT * FROM HELPBOARD JOIN MEMBER ON(HELP_WRITER=MEMBER_NO) ORDER BY HELP_CREATE_DATE DESC
 	</select>
@@ -120,7 +135,27 @@
 	</select>
 
 	<!-- 총 replyList 조회 -->
-	<select id="selectRList" parameterType="_int" resultMap="qnaResultSet">
-		SELECT * FROM REPLY JOIN MEMBER ON(REPLY_WRITER=MEMBER_NO) WHERE REPLY_WRITER = #{replyWriter} AND REPLY_SELECT='Y' ORDER BY REPLY_CREATE_DATE DESC
+	<select id="selectRList" parameterType="_int" resultMap="ReplyResultSet">
+		SELECT * FROM REPLY JOIN MEMBER ON(REPLY_WRITER=MEMBER_NO) JOIN QNABOARD USING(QNA_NO) WHERE REPLY_WRITER = #{replyWriter} AND REPLY_SELECT='Y' ORDER BY REPLY_CREATE_DATE DESC
+	</select>
+	
+	<select id="reportCount" resultType="_int">
+		SELECT COUNT(*) FROM QNABOARD WHERE QNA_STATUS='D' AND QNA_CREATE_DATE=(TO_CHAR(SYSDATE,'YY/MM/DD'))
+	</select>	
+	
+	<select id="qnaCount" resultType="_int">
+		SELECT COUNT(*) FROM HELPBOARD WHERE HELP_CREATE_DATE=(TO_CHAR(SYSDATE,'YY/MM/DD'))
+	</select>	
+	
+	<select id="roomCount" resultType="_int">
+		SELECT COUNT(*) FROM STUDY_ROOM WHERE ROOM_CREATE_DATE=(TO_CHAR(SYSDATE,'YY/MM/DD'))
+	</select>	
+	
+	<select id="memberCount" resultType="_int">
+		SELECT COUNT(*) FROM MEMBER WHERE MEMBER_ENROLL_DATE=(TO_CHAR(SYSDATE,'YY/MM/DD'))
+	</select>
+	
+	<select id="selectReport" resultMap="qnaResultSet">
+		SELECT * FROM QNABOARD WHERE QNA_STATUS='D' AND QNA_CREATE_DATE=(TO_CHAR(SYSDATE,'YY/MM/DD'))
 	</select>
 </mapper>

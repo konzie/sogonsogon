@@ -14,7 +14,7 @@ public class Board {
 	private String writer;
 	private String writerName;
 	private String qnaContent;
-	private String qnaWriter;
+	private String writerNick;
 	public Board(){
 		
 	}
@@ -22,7 +22,7 @@ public class Board {
 
 
 	public Board(int qnaNo, String qnaCategory, String qnaTitle, String qnaStatus, String qnaAnswer, Date qnaModifyDate,
-			Date qnaCreateDate, String qnaContent, String qnaWriter) {
+			Date qnaCreateDate, String qnaContent, String writerNick) {
 		super();
 		this.qnaNo = qnaNo;
 		this.qnaCategory = qnaCategory;
@@ -32,7 +32,7 @@ public class Board {
 		this.qnaModifyDate = qnaModifyDate;
 		this.qnaCreateDate = qnaCreateDate;
 		this.qnaContent = qnaContent;
-		this.qnaWriter = qnaWriter;
+		this.writerNick = writerNick;
 	}
 
 
@@ -145,24 +145,24 @@ public class Board {
 		this.qnaContent = qnaContent;
 	}
 
-
-
-	public String getQnaWriter() {
-		return qnaWriter;
+	public String getWriterNick() {
+		return writerNick;
 	}
 
 
 
-	public void setQnaWriter(String qnaWriter) {
-		this.qnaWriter = qnaWriter;
+	public void setWriterNick(String writerNick) {
+		this.writerNick = writerNick;
 	}
+
+
 
 	@Override
 	public String toString() {
 		return "Board [qnaNo=" + qnaNo + ", qnaCategory=" + qnaCategory + ", qnaTitle=" + qnaTitle + ", qnaStatus="
 				+ qnaStatus + ", qnaAnswer=" + qnaAnswer + ", qnaModifyDate=" + qnaModifyDate + ", qnaCreateDate="
 				+ qnaCreateDate + ", writer=" + writer + ", writerName=" + writerName + ", qnaContent=" + qnaContent
-				+ ", qnaWriter=" + qnaWriter + "]";
+				+ ", writerNick=" + writerNick + "]";
 	}
 	
 }

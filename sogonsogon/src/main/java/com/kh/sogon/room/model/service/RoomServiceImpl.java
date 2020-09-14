@@ -60,6 +60,7 @@ public class RoomServiceImpl implements RoomService{
 					// 맞다면 즐겨찾기 등록
 					if(loginMember != null)
 						result = roomDAO.insertRoomMember(roomNo, loginMember);
+						room.setRoomMemberCount(room.getRoomMemberCount()+1);
 				}
 			}
 		} else {
@@ -67,7 +68,6 @@ public class RoomServiceImpl implements RoomService{
 			room = roomDAO.roomDetailInfo(roomNo);
 
 			if(loginMember != null) {
-				chkBookmark = roomDAO.roomMemberChk(roomNo, loginMember);
 				if(chkBookmark == 0) {
 					result = roomDAO.insertRoomMember(roomNo, loginMember);
 				}
@@ -155,6 +155,12 @@ public class RoomServiceImpl implements RoomService{
 	@Override
 	public List<Room> searchList(PageInfo pInfo, String search) {
 		 return roomDAO.searchList(pInfo,search);
+	}
+
+	// 방 입장시 카운트 증가
+	@Override
+	public int insertCount(int roomNo) {
+		return roomDAO.insertCount(roomNo);
 	}
 
 

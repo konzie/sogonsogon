@@ -81,5 +81,11 @@ public interface RoomService {
 	 */
 	List<Room> searchList(PageInfo pInfo, String search);
 
+	/** 방 입장시 count 늘리기
+	 * @param roomNo
+	 * @return result
+	 */
+	int insertCount(int roomNo);
+
 
 }

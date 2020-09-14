@@ -109,7 +109,7 @@ public class MypageDAO {
 
 
 	public List<Board> selectBList(PageInfo pInfo, int memberNo) {
-
+		
 		int offset = (pInfo.getCurrentPage() - 1) * pInfo.getLimit();
 		
 		RowBounds rowBounds = new RowBounds(offset, pInfo.getLimit());
@@ -117,14 +117,55 @@ public class MypageDAO {
 		return sqlSession.selectList("mypageMapper.selectBList", memberNo, rowBounds);
 	}
 
+	public int getListRCount(int memberNo) {
+		return sqlSession.selectOne("mypageMapper.getListRCount", memberNo);
+	}
 
 	public List<Reply> selectRList(PageInfo pInfo, int memberNo) {
-
+		
 		int offset = (pInfo.getCurrentPage() - 1) * pInfo.getLimit();
 		
 		RowBounds rowBounds = new RowBounds(offset, pInfo.getLimit());
 		
 		return sqlSession.selectList("mypageMapper.selectRList", memberNo, rowBounds);
 	}
+
+	public int reportCount() {
+		return sqlSession.selectOne("mypageMapper.reportCount");
+	}
+
+
+	public int qnaCount() {
+		return sqlSession.selectOne("mypageMapper.qnaCount");
+	}
+
+
+	public int roomCount() {
+		return sqlSession.selectOne("mypageMapper.roomCount");
+	}
+
+
+	public int memberCount() {
+		return sqlSession.selectOne("mypageMapper.memberCount");
+	}
+
+	public int getListDCount() {
+		return sqlSession.selectOne("mypageMapper.getListDCount");
+	}
+
+	public List<Board> selectReport() {
+		return sqlSession.selectList("mypageMapper.selectReport");
+	}
+	
+	public List<Board> selectDList(PageInfo pInfo) {
+				
+		int offset = (pInfo.getCurrentPage() - 1) * pInfo.getLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, pInfo.getLimit());
+		
+		return sqlSession.selectList("mypageMapper.selectDList", rowBounds);
+	}
+
+
 	
 }

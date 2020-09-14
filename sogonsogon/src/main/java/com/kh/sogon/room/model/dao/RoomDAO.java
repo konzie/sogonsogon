@@ -181,5 +181,10 @@ public class RoomDAO {
 	}
 
 
+	public int insertCount(int roomNo) {
+		return sqlSession.update("roomMapper.insertCount", roomNo);
+	}
+
+
 	
 }

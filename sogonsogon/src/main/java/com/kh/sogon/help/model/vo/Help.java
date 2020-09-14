@@ -11,16 +11,16 @@ public class Help {
 	private Timestamp helpCreateDate;
 	private Timestamp helpModifyDate;
 	private String helpStatus;
-	private String WriterName;
-	
-	
+	private String lockStatus;
+	private String writerNick;
+		
 	public Help() {
 		// TODO Auto-generated constructor stub
 	}
 
 
 	public Help(int helpNo, String helpCategory, String helpTitle, String helpContent, String helpWriter,
-			Timestamp helpCreateDate, Timestamp helpModifyDate) {
+			Timestamp helpCreateDate, Timestamp helpModifyDate, String helpStatus, String lockStatus) {
 		super();
 		this.helpNo = helpNo;
 		this.helpCategory = helpCategory;
@@ -29,6 +29,8 @@ public class Help {
 		this.helpWriter = helpWriter;
 		this.helpCreateDate = helpCreateDate;
 		this.helpModifyDate = helpModifyDate;
+		this.helpStatus = helpStatus;
+		this.lockStatus = lockStatus;
 	}
 
 
@@ -112,13 +114,22 @@ public class Help {
 	}
 
 
-	public String getWriterName() {
-		return WriterName;
+	public String getLockStatus() {
+		return lockStatus;
 	}
 
 
-	public void setWriterName(String writerName) {
-		WriterName = writerName;
+	public void setLockStatus(String lockStatus) {
+		this.lockStatus = lockStatus;
+	}
+	
+	public String getWriterNick() {
+		return writerNick;
+	}
+
+
+	public void setWriterNick(String writerNick) {
+		this.writerNick = writerNick;
 	}
 
 
@@ -126,11 +137,10 @@ public class Help {
 	public String toString() {
 		return "Help [helpNo=" + helpNo + ", helpCategory=" + helpCategory + ", helpTitle=" + helpTitle
 				+ ", helpContent=" + helpContent + ", helpWriter=" + helpWriter + ", helpCreateDate=" + helpCreateDate
-				+ ", helpModifyDate=" + helpModifyDate + ", helpStatus=" + helpStatus + ", WriterName=" + WriterName
-				+ "]";
+				+ ", helpModifyDate=" + helpModifyDate + ", helpStatus=" + helpStatus + ", lockStatus=" + lockStatus
+				+ ", writerNick=" + writerNick + "]";
 	}
 
 	
 	
-
 }

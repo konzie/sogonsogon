@@ -43,4 +43,8 @@ public class HelpDAO {
 		return sqlSession.selectList("helpMapper.selectList", 0 ,rowBounds);
 	}
 
+	public Help selectView(int boardNo) {
+		return sqlSession.selectOne("helpMapper.selectView", boardNo);
+	}
+
 }
