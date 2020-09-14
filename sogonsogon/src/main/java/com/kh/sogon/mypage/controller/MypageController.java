@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -18,6 +19,8 @@ import com.kh.sogon.member.model.vo.Member;
 import com.kh.sogon.board.model.vo.PageInfo;
 import com.kh.sogon.board.model.vo.Reply;
 import com.kh.sogon.mypage.model.service.MypageService;
+import com.kh.sogon.room.model.vo.Room;
+import com.kh.sogon.room.model.vo.RoomMember;
 
 @SessionAttributes({"loginMember"})
 @Controller
@@ -64,8 +67,22 @@ public class MypageController {
 	
 	@RequestMapping("myroom")
 	public String myroom(@RequestParam(value="cp", required=false, defaultValue = "1") int cp, Model model) {
+		
+		Member loginMember = (Member)model.getAttribute("loginMember");
+
+		List<RoomMember> roomMemberList = mypageService.selectRoomMemberList(loginMember.getMemberNo());
+		
+		PageInfo pInfo = mypageService.roomPage(cp, roomMemberList);
+
+		pInfo.setLimit(6);
+		List<Room> roomList = mypageService.selectRoomList(pInfo, roomMemberList);
+		
+		model.addAttribute("roomList", roomList);
+		model.addAttribute("pInfo", pInfo);
+		
 		return "mypage/myroom";
-		}
+		
+	}
 	
 	@RequestMapping("myboard")
 	public String mypage(Member member, Model model, @RequestParam(value="cp", required=false, defaultValue = "1") int cp) {
@@ -122,10 +139,6 @@ public class MypageController {
 	@RequestMapping("updateInfo")
 	public String myInfo2(String pwd1,String nick, String tel1, String tel2, String tel3, String interest, Member upMember, Model model, RedirectAttributes rdAttr) {
 
-		Member loginMember = (Member)model.getAttribute("loginMember");
-		
-		System.out.println("loginMember : " + loginMember);
-		
 		String tel = tel1 + "-" + tel2 + "-" + tel3;
 		
 		upMember.setMemberPwd(pwd1);
@@ -259,9 +272,9 @@ public class MypageController {
 	@RequestMapping("deleteInfo")
 	public String deleteInfo(Model model, RedirectAttributes rdAttr, SessionStatus sessionstatus) {
 		Member loginMember = (Member)model.getAttribute("loginMember");
-		System.out.println("loginMember :" + loginMember);
+		
 		int result = mypageService.deleteInfo(loginMember.getMemberNo());
-		System.out.println(result);
+		
 		String status = null;
 		String msg = null;
 		String text = null;
@@ -287,4 +300,43 @@ public class MypageController {
 		return "redirect:"+url;
 		}	
 	
+	@RequestMapping("noticeView/{boardNo}")
+	public String noticeView(@PathVariable int boardNo, Model model) {
+		
+		Board notice = mypageService.noticeView(boardNo);
+
+		model.addAttribute("notice", notice);
+		
+		return "mypage/noticeView";
+	}
+	
+	@RequestMapping("noticeWrite")
+	public String noticeWrite() {
+		return "mypage/noticeWrite";
+	}
+	
+	@RequestMapping("deleteNotice/{boardNo}")
+	public String deleteNotice(@PathVariable int boardNo, RedirectAttributes rdAttr) {
+		
+		int result = mypageService.deleteNotice(boardNo);
+		
+		String status = null;
+		String msg = null;
+		String url =null;
+		
+		if(result > 0) {
+			status = "success";
+			msg = "공지사항 삭제 성공";
+			url ="mypage/adminnotice";
+		}else {
+			status = "error";
+			msg = "공지사항 삭제 실패";
+			url = "mypage/noticeView/boardNo";
+		}
+				
+		rdAttr.addFlashAttribute("status",status);
+		rdAttr.addFlashAttribute("msg",msg);
+		
+		return url;
+	}	
 }

@@ -43,6 +43,14 @@
       .board{
       	border:solid 1px rgba(241, 158, 48,0.7);
       }
+      
+      div{
+      	margin : 10px;
+      }
+      
+      .mb-1{
+      	padding : 10px;
+      }
 </style>
 </head>
 <body>   
@@ -81,11 +89,10 @@
                         <th id="boardNo">글번호</th>
                         <th id="category">분류</th>
                         <th id="title">제목</th>
-                        <th>내용</th>
+                        <th id="title">내용</th>
                         <th id="writer">작성자</th>						
                         <th id="create_dt">작성일</th>						
-                        <th id="status">답변/미답변</th>
-                        <th></th>
+                        <th id="status">게시글 상태</th>
 
                     </tr>
                 </thead>
@@ -93,11 +100,11 @@
                 <c:choose>
           			<c:when test="${empty reportList}">
 		         		<tr>		
-		         			<td colspan="6" align="center">존재하는 게시글이 없습니다.</td>
+		         			<td colspan="7" align="center">존재하는 공지사항이 없습니다.</td>
 		         		</tr>
           			</c:when>	
           			<c:otherwise>
-          				<c:forEach var="board" items="${noticeList}">
+          				<c:forEach var="board" items="${reportList}">
 	              		<tr>		
 		              		<td>${board.qnaNo}</td>
 		              		<td>${board.qnaCategory}</td>

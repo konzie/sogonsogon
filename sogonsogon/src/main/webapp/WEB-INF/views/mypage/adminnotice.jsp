@@ -91,6 +91,8 @@
                 </tbody>
             </table>
             
+            <button type="button" class="btn btn-warning float-right" onclick="location.href='${contextPath}/mypage/noticeWrite'">글쓰기</button>
+            
             <div class="my-4">
             <ul class="pagination">
                <c:if test="${pInfo.currentPage  > pInfo.pagingBarSize}">   
@@ -142,6 +144,16 @@
     </div>    
    
    <jsp:include page="../common/footer.jsp" />
+
     
+    <script>
+    $("td").on("click",function(){
+    	var boardNo = $(this).parent().children().eq(0).text(); 
+    	
+    	location.href = "noticeView/"+boardNo;
+    }).on("mouseenter", function(){
+    	$(this).parent().css("cursor", "pointer");
+    });
+    </script>    
     </body>
 </html>

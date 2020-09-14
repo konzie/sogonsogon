@@ -49,8 +49,7 @@
                         <th id="title">내용</th>
                         <th id="writer">작성자</th>						
                         <th id="create_dt">작성일</th>						
-                        <th id="status">처리</th>
-                        <th></th>
+                        <th id="status">게시글 상태</th>
 
                     </tr>
                 </thead>
@@ -58,7 +57,7 @@
                 <c:choose>
           			<c:when test="${empty reportList}">
 		         		<tr>		
-		         			<td colspan="6" align="center">신고된 게시글이 없습니다.</td>
+		         			<td colspan="7" align="center">존재하는 게시글이 없습니다.</td>
 		         		</tr>
           			</c:when>	
           			<c:otherwise>

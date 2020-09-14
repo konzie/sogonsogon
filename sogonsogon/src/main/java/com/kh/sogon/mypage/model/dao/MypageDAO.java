@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.sogon.member.model.vo.Member;
+import com.kh.sogon.room.model.vo.Room;
+import com.kh.sogon.room.model.vo.RoomMember;
 import com.kh.sogon.board.model.vo.Board;
 import com.kh.sogon.help.model.vo.Help;
 import com.kh.sogon.board.model.vo.PageInfo;
@@ -163,7 +165,45 @@ public class MypageDAO {
 		
 		RowBounds rowBounds = new RowBounds(offset, pInfo.getLimit());
 		
-		return sqlSession.selectList("mypageMapper.selectDList", rowBounds);
+		return sqlSession.selectList("mypageMapper.selectDList", null, rowBounds);
+	}
+
+
+	public int getListRoomCount(List<RoomMember> roomMemberList) {
+		return sqlSession.selectOne("mypageMapper.getListRoomCount", roomMemberList);
+	}
+
+
+	public List<RoomMember> selectRoomMemberList(int memberNo) {
+		return sqlSession.selectList("mypageMapper.selectRoomMemberList", memberNo);
+	}
+
+
+	public List<Room> selectRoomList(PageInfo pInfo, List<RoomMember> roomMemberList) {
+				
+		int offset = (pInfo.getCurrentPage() - 1) * pInfo.getLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, pInfo.getLimit());
+
+		return sqlSession.selectList("mypageMapper.selectRoomList", roomMemberList, rowBounds);
+	}
+
+
+	/** 공지사항 삭제 DAO
+	 * @param boardNo
+	 * @return result
+	 */
+	public int deleteNotice(int boardNo) {
+		return sqlSession.update("mypageMapper.deleteNotice", boardNo);
+	}
+
+
+	/** 공지사항 상세조회 DAO
+	 * @param boardNo
+	 * @return board
+	 */
+	public Board noticeView(int boardNo) {
+		return sqlSession.selectOne("mypageMapper.noticeView", boardNo);
 	}
 
 
