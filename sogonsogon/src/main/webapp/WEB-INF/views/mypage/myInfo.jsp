@@ -69,6 +69,8 @@
 	   <jsp:include page="../common/footer.jsp" />
 	   
 	 <script>		
+	 
+	 	console.log($("#memberPass").val());
 		$("#memberPass").on("input",function(){
 			
 			var checkPwd;

@@ -86,8 +86,8 @@
 	        </tr>
 	    </table>
 	    <div align="right">
-			<button type="button" class="btn btn-outline-primary" id="updateInfo" onclick="location.href='<%=request.getContextPath()%>/mypage/updateInfo'">회원 정보 수정</button>
-			<button type="button" class="btn btn-outline-primary" id="deleteInfo" onclick="location.href='<%=request.getContextPath()%>/mypage/deleteInfo'">회원탈퇴</button>
+			<button type="button" class="btn btn-outline-primary" id="updateInfo" onclick="location.href='${contextPath}/mypage/updateInfo'">회원 정보 수정</button>
+			<button type="button" class="btn btn-outline-primary" id="deleteInfo" onclick="location.href='${contextPath}/mypage/deleteInfo'">회원탈퇴</button>
 	    </div>
 	</div>
 	</div>

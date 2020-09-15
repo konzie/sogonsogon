@@ -11,18 +11,17 @@ public class Board {
 	private String qnaAnswer;
 	private Date qnaModifyDate;
 	private Date qnaCreateDate;
-	private String writer;
+	private int writer;
 	private String writerName;
 	private String qnaContent;
 	private String writerNick;
+	
 	public Board(){
 		
 	}
-
-
-
+	
 	public Board(int qnaNo, String qnaCategory, String qnaTitle, String qnaStatus, String qnaAnswer, Date qnaModifyDate,
-			Date qnaCreateDate, String qnaContent, String writerNick) {
+			Date qnaCreateDate, int writer, String writerName, String qnaContent, String writerNick) {
 		super();
 		this.qnaNo = qnaNo;
 		this.qnaCategory = qnaCategory;
@@ -31,17 +30,16 @@ public class Board {
 		this.qnaAnswer = qnaAnswer;
 		this.qnaModifyDate = qnaModifyDate;
 		this.qnaCreateDate = qnaCreateDate;
+		this.writer = writer;
+		this.writerName = writerName;
 		this.qnaContent = qnaContent;
 		this.writerNick = writerNick;
 	}
 
 
-
 	public int getQnaNo() {
 		return qnaNo;
 	}
-
-
 
 	public void setQnaNo(int qnaNo) {
 		this.qnaNo = qnaNo;
@@ -119,14 +117,14 @@ public class Board {
 		this.qnaCreateDate = qnaCreateDate;
 	}
 
-	public String getWriter() {
+	public int getWriter() {
 		return writer;
 	}
 
-	public void setWriter(String writer) {
+	public void setWriter(int writer) {
 		this.writer = writer;
 	}
-
+	
 	public String getWriterName() {
 		return writerName;
 	}
@@ -164,5 +162,7 @@ public class Board {
 				+ qnaCreateDate + ", writer=" + writer + ", writerName=" + writerName + ", qnaContent=" + qnaContent
 				+ ", writerNick=" + writerNick + "]";
 	}
+
+
 	
 }
