@@ -23,7 +23,7 @@
 	<!-- 고객센터 -->
 	<resultMap id="helpResultSet" type="Help" >
         <id property="helpNo" column="HELP_NO"/>
-        <result property="helpCategory" column="HELP_CATEGORY"/>
+        <result property="helpCategory" column="CATEGORY_NM"/>
         <result property="helpTitle" column="HELP_TITLE"/>
         <result property="helpContent" column="HELP_CONTENT"/>
         <result property="helpWriter" column="HELP_WRITER"/>
@@ -51,7 +51,7 @@
          <!-- 자유질문방 댓글 -->
 	<resultMap id="ReplyResultSet" type="Reply" >
         <id property="replyNo" column="REPLY_NO"/>
-        <id property="qnaNo" column="QNA_NO"/>
+        <result property="qnaNo" column="QNA_NO"/>
         <result property="content" column="REPLY_CONTENT"/>
         <result property="replyWriter" column="REPLY_WRITER"/>
         <result property="replySelect" column="REPLY_SELECT"/>
@@ -62,6 +62,33 @@
         <result property="qnaTitle" column="QNA_TITLE"/>
         <result property="qnaContent" column="QNA_CONTENT"/>
         <result property="qnaWriter" column="QNA_WRITER"/>
+    </resultMap>
+    
+    <!-- 스터디 방 -->
+    <resultMap type="Room" id="roomResultSet">
+        <id property="roomNo" column="ROOM_NO"/>
+        <result property="memberNo" column="ROOM_MEMBER_NO"/>
+        <result property="memberId" column="MEMBER_ID"/>
+        <result property="roomTitle" column="ROOM_TITLE"/>
+        <result property="roomContent" column="ROOM_CONTENT"/>
+        <result property="roomPassword" column="ROOM_PWD"/>
+        <result property="roomType" column="ROOM_TYPE"/>
+        <result property="roomTypeName" column="ROOM_TYPE_NAME"/>
+        <result property="roomCreateDate" column="ROOM_CREATE_DATE"/>
+        <result property="roomModifyDate" column="ROOM_MODIFY_DATE"/>
+        <result property="roomOpen" column="ROOM_OPEN"/>
+        <result property="memberNick" column="MEMBER_NICK"/>
+        <result property="roomTag" column="ROOM_TAG"/>
+        <result property="roomMaxNumber" column="ROOM_MAX_NUMBER"/>
+        <result property="roomMemberCount" column="ROOM_ENTER_NUMBER"/>
+    </resultMap>
+    
+    <!-- 방 멤버 -->
+	<resultMap id="RoomMemberResultSet" type="RoomMember" >
+        <id property="roomMemberRoomNo" column="ROOM_MEMBER_ROOM_NO"/>
+        <result property="roomMemberMemberNo" column="ROOM_MEMBER_MEMBER_NO"/>
+        <result property="roomMemberMemberGrade" column="ROOM_MEMBER_MEMBER_GRADE"/>
+        <result property="roomMemberEnrollDate" column="ROOM_MEMBER_ENROLL_DATE"/>
     </resultMap>
     
 	<!-- 비밀번호 찾기 -->
@@ -96,7 +123,7 @@
 	
 	<!-- 총 고객센터 게시글 조회 -->
 	<select id="selectQList" resultMap="helpResultSet">
-		SELECT * FROM HELPBOARD JOIN MEMBER ON(HELP_WRITER=MEMBER_NO) ORDER BY HELP_CREATE_DATE DESC
+		SELECT * FROM HELPBOARD JOIN MEMBER ON(HELP_WRITER=MEMBER_NO) JOIN HELP_CATEGORY ON(HELP_CATEGORY=CATEGORY_NO) ORDER BY HELP_CREATE_DATE DESC
 	</select>
 			
 	<!-- 공지사항 수 조회 -->
@@ -128,6 +155,10 @@
 	<select id="selectBList" parameterType="_int" resultMap="qnaResultSet">
 		SELECT * FROM QNABOARD WHERE QNA_WRITER = #{replyWriter} ORDER BY QNA_CREATE_DATE DESC
 	</select>
+
+	<select id="selectRoomMemberList" parameterType="_int" resultMap="RoomMemberResultSet">
+		SELECT * FROM ROOM_MEMBER WHERE ROOM_MEMBER_MEMBER_NO = #{roomMemberMemberNo}
+	</select>
 	
 	<!-- 채택된 댓글 수 조회 -->
 	<select id="getListRCount" parameterType="_int" resultType="_int">
@@ -158,4 +189,31 @@
 	<select id="selectReport" resultMap="qnaResultSet">
 		SELECT * FROM QNABOARD WHERE QNA_STATUS='D' AND QNA_CREATE_DATE=(TO_CHAR(SYSDATE,'YY/MM/DD'))
 	</select>
+	
+	<!-- 내가 입장한 방 수 조회 -->
+	<select id="getListRoomCount" parameterType="list" resultType="_int">
+		SELECT COUNT(*) FROM STUDY_ROOM WHERE ROOM_NO IN 
+		<foreach collection="list" index="i" item="roomList" open="(" close=")" separator=",">
+     		#{roomList.roomMemberRoomNo}
+     	</foreach>
+	</select>
+	
+	<select id="selectRoomList" parameterType="list" resultMap="roomResultSet">
+		SELECT * FROM STUDY_ROOM WHERE ROOM_NO IN
+		<foreach collection="list" index="i" item="roomList" open="(" close=")" separator=",">
+     		#{roomList.roomMemberRoomNo}
+     	</foreach>
+     	ORDER BY ROOM_CREATE_DATE DESC
+	</select>
+	
+	<!-- 공지사항 상세조회  -->
+	<select id="noticeView" parameterType="_int" resultMap="qnaResultSet">
+		SELECT * FROM QNABOARD JOIN MEMBER ON(QNA_WRITER=MEMBER_NO) WHERE QNA_NO=#{qnaNo} AND QNA_WRITER=1
+	</select>
+	
+	<!-- 공지사항 삭제 -->
+	<update id="deleteNotice" parameterType="_int">
+		UPDATE QNABOARD SET QNA_STATUS='N' WHERE QNA_NO = #{qnaNo} 
+	</update>
+	
 </mapper>

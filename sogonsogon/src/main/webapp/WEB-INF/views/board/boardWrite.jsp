@@ -12,7 +12,7 @@
  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   
-
+<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
  
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
@@ -45,39 +45,37 @@
     <div class="col-md-2"></div>
     <div class="col-md-8">
         <h2 class="text-center">질문하기</h2>
-        <form action="<%=request.getContextPath()%>/board/insert.do?type=<%=type%>&cp=<%=cp%>"
-        enctype="multipart/form-data"    role="form" method="post" onsubmit="return validate();">
-          <table class="table table-striped">
+        <form action="insertAction" method="post" role="form" enctype="multipart/form-data" onsubmit="return validate();">
+        
           
 					<label class="input-group-addon mr-3 insert-label">말머리</label> 
-					<select	class="custom-select" id="category" name="category" style="width: 150px;">
+					<select	class="custom-select" id="category" name="qnaCategory" style="width: 150px;">
 						<option>선택</option>
 						<option value="사이트이용">코딩</option>
 						<option value="시스템">외국어</option>
 						<option value="기타">공시</option>
 					</select>
 			
+          <table class="table table-striped">
             <tr>
                 <td>제목</td>
-                <td><input type="text"  class="form-control" id ="title" name="title"></td>
+                <td><input type="text"  class="form-control" id ="title" name="qnaTitle"></td>
             </tr>
             
             
             <tr>
                 <td>글내용</td>
-                <td><textarea rows="10" cols="50" id="content" name="content" class="form-control"></textarea></td>
+                <td><textarea rows="10" cols="50" id="content" name="qnaContent" class="form-control"></textarea></td>
             </tr>
              <tr>
             	<td>이미지 삽입</td>
             	<td>
             	<div id="fileArea">
-					<!--  multiple 속성
-						- input 요소 하나에 둘 이상의 값을 입력할 수 있음을 명시 (파일 여러개 선택 가능)
-					 -->
-					<input type="file" id="img1" name="img1" onchange="LoadImg(this,1)"> 
-					<input type="file" id="img2" name="img2" onchange="LoadImg(this,2)"> 
-					<input type="file" id="img3" name="img3" onchange="LoadImg(this,3)"> 
-					<input type="file" id="img4" name="img4" onchange="LoadImg(this,4)">
+				
+					<input type="file" id="img1" name="images" onchange="LoadImg(this,1)"> 
+					<input type="file" id="img2" name="images" onchange="LoadImg(this,2)"> 
+					<input type="file" id="img3" name="images" onchange="LoadImg(this,3)"> 
+					<input type="file" id="img4" name="images" onchange="LoadImg(this,4)">
 				</div>
             	
             	</td>
@@ -87,9 +85,11 @@
             <tr>
                  
                 <td colspan="2"  class="text-center">
-                    <input type="submit" value="확인" class="btn btn-success">
-                    <input type="reset" value="초기화" class="btn btn-warning">
-                    <a href="<%=request.getContextPath()%>/i_board/list.do?type=<%=type%>" class="btn btn-primary">돌아가기</a>
+                
+				<div class="text-center">
+					<button type="submit" >등록</button>
+                    <a href="${header.referer}" class="btn btn-primary">돌아가기</a>
+                    </div>
                 </td>
             </tr>
              
@@ -118,16 +118,15 @@ function validate(){
 		$("#content").focus();
 		return false;
 	}
-	if($("#link").val().trim().length == 0){
+	 /* if($("#link").val().trim().length == 0){
 		alert("링크를 입력해 주세요");
 		$("#link").focus();
 		return false;
-	}
+	}  */
 }
 
 $(function(){
-	//$("#fileArea").hide();
-	
+
 	$("#contentImgArea1").click(function(){
 		$("#img1").click();
 	});

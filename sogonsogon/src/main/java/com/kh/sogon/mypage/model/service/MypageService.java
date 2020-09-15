@@ -5,6 +5,8 @@ import java.util.List;
 import com.kh.sogon.board.model.vo.Board;
 import com.kh.sogon.help.model.vo.Help;
 import com.kh.sogon.member.model.vo.Member;
+import com.kh.sogon.room.model.vo.Room;
+import com.kh.sogon.room.model.vo.RoomMember;
 import com.kh.sogon.board.model.vo.PageInfo;
 import com.kh.sogon.board.model.vo.Reply;
 import com.kh.sogon.boardreply.model.vo.BoardReply;
@@ -86,6 +88,13 @@ public interface MypageService {
 	 */
 	public abstract List<Board> selectBList(PageInfo pInfo, int memberNo);
 
+	/** 내가 입장한 방 조회 Service
+	 * @param pInfo
+	 * @param memberNo
+	 * @return
+	 */
+	public abstract List<RoomMember> selectRoomMemberList(int memberNo);
+	
 	/** 채택된 댓글 페이징 처리를 위한 Service
 	 * @param cp
 	 * @return pageIn
@@ -110,6 +119,33 @@ public interface MypageService {
 	public abstract int memberCount();
 
 	public abstract PageInfo reportPage(int cp);
+
+
+	/** 내가 입장한 방 페이징 처리를 위한 Service
+	 * @param cp
+	 * @param memberNo
+	 * @return
+	 */
+	public abstract PageInfo roomPage(int cp, List<RoomMember> roomMemberList);
+
+	/** 페이징바에 따라 내가 입장한 방 페이징 처리를 위한 Service
+	 * @param pInfo
+	 * @param pInfo2
+	 * @return
+	 */
+	public abstract List<Room> selectRoomList(PageInfo pInfo, List<RoomMember> roomMemberList);
+
+	/** 공지사항 삭제 Service
+	 * @param boardNo
+	 * @return
+	 */
+	public abstract int deleteNotice(int boardNo);
+
+	/** 공지사항 상세조회 Service
+	 * @param boardNo
+	 * @return
+	 */
+	public abstract Board noticeView(int boardNo);
 
 
 

@@ -36,5 +36,6 @@
       <mapper resource="/mappers/mypage-mapper.xml"/>
       <mapper resource="/mappers/member-mapper.xml"/>
       <mapper resource="/mappers/help-mapper.xml"/>
+      <mapper resource="/mappers/board-mapper.xml"/>
    </mappers>
 </configuration>
