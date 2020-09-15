@@ -26,7 +26,7 @@ public class RoomBoardReplyController {
 	public String selectList(@PathVariable int boardNo) {
 		List<RoomBoardReplyDAO> list = roomBoardReplyService.selectList(boardNo);
 		
-		Gson gson = new GsonBuilder().setDateFormat("yyyy-mm-dd").create();
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 		
 		return gson.toJson(list);
 	}
