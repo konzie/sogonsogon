@@ -11,17 +11,18 @@ public class Board {
 	private String qnaAnswer;
 	private Date qnaModifyDate;
 	private Date qnaCreateDate;
-	private int writer;
+	private String qnaWriter;
 	private String writerName;
 	private String qnaContent;
 	private String writerNick;
-	
 	public Board(){
 		
 	}
-	
+
+
+
 	public Board(int qnaNo, String qnaCategory, String qnaTitle, String qnaStatus, String qnaAnswer, Date qnaModifyDate,
-			Date qnaCreateDate, int writer, String writerName, String qnaContent, String writerNick) {
+			Date qnaCreateDate, String qnaContent, String writerNick) {
 		super();
 		this.qnaNo = qnaNo;
 		this.qnaCategory = qnaCategory;
@@ -30,16 +31,21 @@ public class Board {
 		this.qnaAnswer = qnaAnswer;
 		this.qnaModifyDate = qnaModifyDate;
 		this.qnaCreateDate = qnaCreateDate;
-		this.writer = writer;
-		this.writerName = writerName;
 		this.qnaContent = qnaContent;
 		this.writerNick = writerNick;
 	}
 
 
+	public Board(int qnaNo) {
+		super();
+		this.qnaNo = qnaNo;
+	}
+
 	public int getQnaNo() {
 		return qnaNo;
 	}
+
+
 
 	public void setQnaNo(int qnaNo) {
 		this.qnaNo = qnaNo;
@@ -117,14 +123,14 @@ public class Board {
 		this.qnaCreateDate = qnaCreateDate;
 	}
 
-	public int getWriter() {
-		return writer;
+	public String getQnaWriter() {
+		return qnaWriter;
 	}
 
-	public void setWriter(int writer) {
-		this.writer = writer;
+	public void setQnaWriter(String Qnawriter) {
+		this.qnaWriter = qnaWriter;
 	}
-	
+
 	public String getWriterName() {
 		return writerName;
 	}
@@ -143,6 +149,8 @@ public class Board {
 		this.qnaContent = qnaContent;
 	}
 
+
+
 	public String getWriterNick() {
 		return writerNick;
 	}
@@ -159,10 +167,8 @@ public class Board {
 	public String toString() {
 		return "Board [qnaNo=" + qnaNo + ", qnaCategory=" + qnaCategory + ", qnaTitle=" + qnaTitle + ", qnaStatus="
 				+ qnaStatus + ", qnaAnswer=" + qnaAnswer + ", qnaModifyDate=" + qnaModifyDate + ", qnaCreateDate="
-				+ qnaCreateDate + ", writer=" + writer + ", writerName=" + writerName + ", qnaContent=" + qnaContent
+				+ qnaCreateDate + ", qnaWriter=" + qnaWriter + ", writerName=" + writerName + ", qnaContent=" + qnaContent
 				+ ", writerNick=" + writerNick + "]";
 	}
-
-
 	
 }

@@ -95,10 +95,10 @@
             	<div class="content">${board.boardContent}</div>
             	<div class="detail-footer">
             		<c:if test="${loginMember.memberNick == board.boardWriter}">
-            		<div class="update-Btn"><a id="updateBtn" type="button" href="${contextPath}/help/list/1">수정</a></div>
-            		<div class="delete-Btn"><a id="deleteBtn" type="button" href="${contextPath}/help/list/1">삭제</a></div>
+            		<div class="update-Btn"><a id="updateBtn" type="button" href="${contextPath}/help/list">수정</a></div>
+            		<div class="delete-Btn"><a id="deleteBtn" type="button" href="${contextPath}/help/list">삭제</a></div>
             		
-                    <div class="list-Btn"><a id="listBtn" type="button" href="${contextPath}/help/list/1">목록</a></div>
+                    <div class="list-Btn"><a id="listBtn" type="button" href="${contextPath}/help/list">목록</a></div>
                 	</c:if>
             	</div>
             </div>

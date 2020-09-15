@@ -15,15 +15,26 @@
      	<result property="qnaCategory" column="QNA_CATEGORY"/>
      	
     </resultMap>
+    
+	<!-- <resultMap type="Attachment" id="AttachmentResultSet">
+        <id property="qnaNo" column="QNA_NO"/>
+        <result property="qnaTitle" column="QNA_TITLE"/>
+        <result property="qnaContent" column="QNA_CONTENT"/>
+        <result property="qnaStatus" column="QNA_STATUS"/>
+        <result property="qnaAnswer" column="QNA_ANSWER"/>
+        <result property="qnaModifyDate" column="QNA_MODIFY_DATE"/>
+        <result property="qnaCreateDate" column="QNA_CREATE_DATE"/>
+     	<result property="qnaWriter" column="QNA_WRITER"/>
+     	<result property="qnaCategory" column="QNA_CATEGORY"/>
+     	
+    </resultMap> -->
 
 
 
-<!-- 전체 게시글 수 조회 -->
-
-
-		<select id="getListCount" parameterType="_int" resultType="_int">
-			SELECT COUNT(*) FROM V_QNABOARD
-			WHERE BOARD_TYPE = #{boardType}
+      <!-- 자유 질문방  전체 게시글 수 조회 -->
+		<select id="getListCount" resultType="_int">
+			SELECT COUNT(*) FROM V_BOARD
+		
 		</select>
 
 
@@ -31,8 +42,7 @@
 		<!-- 게시글 목록 조회 -->
 		<select id = "selectList" parameterType="_int" resultMap = "boardResultSet">
 			
-			SELECT * FROM V_QNABOARD
-			WHERE BOARD_TYPE = #{boardType}
+			SELECT * FROM V_BOARD
 			ORDER BY BOARD_NO DESC
 		
 		</select>	
@@ -54,18 +64,18 @@
 
 
 	 <insert id="insertBoard" parameterType="Board" >
- 	INSERT INTO BOARD VALUES
+ 	INSERT INTO QNABOARD VALUES
  	(
  	#{qnaNo},
  	#{qnaTitle},
- 	#{qnaContent},
+ 	'Y',
  	DEFAULT,
- 	DEFAULT,
- 	DEFAULT,
- 	DEFAULT,
- 	#{boardWriter},
- 	#{boardCategory},
- 	#{boardType})
+ 	SYSDATE,
+ 	SYSDATE,
+ 	#{qnaCategory},
+ 	#{qnaWriter},
+ 	#{qnaContent}
+ 	)
   </insert>
 	
 	
@@ -92,6 +102,20 @@
  	
  	</update>
 	
+	
+	
+	<!-- <insert id="insertAttachment" parameterType="Attachment">
+ 	INSERT INTO ATTACHMENT VALUES 
+ 	(SEQ_FNO.NEXTVAL,#{parentBoardNo},#{fileOriginName},#{fileChangeName},
+ 	#{filePath},#{fileLevel})
+ 	</insert> -->
+ 	
+ 	 	
+ 	<delete id="deleteAttachment" parameterType="_int">
+ 		DELETE FROM ATTACHMENT
+ 		WHERE PARENT_BOARD_NO = #{boardNo}
+ 	</delete>
+ 	
 </mapper>
 
 
