@@ -1,4 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"  pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%
 	String type = request.getParameter("type");
 	String cp = request.getParameter("cp");
@@ -95,8 +97,7 @@
         </form>
     </div>
 </div>
- </div>
- 
+
 <%@ include file="../common/footer.jsp" %>
  
 
@@ -142,12 +143,4 @@ $(function(){
 	});
 	
 });
-	function LoadImg(value, num){
-		if(value.files && value.files[0]){
-			var reader = new FileReader();
-			reader.onload = function(e){
-				switch(num){
-				case 1 :
-					$("#contentImg1").attr("src", e.target.result);
-					break;
-				case 2 :
+	</script>

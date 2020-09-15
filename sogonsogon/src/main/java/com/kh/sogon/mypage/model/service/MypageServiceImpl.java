@@ -129,9 +129,10 @@ public class MypageServiceImpl implements MypageService{
 		return mypageDAO.selectBList(pInfo, memberNo);
 	}
 
+	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public PageInfo replyPage(int cp, int memberNo) {
-		int listRCount = mypageDAO.getListBCount(memberNo);
+		int listRCount = mypageDAO.getListRCount(memberNo);
 		
 		pInfo.setPageInfo(cp, listRCount);
 		
@@ -139,10 +140,47 @@ public class MypageServiceImpl implements MypageService{
 
 	}
 
+	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public List<Reply> selectRList(PageInfo pInfo, int memberNo) {
+		
 		return mypageDAO.selectRList(pInfo, memberNo);
 	}
+
+	@Override
+	public int reportCount() {
+		return mypageDAO.reportCount();
+	}
+
+	@Override
+	public int qnaCount() {
+		return mypageDAO.qnaCount();
+	}
+
+	@Override
+	public int roomCount() {
+		return mypageDAO.roomCount();
+	}
+
+	@Override
+	public int memberCount() {
+		return mypageDAO.memberCount();
+	}
+
+	@Override
+	public PageInfo reportPage(int cp) {
+		int listDCount = mypageDAO.getListDCount();
+		
+		pInfo.setPageInfo(cp, listDCount);
+
+		return pInfo;
+	}
+	
+	@Override
+	public List<Board> selectDList(PageInfo pInfo) {
+		return mypageDAO.selectDList(pInfo);
+	}
+
  	
 
 }

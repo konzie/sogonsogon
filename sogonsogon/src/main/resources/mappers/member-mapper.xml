@@ -19,18 +19,20 @@
 		<result property="memberEnrollDate" column="MEMBER_ENROLL_DT"/>
 		<result property="memberStatus" column="MEMBER_STATUS"/>
 		<result property="memberGrade" column="MEMBER_GRADE"/>
+		<result property="emailVerify" column="EMAIL_VERIFY"/>
+		<result property="authKey" column="EMAIL_KEY"/>
 	</resultMap>
 	
 	<!-- 로그인 -->
 	<select id="loginMember" parameterType="Member" resultMap="memberResultSet">
 		SELECT * FROM MEMBER 
 		WHERE MEMBER_ID= #{memberId}
-		AND MEMBER_STATUS = 'Y'
+		AND MEMBER_STATUS = 'Y' AND EMAIL_VERIFY='Y'
 	</select>
 	
 	<!-- 회원가입(아이디 중복검사) -->
 	<select id="idDupCheck" parameterType="string" resultType = "_int">
-		SELECT COUNT(*) FROM MEMBER WHERE MEMBER_ID = #{memberId} AND MEMBER_STATUS = 'Y'
+		SELECT COUNT(*) FROM MEMBER WHERE MEMBER_ID = #{memberId} AND MEMBER_STATUS = 'Y' 
 	</select>
 	
 	
@@ -38,8 +40,20 @@
 	<insert id="signUp" parameterType="Member">
 		INSERT INTO MEMBER VALUES(SEQ_MNO.NEXTVAL, #{memberId}, #{memberPwd}, 
 		#{memberName}, #{memberNick}, #{memberAge}, #{memberPhone}, 
-		#{memberId}, #{memberInterest},	DEFAULT, DEFAULT, DEFAULT)
+		#{memberId}, #{memberInterest},	DEFAULT, DEFAULT, DEFAULT, DEFAULT, #{authKey})
 	</insert>
+	
+	<!-- 회원가입 (이메일 인증 코드 확인) -->
+	<select id="chkAuthkey"  parameterType="Member" resultMap="memberResultSet">
+		SELECT * FROM MEMBER WHERE EMAIL_KEY=#{authKey} AND MEMBER_STATUS='Y'
+	</select>
+	
+	<!-- 회원가입 (이메일 인증 후 Y로 컬럼값 변경) -->
+	<update id="keyConfirm" parameterType="map">
+		UPDATE MEMBER SET EMAIL_VERIFY='Y'
+		WHERE EMAIL_KEY=#{authKey}
+	
+	</update>
 	
 	<!-- 아이디찾기 -->
 	<select id="findId" parameterType="map" resultType="String">

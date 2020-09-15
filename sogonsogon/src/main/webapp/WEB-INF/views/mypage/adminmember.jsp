@@ -69,8 +69,6 @@
                                   <td>${member.memberId}</td>
                                   <td>${member.memberName}</td>
                                   <td>${member.memberNick}</td>
-                                  <c:if test="{${member.memberPhone}}">
-                                  </c:if>
                                   <td>${member.memberPhone}</td>
                                   <td>${member.memberEmail}</td>
                                   <td>${member.memberInterest}</td>

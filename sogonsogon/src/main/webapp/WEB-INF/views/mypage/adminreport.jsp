@@ -46,32 +46,34 @@
                         <th id="boardNo">글번호</th>
                         <th id="category">분류</th>
                         <th id="title">제목</th>
+                        <th id="title">내용</th>
                         <th id="writer">작성자</th>						
                         <th id="create_dt">작성일</th>						
-                        <th id="status">답변/미답변</th>
+                        <th id="status">처리</th>
                         <th></th>
 
                     </tr>
                 </thead>
                 <tbody>
                 <c:choose>
-          			<c:when test="${empty boardList}">
+          			<c:when test="${empty reportList}">
 		         		<tr>		
 		         			<td colspan="6" align="center">신고된 게시글이 없습니다.</td>
 		         		</tr>
           			</c:when>	
           			<c:otherwise>
-          				<c:forEach var="board" items="${boardList}">
+          				<c:forEach var="board" items="${reportList}">
 	              		<tr>		
-		              		<td>${board.boardNo}</td>
-		              		<td>${board.boardCategory}</td>
-		              		<td>${board.boardTitle}</td>
-		              		<td>${board.boardWriter}</td>
+		              		<td>${board.qnaNo}</td>
+		              		<td>${board.qnaCategory}</td>
+		              		<td>${board.qnaTitle}</td>
+		              		<td>${board.qnaContent}</td>
+		              		<td>${board.writerNick}</td>
 		              		<td>
 		              			<jsp:useBean id="now" class="java.util.Date"></jsp:useBean>
 		              			<fmt:formatDate var="today" value="${now}" pattern="yyyy-MM-dd"/>
-		              			<fmt:formatDate var="createDate" value="${board.boardCreateDate}" pattern="yyyy-MM-dd"/>
-		              			<fmt:formatDate var="createTime" value="${board.boardCreateDate}" pattern="hh:mm:ss"/>
+		              			<fmt:formatDate var="createDate" value="${board.qnaCreateDate}" pattern="yyyy-MM-dd"/>
+		              			<fmt:formatDate var="createTime" value="${board.qnaCreateDate}" pattern="hh:mm:ss"/>
 		              			
 		              			<c:choose>
 		              				<c:when test="${today == createDate }">
@@ -82,7 +84,7 @@
 		              				</c:otherwise>
 		              			</c:choose>
 		              		</td>
-		              		<td>${board.boardStatus}</td>
+		              		<td>${board.qnaStatus}</td>
 	              		</tr>	
           				</c:forEach>
           			</c:otherwise>

@@ -327,16 +327,16 @@
                             <li class="page-item"><a href="#" class="page-link">Next</a></li>
                         </ul>
                     </div>
-                    <div class="write-Btn"><button class="btn btn-primary">글쓰기</button></div>
+                         	
+<c:if test="${!empty loginMember }">	
+      <a class="btn btn-primary float-right" href="../board/boardWrite">글쓰기</a>
+</c:if>
                 </div>
             </div>
         </div> 
           
       
-     	
-<c:if test="${!empty loginMember }">	
-      <a class="btn btn-primary float-right" href="../${boardList[0].boardType}/insert">글쓰기</a>
-</c:if>
+
     
 	      <c:url var="searchParameter" value="${pInfo.boardType}">
 	      <c:if test="${!empty paramValues.ct }">
@@ -433,113 +433,14 @@
                 <input type="text" name="sVal" class="form-control" style="width:25%; display: inline-block;">
                 <button class="form-control btn btn-primary" id="searchBtn" type="button" style="width:100px; display: inline-block;">검색</button>
             </div>
-            <c:if test="${!empty loginMember}">
-                    <div class="write-Btn"><a class="btn btn-primary float-right" href="${contextPath}/board/helpwrite">글쓰기</a></div>
-                	</c:if>
+            
             
         </div>
    	
-	</div>
+
            <jsp:include page="../common/footer.jsp"/> 
            
            
-           	<script>
-		
-		$(function(){
-			
-			$("#list-table td").on("click",function(){
-				
-				var boardNo = $(this).parent().children().eq(0).text();
-				
-			
-				var boardUrl =
-					"${contextPath}/board/${pInfo.boardType}/" +
-					boardNo + "?cp=${pInfo.currentPage}";
-				
-			location.href = boardUrl;			
-			});
-		});;
-	
-	
-	// --------------------검색 버튼 동작 
-	$("#searchBtn").on("click", function(){
-		
-		var searchUrl = "";
-		
-		var $ct = $("input[name='ct']:checked");
-		var $sKey = $("select[name='sKey']");
-		var $sVal = $("input[name='sVal']");
-		
-		
-	$ct.each(function(index, item){
-			
-		
-		
-		
-		
-		if($ct.length == 0 && $sVal.val().trim().length == 0){
-			searchUrl = "${pInfo.boardType}";
-			
-		}
-		
-		
-		else{
-			searchUrl = "../search/${pInfo.boardType}?";
-			
-			
-			if($ct.length != 0){
-				
-				$ct.each(function(indext, item){
-					
-					if(indext != 0) searchUrl += "&";
-					searchUrl += "ct=" + $(item).val();
-				});
-				
-				
-				if($sVal.val().trim().length != 0 ) searchUrl += "&";
-			}
-			
-		
-			if($sVal.val().trim().length != 0){
-				searchUrl += "sKey=" + $sKey.val() + "&sVal=" + $sVal.val();
-			}
-		}
-		
-	
-		location.href = searchUrl;
-	});
-	
-
-	$(function(){
-		
-		var sKey = "${param.sKey}";
-		var sVal = "${param.sVal}";
-		
-		
-		
-		
-		if(sKey != "" && sVal != "") {
-			
-		
-		$("input[name='sVal']").val(sVal);
-		
-		$("select[name='sKey'] > option").each(function(index, item){
-			if($(item).val() == sKey){
-				$(item).prop("selected", true);
-			}
-		});
-		
-	}
-		
-	$("input[name='sVal']").on("keyup", function(event){
-	
-	 if(event.keyCode == 13){ 
-	  $("#searchBtn").click();	 
-	 }
-	 
-	});
-		
-	</script>
 	   
     </body>
 </html>

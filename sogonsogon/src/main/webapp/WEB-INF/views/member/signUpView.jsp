@@ -88,20 +88,6 @@
     margin-top: 20px;
 }
 
-#check-id{
-    border-radius: 30px;
-    padding: 10px 20px;
-    font-size: 15px;
-
-    background-color: darkorange;
-    border: none;
-    color: white;
-   
-    width: 100px;
-    display: inline;
-}
-
-
 
 .registration-form .social-icons{
     margin-top: 30px;
@@ -170,13 +156,7 @@
             </div>
             <div  class="checkSpan" > <span id="idCheckArea1">  </span> </div>
             <div class="form-group spanMargin ">
-                <div class="emailCheckInput">
                     <input type="text" class="form-control item" id="id2"  placeholder="아이디(Email) 중복확인" required >
-                </div>
-            
-                <div > 
-                     <button type="button" class="btn" id="check-id">인증요청 &nbsp;</button>
-                </div>
             </div>
            
             <div  class="checkSpan" > <span id="idCheckArea2">  </span> </div>
