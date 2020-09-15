@@ -184,7 +184,7 @@ select {
           <div class="col-md-7">
             <div class="card-body">
               <div class="brand-wrapper">
-                <img src="${contextPath}/resources/images/logo.png" alt="logo" class="logo">
+                <img src="${contextPath}/resources/images/로고2.jpg" alt="logo" class="logo">
               </div>
               <form class="form-signin" method="POST" action="${contextPath}/member/loginAction" onsubmit="return loginValidate();">
                   <div class="form-group">
