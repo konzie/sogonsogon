@@ -289,7 +289,11 @@ public class MemberController {
 		    }
 
 
-	
+		// 회원가입 약관 화면 전환 메소드
+		@RequestMapping("termsForm")
+		   public String termsForm() {
+			   return "member/termsForm";
+		   }
 		
 	
 }
