@@ -43,6 +43,7 @@
 		<select id = "selectList" parameterType="_int" resultMap = "boardResultSet">
 			
 			SELECT * FROM V_BOARD
+			
 			ORDER BY QNA_NO DESC
 		
 		</select>	

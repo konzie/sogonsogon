@@ -63,17 +63,17 @@ public class BoardController {
 	// 게시글 상세 조회
 	
 		
-		@RequestMapping("{qnadNo}")
+		@RequestMapping("{qnaNo}")
 		public String boarView(@PathVariable int qnaNo,Model model , RedirectAttributes rdAttr, HttpServletRequest request) {
 			Board board = boardService.selectBoard(qnaNo);
 			
 			String url = null;
 			if(board != null) { 
-				List<Attachment> files = boardService.selectFiles(qnaNo);
+		/*		List<Attachment> files = boardService.selectFiles(qnaNo);
 				
 				if(!files.isEmpty()) {
 					model.addAttribute("files",files);
-				}
+				}*/
 				
 				model.addAttribute("board", board);
 				url = "board/boardView";
@@ -101,7 +101,7 @@ public class BoardController {
 										
 			Member loginMember = (Member)model.getAttribute("loginMember");
 			
-			
+			System.out.println(board.getQnaCategory()+"ggg");
 			board.setQnaWriter(loginMember.getMemberNo() + "");
 			
 		

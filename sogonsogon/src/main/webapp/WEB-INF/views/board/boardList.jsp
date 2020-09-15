@@ -14,7 +14,7 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-        
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
         <style>
             body {
         color: #566787;
@@ -24,7 +24,7 @@
 	}
     th, td { text-align: center;}
 
-    #category, #create_dt, #status{width: 120px;}
+    #y, #create_dt, #status{width: 120px;}
 
     #write{float: left;}
 
@@ -258,7 +258,7 @@
                     </div>
                 </div>
                
-                <table class="table table-striped table-hover">
+                <table class="table table-striped table-hover" id="table">
                     <thead>
                         <tr>
                             <th id="boardNo">글번호</th>
@@ -313,20 +313,64 @@
                     </tbody>
                 </table>
                 <div class="clearfix">
-                    <div class="hint-text">Showing <b>5</b> out of <b>25</b> entries</div>
-                    <div class="page">
-                        <ul class="pagination">
-                            <li class="page-item disabled"><a href="#">Previous</a></li>
-                            <li class="page-item"><a href="#" class="page-link">1</a></li>
-                            <li class="page-item"><a href="#" class="page-link">2</a></li>
-                            <li class="page-item"><a href="#" class="page-link">3</a></li>
-                            <li class="page-item active"><a href="#" class="page-link">4</a></li>
-                            <li class="page-item"><a href="#" class="page-link">5</a></li>
-                            <li class="page-item"><a href="#" class="page-link">6</a></li>
-                            <li class="page-item"><a href="#" class="page-link">7</a></li>
-                            <li class="page-item"><a href="#" class="page-link">Next</a></li>
-                        </ul>
-                    </div>
+                 
+                   <div class="my-4">
+            <ul class="pagination">
+            	<c:if test="${pInfo.currentPage > pInfo.pagingBarSize}">	
+            		
+            		
+	              
+	                
+	                <li>	
+	                	<!-- 이전으로(<) -->
+	                	<!--  prev 생성 식 : 현제페이지 -1 / 페이징바 사이즈(10) * 10 -->
+	                	<!--  fmt 태그를 이용한 소수점 제거 -->
+	                	<fmt:parseNumber var="operand1" value="${(pInfo.currentPage-1)/pInfo.pagingBarSize}" integerOnly="true"/>
+	               		
+	               		<c:set var ="prev" value="${operand1 * 10 }"/>
+	               	
+	              
+                   		<!-- <a class="page-link text-primary" href="${pInfo.boardType}?cp=${prev}">&lt;</a>-->
+                   		<a class="page-link text-primary" href="${url}${prev}">&lt;</a>
+	                </li>
+                </c:if>
+                
+                <c:forEach var="p" begin="${pInfo.startPage}" end="${pInfo.endPage}">
+                
+                	<c:choose>
+                		<c:when test="${p==pInfo.currentPage}">
+                			<li><a class="page-link">${p}</a></li>
+                			</c:when>
+                			
+                			<c:otherwise>
+	                		<li>
+	                			<a class="page-link text-primary" href="${pInfo}?cp=${p}">${p}</a>
+		                	</li>
+		                	</c:otherwise>
+		            </c:choose>	
+                </c:forEach>
+                
+                
+                <!-- 다음 페이지로(>) -->
+                <!--  next 생성 식 : (현재 페이지 + (pInfo.pagingBarSize-1) ) /10 * 10 + 1  -->
+                <c:if test="${pInfo.maxPage > pInfo.endPage}">
+                
+               
+	                <li>
+	                <fmt:parseNumber var="operand2" value="${(pInfo.currentPage +(pInfo.pagingBarSize-1))/10 }" integerOnly="true"/>
+                	<c:set var="next" value="${operand2 * 10 + 1}"/>
+            
+						<!--  <a class="page-link text-primary" href="${pInfo.boardType}?cp=${next}">&gt;</a>-->
+						  <a class="page-link text-primary" href="${url}${p}">${p}</a>
+	                </li>
+	                
+	              
+	            </c:if>
+	                
+	                
+                
+            </ul>
+        </div>	    
                          	
 <c:if test="${!empty loginMember }">	
       <a class="btn btn-primary float-right" href="../board/boardWrite">글쓰기</a>
@@ -363,57 +407,7 @@
 	 	 <c:set var="listUrl" value="../list/${url}${pInfo.currentPage}" scope="session"/>
 	 	</c:otherwise>
 	 </c:choose>
-		<div class="my-4">
-            <ul class="pagination">
-            	<c:if test="${pInfo.currentPage > pInfo.pagingBarSize}">	
-            		
-            		
-	                <li>
-	                    <a class="page-link text-primary" href="${url}1">&lt;&lt;</a>
-	                </li>
-	                
-	                <li>
-	                	<fmt:parseNumber var="operand1" value="${(pInfo.currentPage-1)/pInfo.pagingBarSize}" integerOnly="true"/>
-	               		
-	               		<c:set var ="prev" value="${operand1 * 10 }"/>
-                   		<a class="page-link text-primary" href="${url}${prev}">&lt;</a>
-	                </li>
-                </c:if>
-                
-                <c:forEach var="p" begin="${pInfo.startPage}" end="${pInfo.endPage}">
-                
-                	<c:choose>
-                		<c:when test="${p==pInfo.currentPage}">
-                			<li><a class="page-link">${p}</a></li>
-                			</c:when>
-                			
-                			<c:otherwise>
-	                		<li>
-	                			<a class="page-link text-primary" href="${pInfo.boardType}?cp=${p}">${p}</a>
-		                	</li>
-		                	</c:otherwise>
-		            </c:choose>	
-                </c:forEach>
-              
-                <c:if test="${pInfo.maxPage > pInfo.endPage}">
-                
-               
-	                <li>
-	                <fmt:parseNumber var="operand2" value="${(pInfo.currentPage +(pInfo.pagingBarSize-1))/10 }" integerOnly="true"/>
-                	<c:set var="next" value="${operand2 * 10 + 1}"/>
-           
-						  <a class="page-link text-primary" href="${url}${p}">${p}</a>
-	                </li>
-	                
-	                <li>
-	                    <a class="page-link text-primary" href="${pInfo.boardType}?cp=${pInfo.maxPage}">&gt;&gt;</a>
-	                </li>
-	            </c:if>
-	                
-	                
-                
-            </ul>
-        </div>	     
+	
 
         <div>
           <div  class="text-center" id="searchForm" style="margin-bottom:100px;">
@@ -441,6 +435,18 @@
            <jsp:include page="../common/footer.jsp"/> 
            
            
+	   <script>
 	   
+	   $("#table td").on("click",function(e) {
+			
+			var qnaNo = $(this).parent().children().eq(0).text();
+			
+			var boardUrl="${contextPath}/board/"+qnaNo;
+			
+			location.href=boardUrl;
+		});
+	   
+	   
+	   </script>
     </body>
 </html>

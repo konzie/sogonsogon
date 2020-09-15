@@ -76,7 +76,7 @@
         <div id="wrapper">
             <div class="view-header">
 	            <h4><b>고객센터</b></h4>
-	            <h6>- ${board.boardCategory}</h6>
+	            <h6>- ${board.qnaCategory}</h6>
             </div>
             <div class="detailView">
             	<div class="detail-header">
@@ -92,9 +92,9 @@
             		</dl>
             			
             	</div>
-            	<div class="content">${board.boardContent}</div>
+            	<div class="content">${board.qnaContent}</div>
             	<div class="detail-footer">
-            		<c:if test="${loginMember.memberNick == board.boardWriter}">
+            		<c:if test="${loginMember.memberNick == board.qnaWriter}">
             		<div class="update-Btn"><a id="updateBtn" type="button" href="${contextPath}/help/list">수정</a></div>
             		<div class="delete-Btn"><a id="deleteBtn" type="button" href="${contextPath}/help/list">삭제</a></div>
             		
@@ -109,7 +109,7 @@
 	$("#deleteBtn").on("click",function(){
 		if(confirm("정말 삭제 하시겠습니까?")){
 			//spring/board/1/515/delete
-			location.href = "${board.boardNo}/delete";
+			location.href = "${board.qnaNo}/delete";
 		}
 		
 	});

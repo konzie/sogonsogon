@@ -51,9 +51,9 @@
 					<label class="input-group-addon mr-3 insert-label">말머리</label> 
 					<select	class="custom-select" id="category" name="qnaCategory" style="width: 150px;">
 						<option>선택</option>
-						<option value="사이트이용">코딩</option>
-						<option value="시스템">외국어</option>
-						<option value="기타">공시</option>
+						<option value="코딩">코딩</option>
+						<option value="외국어">외국어</option>
+						<option value="공시">공시</option>
 					</select>
 			
           <table class="table table-striped">
