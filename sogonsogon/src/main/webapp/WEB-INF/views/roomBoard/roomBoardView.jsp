@@ -137,6 +137,8 @@
 			</div>
 
 			<hr>
+			
+			<jsp:include page="roomBoardReply.jsp"/>
 
 		</div>
 	</div>
