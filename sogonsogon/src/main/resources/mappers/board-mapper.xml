@@ -43,16 +43,16 @@
 		<select id = "selectList" parameterType="_int" resultMap = "boardResultSet">
 			
 			SELECT * FROM V_BOARD
-			ORDER BY BOARD_NO DESC
+			ORDER BY QNA_NO DESC
 		
 		</select>	
 
 
 	<!-- 게시글 상세 조회 -->
 	<select id="selectBoard" parameterType="_int" resultMap="boardResultSet" >
-		SELECT * FROM V_QNABOARD
-		WHERE BOARD_NO = #{boardNo}
-		AND BOARD_STATUS = 'Y'
+		SELECT * FROM V_BOARD
+		WHERE QNA_NO = #{qnaNo}
+		AND QNA_STATUS = 'Y'
 	
 	</select>
 
@@ -82,8 +82,8 @@
 	<update id="deleteBoard" parameterType="Board">
 	UPDATE BOARD SET 
 	BOARD_STATUS = 'N'
-	WHERE BOARD_NO = #{boardNo}
-	AND BOARD_TYPE = #{boardType}
+	WHERE BOARD_NO = #{qnaNo}
+	
 	
 	
 	
@@ -93,11 +93,11 @@
  	<update id="updateBoard" parameterType="Board">
  	
  	UPDATE BOARD SET 
-	BOARD_CATEGORY = #{boardCategory},
-	BOARD_TITLE = #{boardTitle},
-	BOARD_CONTENT = #{boardContent},
+	BOARD_CATEGORY = #{qnaCategory},
+	BOARD_TITLE = #{qnaTitle},
+	BOARD_CONTENT = #{qnaContent},
 	BOARD_MODIFY_DT = SYSDATE
-	WHERE BOARD_NO = #{boardNo}
+	WHERE BOARD_NO = #{qnaNo}
  	
  	
  	</update>
@@ -113,7 +113,7 @@
  	 	
  	<delete id="deleteAttachment" parameterType="_int">
  		DELETE FROM ATTACHMENT
- 		WHERE PARENT_BOARD_NO = #{boardNo}
+ 		WHERE PARENT_BOARD_NO = #{qnaNo}
  	</delete>
  	
 </mapper>

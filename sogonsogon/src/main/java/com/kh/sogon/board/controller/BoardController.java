@@ -33,29 +33,30 @@ public class BoardController {
 	@Autowired
 	private BoardService boardService;
 	
-	   @RequestMapping("boardList")
-	   public String boardListView() {
-		   return "board/boardList";
-	   }
+//	   @RequestMapping("boardList")
+//	   public String boardListView() {
+//		   return "board/boardList"; 
+//	   }
 	  
-	   @RequestMapping("list")
+	   @RequestMapping("boardList")
 		public String boardList(@RequestParam(value="cp", required=false, defaultValue = "1") int cp, Model model) {
 			
 			PageInfo pInfo = boardService.pagination(cp);
 			
 			
 			List<Board> boardList = boardService.selectList(pInfo);
+			System.out.println(boardList);
 			if(!boardList.isEmpty()) { 
 				List<Attachment> thList = boardService.selectThumbnailList(boardList);
 				
-			for(Attachment at : thList) {
+			/*for(Attachment at : thList) {
 					System.out.println(at);
-				}
+				}*/
 				model.addAttribute("thList", thList);
 				}
 			model.addAttribute("boardList" ,boardList);
 			model.addAttribute("pInfo", pInfo);
-			
+		
 			return "board/boardList";
 		}
 	   
@@ -92,10 +93,10 @@ public class BoardController {
 		}
 		
 		//게시글 등록
-		@RequestMapping(value="insertAction", method = RequestMethod.POST)
+		@RequestMapping(value="board/insertAction", method = RequestMethod.POST)
 		public String insertAction(Board board,
 								Model model,RedirectAttributes rdAttr,
-							@RequestParam(value="images",required=false)	List<MultipartFile>images,
+							@RequestParam(value="images",required=false) List<MultipartFile>images,
 							HttpServletRequest request) {
 										
 			Member loginMember = (Member)model.getAttribute("loginMember");
@@ -114,8 +115,8 @@ public class BoardController {
 			if(result > 0) {
 				rdAttr.addFlashAttribute("status", "success");
 				rdAttr.addFlashAttribute("msg", "게시물이 등록되었습니다.");
-				url = board.getQnaNo()+"?cp=1";
-				System.out.println(board.getQnaNo()+"ttt");
+			url = "../board/boardList" +  "/"  + "?cp=1";
+				
 			}else {
 				rdAttr.addFlashAttribute("status", "error");
 				rdAttr.addFlashAttribute("msg", "게시물 등록에 실패하였습니다..");
@@ -187,18 +188,18 @@ public class BoardController {
 		
 		
 		//게시글 수정
-		@RequestMapping("{type}/{boardNo}/update")
-		public ModelAndView updateView(@PathVariable int boardNo, ModelAndView mv) {
+		@RequestMapping("{type}/{qnaNo}/update")
+		public ModelAndView updateView(@PathVariable int qnaNo, ModelAndView mv) {
 			
 			
 			// 기존 게시글 정보를 얻어와 update화면에 출력해 이전 작성 내용을 보여주어야 함.
 			
-			Board board = boardService.selectBoard(boardNo);
+			Board board = boardService.selectBoard(qnaNo);
 			
 			// -------------------------------------------------------------
 			// 기존 게시글 이미지 조회 및 전달
 			if(board != null) {
-				List<Attachment> files = boardService.selectFiles(boardNo);
+				List<Attachment> files = boardService.selectFiles(qnaNo);
 				mv.addObject("files", files);
 			}
 			
@@ -215,9 +216,9 @@ public class BoardController {
 		
 		// 게시글 수정
 		
-		@RequestMapping("{type}/{boardNo}/updateAction")
+		@RequestMapping("{type}/{qnaNo}/updateAction")
 		public ModelAndView updateAction(@PathVariable int type,
-										 @PathVariable int boardNo,
+										 @PathVariable int qnaNo,
 										 ModelAndView mv,
 										 Board upBoard, int cp, boolean[] deleteImages,
 										 RedirectAttributes rdAttr,
@@ -228,7 +229,7 @@ public class BoardController {
 			System.out.println("deleteImages : " + Arrays.toString(deleteImages));
 			
 			
-			upBoard.setQnaNo(boardNo);
+			upBoard.setQnaNo(qnaNo);
 			
 			System.out.println("thumbnail : " + thumbnail);
 			for(int i=0; i<images.size(); i++) {
@@ -252,7 +253,7 @@ public class BoardController {
 				
 				status = "success";
 				msg = "수정되었습니다.";
-				url = "../" +boardNo+"?cp="+cp;
+				url = "../" +qnaNo+"?cp="+cp;
 				
 				
 				
@@ -277,7 +278,7 @@ public class BoardController {
 			
 		}
 		
-		@RequestMapping("search/{type}")
+		@RequestMapping("search")
 		public String search(@RequestParam(value="cp", required = false, defaultValue = "1") int cp, Search search,
 								Model model) {
 			

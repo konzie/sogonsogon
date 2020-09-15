@@ -286,15 +286,15 @@
 					             
 					              		
 					              		<tr>		
-					              		<td>${board.boardNo}</td>
-					              		<td>${board.boardCategory}</td>
-					              		<td>${board.boardTitle}</td>
-					              		<td>${board.boardWriter}</td>
+					              		<td>${board.qnaNo}</td>
+					              		<td>${board.qnaCategory}</td>
+					              		<td>${board.qnaTitle}</td>
+					              		<td>${board.qnaWriter}</td>
 					              		<td>
 					              			<jsp:useBean id="now" class="java.util.Date"></jsp:useBean>
 					              			<fmt:formatDate var="today" value="${now}" pattern="yyyy-MM-dd"/>
-					              			<fmt:formatDate var="createDate" value="${board.boardCreateDate}" pattern="yyyy-MM-dd"/>
-					              			<fmt:formatDate var="createTime" value="${board.boardCreateDate}" pattern="hh:mm:ss"/>
+					              			<fmt:formatDate var="createDate" value="${board.qnaCreateDate}" pattern="yyyy-MM-dd"/>
+					              			<fmt:formatDate var="createTime" value="${board.qnaCreateDate}" pattern="hh:mm:ss"/>
 					              			
 					              			<c:choose>
 					              				<c:when test="${today == createDate }">
@@ -305,7 +305,7 @@
 					              				</c:otherwise>
 					              				</c:choose>
 					              		</td>
-					              		<td>${board.boardStatus}</td>
+					              		<td>${board.qnaStatus}</td>
 					              		</tr>	
               					</c:forEach>
               			</c:otherwise>
