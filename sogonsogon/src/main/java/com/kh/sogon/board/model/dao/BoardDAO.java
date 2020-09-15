@@ -30,9 +30,9 @@ public class BoardDAO {
 	 * @return listCount
 	 */
 	
-	public int getListCount(int type) {
+	public int getListCount() {
 		
-		return sqlSession.selectOne("boardMapper.getListCount",type);
+		return sqlSession.selectOne("boardMapper.getListCount");
 	}
 
 
@@ -63,12 +63,40 @@ public class BoardDAO {
 	 * @param boardNo
 	 * @return board
 	 */
-	public Board selectBoard(int boardNo) {
+	public Board selectBoard(int qnaNo) {
 		
-		return sqlSession.selectOne("boardMapper.selectBoard",boardNo);
+		return sqlSession.selectOne("boardMapper.selectBoard",qnaNo);
 		
 	}
 
+	// 게시글 삽입 
+	public int insertBoard(Board board) {
+		return sqlSession.insert("boardMapper.insertBoard", board);
+	}
+
+
+
+
+	public int selectNextNo() {
+		return sqlSession.selectOne("boardMapper.selectNextNo");
+		
+	}
+
+
+
+
+	public int insertAttachment(Attachment at) {
+
+		return sqlSession.insert("boardMapper.insertAttachment",at);
+	
+	}
+
+
+
+public void deleteAttachment(int qnaNo) {
+		
+		sqlSession.delete("boardMapper.deleteAttachment",qnaNo);
+	}
 
 
 

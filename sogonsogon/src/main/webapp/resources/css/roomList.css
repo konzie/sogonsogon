@@ -1,0 +1,343 @@
+        @font-face {
+            font-family: 'GmarketSansMedium';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }	
+        @font-face {
+		    font-family: '62570체';
+		    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.3/62570체.woff') format('woff');
+		    font-weight: normal;
+		    font-style: normal;
+		}
+		
+	    .table-title {
+	      color: #fff;
+	      background: rgba(252, 163, 17,0.9);
+	      padding: 30px;
+	      border-radius: 3px 3px 0 0;
+	      width: 1200px;
+	      height:200px;
+	      margin: auto;
+	      margin-top:20px;
+	      font-family: 'GmarketSansMedium';
+	      border-radius: 14px;
+	   }
+		.selectList{
+	         text-align: right;
+	         width: 1200px;
+	         margin: auto;
+	      }
+
+        .room-box {
+            width: 1200px;
+            height: 1100px;
+            justify-content: center;
+            flex-wrap: unset;
+            font-family: 'Handon3gyeopsal600g';
+            margin: auto;
+            background-color: #F0EDEB;
+        }
+
+        .roomlist-box {
+            width: 280px;
+            height: 450px;
+            border-radius: 2.5px;
+            box-sizing: border-box;
+            margin: 50px;
+            display: inline-block;
+            /* box-shadow: 14px 14px rgb(255, 178, 181), -14px 14px rgb(255, 178, 181); */
+            border-top: 12px solid rgb(231, 111, 81);
+            padding: 16px;
+            background-color: rgb(250,249,249);
+            font-family: 'GmarketSansMedium';
+            box-shadow : 2px 2px 5px #999;
+            overflow: hidden;
+        }
+        
+    	.roomlist-box:hover{
+    		transform:scale(1.05);
+        } 
+
+        #tagbox{
+           width: 100%;
+           height:30px;
+           position: relative;
+           margin-bottom: 10px;
+        }
+
+        .tags{
+            font-size: 12px;
+            /* background-color: rgba(0, 0, 0,10%); */
+            background-color:rgba(255, 215, 103, 0.4);
+            float: left;
+            margin: 0px 8px 8px 0px;
+            border-radius: 6px;
+            padding: 2px;
+            color: rgb(70, 70, 70);
+        }
+        
+		/* 참여하기버튼 css */
+		.join-button {
+		  border-radius: 14px;
+		  background-color: rgb(252, 163, 17);
+		  color: #FFFFFF;
+		  text-align: center;
+		  width: 94px;
+		  height: 32px;
+		  transition: all 0.5s;
+		  cursor: pointer;
+		  margin: auto;
+		  line-height: 200%;
+		  margin-top: 22px;
+		  font-size: 18px;
+		}
+		.join-button span {
+		  cursor: pointer;
+		  display: inline-block;
+		  position: relative;
+		  transition: 0.5s;
+		}
+		.join-button span:after {
+		  content: '\00bb';
+		  position: absolute;
+		  opacity: 0;
+		  top: 0;
+		  right: -20px;
+		  transition: 0.5s;
+		}
+		.join-button:hover span {
+		  padding-right: 16px;
+		  
+		}	
+		.join-button:hover span:after {
+		  opacity: 1;
+		  right: 0;
+		}
+		/* 참여하기버튼 css end  */
+
+        .category{
+	        font-size: 20px; 
+	        font-family: '62570체';
+			margin-top: 30px;
+        }
+        .room-title{
+            font-size: 22px; 
+            margin-top: 16px; 
+            font-weight: bold;
+            /* background-image: linear-gradient(transparent 60%, #F8CD07 40%); */
+        }
+        .enter-number{
+           margin-bottom:1px;
+            font-size: 13px;
+        }
+    	.room-text{
+			margin-top: 20px; 
+			font-size: 13px;
+			height: 65px;
+		}
+        
+        .search-area{
+           width: 100%;
+           height: 100px;
+           text-align: center;
+           margin-top: 40px;
+        }
+    
+      /* 페이징 */
+      .pageN{
+          width: 100%;
+          height: 50px;
+          text-align: center;
+       }
+      .pagination2 a {
+        color: black;
+        float: left;
+        padding: 8px 16px;
+        text-decoration: none;
+        border: 1px solid #ddd;
+      }
+      .pagination2 a.active {
+       /*  background-color:  rgb(248, 162, 113); */
+        background-color:   rgba(252, 163, 17,0.9);
+        color: white;
+      }
+      .pagination2 a:hover:not(.active) {background-color: #ddd;}
+      .pagination2 a:first-child {
+        border-top-left-radius: 5px;
+        border-bottom-left-radius: 5px;
+      }
+      .pagination2 a:last-child {
+        border-top-right-radius: 5px;
+        border-bottom-right-radius: 5px;
+      }
+      /* 페이징 css end */
+      
+      /* 검색 영역 */
+        *, *:before, *:after {
+          -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+       }
+	   .search-box {
+	     position: relative;
+	     width: 100%;
+	     max-width: 360px;
+	     height: 60px;
+	     border-radius: 120px;
+	     margin: 0 auto;
+	     background: rgba(255,255,255,0.5);
+	   }
+	   .search-border {
+	     display: block;
+	     width: 100%;
+	     max-width: 360px;
+	     height: 60px;
+	   }
+	   .border {
+	     fill: none;
+	     stroke: #ff8c1a;
+	     stroke-width: 5;
+	     stroke-miterlimit: 10;
+	   }
+	   #search {
+	     font-family: 'Montserrat Alternates', sans-serif;
+	     position: absolute;
+	     top: 0;
+	     left: 0;
+	     width: 100%;
+	     height: 100%;
+	     border-radius: 120px;
+	     border: none;
+	     background: rgba(255,255,255,0);
+	     padding: 0 68px 0 68px;
+	     color: black;
+	     font-size: 1.32em;
+	     font-weight: 400;
+	     letter-spacing: -0.015em;
+	     outline: none;
+	   }
+	   #search::-webkit-input-placeholder {color: rgb(112, 112, 112);}
+	   .search-icon,
+	   .go-icon {
+	      position: absolute;
+	      top: 0;
+	      height: 60px;
+	      width: 86px;
+	      line-height: 61px;
+	      text-align: center;
+	   }
+	   .search-icon {
+	      left: 0;
+	      pointer-events: none;
+	      font-size: 1.22em;
+	      will-change: transform;
+	      top: 9px;
+	   }
+	   .go-icon {
+	      right: 0;
+	      pointer-events: none;
+	      font-size: 1.38em;
+	      will-change: opacity;
+	      cursor: default;
+	      opacity: 0;
+	   }
+	   /* 검색 css end */
+
+		/* 모달 css */
+	   .modal-button2{
+         width: 100px;
+         height: 35px;
+         border-radius: 18px;
+         background-color: rgb(248, 162, 113);
+         line-height: 200%;
+         float: left;
+         color: white;
+         text-decoration: none;
+         margin: 0px 6px;
+	     }
+        
+        .button-area {
+           width: 80px;
+          height: 38px;
+          border-radius: 10px;
+          font-size: 18px;
+          font-family: 'Handon3gyeopsal600g';
+        }
+        .modal-btn-area2{
+        margin: 10px auto;
+        width: 50%;
+        box-sizing: border-box;
+        top: 0px;
+        bottom: 0px;
+        left: 0px;
+        right: 0px;
+        }
+
+        .m-title{
+	        height: 20%;
+	        font-size: 24px;
+	        margin: 0px 8px 0px 0px;
+  		 }
+  		 .m-content{
+  		 	width: 280px;
+  		 	margin: auto;
+  		 }
+     	 .m-passnotice{
+     	   margin-top:5px;
+      	   font-size: 13px;
+     	 }
+      /* 모달 css end */
+      
+       .clear-btn{
+         border: 2px solid white;
+         color: white;
+         text-align: center;
+         text-decoration: none;
+         width: 90px;
+         height: 35px;
+         border-radius: 20px;
+         line-height: 160%;
+         cursor: pointer;
+         line-height: 200%;
+         font-size: 17px;
+      }
+      .clear-btn:hover{
+      	text-decoration: none;
+      }
+
+      .noPart{
+      	pointer-events: none;
+      	background: rgb(173, 181, 189);
+      }
+       #flag {
+	       width: 28px;
+	       height: 56px;
+	       box-sizing: content-box;
+	       position: relative;
+	       background:  rgb(231, 111, 81);
+	       color: white;
+	       line-height: 40px;
+	       font-size: 8px;
+	       letter-spacing: 0.2em;
+	       text-align: center;
+	       text-transform: uppercase;
+	       float: right;
+	       margin-right: 15px;
+       }
+                
+        #flag:after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 0;
+        height: 0;
+        border-bottom: 13px solid rgb(250,249,249);
+        border-left: 14px solid transparent;
+        border-right: 14px solid transparent;
+        }
+		.count1, .count2{
+		font-size: 17px; 
+		margin-top: 15px;
+		}
+		

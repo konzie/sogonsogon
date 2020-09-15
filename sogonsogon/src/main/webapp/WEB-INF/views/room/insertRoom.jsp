@@ -12,29 +12,33 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 <style>
+  
         @font-face {
-            font-family: 'GmarketSansMedium';
-            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
-            font-weight: normal;
-            font-style: normal;
-        }
-                    
-        @font-face {
-            font-family: 'NEXON Lv2 Gothic Bold';
-            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv2 Gothic Bold.woff') format('woff');
-            font-weight: normal;
-            font-style: normal;
-        }
+		    font-family: 'NEXON Lv2 Gothic Bold';
+		    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv2 Gothic Bold.woff') format('woff');
+		    font-weight: normal;
+		    font-style: normal;
+		}
+            
         @font-face {
             font-family: 'BBTreeGL';
             src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_nine_@1.1/BBTreeGL.woff') format('woff');
             font-weight: normal;
             font-style: normal;
         } 
+        
+		@font-face {
+		    font-family: 'Eoe_Zno_L';
+		    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_eight@1.0/Eoe_Zno_L.woff') format('woff');
+		    font-weight: normal;
+		    font-style: normal;
+		}
+            
 	   .empty {
 	      width: 100%;
 	      height: 60px;
 	   }
+	   
         .title{
             width: 100%;
             height: 80px;
@@ -42,7 +46,7 @@
             text-align: center;
             color: #EA5A00;
             line-height: 70px;
-            font-family: 'NEXON Lv2 Gothic Bold';
+             font-family: 'NEXON Lv2 Gothic Bold';
             letter-spacing: 4px;
         }
 
@@ -53,8 +57,9 @@
             height: 700px;
             margin: auto;
             padding: 35px;
-            font-family: 'BBTreeGL';
+              font-family: 'Eoe_Zno_L';
         }
+        
         .btn2, #btn2 {
             background-color: #ffce54;
             border: none;
@@ -64,8 +69,7 @@
             height: 30px;
         }
         
-        .container {max-width: 720px;
-        }
+        .container {max-width: 720px;}
         
         h3 {font-family: 'GmarketSansMedium';}
         
@@ -109,6 +113,9 @@
         background-color: #FCF9F7;
         padding-bottom: 50px;
         }
+        .bold{
+        	font-weight: bold;
+        }
 </style>
 <title>방 만들기</title>
 </head>
@@ -118,25 +125,25 @@
  
    <div class="container2">
    <div class="empty"></div>
-            <div class="title">방만들기</div>
+            <div class="title"><img  src="${contextPath}/resources/images/roomInsert-check.png"  width="40px;" style="margin-right: 10px;">방만들기</div>
             <div class="boxarea">
                 <form action="createRoom" method="post" role="form" onsubmit="return validate();">
                     <div class="form-group">
-                       <label for="exampleFormControlInput1">방 이름</label> 
+                       <label for="exampleFormControlInput1" class="bold">방 이름</label> 
                        <input type="text" class="form-control" id="title" name="roomTitle"
                           placeholder="방 이름을 작성해주세요."  style="width: 530px;">
                     </div>
                     
                     
                  <div class="form-group">
-                    <label for="exampleFormControlInput1">공개 여부</label> <br>
+                    <label for="exampleFormControlInput1" class="bold">공개 여부</label> <br>
                     <input type="radio" id="o" name="roomOpen"  class="open"  value="Y" checked> <label for="o">공개</label>  &nbsp;
                     <input type="radio" id="c" name="roomOpen"  class="open"  value="N"> <label for="c">비공개</label>  
                     <input type="password" name="roomPassword" id="roomPassword"  class="form-control passArea" style="width: 250px;" placeholder="비밀번호를 입력해 주세요.">
                  </div>
            
                     <div class="form-group">
-                       <label for="exampleFormControlInput1">카테고리</label> <br>
+                       <label for="exampleFormControlInput1" class="bold">카테고리</label> <br>
                        <select class="custom-select" id="category" name="roomType" style="width: 150px;">
                              <option value="1">IT</option>
                              <option value="2">공모전</option>
@@ -148,20 +155,20 @@
                     </div>
                    
                     <div class="form-group">
-                       <label for="exampleFormControlInput1">참가 인원 수</label>
+                       <label for="exampleFormControlInput1" class="bold">참가 인원 수</label>
                        <input type="number" class="form-control maxNumber" name="roomMaxNumber" maxlength="2" style="width: 150px;" min="1" max="50"
                            placeholder="최대 50명">
                     </div>
                     
                     <div class="form-group">
-                       <label for="exampleFormControlTextarea1">방 소개</label>
+                       <label for="exampleFormControlTextarea1" class="bold">방 소개</label>
                        <textarea class="form-control" id="content" name="roomContent" rows="7" style="resize: none;"
                        placeholder="방에 대한 간략한 소개를 입력해주세요."></textarea>
                     </div>
                        
                     
                        <div class="form-group">
-                           <label for="exampleFormControlTextarea1" class="tagform">태그 입력</label>
+                           <label for="exampleFormControlTextarea1" class="tagform bold">태그 입력</label>
                            <div class="plusbutton">+</div>
                            <div class="tagbox">
                               <input type="text" class="form-control tags"  id="tags" name="roomTag">
@@ -224,7 +231,7 @@
       // 태그 입력창 생성 + 2번까지(수정)
       for(var i=0; i<2; i++ ){
 	      $(".plusbutton").on("click", function(){
-	         $tag = $('<input type="text">').addClass("form-control").attr("id", "tags");
+	         $tag = $('<input type="text">').addClass("form-control tags").attr("id", "tags").attr("name","roomTag");
 	         $(".tagbox").append($tag);
 	      });
     	  i++;
@@ -238,6 +245,12 @@
       // 비공개 버튼 누를시 password input태그 생성
       $("#c").on("change",function(){
 			$("#roomPassword").css("display","block");
+			$(".boxarea").css("height", "740px");
+      });
+      
+      $("#o").on("change",function(){
+			$("#roomPassword").css("display","none");
+			$(".boxarea").css("height", "700px");
       });
       
       // 이전으로

@@ -13,6 +13,8 @@ import com.kh.sogon.member.model.vo.Member;
 import com.kh.sogon.board.model.vo.PageInfo;
 import com.kh.sogon.board.model.vo.Reply;
 import com.kh.sogon.mypage.model.dao.MypageDAO;
+import com.kh.sogon.room.model.vo.Room;
+import com.kh.sogon.room.model.vo.RoomMember;
 
 @Service
 public class MypageServiceImpl implements MypageService{
@@ -147,26 +149,31 @@ public class MypageServiceImpl implements MypageService{
 		return mypageDAO.selectRList(pInfo, memberNo);
 	}
 
+	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public int reportCount() {
 		return mypageDAO.reportCount();
 	}
 
+	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public int qnaCount() {
 		return mypageDAO.qnaCount();
 	}
 
+	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public int roomCount() {
 		return mypageDAO.roomCount();
 	}
 
+	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public int memberCount() {
 		return mypageDAO.memberCount();
 	}
 
+	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public PageInfo reportPage(int cp) {
 		int listDCount = mypageDAO.getListDCount();
@@ -175,12 +182,46 @@ public class MypageServiceImpl implements MypageService{
 
 		return pInfo;
 	}
-	
+
+	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public List<Board> selectDList(PageInfo pInfo) {
 		return mypageDAO.selectDList(pInfo);
 	}
 
- 	
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public List<RoomMember> selectRoomMemberList(int memberNo) {
+		return mypageDAO.selectRoomMemberList(memberNo);
+	}
+
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public PageInfo roomPage(int cp, List<RoomMember> roomMemberList) {
+		
+		int listRoomCount = mypageDAO.getListRoomCount(roomMemberList);
+		
+		pInfo.setPageInfo(cp, listRoomCount);
+
+		return pInfo;
+	}
+
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public List<Room> selectRoomList(PageInfo pInfo, List<RoomMember> roomMemberList) {
+		return mypageDAO.selectRoomList(pInfo, roomMemberList);
+	}
+
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public int deleteNotice(int boardNo) {
+		return mypageDAO.deleteNotice(boardNo);
+	}
+
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public Board noticeView(int boardNo) {
+		return mypageDAO.noticeView(boardNo);
+	}	
 
 }

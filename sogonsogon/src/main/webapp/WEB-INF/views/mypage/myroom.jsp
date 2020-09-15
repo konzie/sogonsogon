@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -245,6 +246,10 @@
       width:72%;
       height:100%;
       padding:20px 0px 0px 30px;
+      }      
+      
+      .pagination {
+      	justify-content: center;
       }
 </style>
 </head>
@@ -260,35 +265,72 @@
   <jsp:include page="mypage2.jsp"/>
   <div class="content2">       
       <h4 class="mb-5">참여한 스터디방</h4>
-   <%int num=0; %>
-    <!-- 1 -->
-    <%for(int i=0; i<2; i++){ %>
-    <div class="room-box"> <!--review box 1-1-->
-        <%for(int j=0; j<3; j++){ %>
+      
+    <c:set var="roomList" value="${roomList}"/>
+    <div class="room-box">
+    <c:forEach var="roomList" items="${roomList}">
         <div class="roomlist-box">
-        
-            <p class="room-content">
-                <p class="category">[IT]</p>
-                <p class="room-title">초보 자바 개발자들 모임</p>
-                <p class="enter-number">
-                    방장 : 누구누구님 <br>
-                    참가인원 : /10명
-                    │ 개설일 : 2020. 05. 12.
-                </p>
-
-            <div id="tagbox">
-                <div class="tags">#스터디</div> 
-                <div class="tags">#코딩</div> 
-                <div class="tags">#자바</div> 
-                <div class="tags">#개발자</div> 
-                <div class="tags">#스프링</div>
-            </div>
-            <a data-toggle="modal"  data-target="#myModal"><div class="join-button">참여하기</div></a>
+            <img src="${contextPath}/resources/images/clip.png">
+          	
+          	<c:choose>
+           		<c:when test="${roomList.roomType ==1}">
+           			<c:set var="tag" value="IT"/>
+           		</c:when>
+           		 <c:when test="${roomList.roomType ==2}">
+           			<c:set var="tag"  value="공모전"/>
+           		</c:when>
+           		<c:when test="${roomList.roomType ==3}">
+           			<c:set var="tag"  value="면접"/>
+           		</c:when>
+           		<c:when test="${roomList.roomType ==4}">
+           			<c:set var="tag"  value="전공"/>
+           		</c:when>
+           	    <c:when test="${roomList.roomType ==5}">
+           			<c:set var="tag"  value="외국어"/>
+           		</c:when>
+           		  	    <c:when test="${roomList.roomType ==6}">
+           			<c:set var="tag"  value="기타"/>
+           		</c:when>
+            </c:choose>
             
-        </div> <!-- roomlist end-->
-       <%num++;} %>
-    </div><!--room-container end-->
-      <%} %>
+            <fmt:formatDate var="createDate" value="${roomList.roomCreateDate}" pattern="yyyy-MM-dd"/>
+            
+            <p class="room-content">
+                <p class="category" id="${tag}">[${tag}]</p>
+                <p class="room-title">${roomList.roomTitle}</p>
+                <p class="enter-number">
+                    방장 : ${roomList.memberNick}<br>
+                    참가인원 : <span class="count1">${roomList.roomMemberCount}</span>
+                    			/<span class="count2">${roomList.roomMaxNumber}</span>명
+                    │ 개설일 : ${createDate}
+             </p>
+	
+			<c:set var="tags" value="${fn:split(roomList.roomTag, ',')}"/>
+	
+             <c:set var="roomNo" value="${roomList.roomNo}" />
+            <div id="tagbox">
+             <c:forEach var="tag" items="${tags}">
+                <div class="tags">#${tag}</div> 
+             </c:forEach>
+            </div>
+            
+			<c:choose>
+					<%-- test는 el만 적을 수 있음 (비교, 계산 같은걸 하나 EL 안에 작성가능) --%>
+				<c:when test="${roomList.roomMemberCount != roomList.roomMaxNumber}">
+		            <a data-toggle="modal"  data-target="#myModal">
+		            	<div class="join-button" id="${roomList.roomNo}" onclick="return validate();">참여하기</div>
+		            </a>
+				</c:when>
+				<c:otherwise>
+		            <a data-toggle="modal" >
+		            	<div class="join-button noPart" id="${roomList.roomNo}" onclick="return validate();">참여불가</div>
+		            </a>
+				</c:otherwise>
+			</c:choose>
+            
+      </div> <!-- roomlist end-->
+      </c:forEach>
+    </div>
       
       
    <div class="my-4">

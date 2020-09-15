@@ -20,7 +20,7 @@ public interface BoardService {
 	 * @param cp
 	 * @return pInfo
 	 */
-	public abstract PageInfo pagination(int type, int cp);
+	public abstract PageInfo pagination(int cp);
 
 	
 	/** 게시글 목록 조회 Service
@@ -34,7 +34,7 @@ public interface BoardService {
 	 * @param boardNo
 	 * @return board
 	 */
-	public abstract Board selectBoard(int boardNo);
+	public abstract Board selectBoard(int qnaNo);
 
 
 	/** 게시글 등록 Service
@@ -55,16 +55,16 @@ public interface BoardService {
 	 * @param boardNo
 	 * @return files
 	 */
-	public abstract List<Attachment> selectFiles(int boardNo);
+	public abstract List<Attachment> selectFiles(int qnaNo);
 
 
 	public abstract List<Attachment> selectThumbnailList(List<Board> boardList);
 
 	// 높은 조회수 게시글 조회 
-	public abstract List<Board> selectTopViews(int type);
+	public abstract List<Board> selectTopViews();
 
 
-	public abstract PageInfo pagination(int type, int cp, Search search);
+	public abstract PageInfo pagination(int cp, Search search);
 
 	// r검색 목록 조회 
 	

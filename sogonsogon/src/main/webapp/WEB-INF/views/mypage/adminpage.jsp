@@ -25,7 +25,7 @@
   <div id="empty"></div>
 
    <div class="table-title">
-      <div class="col-sm-4">
+      <div class="col-sm-4" >
         <h2><b>Admin Page</b></h2>
       </div>
    </div>
