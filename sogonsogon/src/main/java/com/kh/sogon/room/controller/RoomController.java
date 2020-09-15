@@ -37,16 +37,19 @@ public class RoomController {
 		private PageInfo pInfo;
 		
 
-		@RequestMapping("roomList")
-		public String roomView(@RequestParam(value="cp" , required=false, defaultValue ="1" )  int cp, Model model) {
+		@RequestMapping("roomList/{type}")
+		public String roomView(@PathVariable int type, @RequestParam(value="cp" , required=false, defaultValue ="1" )  int cp, Model model) {
 			PageInfo pInfo = roomService.pagination(cp);
 			
 			 List<Room> roomList = roomService.selectList(pInfo);
 			 for(Room r : roomList) { System.out.println(r); }
+			 System.out.println(pInfo);
 			 
 			 model.addAttribute("roomList", roomList);
 			 model.addAttribute("pInfo", pInfo);
-			 
+			 model.addAttribute("roomPath", "roomList");
+			 model.addAttribute("type", type);
+			 		 
 			return "room/roomList";
 		}
 		
@@ -150,6 +153,8 @@ public class RoomController {
 
 			 model.addAttribute("pInfo", pInfo);
 			 model.addAttribute("roomList", roomList);
+			 model.addAttribute("roomPath", "select");
+			 model.addAttribute("type", option);
 			 
 		     return  "room/roomList"; 
 		    		 
