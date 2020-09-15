@@ -63,9 +63,9 @@ public class BoardDAO {
 	 * @param boardNo
 	 * @return board
 	 */
-	public Board selectBoard(int boardNo) {
+	public Board selectBoard(int qnaNo) {
 		
-		return sqlSession.selectOne("boardMapper.selectBoard",boardNo);
+		return sqlSession.selectOne("boardMapper.selectBoard",qnaNo);
 		
 	}
 
@@ -93,9 +93,9 @@ public class BoardDAO {
 
 
 
-public void deleteAttachment(int boardNo) {
+public void deleteAttachment(int qnaNo) {
 		
-		sqlSession.delete("boardMapper.deleteAttachment",boardNo);
+		sqlSession.delete("boardMapper.deleteAttachment",qnaNo);
 	}
 
 

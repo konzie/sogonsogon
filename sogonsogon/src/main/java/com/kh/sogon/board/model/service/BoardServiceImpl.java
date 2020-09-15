@@ -62,10 +62,10 @@ public class BoardServiceImpl implements BoardService{
 	// 게시글 상세조회 Service 구현
 	@Transactional(rollbackFor = Exception.class)
 	@Override
-	public Board selectBoard(int boardNo) {
+	public Board selectBoard(int qnaNo) {
 		
 		// 게시글 조회
-		Board board = boardDAO.selectBoard(boardNo);
+		Board board = boardDAO.selectBoard(qnaNo);
 		
 		
 	
@@ -87,12 +87,12 @@ public class BoardServiceImpl implements BoardService{
 			
 			
 			// 1) 다음 SEQ_MNO를 얻어옴.
-			int boardNo = boardDAO.selectNextNo();
+			int qnaNo = boardDAO.selectNextNo();
 			
-			
-			if (boardNo > 0) { // 다음 번호를 정상적으로 얻어 왔을 때
+			System.out.println(qnaNo);
+			if (qnaNo > 0) { // 다음 번호를 정상적으로 얻어 왔을 때
 				// 다음 번호 board 객체에 세팅
-				board.setQnaNo(boardNo);
+				board.setQnaNo(qnaNo);
 				
 				board.setQnaContent(replaceParameter(board.getQnaContent()));
 				
@@ -117,7 +117,7 @@ public class BoardServiceImpl implements BoardService{
 					String changeName = rename(images.get(i).getOriginalFilename());
 					
 					// Attachment 객체 생성
-					at = new Attachment(boardNo, 
+					at = new Attachment(qnaNo, 
 							images.get(i).
 							getOriginalFilename(), 
 							changeName, 
@@ -154,7 +154,7 @@ public class BoardServiceImpl implements BoardService{
 								
 								// 서버에 파일 저장 중 문제가 발생할 경우
 								// 이미 DB에 삽입되어 있는 파일 정보를 삭제하는 DAO를 호출.
-								boardDAO.deleteAttachment(boardNo);
+								boardDAO.deleteAttachment(qnaNo);
 								
 							}
 							
