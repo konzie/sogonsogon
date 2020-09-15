@@ -18,7 +18,6 @@
       float:left; 
       width:72%;
       height:100%;
-      padding:20px 0px 0px 30px;
       }
       
       .count{
@@ -51,6 +50,20 @@
       .mb-1{
       	padding : 10px;
       }
+      
+      .tableTitle{
+      	display: inline-block;
+      }
+      
+      .tableTitle>a{
+        color:black;
+      	text-decoration: none;  
+      }
+      .tableButton{
+      	display:inline-block;
+      	float : right;
+      	margin:10px 5px;
+      }
 </style>
 </head>
 <body>   
@@ -64,8 +77,6 @@
   <div class="content">
   <jsp:include page="adminpage2.jsp"/>
 	<div class="content2">       
-      <h4 class="mb-5">관리자 페이지</h4>
-  
    <div class="countDiv">
 	  	<div class="count">
 	   		<p align="center" id="count">신고글</p><p id="reportCount"></p>
@@ -82,7 +93,7 @@
 	  </div>
 	   	
 	   	<div id="report" class="board">
-	   		<h4 class="mb-1">신고 게시판</h4>
+	   		<h4 class="mb-1 tableTitle"><a href="adminreport">신고 게시판</a></h4>
        <table class="table table-striped table-hover">
                 <thead>
                     <tr>
@@ -92,15 +103,14 @@
                         <th id="title">내용</th>
                         <th id="writer">작성자</th>						
                         <th id="create_dt">작성일</th>						
-                        <th id="status">게시글 상태</th>
-
+                        <th id="status">처리</th>
                     </tr>
                 </thead>
                 <tbody>
                 <c:choose>
           			<c:when test="${empty reportList}">
 		         		<tr>		
-		         			<td colspan="7" align="center">존재하는 공지사항이 없습니다.</td>
+		         			<td colspan="7" align="center">존재하는 신고 게시글이 없습니다.</td>
 		         		</tr>
           			</c:when>	
           			<c:otherwise>
@@ -126,7 +136,7 @@
 		              				</c:otherwise>
 		              			</c:choose>
 		              		</td>
-		              		<td>${board.qnaStatus}</td>
+		              		<td><button type="button" class="btn btn-danger btn-sm" onclick="location.href ='updateReport/${board.writerNick}/${board.qnaNo}'">경고</button>          <button type="button" class="btn btn-dark btn-sm" onclick="location.href ='restoreReport/${board.qnaNo}'">X</button></td>
 	              		</tr>	
           				</c:forEach>
           			</c:otherwise>
@@ -136,7 +146,7 @@
 	   	</div>
 	   	
 	   	<div id="qna" class="board">
-	   		<h4 class="mb-1">고객센터</h4>
+	   		<h4 class="mb-1 tableTitle"><a href="adminhelp">고객센터</a></h4><button class="btn btn-outline-secondary btn-sm tableButton" onclick="location.href ='adminhelp'">메뉴로 이동</button>
        <table class="table table-striped table-hover">
                 <thead>
                     <tr>
@@ -147,7 +157,6 @@
                         <th>작성자</th>						
                         <th>작성일</th>						
                         <th>비밀글</th>
-
                     </tr>
                 </thead>
                 <tbody>
@@ -190,17 +199,17 @@
 	   	</div>
 	   	
 	   	<div id="notice" class="board">
-	   		<h4 class="mb-1">공지 사항</h4>
+	   		<h4 class="mb-1 tableTitle"><a href="adminnotice">공지 사항</a></h4><button class="btn btn-outline-warning btn-sm tableButton" onclick="location.href ='noticeWrite'">글쓰기</button>
        <table class="table table-striped table-hover">
                 <thead>
                     <tr>
-                        <th id="boardNo">글번호</th>
-                        <th id="category">분류</th>
-                        <th id="title">제목</th>
-                        <th id="title">내용</th>
-                        <th id="writer">작성자</th>						
-                        <th id="create_dt">작성일</th>						
-                        <th id="status">게시글 상태</th>
+                        <th>글번호</th>
+                        <th>분류</th>
+                        <th>제목</th>
+                        <th>내용</th>
+                        <th>작성자</th>						
+                        <th>작성일</th>						
+                        <th>게시글 상태</th>
 
                     </tr>
                 </thead>
@@ -226,7 +235,7 @@
 		              			<fmt:formatDate var="createTime" value="${board.qnaCreateDate}" pattern="hh:mm:ss"/>
 		              			
 		              			<c:choose>
-		              				<c:when test="${today == createDate }">
+		              				<c:when test="${today == createDate}">
 		              					${createTime}
 		              				</c:when>
 		              				<c:otherwise>
@@ -318,6 +327,13 @@ $(function(){
 		} 
 	});	
 });
+
+$("td:not(:last-child)").on("click",function(){
+	var boardNo = $(this).parent().parent().children().eq(0).text(); 
+	location.href = "${contextPath}/noticeView/"+boardNo;
+}).on("mouseenter", function(){
+	$(this).parent().css("cursor", "pointer");
+});  
 </script>
 </body>
 </html>

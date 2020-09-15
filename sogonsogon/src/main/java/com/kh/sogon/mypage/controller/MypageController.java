@@ -34,17 +34,38 @@ public class MypageController {
 	public String adminpage(Model model) {
 		
 		PageInfo pInfo = new PageInfo();
+		
+		pInfo.setCurrentPage(1);
 		pInfo.setLimit(3);
 		
 		List<Board> reportList = mypageService.selectDList(pInfo);
+		
+		for(int i=0;i<reportList.size();i++) {
+			if(reportList.get(i).getQnaContent().length()>20){
+				reportList.get(i).setQnaContent(reportList.get(i).getQnaContent().substring(0,20)+"...");
+			}
+		}
+		
 		model.addAttribute("reportList", reportList);
 		
 		List<Help> helpList = mypageService.selectQList(pInfo);
-		model.addAttribute("helpList", helpList);
 
-		List<Board> noticeList = mypageService.selectNList(pInfo);
-		model.addAttribute("noticeList", noticeList);
+		for(int i=0;i<helpList.size();i++) {
+			if(helpList.get(i).getHelpContent().length()>20){
+				helpList.get(i).setHelpContent(helpList.get(i).getHelpContent().substring(0,20)+"...");
+			}
+		}
 		
+		model.addAttribute("helpList", helpList);
+		
+		List<Board> noticeList = mypageService.selectNList(pInfo);
+		for(int i=0;i<noticeList.size();i++) {
+			if(noticeList.get(i).getQnaContent().length()>20){
+				noticeList.get(i).setQnaContent(noticeList.get(i).getQnaContent().substring(0,20)+"...");
+			}
+		}
+		
+		model.addAttribute("noticeList", noticeList);
 		return "mypage/adminmain";
 	}
 	
@@ -177,7 +198,13 @@ public class MypageController {
 		pInfo.setLimit(10);
 		
 		List<Board> reportList = mypageService.selectDList(pInfo);
-		                                                                   
+		
+		for(int i=0;i<reportList.size();i++) {
+			if(reportList.get(i).getQnaContent().length()>20) {
+				reportList.get(i).setQnaContent(reportList.get(i).getQnaContent().substring(0,20)+"...");
+			}
+		}                           
+		
 		model.addAttribute("reportList", reportList);
 		model.addAttribute("pInfo", pInfo);
 		
@@ -193,7 +220,12 @@ public class MypageController {
 		pInfo.setLimit(10);
 		
 		List<Help> helpList = mypageService.selectQList(pInfo);
-		                                                                   
+		
+		for(int i=0;i<helpList.size();i++) {
+			if(helpList.get(i).getHelpContent().length()>20) {
+				helpList.get(i).setHelpContent(helpList.get(i).getHelpContent().substring(0,20)+"...");
+			}
+		}                                                                   
 		model.addAttribute("helpList", helpList);
 		model.addAttribute("pInfo", pInfo);
 
@@ -209,7 +241,12 @@ public class MypageController {
 		pInfo.setLimit(10);
 		
 		List<Board> qnaList = mypageService.selectNList(pInfo);
-		                                                                   
+		
+		for(int i=0;i<qnaList.size();i++) {
+			if(qnaList.get(i).getQnaContent().length()>20) {
+				qnaList.get(i).setQnaContent(qnaList.get(i).getQnaContent().substring(0,20)+"...");
+			}
+		}
 		model.addAttribute("qnaList", qnaList);
 		model.addAttribute("pInfo", pInfo);
 		
@@ -315,6 +352,40 @@ public class MypageController {
 		return "mypage/noticeWrite";
 	}
 	
+	@RequestMapping("noticeInsert")
+	public String noticeInsert(@RequestParam(value="title") String title, @RequestParam(value="content") String content, RedirectAttributes rdAttr, Model model) {
+
+		Member loginMember = (Member)model.getAttribute("loginMember");
+		
+		Board board = new Board();
+		
+		board.setQnaTitle(title);
+		board.setQnaContent(content);
+		board.setWriter(loginMember.getMemberNo());
+		
+		int result = mypageService.noticeWrite(board);
+		
+		String status = null;
+		String msg = null;
+		String text = null;
+		String url =null;
+		
+		if(result > 0) {
+			status = "success";
+			msg = "공지사항 작성 성공";
+			url ="/mypage/noticeView/"+board.getQnaNo();
+		}else{
+			msg = "공지사항 작성 실패";
+			url = "/mypage/noticeWrite";
+		}
+				
+		rdAttr.addFlashAttribute("status",status);
+		rdAttr.addFlashAttribute("msg",msg);
+		rdAttr.addFlashAttribute("text",text);
+		
+		return "redirect:"+url;
+	}
+	
 	@RequestMapping("deleteNotice/{boardNo}")
 	public String deleteNotice(@PathVariable int boardNo, RedirectAttributes rdAttr) {
 		
@@ -326,11 +397,11 @@ public class MypageController {
 		
 		if(result > 0) {
 			status = "success";
-			msg = "공지사항 삭제 성공";
+			msg = "게시글 삭제 성공";
 			url ="mypage/adminnotice";
 		}else {
 			status = "error";
-			msg = "공지사항 삭제 실패";
+			msg = "게시글 삭제 실패";
 			url = "mypage/noticeView/boardNo";
 		}
 				
@@ -339,4 +410,41 @@ public class MypageController {
 		
 		return url;
 	}	
+		
+	@RequestMapping("updateReport/{memberNick}/{boardNo}")
+	public String updateReport(@PathVariable String memberNick, @PathVariable int boardNo, Model model, RedirectAttributes rdAttr){
+		
+		int memberNo = mypageService.findMember(memberNick);
+		
+		int result= mypageService.updateReport(memberNo);
+		
+		if(result>0) {
+			deleteNotice(boardNo, rdAttr);
+			adminreport(model, 1);
+		}
+		return "mypage/adminreport";
+	}
+	
+	@RequestMapping("restoreReport/{boardNo}")
+	public String restoreReport(@PathVariable int boardNo, Model model){
+		
+		int result = mypageService.restoreReport(boardNo);
+		
+		String status = null;
+		String msg = null;
+		String url =null;
+		
+		if(result > 0) {
+			adminreport(model, 1);
+			status = "success";
+			msg = "게시글 복원 성공";
+			url ="mypage/adminreport";
+		}else {
+			status = "error";
+			msg = "게시글 복원 실패";
+			url = "mypage/noticeView/"+boardNo;
+		}
+		
+		return url;
+	}
 }

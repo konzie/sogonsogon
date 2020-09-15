@@ -43,21 +43,21 @@
        <table class="table table-striped table-hover">
                 <thead>
                     <tr>
-                        <th id="boardNo">글번호</th>
-                        <th id="category">분류</th>
-                        <th id="title">제목</th>
-                        <th id="title">내용</th>
-                        <th id="writer">작성자</th>						
-                        <th id="create_dt">작성일</th>						
-                        <th id="status">게시글 상태</th>
-
+                        <th>글번호</th>
+                        <th>분류</th>
+                        <th>제목</th>
+                        <th>내용</th>
+                        <th>작성자</th>						
+                        <th>작성일</th>						
+                        <th>게시글 상태</th>
+                        <th>처리 </th>
                     </tr>
                 </thead>
                 <tbody>
                 <c:choose>
           			<c:when test="${empty reportList}">
 		         		<tr>		
-		         			<td colspan="7" align="center">존재하는 게시글이 없습니다.</td>
+		         			<td colspan="8" align="center">존재하는 게시글이 없습니다.</td>
 		         		</tr>
           			</c:when>	
           			<c:otherwise>
@@ -84,6 +84,7 @@
 		              			</c:choose>
 		              		</td>
 		              		<td>${board.qnaStatus}</td>
+		              		<td><button type="button" class="btn outline-dark" onclick="location.href ='updateReport/${board.writerNick}/${board.qnaNo}'">경고</button>          <button type="button" class="btn btn-dark" onclick="location.href ='restoreReport/${board.qnaNo}'">X</button></td>
 	              		</tr>	
           				</c:forEach>
           			</c:otherwise>
@@ -141,6 +142,13 @@
     </div>    
    
    <jsp:include page="../common/footer.jsp" />
-    
+    <script>
+    $("td:not(:last-child)").on("click",function(){
+    	var boardNo = $(this).parent().children().eq(0).text(); 
+    	location.href = "${contextPath}/noticeView/"+boardNo;
+    }).on("mouseenter", function(){
+    	$(this).parent().css("cursor", "pointer");
+    });
+    </script>    
     </body>
 </html>

@@ -113,7 +113,7 @@ select {
 	            		<c:when test="${empty loginMember}">
 	                        <li class="nav-item"><a class="nav-link js-scroll-trigger" data-toggle="modal" href="#modal-container-1">로그인</a></li>
 	                        <li class="nav-item"><a class="nav-link js-scroll-trigger">|</a></li>
-	                  		<li class="nav-item"><a class="nav-link js-scroll-trigger" href="${contextPath}/member/termsForm">회원가입</a></li>
+	                  		<li class="nav-item"><a class="nav-link js-scroll-trigger" href="${contextPath}/member/signUpView">회원가입</a></li>
 	                    </c:when>
 	            		<c:otherwise>
 	            		    <c:choose>
@@ -189,11 +189,11 @@ select {
               <form class="form-signin" method="POST" action="${contextPath}/member/loginAction" onsubmit="return loginValidate();">
                   <div class="form-group">
                     <label for="email" class="sr-only">아이디</label>
-                    <input type="email" name="memberId" id="memberId" class="form-control" placeholder="아이디" required autofocus value="${cookie.saveId.value}"> 
+                    <input type="email" name="memberId" id="memberId" class="form-control" placeholder="아이디" value="">
                   </div>
                   <div class="form-group mb-4">
                     <label for="password" class="sr-only">비밀번호</label>
-                    <input type="password" name="memberPwd" id="memberPwd" class="form-control" placeholder="비밀번호" required>
+                    <input type="password" name="memberPwd" id="memberPwd" class="form-control" placeholder="비밀번호">
                   </div>
                   <button class="btn btn-block login-btn mb-4" type="submit">로그인</button>
             
@@ -209,7 +209,7 @@ select {
                 &nbsp;
                 <a href="${contextPath}/member/findPwdForm" class="forgot-password-link">비밀번호 찾기</a>
                 <p class="login-card-footer-text">
-                <a href="${contextPath}/member/termsForm" class="text-reset">회원가입</a></p>
+                <a href="${contextPath}/member/signUpView" class="text-reset">회원가입</a></p>
         
             </div>
           </div>

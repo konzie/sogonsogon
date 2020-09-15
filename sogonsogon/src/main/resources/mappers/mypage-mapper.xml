@@ -39,7 +39,7 @@
         <id property="qnaNo" column="QNA_NO"/>
         <result property="qnaCategory" column="QNA_CATEGORY"/>
         <result property="qnaTitle" column="QNA_TITLE"/>
-        <result property="qnaTitleContent" column="QNA_CONTENT"/>
+        <result property="qnaContent" column="QNA_CONTENT"/>
         <result property="writer" column="QNA_WRITER"/>
         <result property="qnaStatus" column="QNA_STATUS"/>
         <result property="qnaAnswer" column="QNA_ANSWER"/>
@@ -91,6 +91,13 @@
         <result property="roomMemberEnrollDate" column="ROOM_MEMBER_ENROLL_DATE"/>
     </resultMap>
     
+    <resultMap id="ReportMemberResultSet" type="ReportMember">
+    	<id property="memberNo" column="MEMBER_NO"/>
+    	<result property="reportStatus" column="REPORT_STATUS"/>
+    	<result property="reportCount" column="REPORT_COUNT"/>
+    	<result property="reportDate" column="REPORT_DATE"/>
+    	<result property="memberNick" column="MEMBER_NICK"/>
+    </resultMap>
 	<!-- 비밀번호 찾기 -->
 	<select id="checkPwd" parameterType="_int" resultType="string">
 		SELECT MEMBER_PWD FROM MEMBER WHERE MEMBER_NO = 1
@@ -148,7 +155,7 @@
 	
 	<!-- 내가 쓴 글 수 조회 -->
 	<select id="getListBCount" parameterType="_int" resultType="_int">
-		SELECT COUNT(*) FROM QNABOARD WHERE QNA_WRITER = #{writer}
+		SELECT COUNT(*) FROM QNABOARD WHERE QNA_WRITER = #{writer} ORDER BY QNA_CREATE_DATE DESC
 	</select>
 
 	<!-- 총 boardList 조회 -->
@@ -187,7 +194,7 @@
 	</select>
 	
 	<select id="selectReport" resultMap="qnaResultSet">
-		SELECT * FROM QNABOARD WHERE QNA_STATUS='D' AND QNA_CREATE_DATE=(TO_CHAR(SYSDATE,'YY/MM/DD'))
+		SELECT * FROM QNABOARD WHERE QNA_STATUS='D' AND QNA_CREATE_DATE=(TO_CHAR(SYSDATE,'YY/MM/DD')) ORDER BY QNA_CREATE_DATE DESC
 	</select>
 	
 	<!-- 내가 입장한 방 수 조회 -->
@@ -208,7 +215,7 @@
 	
 	<!-- 공지사항 상세조회  -->
 	<select id="noticeView" parameterType="_int" resultMap="qnaResultSet">
-		SELECT * FROM QNABOARD JOIN MEMBER ON(QNA_WRITER=MEMBER_NO) WHERE QNA_NO=#{qnaNo} AND QNA_WRITER=1
+		SELECT * FROM QNABOARD JOIN MEMBER ON(QNA_WRITER=MEMBER_NO) WHERE QNA_NO=#{qnaNo} AND QNA_WRITER=1 ORDER BY QNA_CREATE_DATE DESC
 	</select>
 	
 	<!-- 공지사항 삭제 -->
@@ -216,4 +223,27 @@
 		UPDATE QNABOARD SET QNA_STATUS='N' WHERE QNA_NO = #{qnaNo} 
 	</update>
 	
+	<select id="selectBoardNo" resultType="_int">
+		SELECT SEQ_BNO.NEXTVAL FROM DUAL
+	</select>
+	
+	<insert id="noticeWrite" parameterType="Board">
+		INSERT INTO QNABOARD VALUES(#{qnaNo}, #{qnaTitle}, DEFAULT, DEFAULT, SYSDATE, SYSDATE, DEFAULT, #{writer}, #{qnaContent})
+	</insert>
+	
+	<update id="restoreReport" parameterType="_int">
+		UPDATE QNABOARD SET QNA_STATUS='Y' WHERE QNA_NO = #{qnaNo}
+	</update>
+	
+	<select id="findMember" parameterType="string" resultMap="ReportMemberResultSet">
+		SELECT * FROM REPORT_MEMBER JOIN MEMBER USING(MEMBER_NO) WHERE MEMBER_NICK = #{memberNick}
+	</select>
+	
+	<insert id="insertMember" parameterType="string">
+		INSERT INTO REPORT_MEMBER VALUES((SELECT MEMBER_NO FROM MEMBER WHERE MEMBER_NICK=#{memberNick}),DEFAULT,DEFAULT,DEFAULT)
+	</insert>
+	
+	<update id="updateReport" parameterType="_int">
+		UPDATE REPORT_MEMBER SET REPORT_COUNT=REPORT_COUNT+1 WHERE MEMBER_NO = #{memeberNo}
+	</update>
 </mapper>

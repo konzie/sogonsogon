@@ -9,9 +9,11 @@ import com.kh.sogon.room.model.vo.Room;
 import com.kh.sogon.room.model.vo.RoomMember;
 import com.kh.sogon.board.model.vo.PageInfo;
 import com.kh.sogon.board.model.vo.Reply;
-import com.kh.sogon.boardreply.model.vo.BoardReply;
 
-
+/**
+ * @author hyeonju
+ *
+ */
 /**
  * @author hyeonju
  *
@@ -146,6 +148,30 @@ public interface MypageService {
 	 * @return
 	 */
 	public abstract Board noticeView(int boardNo);
+
+	/** 공지사항 작성 Service
+	 * @param title
+	 * @param content
+	 * @return
+	 */
+	public abstract int noticeWrite(Board board);
+
+	/** 신고 게시글 되돌리기 Service
+	 * @param boardNo
+	 */
+	public abstract int restoreReport(int boardNo);
+
+	
+	/** 신고받은 게시글 작성자 찾기 Service
+	 * @param memberNick
+	 */
+	public abstract int findMember(String memberNick);
+
+	/**경고 count++ Service
+	 * @param memberNo
+	 * @return
+	 */
+	public abstract int updateReport(int memberNo);
 
 
 

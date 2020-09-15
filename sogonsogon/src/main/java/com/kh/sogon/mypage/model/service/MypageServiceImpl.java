@@ -13,6 +13,7 @@ import com.kh.sogon.member.model.vo.Member;
 import com.kh.sogon.board.model.vo.PageInfo;
 import com.kh.sogon.board.model.vo.Reply;
 import com.kh.sogon.mypage.model.dao.MypageDAO;
+import com.kh.sogon.mypage.model.vo.ReportMember;
 import com.kh.sogon.room.model.vo.Room;
 import com.kh.sogon.room.model.vo.RoomMember;
 
@@ -222,6 +223,54 @@ public class MypageServiceImpl implements MypageService{
 	@Override
 	public Board noticeView(int boardNo) {
 		return mypageDAO.noticeView(boardNo);
+	}
+
+	// 공지사항 작성 Service 구현
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public int noticeWrite(Board board) {
+		
+		int boardNo = mypageDAO.selectBoardNo();
+		
+		if(boardNo!=0) {
+			board.setQnaNo(boardNo);
+		}
+		
+		return mypageDAO.noticeWrite(board);
+	}
+
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public int restoreReport(int boardNo) {
+		return mypageDAO.restoreReport(boardNo);
+	}
+
+	// 신고받은 게시글 작성자 찾기 Service 구현
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public int findMember(String memberNick) {
+		List<ReportMember> member = mypageDAO.findMember(memberNick);
+		
+		int memberNo=0;
+		
+		if(member==null) {
+			memberNo = member.get(0).getMemberNo();
+		}else {
+			int result = mypageDAO.insertMember(memberNick);
+			
+			if(result>0) {
+				member = mypageDAO.findMember(memberNick);
+				memberNo = member.get(0).getMemberNo();
+			}
+		}
+		
+		return memberNo;
+	}
+
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public int updateReport(int memberNo) {
+		return mypageDAO.updateReport(memberNo);
 	}	
 
 }

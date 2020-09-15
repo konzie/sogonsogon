@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.sogon.member.model.vo.Member;
+import com.kh.sogon.mypage.model.vo.ReportMember;
 import com.kh.sogon.room.model.vo.Room;
 import com.kh.sogon.room.model.vo.RoomMember;
 import com.kh.sogon.board.model.vo.Board;
@@ -207,5 +208,33 @@ public class MypageDAO {
 	}
 
 
+	public int selectBoardNo() {
+		return sqlSession.selectOne("mypageMapper.selectBoardNo");
+	}
+
+
+	public int noticeWrite(Board board) {
+		return sqlSession.insert("mypageMapper.noticeWrite", board);
+	}
+
+
+	public int restoreReport(int boardNo) {
+		return sqlSession.update("mypageMapper.restoreReport", boardNo);
+	}
+
+	public List<ReportMember> findMember(String memberNick) {
+		return sqlSession.selectList("mypageMapper.findMember", memberNick);
+	}
+
+
+	public int insertMember(String memberNick) {
+		return sqlSession.insert("mypageMapper.insertMember", memberNick);
+	}
+
+
+	public int updateReport(int memberNo) {
+		return sqlSession.update("mypageMapper.updateReport", memberNo);
+	}
+	
 	
 }
