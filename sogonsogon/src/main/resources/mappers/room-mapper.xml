@@ -27,14 +27,15 @@
         <result property="roomMemberEnrollDate" column="ROOM_MEMBER_ENROLL_DATE"/>
     </resultMap>
     
-    <!-- room 정보 조회 쿼리 -->
+    <!-- room 상세 정보 조회 쿼리 -->
 	<select id="roomdetailInfo" parameterType="_int" resultMap="roomResultSet">
 		SELECT ROOM_NO, ROOM_TITLE, ROOM_CONTENT, ROOM_CREATE_DATE, ROOM_STATUS, 
-		MEMBER_NO, MEMBER_ID, ROOM_TYPE_NAME, ROOM_OPEN,ROOM_ENTER_NUMBER
+		MEMBER_NO, MEMBER_ID, ROOM_TYPE_NAME, ROOM_OPEN
 		FROM STUDY_ROOM 
 		JOIN MEMBER ON (ROOM_MEMBER_NO = MEMBER_NO)
 		JOIN STUDY_ROOM_CATEGORY ON (ROOM_TYPE = ROOM_CATEGORY_NO)
 		WHERE ROOM_NO = #{roomNo}
+		AND ROOM_STATUS='Y'
 	</select>
 	
 	<!-- room 패스워드 조회 쿼리 -->
@@ -62,8 +63,8 @@
 	</select>
 	
 	<!-- 즐겨찾기 리스트 삽입 쿼리 -->
-	<insert id="insertRoomMember" parameterType="map">
-		INSERT INTO ROOM_MEMBER VALUES(#{roomNo}, #{memberNo}, 'G', DEFAULT)
+	<insert id="insertRoomMember" parameterType="map" >
+		INSERT INTO ROOM_MEMBER VALUES(${roomNo}, ${memberNo}, 'G', DEFAULT)
 	</insert>
 	
 	<!-- 페이징 처리용 조회 쿼리-->
@@ -74,9 +75,11 @@
 	
 	<!-- 방 리스트 조회 쿼리 -->
 	<select id="selectList" parameterType="_int" resultMap="roomResultSet">
-		SELECT ROOM_NO,ROOM_TYPE,ROOM_TITLE,MEMBER_NICK,ROOM_CREATE_DATE,ROOM_TAG,ROOM_OPEN,ROOM_MAX_NUMBER,ROOM_ENTER_NUMBER,ROOM_CONTENT
+		SELECT ROOM_NO,ROOM_TYPE,ROOM_TITLE,MEMBER_NICK,ROOM_CREATE_DATE,ROOM_TAG,ROOM_OPEN,ROOM_MAX_NUMBER,ROOM_CONTENT,
+    	(SELECT COUNT(*) FROM ROOM_MEMBER WHERE ROOM_MEMBER_ROOM_NO = STUDY_ROOM.ROOM_NO GROUP BY ROOM_MEMBER_ROOM_NO) ROOM_ENTER_NUMBER
         FROM STUDY_ROOM
-		JOIN MEMBER ON(ROOM_MEMBER_NO=MEMBER_NO)
+     	JOIN MEMBER ON(ROOM_MEMBER_NO=MEMBER_NO)
+     	WHERE ROOM_STATUS = 'Y'
         ORDER BY ROOM_NO DESC
 	</select>
 	
@@ -140,9 +143,12 @@
 		OR ROOM_TAG LIKE '${sv}'
 	</select>
 	
-	<insert id="insertCount" parameterType="_int">
-		UPDATE STUDY_ROOM SET ROOM_ENTER_NUMBER = ROOM_ENTER_NUMBER+1
-		WHERE ROOM_NO = #{roomNo}
-	</insert>
+	<select id="mainRoomList"  resultType="list"  resultMap="roomResultSet">
+		SELECT * FROM (SELECT ROOM_NO,ROOM_TYPE,ROOM_TITLE,MEMBER_NICK,ROOM_CREATE_DATE,ROOM_TAG,ROOM_OPEN,ROOM_MAX_NUMBER,ROOM_CONTENT,
+		(SELECT COUNT(*) FROM ROOM_MEMBER WHERE ROOM_MEMBER_ROOM_NO = STUDY_ROOM.ROOM_NO GROUP BY ROOM_MEMBER_ROOM_NO) ROOM_ENTER_NUMBER
+		FROM STUDY_ROOM JOIN MEMBER ON(ROOM_MEMBER_NO=MEMBER_NO)
+		WHERE ROOM_STATUS = 'Y' ORDER BY ROOM_NO DESC)
+		<![CDATA[ WHERE ROWNUM <=4 ]]>
+	</select>
 	
 </mapper>
