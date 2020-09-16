@@ -50,7 +50,7 @@ public class RoomServiceImpl implements RoomService{
 			if(chkBookmark > 0) {
 				// 즐겨찾기가 되어 있을 때
 				room = roomDAO.roomDetailInfo(roomNo);
-			} else {
+			} else { 
 				// 즐겨찾기 안되어 있을 때 비밀번호 확인
 				/*if(bcPwd.matches(pwdLoad, loginMember.getMemberPwd())) {*/
 				if(pwdLoad.equals(inputPwd)) {
