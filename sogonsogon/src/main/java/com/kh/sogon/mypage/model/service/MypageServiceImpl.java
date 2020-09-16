@@ -248,29 +248,39 @@ public class MypageServiceImpl implements MypageService{
 	// 신고받은 게시글 작성자 찾기 Service 구현
 	@Transactional(rollbackFor = Exception.class)
 	@Override
-	public int findMember(String memberNick) {
-		List<ReportMember> member = mypageDAO.findMember(memberNick);
+	public ReportMember findMember(ReportMember member) {
+		ReportMember findMember = mypageDAO.findMember(member.getMemberNick());
+		System.out.println("찾은 findMember : " + findMember);
 		
-		int memberNo=0;
-		
-		if(member==null) {
-			memberNo = member.get(0).getMemberNo();
-		}else {
-			int result = mypageDAO.insertMember(memberNick);
+		if(findMember==null) {
+			System.out.println("비어있으면 새로 추가");
+			int result = mypageDAO.insertMember(member);
 			
 			if(result>0) {
-				member = mypageDAO.findMember(memberNick);
-				memberNo = member.get(0).getMemberNo();
+				findMember = mypageDAO.findMember(member.getMemberNick());
+				System.out.println("추가한 findMember :" +findMember);
 			}
 		}
 		
-		return memberNo;
+		return findMember;
 	}
 
 	@Transactional(rollbackFor = Exception.class)
 	@Override
-	public int updateReport(int memberNo) {
-		return mypageDAO.updateReport(memberNo);
-	}	
+	public int updateReport(ReportMember member) {
+		return mypageDAO.updateReport(member);
+	}
+
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public int restoreMember(String writerNick) {
+		return mypageDAO.restoreMember(writerNick);
+	}
+
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public int updateNotice(Board notice) {
+		return mypageDAO.updateNotice(notice);
+	}
 
 }

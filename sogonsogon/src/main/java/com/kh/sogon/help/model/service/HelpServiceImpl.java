@@ -50,4 +50,46 @@ public class HelpServiceImpl implements HelpService{
 		return help;
 	}
 
+	
+	//문의글 작성  Service 구현
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public int insertHelp(Help help) {
+		
+		int result = 0;
+		
+		int helpNo = helpDAO.selectNextNo();
+		System.out.println("다음 넘버 : " + helpNo);
+		
+		if(helpNo>0) {
+			
+			help.setHelpNo(helpNo);
+			 System.out.println("글쓰기 :" + help);
+			
+			//크로스사이트스크립트 방지 처리
+			help.setHelpContent(replaceParameter(help.getHelpContent()));
+			
+			//삽입 
+			result = helpDAO.insertHelp(help);
+			
+			
+		}
+		
+		
+		return result;
+	}
+
+	
+	// 크로스 사이트 스크립트 방지 메소드
+    private String replaceParameter(String param) {
+        String result = param;
+        if(param != null) {
+            result = result.replaceAll("&", "&amp;");
+            result = result.replaceAll("<", "&lt;");
+            result = result.replaceAll(">", "&gt;");
+            result = result.replaceAll("\"", "&quot;");
+        }
+
+        return result;
+    }
 }

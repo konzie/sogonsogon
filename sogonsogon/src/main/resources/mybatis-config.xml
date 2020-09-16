@@ -40,5 +40,6 @@
       <mapper resource="/mappers/help-mapper.xml"/>
       <mapper resource="/mappers/roomBoardReply-mapper.xml"/>
       <mapper resource="/mappers/board-mapper.xml"/>
+      <mapper resource="/mappers/reply-mapper.xml"/>
    </mappers>
 </configuration>

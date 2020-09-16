@@ -22,15 +22,13 @@ public class MypageDAO {
 	@Autowired
 	private SqlSessionTemplate sqlSession;
 
-	
 	/** 비밀번호 확인 DAO
 	 * @param memberNo
 	 * @return result
 	 */
 	public String checkPwd(int memberNo) {
-		return sqlSession.selectOne("myapageMapper.checkPwd", memberNo);
+		return sqlSession.selectOne("mypageMapper.checkPwd", memberNo);
 	}
-
 
 	/** 회원 정보 수정 DAO
 	 * @param loginMember
@@ -38,7 +36,7 @@ public class MypageDAO {
 	 * @return result
 	 */
 	public int updateInfo(Member upMember) {
-		return sqlSession.update("myapageMapper.updateInfo", upMember);
+		return sqlSession.update("mypageMapper.updateInfo", upMember);
 	}
 
 	/** 회원 탈퇴 DAO
@@ -222,18 +220,27 @@ public class MypageDAO {
 		return sqlSession.update("mypageMapper.restoreReport", boardNo);
 	}
 
-	public List<ReportMember> findMember(String memberNick) {
-		return sqlSession.selectList("mypageMapper.findMember", memberNick);
+	public ReportMember findMember(String memberNick) {
+		return sqlSession.selectOne("mypageMapper.findMember", memberNick);
 	}
 
 
-	public int insertMember(String memberNick) {
-		return sqlSession.insert("mypageMapper.insertMember", memberNick);
+	public int insertMember(ReportMember member) {
+		return sqlSession.insert("mypageMapper.insertMember", member);
 	}
 
 
-	public int updateReport(int memberNo) {
-		return sqlSession.update("mypageMapper.updateReport", memberNo);
+	public int updateReport(ReportMember member) {
+		return sqlSession.update("mypageMapper.updateReport", member);
+	}
+
+
+	public int restoreMember(String writerNick) {
+		return sqlSession.update("mypageMapper.restoreMember", writerNick);
+	}
+
+	public int updateNotice(Board notice) {
+		return sqlSession.update("mypageMapper.updateNotice", notice);
 	}
 	
 	

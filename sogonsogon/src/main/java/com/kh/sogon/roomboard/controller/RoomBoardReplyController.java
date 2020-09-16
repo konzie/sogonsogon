@@ -26,7 +26,7 @@ public class RoomBoardReplyController {
 	public String selectList(@PathVariable int boardNo) {
 		List<RoomBoardReplyDAO> list = roomBoardReplyService.selectList(boardNo);
 		
-		Gson gson = new GsonBuilder().setDateFormat("yyyy-mm-dd").create();
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 		
 		return gson.toJson(list);
 	}
@@ -62,6 +62,25 @@ public class RoomBoardReplyController {
 		int result = roomBoardReplyService.insertReply2(reply);
 		
 		String str = "댓글 삽입 ";
+		
+		if(result > 0) str += "성공";
+		else           str += "실패";
+		
+		return str;
+	}
+	
+	// 댓글 수정
+	@ResponseBody
+	@RequestMapping(value="updateReply/{boardNo}",
+    				produces = "application/text; charset=utf-8;")
+	public String updateReply(@PathVariable int boardNo, RoomBoardReply reply) {
+		// reply 커맨드 객체를 이용하여 전달받은 이름, 댓글내용을 한 객체에 저장
+		
+		reply.setParentBoardNo(boardNo);
+		
+		int result = roomBoardReplyService.updateReply(reply);
+		
+		String str = "댓글 수정 ";
 		
 		if(result > 0) str += "성공";
 		else           str += "실패";

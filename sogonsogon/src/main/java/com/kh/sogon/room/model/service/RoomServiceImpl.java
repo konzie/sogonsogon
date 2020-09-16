@@ -50,7 +50,7 @@ public class RoomServiceImpl implements RoomService{
 			if(chkBookmark > 0) {
 				// 즐겨찾기가 되어 있을 때
 				room = roomDAO.roomDetailInfo(roomNo);
-			} else {
+			} else { 
 				// 즐겨찾기 안되어 있을 때 비밀번호 확인
 				/*if(bcPwd.matches(pwdLoad, loginMember.getMemberPwd())) {*/
 				if(pwdLoad.equals(inputPwd)) {
@@ -60,7 +60,7 @@ public class RoomServiceImpl implements RoomService{
 					// 맞다면 즐겨찾기 등록
 					if(loginMember != null)
 						result = roomDAO.insertRoomMember(roomNo, loginMember);
-						room.setRoomMemberCount(room.getRoomMemberCount()+1);
+					// 	room.setRoomMemberCount(room.getRoomMemberCount()+1);
 				}
 			}
 		} else {
@@ -68,8 +68,14 @@ public class RoomServiceImpl implements RoomService{
 			room = roomDAO.roomDetailInfo(roomNo);
 
 			if(loginMember != null) {
+				chkBookmark = roomDAO.roomMemberChk(roomNo, loginMember);
 				if(chkBookmark == 0) {
+					// 공개방 & 즐겨찾기 등록 x 
+				
 					result = roomDAO.insertRoomMember(roomNo, loginMember);
+				}else {
+					// 공개방 & 즐겨찾기 등록 o
+					room = roomDAO.roomDetailInfo(roomNo);
 				}
 			}
 		}
@@ -157,10 +163,9 @@ public class RoomServiceImpl implements RoomService{
 		 return roomDAO.searchList(pInfo,search);
 	}
 
-	// 방 입장시 카운트 증가
 	@Override
-	public int insertCount(int roomNo) {
-		return roomDAO.insertCount(roomNo);
+	public List<Room> mainRoomList() {
+		return roomDAO.mainRoomList();
 	}
 
 

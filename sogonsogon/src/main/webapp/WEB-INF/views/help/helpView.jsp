@@ -70,17 +70,36 @@
     #listBtn:hover{border:1px solid #4d4d4d; }
 
 </style>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 </head>
+
+         <c:if test="${empty help}">
+			<script type="text/javascript">
+					$(document).ready(function() {
+					alert("비공개 게시물입니다.");
+					
+					history.back();
+					//location.href = "list/1";
+				});
+			</script>
+		</c:if>
+
 <body id="back-color">
+	
 	<jsp:include page="../common/header.jsp"/>
         <div id="wrapper">
+       
             <div class="view-header">
 	            <h4><b>고객센터</b></h4>
 	            <h6>- ${help.helpCategory}</h6>
             </div>
             <div class="detailView">
             	<div class="detail-header">
-            		<h4 class="detail-title" style="margin-bottom: 0;" >${help.helpTitle}</h4>
+            		<h4 class="detail-title" style="margin-bottom: 0;" >
+            		<c:if test="${help.lockStatus == 'Y'}">
+                     	<img src="${contextPath}/resources/images/lock2.png">
+               		</c:if> 
+            		${help.helpTitle}</h4>
             		<span id="date" style="color:#4a4a4a;">${help.helpCreateDate}</span>
             	</div>
             	<div class="detail-info">
@@ -99,13 +118,16 @@
             		<div class="delete-Btn"><a id="deleteBtn" type="button" href="${contextPath}/help/list/1">삭제</a></div>
             		
                     <div class="list-Btn"><a id="listBtn" type="button" href="${contextPath}/help/list/1">목록</a></div>
+	
                 	</c:if>
             	</div>
             </div>
         </div>
 	<jsp:include page="../common/footer.jsp"/>
 	
+	
 	<script>
+	
 	$("#deleteBtn").on("click",function(){
 		if(confirm("정말 삭제 하시겠습니까?")){
 			//spring/board/1/515/delete
@@ -113,8 +135,6 @@
 		}
 		
 	});
-		
-		
 	</script>
 </body>
 </html>

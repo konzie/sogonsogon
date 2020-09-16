@@ -9,6 +9,7 @@ public class ReportMember {
 	private int reportCount;
 	private Date reportDate;
 	private String memberNick;
+	private int boardNo;
 	
 	public ReportMember() {
 		// TODO Auto-generated constructor stub
@@ -63,10 +64,18 @@ public class ReportMember {
 		this.memberNick = memberNick;
 	}
 
+	public int getBoardNo() {
+		return boardNo;
+	}
+
+	public void setBoardNo(int boardNo) {
+		this.boardNo = boardNo;
+	}
+
 	@Override
 	public String toString() {
 		return "ReportMember [memberNo=" + memberNo + ", reportStatus=" + reportStatus + ", reportCount=" + reportCount
-				+ ", reportDate=" + reportDate + ", memberNick=" + memberNick + "]";
+				+ ", reportDate=" + reportDate + ", memberNick=" + memberNick + ", boardNo=" + boardNo + "]";
 	}
 	
 	

@@ -61,17 +61,25 @@
       <div>
 		<p id="writer"> 작성자 : ${report.writerNick} </p><p id="date">${report.qnaCreateDate}</p>
 	  </div>
-		<div id="board-content">${report.qnaContent}</div>
+		<div id="board-content">${report.qnaContent}
+		<p>
+			<br><br><br><hr>신고된 게시글 입니다<hr>
+		</p>
+		</div>
 		<hr>
 		<div class="float-right">
 
-		<button type="button" class="btn btn-warning" onclick="location.href ='deleteNotice/${report.qnaNo}'">삭제</button>
-		<button type="button" class="btn btn-warning" onclick="location.href ='adminreport'">목록으로</button>
+		<button type="button" class="btn btn-danger" onclick="location.href ='../updateReport/${report.writerNick}/${report.qnaNo}'">삭제</button>
+		<button type="button" class="btn btn-dark" onclick="location.href ='../restoreReport/${report.writerNick}/${report.qnaNo}'">복원</button>
+		<button type="button" class="btn btn-warning" onclick="location.href ='../adminreport'">목록으로</button>
 		</div>
 		</div>
 	</div>    
    
    <jsp:include page="../common/footer.jsp" />
 
+<script>
+$("#board-content>p").css("color","red");
+</script>
 </body>
 </html>

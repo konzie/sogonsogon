@@ -59,12 +59,12 @@
       <h3 id="title">${notice.qnaTitle}</h3><h6 id="category"> [카테고리 : ${notice.qnaCategory}]</h6>
       <hr>
       <div>
-		<p id="writer"> 작성자 : ${notice.writerNick} </p><p id="date">${notice.qnaCreateDate}</p>
+		<p id="writer"> 작성자 : ${notice.writerNick} </p><p id="date">${notice.qnaModifyDate}</p>
 	  </div>
 		<div id="board-content">${notice.qnaContent}</div>
 		<hr>
 		<div class="float-right">
-		<button type="button" class="btn btn-warning" onclick="location.href ='../notiveView'">수정</button>
+		<button type="button" class="btn btn-warning" onclick="location.href ='../updateNotice/${notice.qnaNo}'">수정</button>
 		<button type="button" class="btn btn-warning" onclick="location.href ='../deleteNotice/${notice.qnaNo}'">삭제</button>
 		<button type="button" class="btn btn-warning" onclick="location.href ='../adminnotice'">목록으로</button>
 		</div>

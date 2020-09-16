@@ -186,5 +186,10 @@ public class RoomDAO {
 	}
 
 
+	public List<Room> mainRoomList() {
+		
+		return  sqlSession.selectList("roomMapper.mainRoomList", null);
+	}
+
 	
 }

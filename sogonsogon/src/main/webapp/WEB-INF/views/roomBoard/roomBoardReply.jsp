@@ -12,15 +12,18 @@
 	width: 90%;
 }
 
+
 #replyContentArea>textarea {
 	resize: none;
 	width: 100%;
 }
 
+
 #replyBtnArea {
 	width: 100px;
 	text-align: center;
 }
+
 
 .rWriter {
 	display : inline-block;
@@ -84,6 +87,21 @@ hr{
 	width : 100%; 
 }
 
+/* 댓글 수정 */
+.updateReply-li{
+	padding-left: 50px;  
+}
+
+.updateReplyArea{
+	padding-top : 30px;
+	width : 80%;
+}
+
+.updateReplyContent{
+	resize: none;  
+	width : 100%; 
+}
+
 </style>
 <div id="reply-area ">
 	<!-- 댓글 작성 부분 -->
@@ -110,7 +128,7 @@ hr{
 </div>
 
 <script>
-
+var dupStatus = false; // 대댓글과 댓글 수정 동시에 못하게 하기 위함
 
 // 댓글
 // 페이지 로딩 완료 시 댓글 목록 호출
@@ -121,20 +139,16 @@ $(function(){
 // 댓글 목록 불러오기
 function selectReplyList(){
 	var url = "${contextPath}/roomBoard/reply/selectList/${board.roomBoardNo}";
-	console.log(url);
 	$.ajax({
 		url : url,
 		type : "POST",
 		dataType:"json",
 		success:function(rList){
-			console.log(rList);
 			
 			var $replyListArea = $("#replyListArea");
 			
 			$replyListArea.html(""); // 기존 정보 초기화
 			
-			// 로그인한 멤버의 아이디를 저장할 변수
-			// 로그인 아이디와 댓글 작성자가 같다면 댓글 수정, 삭제버튼 출력하는 조건문에 사용할 예정
 			var loginMemberId = "${loginMember.memberId}";
 			
 			$.each(rList, function(i){
@@ -174,7 +188,7 @@ function selectReplyList(){
 				// 현재 댓글의 작성자와 로그인한 멤버의 아이디가 같을 때 버튼 추가
 				if(rList[i].memberId == loginMemberId){
 					
-					var $showUpdate = $("<button>").addClass("btn btn-sm btn-primary ml-1").text("수정");
+					var $showUpdate = $("<button>").addClass("btn btn-sm btn-primary ml-1").attr("id","replyUpdate").text("수정").attr("onclick", "updateReplyArea(this, "+rList[i].parentReplyNo+")");
 					var $deleteReply = $("<button>").addClass("btn btn-sm btn-primary ml-1").text("삭제");
 					$btnArea.append($showUpdate, $deleteReply);
 				}
@@ -239,6 +253,71 @@ $("#addReply").on("click", function(){
 	} 
 });
 
+ 
+//댓글 수정 클릭 동작
+ function updateReplyArea(el, parentReplyNo){
+ 	// el : 클릭된 답글 버튼, // parentReplyNo : 클릭된 답글 버튼이 포함된 댓글의 부모 댓글 번호
+ 	
+ 	// 답글 작성 영역이 여러 개 생기지 않도록 처리
+ 	var check = cancelReply2();
+ 	
+ 	if(dupStatus) {
+ 		alert("수정과 답글은 동시에 불가능합니다.")
+ 		return false;
+ 	}
+ 	
+ 	
+ 	// 이미 화면에 존재하는 답글 작성 영역이 삭제 되어야지만
+ 	// 새로운 답글 영역을 생성, 추가함
+ 	if(check){
+ 		dupStatus = true;
+ 	var replyOldContent = $(el).parent().prev().text();
+ 	
+ 	var $textArea = $("<textArea rows='3'>").addClass("updateReplyContent").val(replyOldContent);
+ 	
+ 	$(el).parent().prev().last("p").hide();
+ 	$(el).parent().prev().last().append($textArea);
+ 	$(el).parent().hide();
+ 	
+
+ 		var $div = $("<div>").addClass("updateReplyArea");
+ 		var $btnArea = $("<div>").addClass("btnArea");
+ 		
+ 		var $insertBtn = $("<button>").addClass("btn btn-sm btn-primary ml-1").text("등록").attr("onclick", "updateReply(this, " + $(el).parent().parent().attr('id') +")");
+ 		var $cancelBtn = $("<button>").addClass("btn btn-sm btn-secondary ml-1 updateReply-cancle").text("취소").attr("onclick", "cancelReply2()");
+ 		
+ 		$btnArea.append($insertBtn,$cancelBtn);
+ 		
+ 		$div.append($textArea, $btnArea);  
+ 		$(el).parent().after($div);
+ 	}
+ 	
+ 	// 추가된 답글 작성 영역으로 포커스 이동.
+ 	$(".updateReplyContent").focus();
+ }
+ 
+//댓글 수정
+ function updateReply(el, replyNo){
+ 	console.log($(el).parent().prev().val());
+ 	console.log(replyNo);
+ 	
+ 	var replyContent = $(el).parent().prev().val();
+ 	
+ 	$.ajax({
+ 		url : "${contextPath}/roomBoard/reply/updateReply/${board.roomBoardNo}",
+ 		data : {"replyContent" : replyContent,
+ 				"replyNo" : replyNo},
+ 		dataType : "text",
+ 		success : function(result){
+ 			alert(result);
+ 			
+ 			selectReplyList();
+ 		},error : function(){
+ 			console.log("통신 실패");
+ 		}
+ 	});  
+ }
+ 
 //-----------------------------------------------------------------------------------------
 // 답글 버튼 클릭 동작
 function addReply2Area(el, parentReplyNo){
@@ -250,9 +329,15 @@ function addReply2Area(el, parentReplyNo){
 	// 부모 댓글의 작성자를 얻어와 placeholder로 사용할 목적
 	var replyWriter = $(el).parent().prev().prev().children("a").text();
 	
+ 	if(dupStatus) {
+ 		alert("수정과 답글은 동시에 불가능합니다.")
+ 		return false;
+ 	}
+	
 	// 이미 화면에 존재하는 답글 작성 영역이 삭제 되어야지만
 	// 새로운 답글 영역을 생성, 추가함
 	if(check){
+		dupStatus = true;
 		var $div = $("<div>").addClass("reply2Area");
 		var $textArea = $("<textarea rows='3'>").addClass("reply2Content").attr("placeholder", replyWriter + "님께 답글 작성하기");
 		var $btnArea = $("<div>").addClass("btnArea");
@@ -298,31 +383,37 @@ function addReply2(el, parentReplyNo, replyWriter){
 }
 
 //-----------------------------------------------------------------------------------------
-// 답글 취소
+// 수정, 답글 취소
 function cancelReply2(){
 	
-	// 다른 답글이 작성된 상태로  새로운 답글이 클릭된 경우 
-	// 이미 작성된 답글을 삭제할 것이지 확인하는 작업.
-	
-	// 이미 존재하는 답글 영역에 작성된 값 얻어오기
-	var tmp = $(".reply2Area").children("textArea").val();
-	// -> textarea에 값이 작성되어있지 않으면 ""(빈 문자열) 반환
-	
-	// 작성된 값이 없다면
-	if(tmp == "" || tmp == undefined){
-		$(".reply2Area").remove();
-		
-		return true;
-		
-	}else{
-		var cancelConfirm = confirm("작성된 댓글 내용이 사라집니다. 취소 하시겠습니까?");
-		
-		if(cancelConfirm){
-			$(".reply2Area").remove();
-		}
-		
-		return cancelConfirm;
-	}
+ 	var tmp = $(".updateReplyArea").children("textArea").val();
+ 	var tmp2 = $(".reply2Area").children("textArea").val();
+ 	
+ 	if((tmp == "" || tmp == undefined) && (tmp2 == "" || tmp2 == undefined)){
+ 		$(".updateReplyArea").remove();
+ 		$(".reply2Area").remove();
+ 		dupStatus = false;
+ 		
+ 		return true;
+ 		
+ 	}else{
+ 		var cancelConfirm = confirm("댓글 내용이 사라집니다. 취소 하시겠습니까?");
+ 		
+ 		if(cancelConfirm){
+ 			$(".updateReplyArea").remove();
+ 			$(".reply2Area").remove();
+ 			dupStatus = false;
+ 			
+ 	 		if($(".rContent").is(":visible")) {
+ 	 			console.log("테스트 중 ");
+ 	 			$(".rContent").show();
+ 	 			$(".btnArea").show();
+ 	 		}
+ 	 		
+ 		}
+ 		
+ 		return cancelConfirm;
+ 	}
 	
 }
 

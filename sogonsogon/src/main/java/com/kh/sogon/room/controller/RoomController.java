@@ -42,8 +42,8 @@ public class RoomController {
 			PageInfo pInfo = roomService.pagination(cp);
 			
 			 List<Room> roomList = roomService.selectList(pInfo);
-			 for(Room r : roomList) { System.out.println(r); }
-			 System.out.println(pInfo);
+			 //for(Room r : roomList) { System.out.println(r); }
+			 //System.out.println(pInfo);
 			 
 			 model.addAttribute("roomList", roomList);
 			 model.addAttribute("pInfo", pInfo);
@@ -58,29 +58,10 @@ public class RoomController {
 			return "room/insertRoom";
 		}
 		
-		/*
-		 * @RequestMapping("enterRoom") public String enterRoom(Room
-		 * room,RedirectAttributes rdAttr) {
-		 * 
-		 * int result = roomService.enterRoom(room);
-		 * 
-		 * int roomNo = room.getRoomNo(); System.out.println("번호" + roomNo); String path
-		 * = null; if(result>0) { System.out.println("비밀번호일치");
-		 * 
-		 * path = "room/roomDetail/="+roomNo; }else { System.out.println("비밀번호 불일치");
-		 * rdAttr.addFlashAttribute("status", "error"); rdAttr.addFlashAttribute("msg",
-		 * "패스워드가 일치하지 않습니다."); path = "redirect:/room/roomList"; }
-		 * 
-		 * return path;
-		 * 
-		 * 
-		 * }
-		 */
-
-	   
+		
 		@RequestMapping("roomDetail/{roomNo}")
 		public String roomDetailView(@PathVariable int roomNo, @RequestParam(value = "inputPwd", required = false, defaultValue = "-1") String inputPwd, Model model, RedirectAttributes rdAttr, HttpServletRequest request,Room room) {
-			
+			System.out.println(roomNo);
 			Member loginMember = (Member)model.getAttribute("loginMember");
 			
 			if(loginMember != null)
@@ -88,9 +69,6 @@ public class RoomController {
 			
 			
 			Room roomDetail = roomService.roomDetailInfo(roomNo, loginMember);
-			
-			// 입장시  memberCount 증가
-			int result = roomService.insertCount(roomNo);
 			
 			String returnPath = null;
 			if(roomDetail != null) {
@@ -173,6 +151,20 @@ public class RoomController {
 			 model.addAttribute("roomList", roomList);
 			 
 			return  "room/roomList";  
+		 }
+		 
+		 @ResponseBody
+		 @RequestMapping("mainRoomList")
+		 public String mainRoomList() {
+			 List<Room> roomList = roomService.mainRoomList();
+
+			 for(Room r : roomList) { System.out.println(r); };
+			
+			 
+			Gson gson = new Gson();
+			 gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+			
+			return gson.toJson(roomList);
 		 }
 
 }

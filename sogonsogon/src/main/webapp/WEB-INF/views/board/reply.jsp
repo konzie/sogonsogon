@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-	
+		<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <style>
 /*댓글*/
 .replyWrite>table {
@@ -102,8 +103,9 @@ hr{
 
 	<!-- 댓글 출력 부분 -->
 	<div class="replyList mt-5 pt-2">
-		<ul id="replyListArea">
-		</ul>
+		
+		<div id="replyListArea">
+		</div>
 	</div>
 
 	
@@ -120,7 +122,7 @@ $(function(){
 
 // 댓글 목록 불러오기
 function selectReplyList(){
-	var url = "${contextPath}/reply/selectList/${board.boardNo}";
+	var url = "${contextPath}/reply/selectList/${board.qnaNo}";
 	console.log(url);
 	$.ajax({
 		url : url,
@@ -147,11 +149,6 @@ function selectReplyList(){
 				// li태그마다 댓글 번호를 id로 추가 
 				var $li = $("<li>").addClass("reply-row").attr("id", rList[i].replyNo);
 				
-				// 답글 (대댓글 )일 경우 reoly2-li zmffotm cnrk 
-				if(rList[i].replyDepth == 1){
-					$li.addClass("reply2-li");
-				}
-				
 				// 작성자, 작성일, 수정일 영역 
 				var $div = $("<div>");
 				var $rWriter = $("<a>").addClass("rWriter idSelect").html(rList[i].memberId);
@@ -162,7 +159,7 @@ function selectReplyList(){
 				
 				
 				// 댓글 내용
-				var $rContent = $("<p>").addClass("rContent").html(rList[i].replyContent);
+				var $rContent = $("<p>").addClass("rContent").html(rList[i].content);
 				
 				
 				// 답글, 수정, 삭제 버튼 영역
@@ -193,6 +190,11 @@ function selectReplyList(){
 				
 				// 댓글 영역을 화면에 배치
 				$replyListArea.append($li).append($hr);
+				
+				
+				
+				
+				
 			});
 			
 		}, error : function(request, status, error){
@@ -223,13 +225,13 @@ $("#addReply").on("click", function(){
 			
 		// 로그인이 되어있고, 댓글이 작성이 된 상태로 댓글 등록 버튼이 클릭된 경우
 		}else{
-			var url = "${contextPath}/reply/insertReply/${board.boardNo}";
+			var url = "${contextPath}/reply/insertReply/${board.qnaNo}";
 			var memberId = "${loginMember.memberNo}"; // 회원 아이디에 회원 번호를 저장해서 전달
 				$.ajax({
 					url : url,
 					type : "POST",
 					data : {"memberId" : memberId,
-							"replyContent" : replyContent},
+							"content" : replyContent},
 					dataType : "text",
 					success : function(result){
 						
@@ -289,7 +291,7 @@ function addReply2(el, parentReplyNo, replyWriter){
 	var memberId = "${loginMember.memberNo}";  //답글 작성자 회원 번호 
 	
 	$.ajax({
-		url : "${contextPath}/reply/insertReply2/${board.boardNo}",
+		url : "${contextPath}/reply/insertReply2/${board.qnaNo}",
 		data : {"replyContent" : replyContent,
 				"parentReplyNo" : parentReplyNo,
 				"memberId" : memberId},

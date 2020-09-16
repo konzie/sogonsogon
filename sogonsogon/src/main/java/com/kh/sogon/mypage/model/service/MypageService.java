@@ -5,6 +5,7 @@ import java.util.List;
 import com.kh.sogon.board.model.vo.Board;
 import com.kh.sogon.help.model.vo.Help;
 import com.kh.sogon.member.model.vo.Member;
+import com.kh.sogon.mypage.model.vo.ReportMember;
 import com.kh.sogon.room.model.vo.Room;
 import com.kh.sogon.room.model.vo.RoomMember;
 import com.kh.sogon.board.model.vo.PageInfo;
@@ -165,13 +166,24 @@ public interface MypageService {
 	/** 신고받은 게시글 작성자 찾기 Service
 	 * @param memberNick
 	 */
-	public abstract int findMember(String memberNick);
+	public abstract ReportMember findMember(ReportMember member);
 
 	/**경고 count++ Service
 	 * @param memberNo
 	 * @return
 	 */
-	public abstract int updateReport(int memberNo);
+	public abstract int updateReport(ReportMember member);
+
+	/** 멤버 status 복원 Service
+	 * @param writerNick
+	 */
+	public abstract int restoreMember(String writerNick);
+
+	/** 공지사항 수정
+	 * @param notice
+	 * @return
+	 */
+	public abstract int updateNotice(Board notice);
 
 
 

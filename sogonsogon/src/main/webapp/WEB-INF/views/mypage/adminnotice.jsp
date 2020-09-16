@@ -70,15 +70,15 @@
 		              		<td>
 		              			<jsp:useBean id="now" class="java.util.Date"></jsp:useBean>
 		              			<fmt:formatDate var="today" value="${now}" pattern="yyyy-MM-dd"/>
-		              			<fmt:formatDate var="createDate" value="${board.qnaCreateDate}" pattern="yyyy-MM-dd"/>
-		              			<fmt:formatDate var="createTime" value="${board.qnaCreateDate}" pattern="hh:mm:ss"/>
+		              			<fmt:formatDate var="modifyDate" value="${board.qnaModifyDate}" pattern="yyyy-MM-dd"/>
+		              			<fmt:formatDate var="modifyTime" value="${board.qnaModifyDate}" pattern="hh:mm:ss"/>
 		              			
 		              			<c:choose>
-		              				<c:when test="${today == createDate }">
-		              					${createTime}
+		              				<c:when test="${today == modifyDate }">
+		              					${modifyTime}
 		              				</c:when>
 		              				<c:otherwise>
-		              				${createDate}
+		              				${modifyDate}
 		              				</c:otherwise>
 		              			</c:choose>
 		              		</td>

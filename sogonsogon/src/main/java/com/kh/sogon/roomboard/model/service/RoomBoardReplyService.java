@@ -26,4 +26,10 @@ public interface RoomBoardReplyService {
 	 */
 	int insertReply2(RoomBoardReply reply);
 
+	/** 댓글 수정 Service
+	 * @param reply
+	 * @return
+	 */
+	int updateReply(RoomBoardReply reply);
+
 }
