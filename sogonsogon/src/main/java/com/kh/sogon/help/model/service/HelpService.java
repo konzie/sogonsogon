@@ -26,4 +26,11 @@ public interface HelpService {
 	 */
 	public abstract Help selectView(int boardNo);
 
+	/** 문의글 작성 Service
+	 * @param help
+	 * @return result
+	 */
+	public abstract int insertHelp(Help help);
+
+	
 }

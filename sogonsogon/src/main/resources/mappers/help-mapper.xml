@@ -11,8 +11,9 @@
         <result property="helpWriter" column="MEMBER_NICK"/>
         <result property="helpCreateDate" column="HELP_CREATE_DATE"/>
         <result property="helpModifyDate" column="HELP_MODIFY_DATE"/>
+        <result property="lockStatus" column="LOCK_STATUS"/>
 		
-		<result property="boardType" column="BOARD_TYPE"/>
+		
      
     </resultMap>
     
@@ -33,6 +34,18 @@
 		WHERE HELP_NO = #{boardNo}
 		AND HELP_STATUS = 'Y'
 	</select>
+	
+	<!-- 문의글 다음 넘버 가져오기 -->
+	<select id="selectNextNo" resultType="_int">
+  			SELECT SEQ_HNO.NEXTVAL FROM DUAL
+  	</select>
+	
+	<!-- 문의글 작성 -->
+	<insert id="insertHelp" parameterType="help">
+		INSERT INTO HELPBOARD
+		VALUES(#{helpNo},#{helpCategory},#{helpTitle},#{helpContent},
+				#{helpWriter},SYSDATE,'Y',SYSDATE,#{lockStatus})
+	</insert>
 
 	
 </mapper>

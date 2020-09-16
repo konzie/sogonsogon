@@ -231,6 +231,8 @@
     .write-Btn{float: right;}
     
     #col-sm-4>hr{background-color:white;}
+    
+    img{width:23px; height:23px;}
 
         </style>
         <script>
@@ -284,7 +286,7 @@
                                     <option>기타</option>
                                 </select>
                             </div>
-                            <span class="filter-icon"><i class="fa fa-filter"></i></span>
+                            <span class="filter-icon"><i  class="fa fa-filter"></i></span>
                         </div>
                     </div>
                 </div>
@@ -314,7 +316,24 @@
                         <tr>
                            <td>${help.helpNo}</td>
                            <td>${help.helpCategory}</td>
-                           <td>${help.helpTitle}</td>
+                           
+                           <td>
+                           		<c:if test="${help.lockStatus == 'Y'}">
+		                        	<img src="${contextPath}/resources/images/lock2.png">
+		                  		</c:if>  
+                           			${help.helpTitle}
+                           			<!--<input type="text" value="${help.lockStatus}" id="lock_YN" name="lock_YN">
+                           			
+                           			<c:choose>
+	                           			<c:when test="${help.helpWriter == loginMember.memberNick}">
+	                           			<input type="text" value="Y" id="writer_YN" name="lock_YN">
+			                  			</c:when> 
+	                           			<c:when test="${help.helpWriter != loginMember.memberNick}">
+	                           			<input type="text" value="N" id="writer_YN" name="lock_YN">
+			                  			</c:when> 
+		                  			</c:choose>-->
+                           			
+                           </td>
                            <td>${help.helpWriter}</td>                           
                            <td>    
                               <jsp:useBean id="now" class="java.util.Date"/>
@@ -333,7 +352,7 @@
                               </c:choose>
                            </td>
                            <td><span class="status text-wait">&bull;</span> 미답변</td>
-                           <td><a href="#" class="view" title="View Details" data-toggle="tooltip"><i class="material-icons">&#xE5C8;</i></a></td>
+                           <td><a class="view" title="자세히" data-toggle="tooltip"><i style="cursor : pointer;" class="material-icons">&#xE5C8;</i></a></td>
                         </tr>
                      </c:forEach>
                   </c:otherwise>
@@ -397,15 +416,18 @@
         <jsp:include page="../common/footer.jsp"/>
         
         <script>
+        
         	//detail view 가기
         	$(function(){
         		$(".view").on("click",function(){
         			
+
         			var boardNo = $(this).parent().parent().children().eq(0).text();
-        			
         			var boardUrl = "${contextPath}/help/no=" + boardNo + "?cp=${hInfo.currentPage}";
         			
         			location.href = boardUrl;
+        			
+        			
         		});
         		
         		
