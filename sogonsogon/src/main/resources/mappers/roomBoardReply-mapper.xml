@@ -22,15 +22,14 @@
 		ORDER BY ROOM_BOARD_PARENT_REPLY_NO DESC, ROOM_BOARD_REPLY_NO ASC
 	</select>
 	
-		<!-- 댓글 삽입 -->
+	<!-- 댓글 삽입 -->
 	<insert id="insertReply" parameterType="RoomBoardReply">
 		INSERT INTO ROOM_BOARD_REPLY(ROOM_BOARD_REPLY_NO, ROOM_BOARD_REPLY_CONTENT, ROOM_BOARD_PARENT_BOARD_NO, ROOM_BOARD_PARENT_REPLY_NO, ROOM_BOARD_REPLY_WRITER) 
 		VALUES(SEQ_RBRNO.NEXTVAL, #{replyContent}, #{parentBoardNo}, SEQ_RBRNO.CURRVAL , #{memberId})
 	</insert>
 	
-		<!-- 댓글 삽입 -->
-	<insert id="insertReply2" parameterType="RoomBoardReply">
-		INSERT INTO ROOM_BOARD_REPLY(ROOM_BOARD_REPLY_NO, ROOM_BOARD_REPLY_CONTENT, ROOM_BOARD_PARENT_BOARD_NO, ROOM_BOARD_PARENT_REPLY_NO, ROOM_BOARD_REPLY_DEPTH, ROOM_BOARD_REPLY_WRITER) 
-		VALUES(SEQ_RBRNO.NEXTVAL, #{replyContent}, #{parentBoardNo}, #{parentReplyNo}, 1, #{memberId})
-	</insert>
+	<!-- 댓글 수정 -->
+	<update id="updateReply" parameterType="RoomBoardReply">
+		UPDATE ROOM_BOARD_REPLY SET ROOM_BOARD_REPLY_CONTENT = #{replyContent}, ROOM_BOARD_REPLY_MODIFY_DT = SYSDATE WHERE ROOM_BOARD_REPLY_NO = #{replyNo}
+	</update>
 </mapper>
