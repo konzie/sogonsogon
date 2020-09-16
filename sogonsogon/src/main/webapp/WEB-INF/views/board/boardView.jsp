@@ -103,6 +103,9 @@
             	</div>
             </div>
         </div>
+               <!-- 댓글영역  -->
+	 <jsp:include page="reply.jsp"/>
+        
 	<jsp:include page="../common/footer.jsp"/>
 	
 	<script>

@@ -120,7 +120,7 @@ $(function(){
 
 // 댓글 목록 불러오기
 function selectReplyList(){
-	var url = "${contextPath}/reply/selectList/${board.boardNo}";
+	var url = "${contextPath}/reply/selectList/${board.qnaNo}";
 	console.log(url);
 	$.ajax({
 		url : url,
@@ -223,7 +223,7 @@ $("#addReply").on("click", function(){
 			
 		// 로그인이 되어있고, 댓글이 작성이 된 상태로 댓글 등록 버튼이 클릭된 경우
 		}else{
-			var url = "${contextPath}/reply/insertReply/${board.boardNo}";
+			var url = "${contextPath}/reply/insertReply/${board.qnaNo}";
 			var memberId = "${loginMember.memberNo}"; // 회원 아이디에 회원 번호를 저장해서 전달
 				$.ajax({
 					url : url,
@@ -289,7 +289,7 @@ function addReply2(el, parentReplyNo, replyWriter){
 	var memberId = "${loginMember.memberNo}";  //답글 작성자 회원 번호 
 	
 	$.ajax({
-		url : "${contextPath}/reply/insertReply2/${board.boardNo}",
+		url : "${contextPath}/reply/insertReply2/${board.qnaNo}",
 		data : {"replyContent" : replyContent,
 				"parentReplyNo" : parentReplyNo,
 				"memberId" : memberId},
