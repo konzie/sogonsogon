@@ -164,6 +164,7 @@
 	cursor: pointer;
 }
 </style>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 </head>
 <body>
 	<jsp:include page="WEB-INF/views/common/header.jsp" />
@@ -176,186 +177,187 @@
 
 		<hr>
 
-		<div class="row">
-			<div class="col-lg-6" align="center">
-				<p>
-				<h2>자유게시판</h2>
-				</p>
-				<table class="table">
-					<thead>
-						<tr>
-							<th>글번호</th>
-							<th>분류</th>
-							<th>제목</th>
-							<th>작성자</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td colspan="4" align="center"><strong>글 내용이 없습니다.</strong></td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-			<div class="col-lg-6" align="center">
-				<p>
-				<h2>Q&A게시판</h2>
-				</p>
-				<table class="table">
-					<thead>
-						<tr>
-							<th>글번호</th>
-							<th>분류</th>
-							<th>제목</th>
-							<th>작성자</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td colspan="4" align="center"><strong>글 내용이 없습니다.</strong></td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-		</div>
+      <div class="row">
+         <div class="col-lg-6" align="center">
+            <p>
+            <h2>자유게시판</h2>
+            </p>
+            <table class="table">
+               <thead>
+                  <tr>
+                     <th>글번호</th>
+                     <th>분류</th>
+                     <th>제목</th>
+                     <th>작성자</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  <tr>
+                     <td colspan="4" align="center"><strong>글 내용이 없습니다.</strong></td>
+                  </tr>
+               </tbody>
+            </table>
+         </div>
+         <div class="col-lg-6" align="center">
+            <p>
+            <h2>Q&A게시판</h2>
+            </p>
+            <table class="table">
+               <thead>
+                  <tr>
+                     <th>글번호</th>
+                     <th>분류</th>
+                     <th>제목</th>
+                     <th>작성자</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  <tr>
+                     <td colspan="4" align="center"><strong>글 내용이 없습니다.</strong></td>
+                  </tr>
+               </tbody>
+            </table>
+         </div>
+      </div>
 
-		<hr>
+      <hr>
 
-		<div class="row">
-			<div class="col-lg-12" align="center">
-				<h2>방 리스트</h2>
-			</div>
-		</div>
+      <div class="row">
+         <div class="col-lg-12" align="center">
+            <h2>방 리스트</h2>
+         </div>
+      </div>
 
-		<div class="row" id="roomListArea">
-			<div class="col-lg-3" align="center">
+      <div class="row" id="roomListArea">
+         <div class="col-lg-3" align="center">
 
-				<div class="room-box">
-					<div class="roomlist-box">
-						<img src="${contextPath}/resources/images/clip.png">
-
-
-						<p class="room-content">
-						<p class="category" id="${tag}">[${tag}]</p>
-						<p class="room-title">${roomList.roomTitle}</p>
-						<p class="enter-number">
-							방장 : ${roomList.memberNick}<br> 참가인원 : /10명 │ 개설일 :
-							${createDate}
-						</p>
+            <div class="room-box">
+               <div class="roomlist-box">
+                  <img src="${contextPath}/resources/images/clip.png">
 
 
-						<div id="tagbox">
-							<div class="tags">#${tag}</div>
-						</div>
-
-						<a data-toggle="modal" data-target="#myModal">
-							<div class="join-button" id="${roomList.roomNo}">참여하기</div>
-						</a>
-					</div>
-					<!-- roomlist end-->
-				</div>
-				<!--room-container end-->
+                  <p class="room-content">
+                  <p class="category" id="${tag}"></p>
+                  <p class="room-title">${roomList.roomTitle}</p>
+                  <p class="enter-number">
+                     방장 : ${roomList.memberNick}<br> 참가인원 : /10명 │ 개설일 :
+                     ${createDate}
+                  </p>
 
 
-			</div>
-			<div class="col-lg-3" align="center">
+                  <div id="tagbox">
+                     <div class="tags">#${tag}</div>
+                  </div>
 
-				<div class="room-box">
-					<div class="roomlist-box">
-						<img src="${contextPath}/resources/images/clip.png">
-
-
-						<p class="room-content">
-						<p class="category" id="${tag}">[${tag}]</p>
-						<p class="room-title">${roomList.roomTitle}</p>
-						<p class="enter-number">
-							방장 : ${roomList.memberNick}<br> 참가인원 : /10명 │ 개설일 :
-							${createDate}
-						</p>
+                  <a data-toggle="modal" data-target="#myModal">
+                     <div class="join-button" id="${roomList.roomNo}">참여하기</div>
+                  </a>
+               </div>
+               <!-- roomlist end-->
+            </div>
+            <!--room-container end-->
 
 
-						<div id="tagbox">
-							<div class="tags">#${tag}</div>
-						</div>
+         </div>
+         <div class="col-lg-3" align="center">
 
-						<a data-toggle="modal" data-target="#myModal">
-							<div class="join-button" id="${roomList.roomNo}">참여하기</div>
-						</a>
-					</div>
-					<!-- roomlist end-->
-				</div>
-				<!--room-container end-->
-
-			</div>
-			<div class="col-lg-3" align="center">
+            <div class="room-box">
+               <div class="roomlist-box">
+                  <img src="${contextPath}/resources/images/clip.png">
 
 
-				<div class="room-box">
-					<div class="roomlist-box">
-						<img src="${contextPath}/resources/images/clip.png">
+                  <p class="room-content">
+                  <p class="category" id="${tag}"></p>
+                  <p class="room-title">${roomList.roomTitle}</p>
+                  <p class="enter-number">
+                     방장 : ${roomList.memberNick}<br> 참가인원 : /10명 │ 개설일 :
+                     ${createDate}
+                  </p>
 
 
-						<p class="room-content">
-						<p class="category" id="${tag}">[${tag}]</p>
-						<p class="room-title">${roomList.roomTitle}</p>
-						<p class="enter-number">
-							방장 : ${roomList.memberNick}<br> 참가인원 : /10명 │ 개설일 :
-							${createDate}
-						</p>
+                  <div id="tagbox">
+                     <div class="tags">#${tag}</div>
+                  </div>
+
+                  <a data-toggle="modal" data-target="#myModal">
+                     <div class="join-button" id="${roomList.roomNo}">참여하기</div>
+                  </a>
+               </div>
+               <!-- roomlist end-->
+            </div>
+            <!--room-container end-->
+
+         </div>
+         <div class="col-lg-3" align="center">
 
 
-						<div id="tagbox">
-							<div class="tags">#${tag}</div>
-						</div>
-
-						<a data-toggle="modal" data-target="#myModal">
-							<div class="join-button" id="${roomList.roomNo}">참여하기</div>
-						</a>
-					</div>
-					<!-- roomlist end-->
-				</div>
-				<!--room-container end-->
-
-			</div>
-			<div class="col-lg-3" align="center">
-
-				<div class="room-box">
-					<div class="roomlist-box">
-						<img src="${contextPath}/resources/images/clip.png" style="width: 70px;">
+            <div class="room-box">
+               <div class="roomlist-box">
+                  <img src="${contextPath}/resources/images/clip.png">
 
 
-						<p class="room-content">
-						<p class="category" id="${tag}">[${tag}]</p>
-						<p class="room-title">${roomList.roomTitle}</p>
-						<p class="enter-number">
-							방장 : ${roomList.memberNick}<br> 참가인원 : /10명 │ 개설일 :
-							${createDate}
-						</p>
+                  <p class="room-content">
+                  <p class="category" id="${tag}"></p>
+                  <p class="room-title">${roomList.roomTitle}</p>
+                  <p class="enter-number">
+                     방장 : ${roomList.memberNick}<br> 참가인원 : /10명 │ 개설일 :
+                     ${createDate}
+                  </p>
 
 
-						<div id="tagbox">
-							<div class="tags">#${tag}</div>
-						</div>
+                  <div id="tagbox">
+                     <div class="tags">#${tag}</div>
+                  </div>
 
-						<a data-toggle="modal" data-target="#myModal">
-							<div class="join-button" id="${roomList.roomNo}">참여하기</div>
-						</a>
-					</div>
-					<!-- roomlist end-->
-				</div>
-				<!--room-container end-->
+                  <a data-toggle="modal" data-target="#myModal">
+                     <div class="join-button" id="${roomList.roomNo}">참여하기</div>
+                  </a>
+               </div>
+               <!-- roomlist end-->
+            </div>
+            <!--room-container end-->
 
-			</div>
-		</div>
-	</div>
-	<jsp:include page="WEB-INF/views/common/footer.jsp" />
+         </div>
+         <div class="col-lg-3" align="center">
+
+            <div class="room-box">
+               <div class="roomlist-box">
+                  <img src="${contextPath}/resources/images/clip.png" style="width: 70px;">
+
+
+                  <p class="room-content">
+                  <p class="category" id="${tag}"></p>
+                  <p class="room-title">${roomList.roomTitle}</p>
+                  <p class="enter-number">
+                     방장 : ${roomList.memberNick}<br> 참가인원 : /10명 │ 개설일 :
+                     ${createDate}
+                  </p>
+
+
+                  <div id="tagbox">
+                     <div class="tags">#${tag}</div>
+                  </div>
+
+                  <a data-toggle="modal" data-target="#myModal">
+                     <div class="join-button" id="${roomList.roomNo}">참여하기</div>
+                  </a>
+               </div>
+               <!-- roomlist end-->
+            </div>
+            <!--room-container end-->
+
+         </div>
+      </div>
+   </div>
+   <jsp:include page="WEB-INF/views/common/footer.jsp" />
+
 	
 	<script type="text/javascript">
-		$(function() {
+/* 		$(function() {
 			roomListView();
-		});
+		}); */
 		
-		function roomListView() {
+	/* 	function roomListView() {
 			$.ajax({
 				url : "room/roomListView",
 				dataType : "json",
@@ -382,7 +384,44 @@
 					console.log("ajax 통신 실패");
 				}
 			});
-		}
+		} */
+		
+		
+	$(function() {
+		$.ajax({
+			url: "${contextPath}/room/mainRoomList",
+			type : "POST",
+			dataType : "JSON",
+			success: function(roomList){
+				console.log(roomList);
+				 
+				// ------------------------------------------------------------------------------------------------------------------------
+	/* 			$memberNick=
+				$enterNumber=
+				$maxNumber=
+				$enrollDate= */
+				var category = $(".category");
+				var title = $(".room-title");
+				var tags=$(".tags");
+				
+				console.log(category[0]);
+				console.log(category[1]);
+				
+				for(var i=0; i<roomList.length; i++){
+				//	console.log(roomList[i].roomType);
+					
+					$("$category").text(roomList[i].roomType);
+				}
+				// 아이디에 i값줘서 하나씩 주는걸로..!!
+				
+				// ------------------------------------------------------------------------------------------------------------------------
+			},error: function(){
+				 console.log("ajax 통신 실패");
+			}	
+		}); /* ajax end */
+		
+	});
+		
 	</script>
 </body>
 </html>
