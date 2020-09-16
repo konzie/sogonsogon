@@ -19,6 +19,8 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 
 <script src="//cdn.ckeditor.com/4.7.3/standard/ckeditor.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>    
     
 <style>
  .insert-label {
@@ -33,7 +35,9 @@
      #row{
 	  margin-top: 50px; 
 	  }
+    .lock_status{float:right; padding:10px 0 0;}
     
+    .text-center{margin-top:20px;}
     
 </style>
 
@@ -46,27 +50,34 @@
     <div class="col-md-2"></div>
     <div class="col-md-8">
         <h2 class="text-center">문의글 쓰기</h2>
-        <form action="<%=request.getContextPath()%>/board/insert.do?type=<%=type%>&cp=<%=cp%>"
-        enctype="multipart/form-data"    role="form" method="post" onsubmit="return validate();">
+        <form action="insertAction"
+        enctype="multipart/form-data" role="form" method="post" onsubmit="return validate();">
           <table class="table table-striped">
-          
+
 					<label class="input-group-addon mr-3 insert-label">카테고리</label> 
-					<select	class="custom-select" id="category" name="category" style="width: 150px;">
+					<select	class="custom-select" id="category" name="helpCategory" style="width: 150px;">
 						<option>선택</option>
-						<option value="사이트이용">사이트 이용</option>
-						<option value="시스템">시스템</option>
-						<option value="기타">기타</option>
+						<option value="10">사이트 이용</option>
+						<option value="20">시스템</option>
+						<option value="30">기타</option>
 					</select>
+
+				<div class="lock_status">
+					<label>공개</label>&nbsp;
+					<input type="radio" name="lockStatus" value="N" checked>
+					<label>비공개</label>&nbsp;
+					<input type="radio" name="lockStatus" value="Y">
+				</div>
 			
             <tr>
                 <td>제목</td>
-                <td><input type="text"  class="form-control" id ="title" name="title"></td>
+                <td><input type="text"  class="form-control" id ="title" name="helpTitle"></td>
             </tr>
             
             
             <tr>
                 <td>글내용</td>
-                <td><textarea rows="10" cols="50" id="content" name="content" class="form-control"></textarea></td>
+                <td><textarea rows="10" cols="50" id="content" name="helpContent" class="form-control"></textarea></td>
             </tr>
              <tr>
             	<td>이미지 삽입</td>
@@ -88,9 +99,9 @@
             <tr>
                  
                 <td colspan="2"  class="text-center">
-                    <input type="submit" value="확인" class="btn btn-success">
+                    <button type="submit" class="btn btn-success">등록</button>
                     <input type="reset" value="초기화" class="btn btn-warning">
-                    <a href="<%=request.getContextPath()%>/i_board/list.do?type=<%=type%>" class="btn btn-primary">돌아가기</a>
+                    <a href="${contextPath}/help/list/1" class="btn btn-primary">돌아가기</a>
                 </td>
             </tr>
              
@@ -120,37 +131,13 @@ function validate(){
 		$("#content").focus();
 		return false;
 	}
-	if($("#link").val().trim().length == 0){
-		alert("링크를 입력해 주세요");
-		$("#link").focus();
-		return false;
-	}
 }
 
-$(function(){
-	//$("#fileArea").hide();
-	
-	$("#contentImgArea1").click(function(){
-		$("#img1").click();
-	});
-	$("#contentImgArea2").click(function(){
-		$("#img2").click();
-	});
-	
-	$("#contentImgArea3").click(function(){
-		$("#img3").click();
-	});
-	$("#contentImgArea4").click(function(){
-		$("#img4").click();
-	});
-	
-});
-	function LoadImg(value, num){
-		if(value.files && value.files[0]){
-			var reader = new FileReader();
-			reader.onload = function(e){
-				switch(num){
-				case 1 :
-					$("#contentImg1").attr("src", e.target.result);
-					break;
-				case 2 :
+
+	$("#lockYN").change(function(){
+        if($("#lockYN").is(":checked")){
+        	$("#lockStatus").attr("value", "Y");
+        }else{
+        	$("#lockStatus").attr("value", "N");
+        }
+    });
