@@ -278,11 +278,12 @@ $("#addReply").on("click", function(){
  	$(el).parent().prev().last("p").hide();
  	$(el).parent().prev().last().append($textArea);
  	$(el).parent().hide();
+ 	
 
  		var $div = $("<div>").addClass("updateReplyArea");
  		var $btnArea = $("<div>").addClass("btnArea");
  		
- 		var $insertBtn = $("<button>").addClass("btn btn-sm btn-primary ml-1").text("등록").attr("onclick", "addReply2(this, " + parentReplyNo +")");
+ 		var $insertBtn = $("<button>").addClass("btn btn-sm btn-primary ml-1").text("등록").attr("onclick", "updateReply(this, " + $(el).parent().parent().attr('id') +")");
  		var $cancelBtn = $("<button>").addClass("btn btn-sm btn-secondary ml-1 updateReply-cancle").text("취소").attr("onclick", "cancelReply2()");
  		
  		$btnArea.append($insertBtn,$cancelBtn);
@@ -293,6 +294,28 @@ $("#addReply").on("click", function(){
  	
  	// 추가된 답글 작성 영역으로 포커스 이동.
  	$(".updateReplyContent").focus();
+ }
+ 
+//댓글 수정
+ function updateReply(el, replyNo){
+ 	console.log($(el).parent().prev().val());
+ 	console.log(replyNo);
+ 	
+ 	var replyContent = $(el).parent().prev().val();
+ 	
+ 	$.ajax({
+ 		url : "${contextPath}/roomBoard/reply/updateReply/${board.roomBoardNo}",
+ 		data : {"replyContent" : replyContent,
+ 				"replyNo" : replyNo},
+ 		dataType : "text",
+ 		success : function(result){
+ 			alert(result);
+ 			
+ 			selectReplyList();
+ 		},error : function(){
+ 			console.log("통신 실패");
+ 		}
+ 	});  
  }
  
 //-----------------------------------------------------------------------------------------

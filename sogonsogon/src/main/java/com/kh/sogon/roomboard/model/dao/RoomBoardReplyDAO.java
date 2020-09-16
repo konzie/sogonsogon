@@ -34,4 +34,12 @@ public class RoomBoardReplyDAO {
 		return sqlSession.insert("roomBoardReplyMapper.insertReply2", reply);
 	}
 
+	/** 댓글 수정용 DAO
+	 * @param reply
+	 * @return
+	 */
+	public int updateReply(RoomBoardReply reply) {
+		return sqlSession.update("roomBoardReplyMapper.updateReply", reply);
+	}
+
 }

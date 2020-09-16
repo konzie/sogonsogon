@@ -53,7 +53,7 @@
 
 				</div>
 				<div>
-					<button id="prevAtag" class="btn-secondary" style="margin-top: 10px;" onclick="location.href='../roomList'">방 나가기</button>
+					<button id="prevAtag" class="btn-secondary" style="margin-top: 10px;" onclick="location.href='../roomList/1'">방 나가기</button>
 				</div>
 			</div>
 			<!-- /.col-lg-3 -->
