@@ -24,10 +24,10 @@ public class ReplySerivceImpl implements ReplyService {
 	@Override
 	public int insertReply(Reply reply) {
 		
-        reply.setQnaContent(
+        reply.setContent(
                 replaceParameter(reply.getContent()));
 
-        reply.setQnaContent(
+        reply.setContent(
                 reply.getContent().replaceAll("\n", "<br>"));
 		return replyDAO.insertReply(reply);
 	}
@@ -50,11 +50,11 @@ public class ReplySerivceImpl implements ReplyService {
 	@Override
 	public int insertReply2(Reply reply) {
 		// 크로스 사이트 스크립팅 방지
-        reply.setQnaContent(
+        reply.setContent(
                 replaceParameter(reply.getQnaContent()));
 
         // 개행문자 처리 \n -> <br>
-        reply.setQnaContent(
+        reply.setContent(
                 reply.getQnaContent().replaceAll("\n", "<br>"));
 		return replyDAO.insertReply2(reply);
 	}

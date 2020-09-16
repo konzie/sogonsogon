@@ -80,15 +80,15 @@
             </div>
             <div class="detailView">
             	<div class="detail-header">
-            		<h4 class="detail-title" style="margin-bottom: 0;" >${board.boardTitle}</h4>
-            		<span id="date" style="color:#4a4a4a;">${board.boardCreateDate}</span>
+            		<h4 class="detail-title" style="margin-bottom: 0;" >${board.qnaTitle}</h4>
+            		<span id="date" style="color:#4a4a4a;">${board.qnaCreateDate}</span>
             	</div>
             	<div class="detail-info">
             		<dl>
-            			<dt>작성자</dt> <dd>${board.boardWriter}</dd>
+            			<dt>작성자</dt> <dd>${board.qnaWriter}</dd>
             		</dl>
             		<dl>
-            			<dt>수정일</dt> <dd>${board.boardModifyDate}</dd>
+            			<dt>수정일</dt> <dd>${board.qnaModifyDate}</dd>
             		</dl>
             			
             	</div>

@@ -18,8 +18,13 @@ public class ReplyDAO {
 	
 	//댓글 조회 DAO
 	public List<Reply> selectList(int qnaNo) {
+		
 		System.out.println(qnaNo+"qq");
+		
+		
 		return sqlSession.selectList("replyMapper.selectList", qnaNo);
+		
+		
 	}
 
 

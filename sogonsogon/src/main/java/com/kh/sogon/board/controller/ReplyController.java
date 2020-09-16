@@ -27,8 +27,15 @@ public class ReplyController {
 	public String selectList(@PathVariable int qnaNo, Model model) {
 		
 		
+		System.out.println("qnaNo = " + qnaNo);
+		
 		List<Reply> rList = replyService.selectList(qnaNo);
+		
+		
+		System.out.println(rList);
+		
 		Gson gson = new GsonBuilder().create();
+		
 		return gson.toJson(rList);
 	}
 	

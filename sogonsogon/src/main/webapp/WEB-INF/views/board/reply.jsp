@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-	
+		<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <style>
 /*댓글*/
 .replyWrite>table {
@@ -102,8 +103,9 @@ hr{
 
 	<!-- 댓글 출력 부분 -->
 	<div class="replyList mt-5 pt-2">
-		<ul id="replyListArea">
-		</ul>
+		
+		<div id="replyListArea">
+		</div>
 	</div>
 
 	
@@ -188,6 +190,11 @@ function selectReplyList(){
 				
 				// 댓글 영역을 화면에 배치
 				$replyListArea.append($li).append($hr);
+				
+				
+				
+				
+				
 			});
 			
 		}, error : function(request, status, error){
