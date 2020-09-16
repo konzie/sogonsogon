@@ -61,7 +61,7 @@ public class RoomController {
 		
 		@RequestMapping("roomDetail/{roomNo}")
 		public String roomDetailView(@PathVariable int roomNo, @RequestParam(value = "inputPwd", required = false, defaultValue = "-1") String inputPwd, Model model, RedirectAttributes rdAttr, HttpServletRequest request,Room room) {
-			
+			System.out.println(roomNo);
 			Member loginMember = (Member)model.getAttribute("loginMember");
 			
 			if(loginMember != null)
@@ -157,9 +157,13 @@ public class RoomController {
 		 @RequestMapping("mainRoomList")
 		 public String mainRoomList() {
 			 List<Room> roomList = roomService.mainRoomList();
-			 for(Room r : roomList) { System.out.println(r); }
+
+			 for(Room r : roomList) { System.out.println(r); };
+			
 			 
 			Gson gson = new Gson();
+			 gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+			
 			return gson.toJson(roomList);
 		 }
 
