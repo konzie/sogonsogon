@@ -149,6 +149,8 @@ public class RoomController {
 			 
 			 model.addAttribute("pInfo", pInfo);
 			 model.addAttribute("roomList", roomList);
+			 model.addAttribute("roomPath", "search");
+			 model.addAttribute("type", search);
 			 
 			return  "room/roomList";  
 		 }
@@ -158,9 +160,7 @@ public class RoomController {
 		 public String mainRoomList() {
 			 List<Room> roomList = roomService.mainRoomList();
 
-			 for(Room r : roomList) { System.out.println(r); };
-			
-			 
+			 // for(Room r : roomList) { System.out.println(r); };
 			Gson gson = new Gson();
 			 gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 			

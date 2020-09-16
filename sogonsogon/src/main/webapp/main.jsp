@@ -10,6 +10,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
 <style>
 @font-face {
 	font-family: 'GmarketSansMedium';
@@ -20,13 +21,15 @@
 	font-style: normal;
 }
 
+
+
 .room-box {
 	width: 100%;
 	height: 400px;
 	/*  display: flex; */
 	justify-content: center;
 	flex-wrap: unset;
-	font-family: 'GmarketSansMedium';
+	font-family: 'Poppins', sans-serif;
 	text-align: center;
 }
 
@@ -185,7 +188,13 @@
 	#carouselExampleCaptions img{
 		width: 100%;
 	}
-	
+	#roomListArea{
+		background-color: #f8f9fa;
+		height: 300px;
+	}
+	.container{
+		width: 100%;
+	}
 
 </style>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -236,7 +245,7 @@
     </div>
     <!-- 이미지 슬라이드 영역 end -->
     
-
+<!-- body with:100%할시 container이름변경  -->
 	<div class="container">
 		<div class="row">
 			<div class="col-lg-6" align="center">이미지영역1</div>
@@ -250,7 +259,7 @@
             <p>
             <h2>자유게시판</h2>
             </p>
-            <table class="table">
+            <table class="table" >
                <thead>
                   <tr>
                      <th>글번호</th>
@@ -259,10 +268,8 @@
                      <th>작성자</th>
                   </tr>
                </thead>
-               <tbody>
-                  <tr>
-                     <td colspan="4" align="center"><strong>글 내용이 없습니다.</strong></td>
-                  </tr>
+               <tbody id="freeboard">
+             
                </tbody>
             </table>
          </div>
@@ -592,6 +599,42 @@
 		//$(".transPage").submit();
 		location.href=$(".transPage").attr("action");
 	});
+	
+	// ------------------자유게시판 실시간 조회-----------------------------
+		$(function() {
+			$.ajax({
+				url: "${contextPath}/board/mainBoardList",
+				dataType : "JSON",
+				success: function(boardList){
+					console.log(boardList);
+					
+					$("#freeBoard").html("");
+	
+					$.each(boardList, function(index, item){
+						
+						var $tr = $("<tr>"); // 행
+						var $td1 = $("<td>").text(item.qnaNo);
+						var $td2 = $("<td>").text(item.qnaCategory);
+						var $td3 = $("<td>").text(item.qnaTitle);
+						var $td4 = $("<td>").text(item.writerNick);
+						
+						
+						$tr.append($td1, $td2, $td3, $td4);
+						//console.log($tr);
+						
+						$("#freeBoard").append($tr);
+					});
+					
+					
+				},error:function(){
+					console.log("ajax 통신 실패");
+				}
+				
+			}); // ajax end
+		}); // ready함수 end
+		
+	//----------------------q&a게시판 실시간 조회----------------------------
+	// qna 게시판이 없어요...
 	</script>
 </body>
 </html>

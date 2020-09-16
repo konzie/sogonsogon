@@ -200,7 +200,7 @@
                <div class="search-box">
                 <div class="search-icon"><i class="fa fa-search search-icon"></i></div>
                 <form action="" class="search-form">
-                    <input type="text" placeholder="Search" id="search" autocomplete="off" name="sVal">
+                    <input type="text" placeholder="제목 또는 태그를 입력해주세요." id="search" autocomplete="off" name="sVal" style="font-size: 16px;">
                 </form>
                 <svg class="search-border" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:a="http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/" x="0px" y="0px" viewBox="0 0 671 111" style="enable-background:new 0 0 671 111;"
                  xml:space="preserve">
@@ -318,7 +318,7 @@ $(".clear-btn").on("click",function(){
 			console.log( $search );
 			if($search.trim().length != 0){ // 검색어 있는 경우
 				//searchUrl ="${pInfo.boardType}";		
-				location.href="${contextPath}/room/search/1?sVal="+$search;
+				location.href="${contextPath}/room/search/"+$search;
 			
 			}else{ // 검색어 없는 경우
 				alert("검색어없음");

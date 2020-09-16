@@ -100,4 +100,11 @@ public void deleteAttachment(int qnaNo) {
 
 
 
+
+public List<Board> mainBoardList() {
+	return sqlSession.selectList("boardMapper.mainBoardList", null);
+}
+
+
+
 }

@@ -12,11 +12,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.kh.sogon.board.model.service.BoardService;
 import com.kh.sogon.board.model.vo.Attachment;
 import com.kh.sogon.board.model.vo.Board;
@@ -298,5 +301,14 @@ public class BoardController {
 			return "board/boardList";
 		}
 		
+		@ResponseBody
+		@RequestMapping("mainBoardList")
+		public String mainBoardList() {
+			List<Board> boardList = boardService.mainBoardList();
+
+			Gson gson = new Gson();
+			gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+			return gson.toJson(boardList);
+		}
 		
 }
