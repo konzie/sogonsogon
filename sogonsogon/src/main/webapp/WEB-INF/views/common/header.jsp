@@ -99,7 +99,7 @@ select {
  </c:if>
       <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
             <div class="container">
-                <a class="navbar-brand js-scroll-trigger" href="${contextPath}">소곤소곤</a>
+                <a class="navbar-brand js-scroll-trigger" href="${contextPath}"> <img src="${contextPath}/resources/images/logo.png" alt="logo" class="logo" style="width: 130px;"></a>
                 <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ml-auto my-2 my-lg-0">
@@ -184,7 +184,7 @@ select {
           <div class="col-md-7">
             <div class="card-body">
               <div class="brand-wrapper">
-                <img src="${contextPath}/resources/images/로고2.jpg" alt="logo" class="logo">
+                <img src="${contextPath}/resources/images/logo.png" alt="logo" class="logo">
               </div>
               <form class="form-signin" method="POST" action="${contextPath}/member/loginAction" onsubmit="return loginValidate();">
                   <div class="form-group">

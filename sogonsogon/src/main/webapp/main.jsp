@@ -78,7 +78,7 @@
 	margin: auto;
 	color: white;
 	line-height: 200%;
-	margin-top: 18px;
+	margin-top: 12px;
 	cursor: pointer;
 }
 
@@ -167,12 +167,76 @@
 	line-height: 160%;
 	cursor: pointer;
 }
+
+	/* 슬라이드 css */
+	.section{
+		width: 100%;
+		padding-top:150px;
+	}
+	
+	#carouselExampleCaptions{
+		height: 25%;
+	}
+	
+	#carouselExampleCaptions div{
+		height: 100%;
+	}
+	
+	#carouselExampleCaptions img{
+		width: 100%;
+	}
+	
+
 </style>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+    integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 </head>
 <body>
 	<jsp:include page="WEB-INF/views/common/header.jsp" />
-	메인페이지.
+
+<!-- 이미지 슬라이드 영역 -->
+
+  <section id="content">
+  
+    <div id="carouselExampleCaptions" class="carousel slide" data-ride="carousel">
+      <ol class="carousel-indicators">
+        <li data-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>
+        <li data-target="#carouselExampleCaptions" data-slide-to="1"></li>
+        <li data-target="#carouselExampleCaptions" data-slide-to="2"></li>
+      </ol>
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+        	<img src="${contextPath}/resources/images/슬라이드1.png">
+          <div class="carousel-caption d-none d-md-block">
+
+          </div>
+        </div>
+        <div class="carousel-item">
+        	<img src="${contextPath}/resources/images/슬라이드1.png">
+          <div class="carousel-caption d-none d-md-block">
+
+          </div>
+        </div>
+        <div class="carousel-item">
+        	<img src="${contextPath}/resources/images/슬라이드1.png">
+          <div class="carousel-caption d-none d-md-block">
+
+          </div>
+        </div>
+      </div>
+      <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+      </a>
+      <a class="carousel-control-next" href="#carouselExampleCaptions" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+      </a>
+    </div>
+    <!-- 이미지 슬라이드 영역 end -->
+    
+
 	<div class="container">
 		<div class="row">
 			<div class="col-lg-6" align="center">이미지영역1</div>
