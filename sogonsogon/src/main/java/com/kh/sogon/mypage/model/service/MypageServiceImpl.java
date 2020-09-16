@@ -283,4 +283,9 @@ public class MypageServiceImpl implements MypageService{
 		return mypageDAO.updateNotice(notice);
 	}
 
+	@Override
+	public Help helpView(int boardNo) {
+		return mypageDAO.helpView(boardNo);
+	}
+
 }

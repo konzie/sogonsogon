@@ -179,11 +179,17 @@ public interface MypageService {
 	 */
 	public abstract int restoreMember(String writerNick);
 
-	/** 공지사항 수정
+	/** 공지사항 수정 Service
 	 * @param notice
 	 * @return
 	 */
 	public abstract int updateNotice(Board notice);
+
+	/** help 상세조회 Service
+	 * @param boardNo
+	 * @return
+	 */
+	public abstract Help helpView(int boardNo);
 
 
 

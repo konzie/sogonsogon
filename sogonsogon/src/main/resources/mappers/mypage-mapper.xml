@@ -257,5 +257,9 @@
 	<update id="restoreMember" parameterType="string">
 		UPDATE REPORT_MEMBER SET REPORT_STATUS='N' WHERE MEMBER_NO = (SELECT MEMBER_NO FROM MEMBER WHERE MEMBER_NICK = #{MemberNick})
 	</update>
+	
+	<select id="helpView" parameterType="_int" resultMap="helpResultSet">
+		SELECT * FROM HELPBOARD WHERE HELP_NO = #{helpNo}
+	</select>
 
 </mapper>

@@ -346,6 +346,7 @@ public class MypageController {
 		
 		return "redirect:"+url;
 		}	
+	
 	@RequestMapping("reportView/{boardNo}")
 	public String reportView(@PathVariable int boardNo, Model model) {
 		
@@ -355,6 +356,16 @@ public class MypageController {
 		model.addAttribute("report", report);
 		
 		return "mypage/reportView";
+	}
+	
+	@RequestMapping("helpView/{boardNo}")
+	public String helpView(@PathVariable int boardNo, Model model) {
+		
+		Help help = mypageService.helpView(boardNo);
+
+		model.addAttribute("help", help);
+		
+		return "mypage/helpView";
 	}
 	
 	@RequestMapping("noticeWrite")
@@ -567,5 +578,10 @@ public class MypageController {
 		}
 		
 		return url;
+	}
+	
+	@RequestMapping("answerhelp/{boardNo}")
+	public String answerhelp() {
+		return "";
 	}
 }

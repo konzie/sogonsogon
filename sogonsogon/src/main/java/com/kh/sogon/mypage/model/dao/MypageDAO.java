@@ -242,6 +242,10 @@ public class MypageDAO {
 	public int updateNotice(Board notice) {
 		return sqlSession.update("mypageMapper.updateNotice", notice);
 	}
+
+	public Help helpView(int boardNo) {
+		return sqlSession.selectOne("mypageMapper.helpView", boardNo);
+	}
 	
 	
 }
