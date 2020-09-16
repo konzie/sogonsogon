@@ -46,6 +46,13 @@
 		VALUES(#{helpNo},#{helpCategory},#{helpTitle},#{helpContent},
 				#{helpWriter},SYSDATE,'Y',SYSDATE,#{lockStatus})
 	</insert>
+	
+	<!-- 문의글 삭제 -->
+	<update id="deleteHelp" parameterType="_int">
+		UPDATE HELPBOARD SET
+		HELP_STATUS = 'N'
+		WHERE HELP_NO = #{helpNo}
+	</update>
 
 	
 </mapper>
