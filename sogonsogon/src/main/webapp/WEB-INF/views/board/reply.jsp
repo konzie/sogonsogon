@@ -147,11 +147,6 @@ function selectReplyList(){
 				// li태그마다 댓글 번호를 id로 추가 
 				var $li = $("<li>").addClass("reply-row").attr("id", rList[i].replyNo);
 				
-				// 답글 (대댓글 )일 경우 reoly2-li zmffotm cnrk 
-				if(rList[i].replyDepth == 1){
-					$li.addClass("reply2-li");
-				}
-				
 				// 작성자, 작성일, 수정일 영역 
 				var $div = $("<div>");
 				var $rWriter = $("<a>").addClass("rWriter idSelect").html(rList[i].memberId);
@@ -162,7 +157,7 @@ function selectReplyList(){
 				
 				
 				// 댓글 내용
-				var $rContent = $("<p>").addClass("rContent").html(rList[i].replyContent);
+				var $rContent = $("<p>").addClass("rContent").html(rList[i].content);
 				
 				
 				// 답글, 수정, 삭제 버튼 영역
@@ -229,7 +224,7 @@ $("#addReply").on("click", function(){
 					url : url,
 					type : "POST",
 					data : {"memberId" : memberId,
-							"replyContent" : replyContent},
+							"content" : replyContent},
 					dataType : "text",
 					success : function(result){
 						

@@ -3,7 +3,7 @@
 <mapper namespace="replyMapper">
  	<resultMap type="Reply" id="replyResultSet">
 		<id property="replyNo" column="REPLY_NO"/>
-        <result property="replyContent" column="REPLY_CONTENT"/>
+        <result property="content" column="REPLY_CONTENT"/>
         <result property="parentBoardNo" column="PARENT_BOARD_NO"/>
         <result property="replyCreateDate" column="REPLY_CREATE_DT"/>
         <result property="replyModifyDate" column="REPLY_MODIFY_DT"/>
@@ -14,21 +14,22 @@
 	</resultMap>
 	
  	<!--  댓글 조회  -->
- 	<select id="selectList" parameterType="_int" resultMap="replyResultSet">
-SELECT * FROM V_REPLY
-WHERE REPLY_STATUS='Y'
-AND PARENT_BOARD_NO= #{qnaNo}
-ORDER BY REPLY_NO DESC
- 	</select>
+	<select id="selectList" parameterType="_int" resultMap="replyResultSet">
+	SELECT * FROM V_RREPLY
+	WHERE PARENT_BOARD_NO= #{qnaNo}
+	ORDER BY REPLY_NO DESC
+	</select>
  	
  	<!--  댓글 삽입  -->
- 	<insert id="insertReply" parameterType="Reply">
- 	INSERT INTO REPLY(REPLY_NO, REPLY_CONTENT, PARENT_BOARD_NO, REPLY_WRITER) 
-VALUES(SEQ_RNO.NEXTVAL, #{replyContent}, #{parentBoardNo}, SEQ_RNO.CURRVAL, #{replyWriter})
+ 	<insert id="insertReply" parameterType="Reply" >
+ 	INSERT INTO REPLY(REPLY_NO, REPLY_CONTENT,PARENT_BOARD_NO, REPLY_WRITER) 
+	VALUES(SEQ_RNO.NEXTVAL, #{content}, #{parentBoardNo}, #{replyWriter})
  	</insert>
  	
- 	<insert id="insertReply2" parameterType="Reply">
- 	INSERT INTO REPLY(REPLY_NO, REPLY_CONTENT, PARENT_BOARD_NO,REPLY_WRITER) 
-VALUES(SEQ_RNO.NEXTVAL, #{replyContent}, #{parentBoardNo}, #{parentReplyNo}, 1, #{replyWriter})
+ 	<!-- 대댓글삽입  -->
+ 	<insert id="insertReply2" parameterType="Reply" >
+ 	INSERT INTO REPLY(REPLY_NO, REPLY_CONTENT,PARENT_BOARD_NO,REPLY_WRITER) 
+	VALUES(SEQ_RNO.NEXTVAL, #{content}, #{parentBoardNo}, #{replyWriter})
  	</insert>
+ 	
 </mapper>

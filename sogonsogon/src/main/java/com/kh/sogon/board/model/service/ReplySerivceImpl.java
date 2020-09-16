@@ -25,10 +25,10 @@ public class ReplySerivceImpl implements ReplyService {
 	public int insertReply(Reply reply) {
 		
         reply.setQnaContent(
-                replaceParameter(reply.getQnaContent()));
+                replaceParameter(reply.getContent()));
 
         reply.setQnaContent(
-                reply.getQnaContent().replaceAll("\n", "<br>"));
+                reply.getContent().replaceAll("\n", "<br>"));
 		return replyDAO.insertReply(reply);
 	}
 	

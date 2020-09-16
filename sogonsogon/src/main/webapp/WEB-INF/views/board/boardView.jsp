@@ -75,30 +75,30 @@
 	<jsp:include page="../common/header.jsp"/>
         <div id="wrapper">
             <div class="view-header">
-	            <h4><b>고객센터</b></h4>
+	            <h4><b>자유질문방</b></h4>
 	            <h6>- ${board.qnaCategory}</h6>
             </div>
             <div class="detailView">
             	<div class="detail-header">
-            		<h4 class="detail-title" style="margin-bottom: 0;" >${help.helpTitle}</h4>
-            		<span id="date" style="color:#4a4a4a;">${help.helpCreateDate}</span>
+            		<h4 class="detail-title" style="margin-bottom: 0;" >${board.boardTitle}</h4>
+            		<span id="date" style="color:#4a4a4a;">${board.boardCreateDate}</span>
             	</div>
             	<div class="detail-info">
             		<dl>
-            			<dt>작성자</dt> <dd>${help.helpWriter}</dd>
+            			<dt>작성자</dt> <dd>${board.boardWriter}</dd>
             		</dl>
             		<dl>
-            			<dt>수정일</dt> <dd>${help.helpModifyDate}</dd>
+            			<dt>수정일</dt> <dd>${board.boardModifyDate}</dd>
             		</dl>
             			
             	</div>
             	<div class="content">${board.qnaContent}</div>
             	<div class="detail-footer">
             		<c:if test="${loginMember.memberNick == board.qnaWriter}">
-            		<div class="update-Btn"><a id="updateBtn" type="button" href="${contextPath}/help/list">수정</a></div>
-            		<div class="delete-Btn"><a id="deleteBtn" type="button" href="${contextPath}/help/list">삭제</a></div>
+            		<div class="update-Btn"><a id="updateBtn" type="button" href="${contextPath}/board/list">수정</a></div>
+            		<div class="delete-Btn"><a id="deleteBtn" type="button" href="${contextPath}/board/list">삭제</a></div>
             		
-                    <div class="list-Btn"><a id="listBtn" type="button" href="${contextPath}/help/list">목록</a></div>
+                    <div class="list-Btn"><a id="listBtn" type="button" href="${contextPath}/board/list">목록</a></div>
                 	</c:if>
             	</div>
             </div>
