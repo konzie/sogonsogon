@@ -5,13 +5,16 @@ import java.util.List;
 import com.kh.sogon.board.model.vo.Board;
 import com.kh.sogon.help.model.vo.Help;
 import com.kh.sogon.member.model.vo.Member;
+import com.kh.sogon.mypage.model.vo.ReportMember;
 import com.kh.sogon.room.model.vo.Room;
 import com.kh.sogon.room.model.vo.RoomMember;
 import com.kh.sogon.board.model.vo.PageInfo;
 import com.kh.sogon.board.model.vo.Reply;
-import com.kh.sogon.boardreply.model.vo.BoardReply;
 
-
+/**
+ * @author hyeonju
+ *
+ */
 /**
  * @author hyeonju
  *
@@ -146,6 +149,41 @@ public interface MypageService {
 	 * @return
 	 */
 	public abstract Board noticeView(int boardNo);
+
+	/** 공지사항 작성 Service
+	 * @param title
+	 * @param content
+	 * @return
+	 */
+	public abstract int noticeWrite(Board board);
+
+	/** 신고 게시글 되돌리기 Service
+	 * @param boardNo
+	 */
+	public abstract int restoreReport(int boardNo);
+
+	
+	/** 신고받은 게시글 작성자 찾기 Service
+	 * @param memberNick
+	 */
+	public abstract ReportMember findMember(ReportMember member);
+
+	/**경고 count++ Service
+	 * @param memberNo
+	 * @return
+	 */
+	public abstract int updateReport(ReportMember member);
+
+	/** 멤버 status 복원 Service
+	 * @param writerNick
+	 */
+	public abstract int restoreMember(String writerNick);
+
+	/** 공지사항 수정
+	 * @param notice
+	 * @return
+	 */
+	public abstract int updateNotice(Board notice);
 
 
 

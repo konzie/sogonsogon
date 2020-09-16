@@ -13,6 +13,7 @@ import com.kh.sogon.member.model.vo.Member;
 import com.kh.sogon.board.model.vo.PageInfo;
 import com.kh.sogon.board.model.vo.Reply;
 import com.kh.sogon.mypage.model.dao.MypageDAO;
+import com.kh.sogon.mypage.model.vo.ReportMember;
 import com.kh.sogon.room.model.vo.Room;
 import com.kh.sogon.room.model.vo.RoomMember;
 
@@ -222,6 +223,64 @@ public class MypageServiceImpl implements MypageService{
 	@Override
 	public Board noticeView(int boardNo) {
 		return mypageDAO.noticeView(boardNo);
-	}	
+	}
+
+	// 공지사항 작성 Service 구현
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public int noticeWrite(Board board) {
+		
+		int boardNo = mypageDAO.selectBoardNo();
+		
+		if(boardNo!=0) {
+			board.setQnaNo(boardNo);
+		}
+		
+		return mypageDAO.noticeWrite(board);
+	}
+
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public int restoreReport(int boardNo) {
+		return mypageDAO.restoreReport(boardNo);
+	}
+
+	// 신고받은 게시글 작성자 찾기 Service 구현
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public ReportMember findMember(ReportMember member) {
+		ReportMember findMember = mypageDAO.findMember(member.getMemberNick());
+		System.out.println("찾은 findMember : " + findMember);
+		
+		if(findMember==null) {
+			System.out.println("비어있으면 새로 추가");
+			int result = mypageDAO.insertMember(member);
+			
+			if(result>0) {
+				findMember = mypageDAO.findMember(member.getMemberNick());
+				System.out.println("추가한 findMember :" +findMember);
+			}
+		}
+		
+		return findMember;
+	}
+
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public int updateReport(ReportMember member) {
+		return mypageDAO.updateReport(member);
+	}
+
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public int restoreMember(String writerNick) {
+		return mypageDAO.restoreMember(writerNick);
+	}
+
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public int updateNotice(Board notice) {
+		return mypageDAO.updateNotice(notice);
+	}
 
 }

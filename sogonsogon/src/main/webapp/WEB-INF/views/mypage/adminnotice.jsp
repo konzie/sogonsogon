@@ -48,8 +48,7 @@
                         <th id="title">제목</th>
                         <th id="title">내용</th>
                         <th id="writer">작성자</th>						
-                        <th id="create_dt">작성일</th>						
-                        <th id="status">게시글 상태</th>
+                        <th id="create_dt">작성일</th>	
 
                     </tr>
                 </thead>
@@ -57,7 +56,7 @@
                 <c:choose>
           			<c:when test="${empty qnaList}">
 		         		<tr>		
-		         			<td colspan="7" align="center">존재하는 게시글이 없습니다.</td>
+		         			<td colspan="6" align="center">존재하는 게시글이 없습니다.</td>
 		         		</tr>
           			</c:when>	
           			<c:otherwise>
@@ -71,19 +70,18 @@
 		              		<td>
 		              			<jsp:useBean id="now" class="java.util.Date"></jsp:useBean>
 		              			<fmt:formatDate var="today" value="${now}" pattern="yyyy-MM-dd"/>
-		              			<fmt:formatDate var="createDate" value="${board.qnaCreateDate}" pattern="yyyy-MM-dd"/>
-		              			<fmt:formatDate var="createTime" value="${board.qnaCreateDate}" pattern="hh:mm:ss"/>
+		              			<fmt:formatDate var="modifyDate" value="${board.qnaModifyDate}" pattern="yyyy-MM-dd"/>
+		              			<fmt:formatDate var="modifyTime" value="${board.qnaModifyDate}" pattern="hh:mm:ss"/>
 		              			
 		              			<c:choose>
-		              				<c:when test="${today == createDate }">
-		              					${createTime}
+		              				<c:when test="${today == modifyDate }">
+		              					${modifyTime}
 		              				</c:when>
 		              				<c:otherwise>
-		              				${createDate}
+		              				${modifyDate}
 		              				</c:otherwise>
 		              			</c:choose>
 		              		</td>
-		              		<td>${board.qnaStatus}</td>
 	              		</tr>	
           				</c:forEach>
           			</c:otherwise>

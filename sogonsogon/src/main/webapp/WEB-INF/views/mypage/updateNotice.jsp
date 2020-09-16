@@ -26,6 +26,15 @@
       #id{
       style:none;
       }
+      
+      #content{
+      	width : 100%;
+      	height : 300px;
+      }
+      
+      .btn{
+      	margin:10px 0;
+      }
 </style>
 </head>
 <body>
@@ -39,11 +48,20 @@
   <div class="content">
   <jsp:include page="mypage2.jsp"/>
   <div class="content2">       
-	   <h4 class="mb-5">공지사항 작성</h4>
-	    <form action="${contextPath}/mypage/noticeInsert" method="post" role="form" onsubmit="return validate();">
+	   <h4 class="mb-5">공지사항 수정</h4>
+	    <form action="${contextPath}/mypage/updateNotice2/${notice.qnaNo}" method="post" role="form" onsubmit="return validate();">
 				<div class="form-inline mb-2">
 					<label class="input-group-addon mr-3 insert-label">제목</label> 
-					<input type="text" class="form-control" id="title" name="title" size="100">
+					<select name="category">
+						<option>코딩</option>
+						<option>외국어</option>
+						<option>기타</option>
+					</select>
+				</div>
+
+				<div class="form-inline mb-2">
+					<label class="input-group-addon mr-3 insert-label">제목</label> 
+					<input type="text" class="form-control" id="title" name="title" size="100" value="${notice.qnaTitle}">
 				</div>
 
 				<div class="form-inline mb-2">
@@ -56,9 +74,9 @@
 					<h5 class="my-0" id="today"></h5>
 				</div>
 
-				<div class="form-inline mb-2">
-					<label for="content" class="input-group-addon mr-3 insert-label">내용</label>
-					<textarea class="form-control" id="content" name="content" rows="10" cols="100" style="resize: none;"></textarea>
+				<div>
+					<label for="content">내용</label>
+					<input id="content" name="content" value="${notice.qnaContent}"></input>
 				</div>
 				
 				<hr class="mb-4">

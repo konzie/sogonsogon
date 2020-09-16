@@ -43,47 +43,50 @@
        <table class="table table-striped table-hover">
                 <thead>
                     <tr>
-                        <th id="boardNo">글번호</th>
-                        <th id="category">분류</th>
-                        <th id="title">제목</th>
-                        <th id="title">내용</th>
-                        <th id="writer">작성자</th>						
-                        <th id="create_dt">작성일</th>						
-                        <th id="status">게시글 상태</th>
-
+                        <th>글번호</th>
+                        <th>분류</th>
+                        <th>제목</th>
+                        <th>내용</th>
+                        <th>작성자</th>						
+                        <th>작성일</th>						
+                        <th>게시글 상태</th>
+                        <th>처리 </th>
                     </tr>
                 </thead>
                 <tbody>
                 <c:choose>
           			<c:when test="${empty reportList}">
 		         		<tr>		
-		         			<td colspan="7" align="center">존재하는 게시글이 없습니다.</td>
+		         			<td colspan="8" align="center">존재하는 게시글이 없습니다.</td>
 		         		</tr>
           			</c:when>	
           			<c:otherwise>
           				<c:forEach var="board" items="${reportList}">
-	              		<tr>		
-		              		<td>${board.qnaNo}</td>
+	              		<tr>
+		              		<jsp:useBean id="now1" class="java.util.Date"></jsp:useBean>
+	              			<fmt:formatDate var="today" value="${now1}" pattern="yyyy-MM-dd"/>
+	              			<fmt:formatDate var="createDate" value="${board.qnaCreateDate}" pattern="yyyy-MM-dd"/>
+	              			<fmt:formatDate var="createTime" value="${board.qnaCreateDate}" pattern="hh:mm:ss"/>
+		              		<td>
+		              		<c:choose>
+			              		<c:when test="${today == createDate}">
+			              			<span class="badge badge-primary new">new</span>
+			              		</c:when>
+		              		</c:choose>
+		              		<span>${board.qnaNo}</span>
+		              		</td>
 		              		<td>${board.qnaCategory}</td>
 		              		<td>${board.qnaTitle}</td>
 		              		<td>${board.qnaContent}</td>
 		              		<td>${board.writerNick}</td>
 		              		<td>
-		              			<jsp:useBean id="now" class="java.util.Date"></jsp:useBean>
-		              			<fmt:formatDate var="today" value="${now}" pattern="yyyy-MM-dd"/>
-		              			<fmt:formatDate var="createDate" value="${board.qnaCreateDate}" pattern="yyyy-MM-dd"/>
-		              			<fmt:formatDate var="createTime" value="${board.qnaCreateDate}" pattern="hh:mm:ss"/>
-		              			
 		              			<c:choose>
-		              				<c:when test="${today == createDate }">
-		              					${createTime}
-		              				</c:when>
-		              				<c:otherwise>
-		              				${createDate}
-		              				</c:otherwise>
+		              				<c:when test="${today == createDate }">${createTime}</c:when>
+		              				<c:otherwise>${createDate}</c:otherwise>
 		              			</c:choose>
 		              		</td>
 		              		<td>${board.qnaStatus}</td>
+		              		<td><button type="button" class="btn btn-danger btn-sm" onclick="location.href ='updateReport/${board.writerNick}/${board.qnaNo}'">경고</button>          <button type="button" class="btn btn-dark btn-sm" onclick="location.href ='restoreReport/${board.writerNick}/${board.qnaNo}'">X</button></td>
 	              		</tr>	
           				</c:forEach>
           			</c:otherwise>
@@ -141,6 +144,16 @@
     </div>    
    
    <jsp:include page="../common/footer.jsp" />
+    <script>
     
+    $(".new").parent().parent().css("background-color","bisque");
+
+    $("td:not(:last-child)").on("click",function(){
+    	var boardNo = $(this).parent().children().eq(0).text(); 
+    	location.href = "${contextPath}/mypage/reportView/"+boardNo;
+    }).on("mouseenter", function(){
+    	$(this).parent().css("cursor", "pointer");
+    });
+    </script>    
     </body>
 </html>
