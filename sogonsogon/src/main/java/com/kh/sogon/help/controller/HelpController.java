@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kh.sogon.help.model.service.HelpService;
@@ -131,4 +132,50 @@ public class HelpController {
 		 
 		 return "redirect:" + url;
 	  }
+	  
+	  //게시글 삭제
+	  @RequestMapping("no={helpNo}/delete")
+      public String deleteHelp(@PathVariable int helpNo, RedirectAttributes rdAttr, HttpServletRequest request) {
+         
+         int result = helpService.deleteBoard(helpNo);
+         
+         String url = null;
+         String msg = null;
+         String status = null;
+         
+         if(result > 0) {
+
+            status = "success";
+            msg = "문의글 삭제 완료";
+             url = "/help/list/1";
+         } else {
+
+            status = "error";
+            msg = "게시글 삭제 실패";
+            url = request.getHeader("referer");
+         }
+         rdAttr.addFlashAttribute("status", status);
+          rdAttr.addFlashAttribute("msg", msg);
+          
+         return "redirect:" + url;
+      }
+	  
+	  
+	  //문의글 수정 페이지로 가기
+	  @RequestMapping("no={helpNo}/update")
+	  //ModelAndView : View에서 보여줄 데이터와 View 페이지 명을 묶어서 보낼 때
+	  public ModelAndView updateView(@PathVariable int helpNo, ModelAndView mv) {
+		  
+		  Help help = helpService.selectView(helpNo);
+		  
+		  mv.addObject("help", help);
+		  mv.setViewName("help/helpUpdate");
+		  
+		  return mv;
+	  }
+	  
+	  
+	  
+	  
+	  
 }

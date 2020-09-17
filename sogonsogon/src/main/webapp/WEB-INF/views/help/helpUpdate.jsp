@@ -68,13 +68,13 @@
 			
             <tr>
                 <td>제목</td>
-                <td><input type="text"  class="form-control" id ="title" name="helpTitle"></td>
+                <td><input type="text"  class="form-control" id ="title" name="helpTitle" value="${help.helpTitle }"></td>
             </tr>
             
             
             <tr>
                 <td>글내용</td>
-                <td><textarea rows="10" cols="50" id="content" name="helpContent" class="form-control"></textarea></td>
+                <td><textarea rows="10" cols="50" id="content" name="helpContent" class="form-control" >${help.helpContent}</textarea></td>
             </tr>
              <tr>
             	<td>이미지 삽입</td>
@@ -129,12 +129,3 @@ function validate(){
 		return false;
 	}
 }
-
-
-	$("#lockYN").change(function(){
-        if($("#lockYN").is(":checked")){
-        	$("#lockStatus").attr("value", "Y");
-        }else{
-        	$("#lockStatus").attr("value", "N");
-        }
-    });

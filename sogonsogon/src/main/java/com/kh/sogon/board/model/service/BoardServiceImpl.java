@@ -256,6 +256,14 @@ public class BoardServiceImpl implements BoardService{
 		return null;
 	}
 
+
+
+	// 메인 화면 list 얻어오기
+	@Override
+	public List<Board> mainBoardList() {
+		return boardDAO.mainBoardList();
+	}
+
 	
 	
 	

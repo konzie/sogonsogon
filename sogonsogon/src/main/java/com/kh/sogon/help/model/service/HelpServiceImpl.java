@@ -92,4 +92,16 @@ public class HelpServiceImpl implements HelpService{
 
         return result;
     }
+    
+    //문의글 삭제 Service 구현
+	@Override
+	@Transactional(rollbackFor = Exception.class)
+	public int deleteBoard(int helpNo) {
+		
+		int result = 0;
+		
+		result = helpDAO.deleteHelp(helpNo);
+		
+		return result;
+	}
 }

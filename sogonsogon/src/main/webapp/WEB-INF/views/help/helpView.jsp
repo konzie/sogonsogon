@@ -68,6 +68,7 @@
     			color:black; border-radius:3px;
     			background-color:#fff; padding:6px 14px;}
     #listBtn:hover{border:1px solid #4d4d4d; }
+    
 
 </style>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
@@ -114,8 +115,8 @@
             	<div class="content">${help.helpContent}</div>
             	<div class="detail-footer">
             		<c:if test="${loginMember.memberNick == help.helpWriter}">
-            		<div class="update-Btn"><a id="updateBtn" type="button" href="${contextPath}/help/list/1">수정</a></div>
-            		<div class="delete-Btn"><a id="deleteBtn" type="button" href="${contextPath}/help/list/1">삭제</a></div>
+            		<div class="update-Btn"><a id="updateBtn" type="button">수정</a></div>
+            		<div class="delete-Btn"><a id="deleteBtn" type="button">삭제</a></div>
             		
                     <div class="list-Btn"><a id="listBtn" type="button" href="${contextPath}/help/list/1">목록</a></div>
 	
@@ -130,11 +131,18 @@
 	
 	$("#deleteBtn").on("click",function(){
 		if(confirm("정말 삭제 하시겠습니까?")){
-			//spring/board/1/515/delete
-			location.href = "${board.boardNo}/delete";
+			//spring/help/no=185/delete
+			location.href = "no=${help.helpNo}/delete";
 		}
-		
+	
 	});
+	
+	$("#updateBtn").on("click",function(){
+		if(confirm("문의글을 수정하시겠습니까?")){
+			location.href = "no=${help.helpNo}/update";
+		}
+	});		
+	
 	</script>
 </body>
 </html>
