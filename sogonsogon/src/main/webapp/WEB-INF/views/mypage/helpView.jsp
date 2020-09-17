@@ -53,20 +53,19 @@
   <div class="content">
   <jsp:include page="adminpage2.jsp"/>
 	<div class="content2">       
-      <h4 class="mb-5">공지사항 상세조회</h4>
+      <h4 class="mb-5">고객센터 상세조회</h4>
       
       <hr>
-      <h3 id="title">${notice.qnaTitle}</h3><h6 id="category"> [카테고리 : ${notice.qnaCategory}]</h6>
+      <h3 id="title">${help.helpTitle}</h3><h6 id="category"> [카테고리 : ${help.helpCategory}]</h6>
       <hr>
       <div>
-		<p id="writer"> 작성자 : ${notice.writerNick} </p><p id="date">${notice.qnaModifyDate}</p>
+		<p id="writer"> 작성자 : ${help.writerNick} </p><p id="date">${help.helpModifyDate}</p>
 	  </div>
-		<div id="board-content">${notice.qnaContent}</div>
+		<div id="board-content">${help.helpContent}</div>
 		<hr>
 		<div class="float-right">
-		<button type="button" class="btn btn-warning" onclick="location.href ='../updateNotice/${notice.qnaNo}'">수정</button>
-		<button type="button" class="btn btn-warning" onclick="location.href ='../deleteNotice/${notice.qnaNo}'">삭제</button>
-		<button type="button" class="btn btn-warning" onclick="location.href ='../adminnotice'">목록으로</button>
+		<button type="button" class="btn btn-warning" onclick="location.href ='../answerhelp/${help.helpNo}'">답글달기</button>
+		<button type="button" class="btn btn-warning" onclick="location.href ='../adminhelp'">목록으로</button>
 		</div>
 		</div>
 	</div>    

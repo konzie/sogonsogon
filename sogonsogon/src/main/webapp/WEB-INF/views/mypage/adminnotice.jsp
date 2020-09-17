@@ -48,8 +48,7 @@
                         <th id="title">제목</th>
                         <th id="title">내용</th>
                         <th id="writer">작성자</th>						
-                        <th id="create_dt">작성일</th>						
-                        <th id="status">게시글 상태</th>
+                        <th id="create_dt">작성일</th>	
 
                     </tr>
                 </thead>
@@ -57,33 +56,32 @@
                 <c:choose>
           			<c:when test="${empty qnaList}">
 		         		<tr>		
-		         			<td colspan="7" align="center">존재하는 게시글이 없습니다.</td>
+		         			<td colspan="6" align="center">존재하는 게시글이 없습니다.</td>
 		         		</tr>
           			</c:when>	
           			<c:otherwise>
           				<c:forEach var="board" items="${qnaList}">
 	              		<tr>		
-		              		<td>${board.qnaNo}</td>
+	              			<jsp:useBean id="now" class="java.util.Date"></jsp:useBean>
+	              			<fmt:formatDate var="today" value="${now}" pattern="yyyy-MM-dd"/>
+	              			<fmt:formatDate var="createDate" value="${board.qnaCreateDate}" pattern="yyyy-MM-dd"/>
+	              			<fmt:formatDate var="createTime" value="${board.qnaCreateDate}" pattern="hh:mm:ss"/>
+	              			<td>
+		              			<c:if test="${today == createDate}">
+	              			<span class="badge badge-primary new">new</span>
+		              			</c:if>
+		              		<span>${board.qnaNo}</span>
+		              		</td>
 		              		<td>${board.qnaCategory}</td>
 		              		<td>${board.qnaTitle}</td>
 		              		<td>${board.qnaContent}</td>
 		              		<td>${board.writerNick}</td>
 		              		<td>
-		              			<jsp:useBean id="now" class="java.util.Date"></jsp:useBean>
-		              			<fmt:formatDate var="today" value="${now}" pattern="yyyy-MM-dd"/>
-		              			<fmt:formatDate var="createDate" value="${board.qnaCreateDate}" pattern="yyyy-MM-dd"/>
-		              			<fmt:formatDate var="createTime" value="${board.qnaCreateDate}" pattern="hh:mm:ss"/>
-		              			
 		              			<c:choose>
-		              				<c:when test="${today == createDate }">
-		              					${createTime}
-		              				</c:when>
-		              				<c:otherwise>
-		              				${createDate}
-		              				</c:otherwise>
+		              				<c:when test="${today == createDate }">${createTime}</c:when>
+		              				<c:otherwise>${createDate}</c:otherwise>
 		              			</c:choose>
 		              		</td>
-		              		<td>${board.qnaStatus}</td>
 	              		</tr>	
           				</c:forEach>
           			</c:otherwise>
@@ -148,12 +146,16 @@
     
     <script>
     $("td").on("click",function(){
-    	var boardNo = $(this).parent().children().eq(0).text(); 
+    	if($(".new")){
+    		var boardNo = $(this).parent().children().children().eq(0).text(); 				
+    	}else{
+    		var boardNo = $(this).parent().children().children().eq(1).text(); 	
+    	}
     	
     	location.href = "noticeView/"+boardNo;
     }).on("mouseenter", function(){
     	$(this).parent().css("cursor", "pointer");
-    });
+    });  
     </script>    
     </body>
 </html>

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.sogon.member.model.vo.Member;
+import com.kh.sogon.mypage.model.vo.ReportMember;
 import com.kh.sogon.room.model.vo.Room;
 import com.kh.sogon.room.model.vo.RoomMember;
 import com.kh.sogon.board.model.vo.Board;
@@ -21,15 +22,13 @@ public class MypageDAO {
 	@Autowired
 	private SqlSessionTemplate sqlSession;
 
-	
 	/** 비밀번호 확인 DAO
 	 * @param memberNo
 	 * @return result
 	 */
 	public String checkPwd(int memberNo) {
-		return sqlSession.selectOne("myapageMapper.checkPwd", memberNo);
+		return sqlSession.selectOne("mypageMapper.checkPwd", memberNo);
 	}
-
 
 	/** 회원 정보 수정 DAO
 	 * @param loginMember
@@ -37,7 +36,7 @@ public class MypageDAO {
 	 * @return result
 	 */
 	public int updateInfo(Member upMember) {
-		return sqlSession.update("myapageMapper.updateInfo", upMember);
+		return sqlSession.update("mypageMapper.updateInfo", upMember);
 	}
 
 	/** 회원 탈퇴 DAO
@@ -207,5 +206,46 @@ public class MypageDAO {
 	}
 
 
+	public int selectBoardNo() {
+		return sqlSession.selectOne("mypageMapper.selectBoardNo");
+	}
+
+
+	public int noticeWrite(Board board) {
+		return sqlSession.insert("mypageMapper.noticeWrite", board);
+	}
+
+
+	public int restoreReport(int boardNo) {
+		return sqlSession.update("mypageMapper.restoreReport", boardNo);
+	}
+
+	public List<ReportMember> findMember(String memberNick) {
+		return sqlSession.selectList("mypageMapper.findMember", memberNick);
+	}
+
+
+	public int insertMember(ReportMember member) {
+		return sqlSession.insert("mypageMapper.insertMember", member);
+	}
+
+
+	public int updateReport(ReportMember member) {
+		return sqlSession.update("mypageMapper.updateReport", member);
+	}
+
+
+	public int restoreMember(int memberNo) {
+		return sqlSession.update("mypageMapper.restoreMember", memberNo);
+	}
+
+	public int updateNotice(Board notice) {
+		return sqlSession.update("mypageMapper.updateNotice", notice);
+	}
+
+	public Help helpView(int boardNo) {
+		return sqlSession.selectOne("mypageMapper.helpView", boardNo);
+	}
+	
 	
 }

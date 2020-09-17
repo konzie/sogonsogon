@@ -53,20 +53,25 @@
   <div class="content">
   <jsp:include page="adminpage2.jsp"/>
 	<div class="content2">       
-      <h4 class="mb-5">공지사항 상세조회</h4>
+      <h4 class="mb-5">신고게시글 상세조회</h4>
       
       <hr>
-      <h3 id="title">${notice.qnaTitle}</h3><h6 id="category"> [카테고리 : ${notice.qnaCategory}]</h6>
+      <h3 id="title">${report.qnaTitle}</h3><h6 id="category"> [카테고리 : ${report.qnaCategory}]</h6>
       <hr>
       <div>
-		<p id="writer"> 작성자 : ${notice.writerNick} </p><p id="date">${notice.qnaModifyDate}</p>
+		<p id="writer"> 작성자 : ${report.writerNick} </p><p id="date">${report.qnaCreateDate}</p>
 	  </div>
-		<div id="board-content">${notice.qnaContent}</div>
+		<div id="board-content">${report.qnaContent}
+		<p style="color:red;">
+			<br><br>-------------------------------<br>신고된 게시글 입니다
+		</p>
+		</div>
 		<hr>
 		<div class="float-right">
-		<button type="button" class="btn btn-warning" onclick="location.href ='../updateNotice/${notice.qnaNo}'">수정</button>
-		<button type="button" class="btn btn-warning" onclick="location.href ='../deleteNotice/${notice.qnaNo}'">삭제</button>
-		<button type="button" class="btn btn-warning" onclick="location.href ='../adminnotice'">목록으로</button>
+
+		<button type="button" class="btn btn-danger" onclick="location.href ='../updateReport/${report.writerNick}/${report.qnaNo}'">삭제</button>
+		<button type="button" class="btn btn-dark" onclick="location.href ='../restoreReport/${report.writerNick}/${report.qnaNo}'">복원</button>
+		<button type="button" class="btn btn-warning" onclick="location.href ='../adminreport'">목록으로</button>
 		</div>
 		</div>
 	</div>    

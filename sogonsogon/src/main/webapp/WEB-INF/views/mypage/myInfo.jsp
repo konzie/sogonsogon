@@ -35,7 +35,7 @@
   <jsp:include page="mypage2.jsp"/>
   <div class="content2">           
 	   <h4 class="mb-5">회원정보 수정</h4>
-		<form action="myInfoView" onsubmit="return checkPwd();" class="form-horizontal" role="form">
+		<form action="myInfoView" onsubmit="return validate();" class="form-horizontal" role="form">
     
 		<div class="row mb-3 form-row">
 			<div class="col-md-3">
@@ -60,7 +60,7 @@
              </div>
 			<hr>
 	    	<div align="right">
-	    	<button type="submit">확인</button>
+	    	<button type="submit" id="myInfoBtn" >확인</button>
 	    	</div>
 	    </div>
 	   </form>
@@ -70,10 +70,16 @@
 	   
 	 <script>		
 	 
-	 	console.log($("#memberPass").val());
-		$("#memberPass").on("input",function(){
+	 var $memberPass = $("#memberPass");
+	 var $myInfoBtn = $("#myInfoBtn");
+	 
+	 var myInfoCheck = {
+		"checkPwd":false
+	 }
+
+ 	$memberPass.on("input",function(){
+			console.log($("#memberPass").val());
 			
-			var checkPwd;
 			
 			$.ajax({
 				url : "${contextPath}/mypage/checkPwd",
@@ -82,29 +88,43 @@
 				success : function(result){
 					if(result==0){
 						$("#checkPass").text("비밀번호가 일치합니다.").css("color","green");
-						checkPwd = true;
+						myInfoCheck.checkPwd = true;
 					}else{
 						$("#checkPass").text("비밀번호가 일치하지 않습니다.").css("color","red");
-						checkPwd = false;
+						myInfoCheck.checkPwd = false;
 					}
+					
 				},
 				error : function(){
 					console.log("비밀번호 확인 실패");
 				}
 			})
 		});
+ 	
 		
-
-		function checkPwd(){
-				if($("#memberPass").val() == ""){
-					alert("비밀번호를 입력해주세요");
-					$("#memberPass").focus();
-		
+		//----------------------------------------------------------------------
+	
+	//submit 동작
+	
+	function validate(){
+			for(var key in myInfoCheck){
+				
+				if(!myInfoCheck[key]){
+					var msg;
+					switch(key){
+					case "checkPwd" : msg="비밀번호를 "; break;
+					
+					}
+					
+					alert(msg + "확인해주세요.");
+					var el = "#"+key;
+					$(el).focus();
 					return false;
-				}else{
-					return checkPwd;
 				}
-		};
+			}
+	};
+		
+		
 	</script>
 </body>
 </html>
