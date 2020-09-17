@@ -70,6 +70,9 @@ public interface BoardService {
 	
 	public abstract List<Board> selectSerchList(PageInfo pInfo, Search search);
 
+	// 메인화면 list 조회
+	public abstract List<Board> mainBoardList();
+
 	
 	
 	

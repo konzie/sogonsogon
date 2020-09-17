@@ -13,6 +13,7 @@
         <result property="qnaCreateDate" column="QNA_CREATE_DATE"/>
      	<result property="qnaWriter" column="QNA_WRITER"/>
      	<result property="qnaCategory" column="QNA_CATEGORY"/>
+     	<result property="writerNick" column="MEMBER_NICK"/>
      	
     </resultMap>
     
@@ -116,6 +117,13 @@
  		DELETE FROM ATTACHMENT
  		WHERE PARENT_BOARD_NO = #{qnaNo}
  	</delete>
+ 	
+ 	<select id="mainBoardList" resultType="list" resultMap="boardResultSet">
+ 	    SELECT * FROM (SELECT QNA_NO,QNA_CATEGORY,QNA_TITLE,MEMBER_NICK
+		FROM QNABOARD JOIN MEMBER ON(QNA_WRITER=MEMBER_NO)
+		WHERE QNA_STATUS = 'Y' ORDER BY QNA_NO DESC)
+		<![CDATA[ WHERE ROWNUM <=3 ]]>
+ 	</select>
  	
 </mapper>
 
