@@ -62,5 +62,13 @@ public class HelpDAO {
 		return sqlSession.insert("helpMapper.insertHelp", help);
 	}
 
+	/** 문의글 삭제 DAO
+	 * @param helpNo
+	 * @return result
+	 */
+	public int deleteHelp(int helpNo) {
+		return sqlSession.update("helpMapper.deleteHelp", helpNo);
+	}
+
 
 }
