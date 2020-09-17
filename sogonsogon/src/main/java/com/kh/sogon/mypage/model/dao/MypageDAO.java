@@ -220,8 +220,8 @@ public class MypageDAO {
 		return sqlSession.update("mypageMapper.restoreReport", boardNo);
 	}
 
-	public ReportMember findMember(String memberNick) {
-		return sqlSession.selectOne("mypageMapper.findMember", memberNick);
+	public List<ReportMember> findMember(String memberNick) {
+		return sqlSession.selectList("mypageMapper.findMember", memberNick);
 	}
 
 
@@ -235,8 +235,8 @@ public class MypageDAO {
 	}
 
 
-	public int restoreMember(String writerNick) {
-		return sqlSession.update("mypageMapper.restoreMember", writerNick);
+	public int restoreMember(int memberNo) {
+		return sqlSession.update("mypageMapper.restoreMember", memberNo);
 	}
 
 	public int updateNotice(Board notice) {

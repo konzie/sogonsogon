@@ -30,20 +30,27 @@ public class MypageServiceImpl implements MypageService{
 	private PageInfo pInfo;
 	   
 	// 비밀번호 확인 Service 구현
-	@Transactional(rollbackFor = Exception.class)	
-	@Override
-	public int checkPwd(Member loginMember) {
-		String savePwd = mypageDAO.checkPwd(loginMember.getMemberNo());
-		
-		int result = 1;
-		
-		if(savePwd != null) {
-			if(bcPwd.matches(loginMember.getMemberPwd(), savePwd)) {
-				result=0;
-			}
-		}
-			return result;
-	}
+	   @Transactional(rollbackFor = Exception.class)   
+	   @Override
+	   public int checkPwd(Member loginMember) {
+	      String savePwd = mypageDAO.checkPwd(loginMember.getMemberNo());
+	      
+	      int result = 1;
+	      
+	      if(savePwd != null) {
+	         if(bcPwd.matches(loginMember.getMemberPwd(), savePwd)) {
+	            result=0;
+	         } else { //임시 비밀번호 발급받은 사람일때
+	            
+	            if (loginMember.getMemberPwd().equals(savePwd)) {
+	               
+	               result=0;
+	            } 
+	            
+	         }
+	      }
+	         return result;
+	   }
 
 	// 회원정보 수정 Service 구현
 	@Transactional(rollbackFor = Exception.class)
@@ -232,13 +239,27 @@ public class MypageServiceImpl implements MypageService{
 		
 		int boardNo = mypageDAO.selectBoardNo();
 		
-		if(boardNo!=0) {
+		if(boardNo>0) {
+			board.setQnaContent(replaceParameter(board.getQnaContent()));
 			board.setQnaNo(boardNo);
 		}
 		
 		return mypageDAO.noticeWrite(board);
 	}
+	
+	// 크로스 사이트 스크립트 방지 메소드
+	private String replaceParameter(String param) {
+        String result = param;
+        if(param != null) {
+            result = result.replaceAll("&", "&amp;");
+            result = result.replaceAll("<", "&lt;");
+            result = result.replaceAll(">", "&gt;");
+            result = result.replaceAll("\"", "&quot;");
+        }
 
+        return result;
+    }
+	
 	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public int restoreReport(int boardNo) {
@@ -248,21 +269,27 @@ public class MypageServiceImpl implements MypageService{
 	// 신고받은 게시글 작성자 찾기 Service 구현
 	@Transactional(rollbackFor = Exception.class)
 	@Override
-	public ReportMember findMember(ReportMember member) {
-		ReportMember findMember = mypageDAO.findMember(member.getMemberNick());
-		System.out.println("찾은 findMember : " + findMember);
+	public int findMember(ReportMember member) {
+		List<ReportMember> memberList = mypageDAO.findMember(member.getMemberNick());
 		
-		if(findMember==null) {
-			System.out.println("비어있으면 새로 추가");
-			int result = mypageDAO.insertMember(member);
+		int memberNo=0;
+		if(memberList.size()>0) {
+
+			memberNo = memberList.get(0).getMemberNo();
 			
+		}else {
+			
+			int result = mypageDAO.insertMember(member);
+
 			if(result>0) {
-				findMember = mypageDAO.findMember(member.getMemberNick());
-				System.out.println("추가한 findMember :" +findMember);
+				memberList = mypageDAO.findMember(member.getMemberNick());
+		
+				memberNo = memberList.get(0).getMemberNo();
+
 			}
 		}
 		
-		return findMember;
+		return memberNo;
 	}
 
 	@Transactional(rollbackFor = Exception.class)
@@ -273,8 +300,8 @@ public class MypageServiceImpl implements MypageService{
 
 	@Transactional(rollbackFor = Exception.class)
 	@Override
-	public int restoreMember(String writerNick) {
-		return mypageDAO.restoreMember(writerNick);
+	public int restoreMember(int memberNo) {
+		return mypageDAO.restoreMember(memberNo);
 	}
 
 	@Transactional(rollbackFor = Exception.class)

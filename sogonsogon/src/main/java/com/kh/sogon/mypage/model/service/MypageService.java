@@ -166,7 +166,7 @@ public interface MypageService {
 	/** 신고받은 게시글 작성자 찾기 Service
 	 * @param memberNick
 	 */
-	public abstract ReportMember findMember(ReportMember member);
+	public abstract int findMember(ReportMember member);
 
 	/**경고 count++ Service
 	 * @param memberNo
@@ -177,7 +177,7 @@ public interface MypageService {
 	/** 멤버 status 복원 Service
 	 * @param writerNick
 	 */
-	public abstract int restoreMember(String writerNick);
+	public abstract int restoreMember(int memberNo);
 
 	/** 공지사항 수정 Service
 	 * @param notice

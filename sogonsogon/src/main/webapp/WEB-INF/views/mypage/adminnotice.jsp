@@ -78,8 +78,8 @@
 		              		<td>${board.writerNick}</td>
 		              		<td>
 		              			<c:choose>
-		              				<c:when test="${today == modifyDate }">${modifyTime}</c:when>
-		              				<c:otherwise>${modifyDate}</c:otherwise>
+		              				<c:when test="${today == createDate }">${createTime}</c:when>
+		              				<c:otherwise>${createDate}</c:otherwise>
 		              			</c:choose>
 		              		</td>
 	              		</tr>	
