@@ -81,7 +81,7 @@ public class MemberServiceImpl implements MemberService {
 	  
 	        sendMail.setText(
 	                new StringBuffer().append("<h1>메일인증</h1>")
-	                					.append("<a href='http://localhost:12003/sogon/member/emailConfirm?memberId=").
+	                					.append("<a href='http://localhost:8080/sogon/member/emailConfirm?memberId=").
 	                							append(signUpMember.getMemberId()).
 												append("&authKey=").append(key).
 												append("' target='_blank'>이메일 인증 확인</a>").toString());

@@ -40,6 +40,13 @@ public class MypageServiceImpl implements MypageService{
 		if(savePwd != null) {
 			if(bcPwd.matches(loginMember.getMemberPwd(), savePwd)) {
 				result=0;
+			} else { //임시 비밀번호 발급받은 사람일때
+				
+				if (loginMember.getMemberPwd().equals(savePwd)) {
+					
+					result=0;
+				} 
+				
 			}
 		}
 			return result;
