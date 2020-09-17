@@ -86,6 +86,28 @@ header.masthead h1 {
 .nav-up {
 	top: -50px;
 }
+
+
+.modal-dialog{
+	display:inline-block;
+	display:inline;
+	align-content:center;
+
+}
+
+.modal-content{
+	display:inline-block;
+	display:inline;
+
+	}
+	
+/* #modal-container-1{
+	width:700px;
+	
+	} */
+
+
+
 </style>
 <!-- sweetalert : alert창을 꾸밀 수 있게 해주는 라이브러리 https://sweetalert.js.org/ -->
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
