@@ -115,17 +115,15 @@
           			</c:when>	
           			<c:otherwise>
           				<c:forEach var="board" items="${reportList}">
-	              		<tr>
-		              		<jsp:useBean id="now1" class="java.util.Date"></jsp:useBean>
+	              		<tr>		
+	              			<jsp:useBean id="now1" class="java.util.Date"></jsp:useBean>
 	              			<fmt:formatDate var="today" value="${now1}" pattern="yyyy-MM-dd"/>
 	              			<fmt:formatDate var="createDate" value="${board.qnaCreateDate}" pattern="yyyy-MM-dd"/>
 	              			<fmt:formatDate var="createTime" value="${board.qnaCreateDate}" pattern="hh:mm:ss"/>
-		              		<td>
-		              		<c:choose>
-			              		<c:when test="${today == createDate}">
-			              			<span class="badge badge-primary new">new</span>
-			              		</c:when>
-		              		</c:choose>
+	              			<td>
+		              			<c:if test="${today == createDate}">
+	              			<span class="badge badge-primary new">new</span>
+		              			</c:if>
 		              		<span>${board.qnaNo}</span>
 		              		</td>
 		              		<td>${board.qnaCategory}</td>
@@ -147,7 +145,7 @@
             </table>
 	   	</div>
 	   	
-	   	<div id="qna" class="board">
+	   	<div id="help" class="board">
 	   		<h4 class="mb-1 tableTitle"><a href="adminhelp">고객센터</a></h4><button class="btn btn-outline-secondary btn-sm tableButton" onclick="location.href ='adminhelp'">메뉴로 이동</button>
        <table class="table table-striped table-hover">
                 <thead>
@@ -170,17 +168,15 @@
           			</c:when>	
           			<c:otherwise>
           				<c:forEach var="board" items="${helpList}">
-	              		<tr>		              		
+	              		<tr>		
 	              			<jsp:useBean id="now2" class="java.util.Date"></jsp:useBean>
 	              			<fmt:formatDate var="today" value="${now2}" pattern="yyyy-MM-dd"/>
 	              			<fmt:formatDate var="createDate" value="${board.helpCreateDate}" pattern="yyyy-MM-dd"/>
 	              			<fmt:formatDate var="createTime" value="${board.helpCreateDate}" pattern="hh:mm:ss"/>
-		              		<td>
-		              		<c:choose>
-			              		<c:when test="${today == createDate}">
-			              			<span class="badge badge-primary new">new</span>
-			              		</c:when>
-		              		</c:choose>
+	              			<td>
+		              			<c:if test="${today == createDate}">
+	              			<span class="badge badge-primary new">new</span>
+		              			</c:if>
 		              		<span>${board.helpNo}</span>
 		              		</td>		
 		              		<td>${board.helpCategory}</td>
@@ -232,11 +228,9 @@
 	              			<fmt:formatDate var="createDate" value="${board.qnaCreateDate}" pattern="yyyy-MM-dd"/>
 	              			<fmt:formatDate var="createTime" value="${board.qnaCreateDate}" pattern="hh:mm:ss"/>
 	              			<td>
-	              			<c:choose>
-		              			<c:when test="${today == createDate}">
-		              				<span class="badge badge-primary new">new</span>
-		              			</c:when>
-		              		</c:choose>
+		              			<c:if test="${today == createDate}">
+	              			<span class="badge badge-primary new">new</span>
+		              			</c:if>
 		              		<span>${board.qnaNo}</span>
 		              		</td>
 		              		<td>${board.qnaCategory}</td>
@@ -336,14 +330,36 @@ $(function(){
 $(".new").parent().parent().css("background-color","bisque");
 
 $("#report td:not(:last-child)").on("click",function(){
-	var boardNo = $(this).parent().children().children().eq(1).text(); 
+	if($(this).parent().children().children().eq(0).text()=="new"){
+		var boardNo = $(this).parent().children().children().eq(1).text(); 				
+	}else{
+		var boardNo = $(this).parent().children().children().eq(0).text(); 	
+	}
 	location.href = "${contextPath}/mypage/reportView/"+boardNo;
 }).on("mouseenter", function(){
 	$(this).parent().css("cursor", "pointer");
 });  
 
+$("#help td:not(:last-child)").on("click",function(){
+
+	if($(this).parent().children().children().eq(0).text()=="new"){
+		var boardNo = $(this).parent().children().children().eq(1).text(); 				
+	}else{
+		var boardNo = $(this).parent().children().children().eq(0).text(); 	
+	}
+	location.href = "${contextPath}/mypage/helpView/"+boardNo;
+}).on("mouseenter", function(){
+	$(this).parent().css("cursor", "pointer");
+});  
+
+
 $("#notice td:not(:last-child)").on("click",function(){
-	var boardNo = $(this).parent().children().children().eq(1).text(); 
+
+	if($(this).parent().children().children().eq(0).text()=="new"){
+		var boardNo = $(this).parent().children().children().eq(1).text(); 				
+	}else{
+		var boardNo = $(this).parent().children().children().eq(0).text(); 	
+	}
 	location.href = "${contextPath}/mypage/noticeView/"+boardNo;
 }).on("mouseenter", function(){
 	$(this).parent().css("cursor", "pointer");

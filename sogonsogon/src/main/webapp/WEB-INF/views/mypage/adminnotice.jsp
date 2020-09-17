@@ -62,24 +62,24 @@
           			<c:otherwise>
           				<c:forEach var="board" items="${qnaList}">
 	              		<tr>		
-		              		<td>${board.qnaNo}</td>
+	              			<jsp:useBean id="now" class="java.util.Date"></jsp:useBean>
+	              			<fmt:formatDate var="today" value="${now}" pattern="yyyy-MM-dd"/>
+	              			<fmt:formatDate var="createDate" value="${board.qnaCreateDate}" pattern="yyyy-MM-dd"/>
+	              			<fmt:formatDate var="createTime" value="${board.qnaCreateDate}" pattern="hh:mm:ss"/>
+	              			<td>
+		              			<c:if test="${today == createDate}">
+	              			<span class="badge badge-primary new">new</span>
+		              			</c:if>
+		              		<span>${board.qnaNo}</span>
+		              		</td>
 		              		<td>${board.qnaCategory}</td>
 		              		<td>${board.qnaTitle}</td>
 		              		<td>${board.qnaContent}</td>
 		              		<td>${board.writerNick}</td>
 		              		<td>
-		              			<jsp:useBean id="now" class="java.util.Date"></jsp:useBean>
-		              			<fmt:formatDate var="today" value="${now}" pattern="yyyy-MM-dd"/>
-		              			<fmt:formatDate var="modifyDate" value="${board.qnaModifyDate}" pattern="yyyy-MM-dd"/>
-		              			<fmt:formatDate var="modifyTime" value="${board.qnaModifyDate}" pattern="hh:mm:ss"/>
-		              			
 		              			<c:choose>
-		              				<c:when test="${today == modifyDate }">
-		              					${modifyTime}
-		              				</c:when>
-		              				<c:otherwise>
-		              				${modifyDate}
-		              				</c:otherwise>
+		              				<c:when test="${today == createDate }">${createTime}</c:when>
+		              				<c:otherwise>${createDate}</c:otherwise>
 		              			</c:choose>
 		              		</td>
 	              		</tr>	
@@ -146,12 +146,16 @@
     
     <script>
     $("td").on("click",function(){
-    	var boardNo = $(this).parent().children().eq(0).text(); 
+    	if($(".new")){
+    		var boardNo = $(this).parent().children().children().eq(0).text(); 				
+    	}else{
+    		var boardNo = $(this).parent().children().children().eq(1).text(); 	
+    	}
     	
     	location.href = "noticeView/"+boardNo;
     }).on("mouseenter", function(){
     	$(this).parent().css("cursor", "pointer");
-    });
+    });  
     </script>    
     </body>
 </html>

@@ -62,17 +62,15 @@
           			</c:when>	
           			<c:otherwise>
           				<c:forEach var="board" items="${reportList}">
-	              		<tr>
-		              		<jsp:useBean id="now1" class="java.util.Date"></jsp:useBean>
-	              			<fmt:formatDate var="today" value="${now1}" pattern="yyyy-MM-dd"/>
+	              		<tr>		
+	              			<jsp:useBean id="now" class="java.util.Date"></jsp:useBean>
+	              			<fmt:formatDate var="today" value="${now}" pattern="yyyy-MM-dd"/>
 	              			<fmt:formatDate var="createDate" value="${board.qnaCreateDate}" pattern="yyyy-MM-dd"/>
 	              			<fmt:formatDate var="createTime" value="${board.qnaCreateDate}" pattern="hh:mm:ss"/>
-		              		<td>
-		              		<c:choose>
-			              		<c:when test="${today == createDate}">
-			              			<span class="badge badge-primary new">new</span>
-			              		</c:when>
-		              		</c:choose>
+	              			<td>
+		              			<c:if test="${today == createDate}">
+	              			<span class="badge badge-primary new">new</span>
+		              			</c:if>
 		              		<span>${board.qnaNo}</span>
 		              		</td>
 		              		<td>${board.qnaCategory}</td>
@@ -149,7 +147,11 @@
     $(".new").parent().parent().css("background-color","bisque");
 
     $("td:not(:last-child)").on("click",function(){
-    	var boardNo = $(this).parent().children().eq(0).text(); 
+    	if($(this).parent().children().children().eq(0).text()=="new"){
+    		var boardNo = $(this).parent().children().children().eq(1).text(); 				
+    	}else{
+    		var boardNo = $(this).parent().children().children().eq(0).text(); 	
+    	}
     	location.href = "${contextPath}/mypage/reportView/"+boardNo;
     }).on("mouseenter", function(){
     	$(this).parent().css("cursor", "pointer");

@@ -140,7 +140,7 @@ header.masthead h1 {
 	            		<c:otherwise>
 	            		    <c:choose>
 	            			<c:when test="${loginMember.getMemberGrade().equals('G')}">
-                         		<li class="nav-item"><a class="nav-link js-scroll-trigger" href="${contextPath}/mypage/myroom">${loginMember.memberName}</a></li>
+                         		<li class="nav-item"><a class="nav-link js-scroll-trigger" href="${contextPath}/mypage/mypage">${loginMember.memberName}</a></li>
                          	</c:when>
                          	<c:otherwise>
                          		<li class="nav-item"><a class="nav-link js-scroll-trigger" href="${contextPath}/mypage/adminpage">${loginMember.memberName}</a></li>

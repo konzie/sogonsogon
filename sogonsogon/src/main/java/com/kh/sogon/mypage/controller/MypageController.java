@@ -36,6 +36,12 @@ public class MypageController {
 	@Autowired
 	private MypageService mypageService;
 	
+	@RequestMapping("mypage")
+	public String mypage(Model model) {	
+	
+		return "mypage/mypagemain";
+	}
+	
 	@RequestMapping("adminpage")
 	public String adminpage(Model model) {
 		
@@ -99,11 +105,17 @@ public class MypageController {
 
 		List<RoomMember> roomMemberList = mypageService.selectRoomMemberList(loginMember.getMemberNo());
 		
-		PageInfo pInfo = mypageService.roomPage(cp, roomMemberList);
-
-		pInfo.setLimit(6);
-		List<Room> roomList = mypageService.selectRoomList(pInfo, roomMemberList);
+		System.out.println(roomMemberList);
 		
+		PageInfo pInfo = null;
+		List<Room> roomList = null;
+		
+		if(roomMemberList.size()>0) {
+			pInfo = mypageService.roomPage(cp, roomMemberList);
+			pInfo.setLimit(6);
+			roomList = mypageService.selectRoomList(pInfo, roomMemberList);
+		}
+
 		model.addAttribute("roomList", roomList);
 		model.addAttribute("pInfo", pInfo);
 		
@@ -346,6 +358,7 @@ public class MypageController {
 		
 		return "redirect:"+url;
 		}	
+	
 	@RequestMapping("reportView/{boardNo}")
 	public String reportView(@PathVariable int boardNo, Model model) {
 		
@@ -355,6 +368,16 @@ public class MypageController {
 		model.addAttribute("report", report);
 		
 		return "mypage/reportView";
+	}
+	
+	@RequestMapping("helpView/{boardNo}")
+	public String helpView(@PathVariable int boardNo, Model model) {
+		
+		Help help = mypageService.helpView(boardNo);
+
+		model.addAttribute("help", help);
+		
+		return "mypage/helpView";
 	}
 	
 	@RequestMapping("noticeWrite")
@@ -477,12 +500,13 @@ public class MypageController {
 		
 		member.setBoardNo(boardNo);
 		member.setMemberNick(memberNick);
+
+		int memberNo = mypageService.findMember(member);
 		
-		System.out.println("전달받은 신고 멤버 : " + member);
-		ReportMember findMember = mypageService.findMember(member);
-		System.out.println("findMember 찾음");
-		int result= mypageService.updateReport(findMember);
-		System.out.println("경고 +1 완료");
+		member.setMemberNo(memberNo);
+
+		int result= mypageService.updateReport(member);
+
 		String status = null;
 		String msg = null;
 		
@@ -514,7 +538,7 @@ public class MypageController {
 		rdAttr.addFlashAttribute("status",status);
 		rdAttr.addFlashAttribute("msg",msg);
 		
-		return "mypage/adminreport";
+		return "redirect:/mypage/adminreport";
 	}
 	
 	private int deleteReport(int boardNo) {
@@ -534,8 +558,8 @@ public class MypageController {
 		member.setMemberNick(writerNick);
 		int result2=0;
 		if(result > 0) {
-			ReportMember rmember = mypageService.findMember(member);
-			result2 = mypageService.restoreMember(writerNick);
+			int memberNo = mypageService.findMember(member);
+			result2 = mypageService.restoreMember(memberNo);
 		}
 		
 		String status = null;
@@ -567,5 +591,10 @@ public class MypageController {
 		}
 		
 		return url;
+	}
+	
+	@RequestMapping("answerhelp/{boardNo}")
+	public String answerhelp() {
+		return "";
 	}
 }
