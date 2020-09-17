@@ -88,18 +88,25 @@ header.masthead h1 {
 }
 
 
-.modal-dialog{
+#loginModal{
 	display:inline-block;
 	display:inline;
-	align-content:center;
+	margin:auto;
 
 }
 
-.modal-content{
+#loginModalContent{
 	display:inline-block;
 	display:inline;
-
+	margin:auto;
 	}
+	
+#loginModalFooter, #loginModalHeader,#modalBody{
+	margin:auto;
+}
+ #loginModalHeader {
+ 	padding : 50px;
+ }
 	
 /* #modal-container-1{
 	width:700px;
@@ -187,15 +194,12 @@ header.masthead h1 {
         </header>
         
        <div class="modal fade" id="modal-container-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-		<div class="modal-dialog" role="document" style="align-content: center;">
-			<div class="modal-content" style="width: 767px;">
-				<div class="modal-header">
-					<h5 class="modal-title" id="myModalLabel">소곤소곤 로그인</h5>
-					<button type="button" class="close" data-dismiss="modal">
-						<span aria-hidden="true">×</span>
-					</button>
+		<div class="modal-dialog" role="document" style="align-content: center;" style="width: 767px;" id="loginModal">
+			<div class="modal-content" style="width: 767px;" id="loginModalContent">
+				<div class="modal-header" style="width: 767px;" id="loginModalHeader">
+					
 				</div>
-				<div class="modal-body">
+				<div class="modal-body" style="width: 767px;" id="modalBody">
 		
 	  <div class="container">
       <div class="card login-card">
@@ -243,7 +247,7 @@ header.masthead h1 {
    
 				</div>
 				
-				<div class="modal-footer">
+				<div class="modal-footer" style="width: 767px;" id="loginModalFooter">
 					<button type="button" class="btn btn-secondary"
 						data-dismiss="modal">Close</button>
 				</div>
