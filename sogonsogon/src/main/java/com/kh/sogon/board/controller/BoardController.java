@@ -263,14 +263,13 @@ public class BoardController {
 			return "board/boardList";
 		}
 		
-		
+		// 메인 자유게시판 조회
 		@ResponseBody
 		@RequestMapping("mainBoardList")
 		public String mainBoardList() {
 			List<Board> boardList = boardService.mainBoardList();
-
+			
 			Gson gson = new Gson();
-			gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 			return gson.toJson(boardList);
 		}
 		

@@ -259,6 +259,14 @@ public class MypageDAO {
 	public HelpAnswer selectAnswer(int boardNo) {
 		return sqlSession.selectOne("mypageMapper.selectAnswer", boardNo);
 	}
+
+	
+	/** 메인 공지사항 조회
+	 * @return list
+	 */
+	public List<Board> mainNoticeList() {
+		return  sqlSession.selectList("mypageMapper.mainNoticeList", null);
+	}
 	
 	
 }

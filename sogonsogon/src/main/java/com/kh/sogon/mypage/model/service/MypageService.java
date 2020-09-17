@@ -207,4 +207,6 @@ public interface MypageService {
 
 	public abstract HelpAnswer selectAnswer(int boardNo);
 
+	public abstract List<Board> mainNoticeList();
+
 }

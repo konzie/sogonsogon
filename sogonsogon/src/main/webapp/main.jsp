@@ -195,6 +195,8 @@
 	.container{
 		width: 100%;
 	}
+	
+
 
 </style>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -259,7 +261,7 @@
             <p>
             <h2>자유게시판</h2>
             </p>
-            <table class="table" >
+            <table class="table"  style="border-spacing:5px 10px;">
                <thead>
                   <tr>
                      <th>글번호</th>
@@ -268,17 +270,17 @@
                      <th>작성자</th>
                   </tr>
                </thead>
-               <tbody id="freeboard">
-             
+               <tbody id="freeboard"  class="freeBoard">
                </tbody>
             </table>
          </div>
+         
          <div class="col-lg-6" align="center">
             <p>
-            <h2>Q&A게시판</h2>
+            <h2>공지사항</h2>
             </p>
-            <table class="table">
-               <thead>
+            <table class="table"   cellspacing="10">
+			<thead>
                   <tr>
                      <th>글번호</th>
                      <th>분류</th>
@@ -286,10 +288,7 @@
                      <th>작성자</th>
                   </tr>
                </thead>
-               <tbody>
-                  <tr>
-                     <td colspan="4" align="center"><strong>글 내용이 없습니다.</strong></td>
-                  </tr>
+               <tbody id="noticeBoard"  class="noticeBoard">
                </tbody>
             </table>
          </div>
@@ -476,40 +475,8 @@
 
 	
 	<script type="text/javascript">
-/* 		$(function() {
-			roomListView();
-		}); */
-		
-	/* 	function roomListView() {
-			$.ajax({
-				url : "room/roomListView",
-				dataType : "json",
-				success : function(roomList) {
-					$("#roomListArea").html(""); // 초기화
-					
-					$.each(roomList, function(index, item)) {
-						$div1 = $("<div>").addClass("col-lg-3");
-						$div2 = $("<div>").addClass("roomlist-box");
-						$img = $("<img>").attr("src", "${contextPath}/resources/images/clip.png");
-						
-						$p1 = $("<p>").addClass("room-content");
-						$p2 = $("<p>").addClass("category").text(item.tag);
-						$p3 = $("<p>").addClass("room-title").text(item.title);
-						$p4 = $("<p>").addClass("enter-number").html("방장 : <br>인원 : " );
-						
-						$div3 = $("<div>").attr("id", "tagbox");
-						$div4 = $("<div>").addClass("tags").text(item.tag);
-						
-					}
-					
-					
-				}, error : function() {
-					console.log("ajax 통신 실패");
-				}
-			});
-		} */
-		
-		
+	
+	// 방리스트 최신순 조회
 	$(function() {
 		$.ajax({
 			url: "${contextPath}/room/mainRoomList",
@@ -557,11 +524,9 @@
 			$("#join-button"+i).on("click",function(){
 				// 참여하기 버튼 눌렀을 때 방번호 얻기
 				var roomNo = $(this).next().text();
-				console.log(roomNo);
-				
+				//console.log(roomNo);
 				 $(".transPage").prop("action", "${contextPath}/room/roomDetail/"+ roomNo);
 				  
-				
 				$.ajax({
 					url : "${contextPath}/room/roomMList/"+roomNo,
 					type : "POST",
@@ -573,7 +538,6 @@
 						// 비공개 방인경우 비밀번호 입력창 사라짐
 						if(map.room.roomOpen == 'Y' ){
 							$(".pass-area").css("display","none");
-							
 						}
 						
 						// 로그인한 멤버가 이미 가입한 방일때 
@@ -601,40 +565,68 @@
 	});
 	
 	// ------------------자유게시판 실시간 조회-----------------------------
-		$(function() {
+		$(function(){
+			NewboardList(); 	// 함수 호출
+			// 일정시간(1분)마다 리스트 갱신
+			//setInterval(function(){NewboardList()}, 60000);
+
+		});
+		
+		function NewboardList(){
 			$.ajax({
 				url: "${contextPath}/board/mainBoardList",
-				dataType : "JSON",
+				dataType : "json",
 				success: function(boardList){
-					console.log(boardList);
+					//console.log(boardList);
 					
-					$("#freeBoard").html("");
-	
+					//$("#freeBoard").html(""); // 리스트 갱신을 위해 이전 내용 삭제
+					
 					$.each(boardList, function(index, item){
-						
 						var $tr = $("<tr>"); // 행
 						var $td1 = $("<td>").text(item.qnaNo);
 						var $td2 = $("<td>").text(item.qnaCategory);
 						var $td3 = $("<td>").text(item.qnaTitle);
-						var $td4 = $("<td>").text(item.writerNick);
-						
+						var $td4 = $("<td>").text(item.writerNick);		
 						
 						$tr.append($td1, $td2, $td3, $td4);
-						//console.log($tr);
 						
-						$("#freeBoard").append($tr);
+						$(".freeBoard").append($tr);
 					});
 					
-					
-				},error:function(){
+				},error : function(){
 					console.log("ajax 통신 실패");
 				}
-				
-			}); // ajax end
-		}); // ready함수 end
+			})
+		}
 		
-	//----------------------q&a게시판 실시간 조회----------------------------
-	// qna 게시판이 없어요...
+	//----------------------공지사항 실시간 조회----------------------------
+			$(function(){
+			$.ajax({
+				url: "${contextPath}/mypage/mainNoticeList",
+				dataType : "json",
+				success: function(noticeList){
+					console.log(noticeList);
+					
+					//$(".noticeBoard").html(""); // 리스트 갱신을 위해 이전 내용 삭제
+					
+					$.each(noticeList, function(index, item){
+						var $tr = $("<tr>"); // 행
+						var $td1 = $("<td>").text(item.qnaNo);
+						var $td2 = $("<td>").text(item.qnaCategory);
+						var $td3 = $("<td>").text(item.qnaTitle);
+						var $td4 = $("<td>").text(item.writerNick);		
+						
+						$tr.append($td1, $td2, $td3, $td4);
+						
+						$(".noticeBoard").append($tr);
+					});
+					
+				},error : function(){
+					console.log("ajax 통신 실패");
+				}
+			})
+
+			});
 	</script>
 </body>
 </html>
