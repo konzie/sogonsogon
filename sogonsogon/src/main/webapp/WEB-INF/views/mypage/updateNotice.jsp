@@ -42,11 +42,11 @@
   <jsp:include page="../common/header.jsp" />
   
   <div>
-  <jsp:include page="mypage.jsp" />
+  <jsp:include page="adminpage.jsp" />
   </div>
   
   <div class="content">
-  <jsp:include page="mypage2.jsp"/>
+  <jsp:include page="adminpage2.jsp"/>
   <div class="content2">       
 	   <h4 class="mb-5">공지사항 수정</h4>
 	    <form action="${contextPath}/mypage/updateNotice2/${notice.qnaNo}" method="post" role="form" onsubmit="return validate();">

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.sogon.member.model.vo.Member;
+import com.kh.sogon.mypage.model.vo.HelpAnswer;
 import com.kh.sogon.mypage.model.vo.ReportMember;
 import com.kh.sogon.room.model.vo.Room;
 import com.kh.sogon.room.model.vo.RoomMember;
@@ -224,7 +225,6 @@ public class MypageDAO {
 		return sqlSession.selectList("mypageMapper.findMember", memberNick);
 	}
 
-
 	public int insertMember(ReportMember member) {
 		return sqlSession.insert("mypageMapper.insertMember", member);
 	}
@@ -245,6 +245,15 @@ public class MypageDAO {
 
 	public Help helpView(int boardNo) {
 		return sqlSession.selectOne("mypageMapper.helpView", boardNo);
+	}
+
+	/** 고객센터 답변 작성 DAO
+	 * @param helpNo
+	 * @param answer
+	 * @return result
+	 */
+	public int insertAnswer(HelpAnswer helpAnswer) {
+		return sqlSession.insert("mypageMapper.insertAnswer", helpAnswer);
 	}
 	
 	

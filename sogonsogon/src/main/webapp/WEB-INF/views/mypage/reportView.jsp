@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -68,10 +69,17 @@
 		</div>
 		<hr>
 		<div class="float-right">
-
-		<button type="button" class="btn btn-danger" onclick="location.href ='../updateReport/${report.writerNick}/${report.qnaNo}'">삭제</button>
-		<button type="button" class="btn btn-dark" onclick="location.href ='../restoreReport/${report.writerNick}/${report.qnaNo}'">복원</button>
-		<button type="button" class="btn btn-warning" onclick="location.href ='../adminreport'">목록으로</button>
+		
+		<c:choose>
+		<c:when test="${loginMember.memberNo==1}">
+			<button type="button" class="btn btn-danger" onclick="location.href ='../updateReport/${report.writerNick}/${report.qnaNo}'">삭제</button>
+			<button type="button" class="btn btn-dark" onclick="location.href ='../restoreReport/${report.writerNick}/${report.qnaNo}'">복원</button>
+			<button type="button" class="btn btn-warning" onclick="location.href ='../adminreport'">목록으로</button>
+		</c:when>
+		<c:otherwise>
+			<button type="button" class="btn btn-warning" onclick="location.href ='../mypage'">돌아가기</button>
+		</c:otherwise>
+		</c:choose>
 		</div>
 		</div>
 	</div>    

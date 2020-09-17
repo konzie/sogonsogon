@@ -13,6 +13,7 @@ import com.kh.sogon.member.model.vo.Member;
 import com.kh.sogon.board.model.vo.PageInfo;
 import com.kh.sogon.board.model.vo.Reply;
 import com.kh.sogon.mypage.model.dao.MypageDAO;
+import com.kh.sogon.mypage.model.vo.HelpAnswer;
 import com.kh.sogon.mypage.model.vo.ReportMember;
 import com.kh.sogon.room.model.vo.Room;
 import com.kh.sogon.room.model.vo.RoomMember;
@@ -269,29 +270,16 @@ public class MypageServiceImpl implements MypageService{
 	// 신고받은 게시글 작성자 찾기 Service 구현
 	@Transactional(rollbackFor = Exception.class)
 	@Override
-	public int findMember(ReportMember member) {
-		List<ReportMember> memberList = mypageDAO.findMember(member.getMemberNick());
-		
-		int memberNo=0;
-		if(memberList.size()>0) {
-
-			memberNo = memberList.get(0).getMemberNo();
-			
-		}else {
-			
-			int result = mypageDAO.insertMember(member);
-
-			if(result>0) {
-				memberList = mypageDAO.findMember(member.getMemberNick());
-		
-				memberNo = memberList.get(0).getMemberNo();
-
-			}
-		}
-		
-		return memberNo;
+	public List<ReportMember> findMember(String memberNick) {
+		return mypageDAO.findMember(memberNick);
 	}
 
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public int insertMember(ReportMember member) {
+		return mypageDAO.insertMember(member);
+	}
+	
 	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public int updateReport(ReportMember member) {
@@ -310,9 +298,16 @@ public class MypageServiceImpl implements MypageService{
 		return mypageDAO.updateNotice(notice);
 	}
 
+	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public Help helpView(int boardNo) {
 		return mypageDAO.helpView(boardNo);
+	}
+
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public int insertAnswer(HelpAnswer helpAnswer) {
+		return mypageDAO.insertAnswer(helpAnswer);
 	}
 
 }

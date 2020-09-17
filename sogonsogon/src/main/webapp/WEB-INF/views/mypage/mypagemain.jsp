@@ -18,51 +18,11 @@
       float:left; 
       width:72%;
       height:100%;
+      padding : 10px 10px;
       }
       
-      .count{
-      	display: inline-block;
-      	border : 1px solid orange;
-      	height:10$;
-      	width:23%;
-      	text-align: center;
-      	font-size: 30px;
-      	font-weight: bold;
-      }
-      
-      .countDiv{
-      	height:5%;
-      	width:100%;
-      }
-      
-      #count{
-      	background-color: rgba(241, 158, 48,0.7);
-      }
-      
-      .board{
-      	border:solid 1px rgba(241, 158, 48,0.7);
-      }
-      
-      div{
-      	margin : 10px;
-      }
-      
-      .mb-1{
-      	padding : 10px;
-      }
-      
-      .tableTitle{
-      	display: inline-block;
-      }
-      
-      .tableTitle>a{
-        color:black;
-      	text-decoration: none;  
-      }
-      .tableButton{
-      	display:inline-block;
-      	float : right;
-      	margin:10px 5px;
+      *{
+      	text-decoration: none;
       }
 </style>
 </head>
@@ -77,20 +37,20 @@
   <div class="content">
   <jsp:include page="mypage2.jsp"/>
 	<div class="content2">       
-   <div class="countDiv">
-	  	<div class="count">
-	   		<p align="center" id="count">신고글</p><p id="reportCount"></p>
-	   	</div>
-	   	<div class="count">
-	   		<p align="center" id="count">고객센터</p><p id="qnaCount"></p>
-	   	</div>
-	   	<div class="count">
-	   		<p align="center" id="count">스터디 방</p><p id="roomCount"></p>
-	   	</div>
-	   	<div class="count">
-	   		<p align="center" id="count">가입 회원</p><p id="memberCount"></p>
-	   	</div>
-	  </div>
+	<div>
+		<c:choose>
+          	<c:when test="${empty report}">
+          		<p>신고된 사항이 없습니다.</p>
+          	</c:when>
+          	<c:otherwise>
+          	<p>
+				<a href="${contextPath}/mypage/reportView/${report.boardNo}">${report.boardNo}번 게시글</a>이 신고되었습니다. 
+				<br>현재 신고된 수는 ${report.reportCount} 입니다. 
+				앞으로 ${3-report.reportCount}번 더 신고 받으면 사이트 이용이 불가합니다.
+			</p>
+          	</c:otherwise>
+        </c:choose>	
+	</div>
 	   	
 	</div>
  </div>    

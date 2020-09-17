@@ -270,50 +270,48 @@
      	<div> 가입한 방이 없습니다</div>
      	<div>
      		<button onclick="location.href='../room/roomList/1'">방 리스트 보기</button>
-     		<a href="${contextPath}/room/insertRoom"><div class="clear-btn">방만들기</div></a>  
- 
+     		<button onclick="location.href='${contextPath}/room/insertRoom'">방 만들기</button>
      	</div>
      </c:when>
      <c:otherwise>
-	    <c:set var="roomList" value="${roomList}"/>
-	    <div class="room-box">
-	    <c:forEach var="roomList" items="${roomList}">
-	        <div class="roomlist-box">
-	            <img src="${contextPath}/resources/images/clip.png">
-	          	
-	          	<c:choose>
-	           		<c:when test="${roomList.roomType ==1}">
-	           			<c:set var="tag" value="IT"/>
-	           		</c:when>
-	           		 <c:when test="${roomList.roomType ==2}">
-	           			<c:set var="tag"  value="공모전"/>
-	           		</c:when>
-	           		<c:when test="${roomList.roomType ==3}">
-	           			<c:set var="tag"  value="면접"/>
-	           		</c:when>
-	           		<c:when test="${roomList.roomType ==4}">
-	           			<c:set var="tag"  value="전공"/>
-	           		</c:when>
-	           	    <c:when test="${roomList.roomType ==5}">
-	           			<c:set var="tag"  value="외국어"/>
-	           		</c:when>
-	           		  	    <c:when test="${roomList.roomType ==6}">
-	           			<c:set var="tag"  value="기타"/>
-	           		</c:when>
-	            </c:choose>
-	            
-	            <fmt:formatDate var="createDate" value="${roomList.roomCreateDate}" pattern="yyyy-MM-dd"/>
-	            
-	            <p class="room-content">
-	                <p class="category" id="${tag}">[${tag}]</p>
-	                <p class="room-title">${roomList.roomTitle}</p>
-	                <p class="enter-number">
-	                    방장 : ${roomList.memberNick}<br>
-	                    참가인원 : <span class="count1">${roomList.roomMemberCount}</span>
-	                    			/<span class="count2">${roomList.roomMaxNumber}</span>명
-	                    │ 개설일 : ${createDate}
-	             </p>
-		
+	<c:set var="roomList" value="${roomList}"/>
+    <div class="room-box">
+    <c:forEach var="roomList" items="${roomList}">
+        <div class="roomlist-box">
+        <div id="flag" style="top:-20px"></div>	 
+          	<c:choose>
+           		<c:when test="${roomList.roomType ==1}">
+           			<c:set var="tag" value="IT"/>
+           		</c:when>
+           		 <c:when test="${roomList.roomType ==2}">
+           			<c:set var="tag"  value="공모전"/>
+           		</c:when>
+           		<c:when test="${roomList.roomType ==3}">
+           			<c:set var="tag"  value="면접"/>
+           		</c:when>
+           		<c:when test="${roomList.roomType ==4}">
+           			<c:set var="tag"  value="전공"/>
+           		</c:when>
+           	    <c:when test="${roomList.roomType ==5}">
+           			<c:set var="tag"  value="외국어"/>
+           		</c:when>
+           		  	    <c:when test="${roomList.roomType ==6}">
+           			<c:set var="tag"  value="기타"/>
+           		</c:when>
+            </c:choose>
+            
+            <fmt:formatDate var="createDate" value="${roomList.roomCreateDate}" pattern="yyyy-MM-dd"/>
+            
+            <p class="room-content">
+                <div class="category" id="${tag}">${tag}.</div>
+                <p class="room-title">${roomList.roomTitle}</p>
+                <hr>
+ 				<span class="count1">참가인원 : ${roomList.roomMemberCount}</span>
+ 				<span  class="count2">/${roomList.roomMaxNumber}명</span>
+				<div style="font-size: 14px; margin-bottom: 8px; margin-top: 8px">개설일 : ${createDate}</div>
+ 				<div style="font-size: 14px; margin-bottom: 8px;">방장 : ${roomList.memberNick}</div>
+				<div class="room-text">${roomList.roomContent}</div>
+	
 				<c:set var="tags" value="${fn:split(roomList.roomTag, ',')}"/>
 		
 	             <c:set var="roomNo" value="${roomList.roomNo}" />
@@ -321,24 +319,25 @@
 	             <c:forEach var="tag" items="${tags}">
 	                <div class="tags">#${tag}</div> 
 	             </c:forEach>
-	            </div>
-	            
-				<c:choose>
-						<%-- test는 el만 적을 수 있음 (비교, 계산 같은걸 하나 EL 안에 작성가능) --%>
-					<c:when test="${roomList.roomMemberCount != roomList.roomMaxNumber}">
-			            <a data-toggle="modal"  data-target="#myModal">
-			            	<div class="join-button" id="${roomList.roomNo}" onclick="return validate();">참여하기</div>
-			            </a>
-					</c:when>
-					<c:otherwise>
-			            <a data-toggle="modal" >
-			            	<div class="join-button noPart" id="${roomList.roomNo}" onclick="return validate();">참여불가</div>
-			            </a>
-					</c:otherwise>
-				</c:choose>
-	      </div> <!-- roomlist end-->
-	      </c:forEach>
-	    </div>
+            </div>
+   
+			<c:choose>
+					<%-- test는 el만 적을 수 있음 (비교, 계산 같은걸 하나 EL 안에 작성가능) --%>
+				<c:when test="${roomList.roomMemberCount != roomList.roomMaxNumber}">
+		            <a data-toggle="modal"  data-target="#myModal">
+		            	<div class="join-button" id="${roomList.roomNo}" onclick="return validate();"><span>참여하기</span></div>
+		            </a>
+				</c:when>
+				<c:otherwise>
+		            <a data-toggle="modal" >
+		            	<div class="join-button noPart" id="${roomList.roomNo}" onclick="return validate();">참여불가</div>
+		            </a>
+				</c:otherwise>
+			</c:choose>
+            
+      </div> <!-- roomlist end-->
+      </c:forEach>
+    </div><!--room-container end-->
     
      </c:otherwise>
      </c:choose>

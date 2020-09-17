@@ -49,40 +49,49 @@
                         <th id="title">내용</th>
                         <th id="writer">작성자</th>						
                         <th id="create_dt">작성일</th>						
-                        <th id="lockStatus">비밀글</th>
+                        <th id="lockStatus">답변여부</th>
                     </tr>
                 </thead>
                 <tbody>
                 <c:choose>
           			<c:when test="${empty helpList}">
 		         		<tr>		
-		         			<td colspan="6" align="center">존재하는 게시글이 없습니다.</td>
+		         			<td colspan="7" align="center">존재하는 게시글이 없습니다.</td>
 		         		</tr>
           			</c:when>	
           			<c:otherwise>
           				<c:forEach var="board" items="${helpList}">
 	              		<tr>		
-		              		<td>${board.helpNo}</td>
+	              			<jsp:useBean id="now" class="java.util.Date"></jsp:useBean>
+	              			<fmt:formatDate var="today" value="${now}" pattern="yyyy-MM-dd"/>
+	              			<fmt:formatDate var="createDate" value="${board.helpCreateDate}" pattern="yyyy-MM-dd"/>
+	              			<fmt:formatDate var="createTime" value="${board.helpCreateDate}" pattern="hh:mm:ss"/>
+	              			<td>
+		              			<c:if test="${today == createDate}">
+	              			<span class="badge badge-primary new">new</span>
+		              			</c:if>
+		              		<span>${board.helpNo}
+	              			<c:if test="${board.lockStatus=='Y'}">
+	              				<img src="${contextPath}/resources/images/lock2.png" width="30px" height="30px">
+	              			</c:if>
+		              		</span>
+		              		</td>
 		              		<td>${board.helpCategory}</td>
 		              		<td>${board.helpTitle}</td>
 		              		<td>${board.helpContent}</td>
 		              		<td>${board.writerNick}</td>
 		              		<td>
-		              			<jsp:useBean id="now" class="java.util.Date"></jsp:useBean>
-		              			<fmt:formatDate var="today" value="${now}" pattern="yyyy-MM-dd"/>
-		              			<fmt:formatDate var="createDate" value="${board.helpCreateDate}" pattern="yyyy-MM-dd"/>
-		              			<fmt:formatDate var="createTime" value="${board.helpCreateDate}" pattern="hh:mm:ss"/>
-		              			
 		              			<c:choose>
-		              				<c:when test="${today == createDate }">
-		              					${createTime}
-		              				</c:when>
-		              				<c:otherwise>
-		              				${createDate}
-		              				</c:otherwise>
+		              				<c:when test="${today == createDate }">${createTime}</c:when>
+		              				<c:otherwise>${createDate}</c:otherwise>
 		              			</c:choose>
 		              		</td>
-		              		<td>${board.lockStatus}</td>
+		              		<td>
+		              			<c:choose>
+		              				<c:when test="${board.answerNo==''}"><button type="button" class="btn btn-warning btn-sm" onclick="location.href='answerView/${helpList}'">답변하기</button></c:when>
+		              				<c:otherwise><button type="button" class="btn btn-secondary btn-sm">답변완료</button></c:otherwise>
+		              			</c:choose>
+		              		</td>
 	              		</tr>	
           				</c:forEach>
           			</c:otherwise>
@@ -142,10 +151,16 @@
    <jsp:include page="../common/footer.jsp" />
     
     <script>
-    $("td").on("click",function(){
-    	var boardNo = $(this).parent().children().eq(0).text(); 
-    	var cp = ${pInfo.currentPage};
-    	location.href = "${contextPath}/help/no="+boardNo+"&cp="+cp;
+
+    $(".new").parent().parent().css("background-color","bisque");
+
+    $("td:not(:last-child)").on("click",function(){
+    	if($(this).parent().children().children().eq(0).text()=="new"){
+    		var boardNo = $(this).parent().children().children().eq(1).text(); 				
+    	}else{
+    		var boardNo = $(this).parent().children().children().eq(0).text(); 	
+    	}
+    	location.href = "${contextPath}/mypage/helpView/"+boardNo;
     }).on("mouseenter", function(){
     	$(this).parent().css("cursor", "pointer");
     });

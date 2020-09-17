@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,9 +19,8 @@
       }
       
       #board-content{
-      	border : 1px solid brown;
       	width : 100%;
-      	height : 300px;
+      	height : 100px;
       }
       
       .btn{
@@ -40,9 +38,16 @@
       #board-content{
       	padding: 10px;
       	font-size: 15px;
+      	width : 100%; 
+      	height : 120px; 
+      }
+      
+      #answer-content{
+      	width:100%;
+      	height:300px;
       }
 </style>
-<title>고객센터 상세조회</title>
+<title>고객센터 답변달기</title>
 </head>
 <body>
   <jsp:include page="../common/header.jsp"/>
@@ -54,23 +59,21 @@
   <div class="content">
   <jsp:include page="adminpage2.jsp"/>
 	<div class="content2">       
-      <h4 class="mb-5">고객센터 상세조회</h4>
+      <h4 class="mb-5">답변달기</h4>
       
       <hr>
-      <h3 id="title">
-      <c:if test="${help.lockStatus=='Y'}">
-	     <img src="${contextPath}/resources/images/lock2.png" width="40px" height="40px">
-	  </c:if>
-	     ${help.helpTitle}</h3><h6 id="category"> [카테고리 : ${help.helpCategory}]</h6>
+      <h3 id="title">${help.helpTitle}</h3><h6 id="category"> [카테고리 : ${help.helpCategory}]</h6>
       <hr>
       <div>
 		<p id="writer"> 작성자 : ${help.writerNick} </p><p id="date">${help.helpModifyDate}</p>
 	  </div>
-		<div id="board-content">${help.helpContent}</div>
-		<hr>
+		<div id="board-content">${help.helpContent}
+		</div>
+		<div><br><p>답글 작성</p>
+		<input id="answer-content" name="answer">
+		</div>
 		<div class="float-right">
-		<button type="button" class="btn btn-warning" onclick="location.href ='${contextPath}/mypage/answerView/${help.helpNo}'">답글달기</button>
-		<button type="button" class="btn btn-warning" onclick="location.href ='../adminhelp'">목록으로</button>
+		<button type="button" class="btn btn-warning" onclick="location.href ='../insertAnswer/${help.helpNo}'">등록</button>
 		</div>
 		</div>
 	</div>    
