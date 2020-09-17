@@ -145,17 +145,19 @@
 
     
     <script>
-    $("td").on("click",function(){
-    	if($(".new")){
-    		var boardNo = $(this).parent().children().children().eq(0).text(); 				
+    
+    $(".new").parent().parent().css("background-color","bisque");
+
+    $("td:not(:last-child)").on("click",function(){
+    	if($(this).parent().children().children().eq(0).text()=="new"){
+    		var boardNo = $(this).parent().children().children().eq(1).text(); 				
     	}else{
-    		var boardNo = $(this).parent().children().children().eq(1).text(); 	
+    		var boardNo = $(this).parent().children().children().eq(0).text(); 	
     	}
-    	
-    	location.href = "noticeView/"+boardNo;
+    	location.href = "${contextPath}/mypage/noticeView/"+boardNo;
     }).on("mouseenter", function(){
     	$(this).parent().css("cursor", "pointer");
-    });  
+    });
     </script>    
     </body>
 </html>

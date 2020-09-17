@@ -32,12 +32,13 @@
         <result property="helpStatus" column="HELP_STATUS"/>
         <result property="writerNick" column="MEMBER_NICK"/>
         <result property="lockStatus" column="LOCK_STATUS"/>
+        <result property="answerNo" column="ANSWER_NO"/>
     </resultMap>
      
      <!-- 자유질문방 -->
 	<resultMap id="qnaResultSet" type="Board" >
         <id property="qnaNo" column="QNA_NO"/>
-        <result property="qnaCategory" column="QNA_CATEGORY"/>
+        <result property="qnaCategory" column="CATEGORY_NM"/>
         <result property="qnaTitle" column="QNA_TITLE"/>
         <result property="qnaContent" column="QNA_CONTENT"/>
         <result property="writer" column="QNA_WRITER"/>
@@ -101,6 +102,15 @@
     	<result property="boardNo" column="REPORT_BOARD_NO"/>
     </resultMap>
     
+    <!-- 고객센터 답변 -->
+    <resultMap id="HelpAnswerResultSet" type="HelpAnswer">
+    	<id property="answerNo" column="ANSWER_NO"/>
+    	<result property="answerContent" column="ANSWER_CONTENT"/>
+    	<result property="answerCreateDate" column="ANSWER_CREATE_DATE"/>
+    	<result property="answerStatus" column="ANSWER_STATUS"/>
+    	<result property="helpNo" column="HELP_NO"/>
+    </resultMap>
+    
    <!-- 비밀번호 찾기 -->
    <select id="checkPwd" parameterType="_int" resultType="string">
       SELECT MEMBER_PWD FROM MEMBER WHERE MEMBER_NO = #{memberNo}
@@ -133,7 +143,7 @@
 	
 	<!-- 총 고객센터 게시글 조회 -->
 	<select id="selectQList" resultMap="helpResultSet">
-		SELECT * FROM HELPBOARD JOIN MEMBER ON(HELP_WRITER=MEMBER_NO) JOIN HELP_CATEGORY ON(HELP_CATEGORY=CATEGORY_NO) ORDER BY HELP_CREATE_DATE DESC
+		SELECT * FROM HELPBOARD JOIN MEMBER ON(HELP_WRITER=MEMBER_NO) JOIN HELP_CATEGORY ON(HELP_CATEGORY=CATEGORY_NO) LEFT OUTER JOIN HELP_ANSWER USING(HELP_NO) ORDER BY HELP_CREATE_DATE DESC
 	</select>
 			
 	<!-- 공지사항 수 조회 -->
@@ -218,7 +228,7 @@
 	
 	<!-- 공지사항 상세조회  -->
 	<select id="noticeView" parameterType="_int" resultMap="qnaResultSet">
-		SELECT * FROM QNABOARD JOIN MEMBER ON(QNA_WRITER=MEMBER_NO) WHERE QNA_NO=#{qnaNo}
+		SELECT * FROM QNABOARD JOIN MEMBER ON(QNA_WRITER=MEMBER_NO) JOIN QNA_CATEGORY ON(QNA_CATEGORY=CATEGORY_NO) WHERE QNA_NO=#{qnaNo}
 	</select>
 	
 	<update id="updateNotice" parameterType="Board">
@@ -259,7 +269,11 @@
 	</update>
 	
 	<select id="helpView" parameterType="_int" resultMap="helpResultSet">
-		SELECT * FROM HELPBOARD WHERE HELP_NO = #{helpNo}
+		SELECT * FROM HELPBOARD JOIN MEMBER ON(HELP_WRITER = MEMBER_NO) JOIN HELP_CATEGORY ON(HELP_CATEGORY = CATEGORY_NO) WHERE HELP_NO = #{helpNo}
 	</select>
+	
+	<insert id="insertAnswer" parameterType="HelpAnswer">
+		INSERT INTO HELP_ANSWER VALUES(SEQ_ANSWER.NEXTVAL, #{answerContent}, SYSDATE, DEFAULT, #{helpNo})
+	</insert>
 
 </mapper>

@@ -13,6 +13,7 @@ public class Help {
 	private String helpStatus;
 	private String lockStatus;
 	private String writerNick;
+	private int answerNo;
 		
 	public Help() {
 		// TODO Auto-generated constructor stub
@@ -133,12 +134,22 @@ public class Help {
 	}
 
 
+	public int getAnswerNo() {
+		return answerNo;
+	}
+
+
+	public void setAnswerNo(int answerNo) {
+		this.answerNo = answerNo;
+	}
+
+
 	@Override
 	public String toString() {
 		return "Help [helpNo=" + helpNo + ", helpCategory=" + helpCategory + ", helpTitle=" + helpTitle
 				+ ", helpContent=" + helpContent + ", helpWriter=" + helpWriter + ", helpCreateDate=" + helpCreateDate
 				+ ", helpModifyDate=" + helpModifyDate + ", helpStatus=" + helpStatus + ", lockStatus=" + lockStatus
-				+ ", writerNick=" + writerNick + "]";
+				+ ", writerNick=" + writerNick + ", answerNo=" + answerNo + "]";
 	}
 
 	
