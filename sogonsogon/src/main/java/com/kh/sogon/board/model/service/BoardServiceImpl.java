@@ -89,7 +89,7 @@ public class BoardServiceImpl implements BoardService{
 			// 1) 다음 SEQ_MNO를 얻어옴.
 			int qnaNo = boardDAO.selectNextNo();
 			
-			System.out.println(qnaNo);
+			
 			if (qnaNo > 0) { // 다음 번호를 정상적으로 얻어 왔을 때
 				// 다음 번호 board 객체에 세팅
 				board.setQnaNo(qnaNo);
@@ -146,7 +146,7 @@ public class BoardServiceImpl implements BoardService{
 							// transferTo(경로) : 지정한 경로에 업로드된 바이트 상태의 파일을 실제 파일로 변환해서 저장해라.
 							try {
 								images.get(i).transferTo(new File(savePath + "/" + files.get(i).getFileChangeName()));
-								System.out.println(savePath);
+							
 								
 							} catch (Exception e) {
 								
@@ -197,9 +197,13 @@ public class BoardServiceImpl implements BoardService{
 
 
 	@Override
-	public int deleteBoard(Board board) {
-		// TODO Auto-generated method stub
-		return 0;
+	@Transactional(rollbackFor = Exception.class)
+	public int deleteBoard(int qnaNo) {
+		int result = 0;
+		
+		result = boardDAO.deleteBoard(qnaNo);
+		
+		return result;
 	}
 
 
@@ -243,8 +247,15 @@ public class BoardServiceImpl implements BoardService{
 
 	@Override
 	public PageInfo pagination(int cp, Search search) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		// 1) 검색 조건에 맞는 전체 게시글 수 조회
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("search", search);
+		
+		  int searchListCount = boardDAO.getSerchListCount(map);
+		  
+		  pInfo.setPageInfo(cp, searchListCount);
+				return pInfo;
 	}
 
 
@@ -252,8 +263,10 @@ public class BoardServiceImpl implements BoardService{
 
 	@Override
 	public List<Board> selectSerchList(PageInfo pInfo, Search search) {
-		// TODO Auto-generated method stub
-		return null;
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("search", search);
+		
+		return boardDAO.selectSearchList(pInfo, map);
 	}
 
 
@@ -264,10 +277,12 @@ public class BoardServiceImpl implements BoardService{
 		return boardDAO.mainBoardList();
 	}
 
-	
-	
-	
 
+
+
+	
+	
+	
 
 
 }

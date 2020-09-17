@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-		<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <style>
 /*댓글*/
@@ -129,24 +129,16 @@ function selectReplyList(){
 		type : "POST",
 		dataType:"json",
 		success:function(rList){
-			console.log(123);
-			console.log(rList);
 			
-			//아이디가 #reply?ListArea인 요소를 얻어와 $replyListArea 변수에 저장 
+			
 			var $replyListArea = $("#replyListArea");
 			
-			$replyListArea.html(""); // 기존 정보 초기화
+			$replyListArea.html(""); 
 			
-			// 로그인한 멤버의 아이디를 저장할 변수
-			//로그인 아이디와 댓글 작성자가 같다면 댓글 수정, 삭제 ㅂ ㅓ튼 출력 하는 조건문을 사용할 예정 
-			var loginMemberId = "${loginMember.memberId}";
-			
-			
-			// 댓글이 포함된 <li> 요소 생성 반복문 
+			var loginMemberNo = "${loginMember.memberNo}";
+		
 			$.each(rList, function(i){
-				console.log(rList[i]);
 				
-				// li태그마다 댓글 번호를 id로 추가 
 				var $li = $("<li>").addClass("reply-row").attr("id", rList[i].replyNo);
 				
 				// 작성자, 작성일, 수정일 영역 
@@ -166,14 +158,17 @@ function selectReplyList(){
 				var $btnArea = $("<div>").addClass("btnArea");
 				
 				// 로그인 되어 있는 경우에 답글 버튼 추가
-				if(loginMemberId != ""){
+				if(loginMemberNo != ""){
 					// ** 추가되는 댓글에 onclick 이벤트를 부여하여 버튼 클릭 시 답글창을 생성하는 함수를 이벤트 핸들러로 추가함. 
 					var $reply2 = $("<button>").addClass("btn btn-sm btn-primary ml-1 reply2").text("답글").attr("onclick", "addReply2Area(this, "+rList[i].parentReplyNo+")");
 					$btnArea.append($reply2);
 				}
 				
 				// 현재 댓글의 작성자와 로그인한 멤버의 아이디가 같을 때 버튼 추가
-				if(rList[i].memberId == loginMemberId){
+				console.log(rList[i].replyWriter+"tt");
+					console.log(loginMemberNo+"yy");
+				if(rList[i].replyWriter == loginMemberNo){
+					
 					
 					var $showUpdate = $("<button>").addClass("btn btn-sm btn-primary ml-1").text("수정");
 					var $deleteReply = $("<button>").addClass("btn btn-sm btn-primary ml-1").text("삭제");

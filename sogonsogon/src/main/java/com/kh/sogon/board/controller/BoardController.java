@@ -35,12 +35,8 @@ public class BoardController {
 	
 	@Autowired
 	private BoardService boardService;
-	
-//	   @RequestMapping("boardList")
-//	   public String boardListView() {
-//		   return "board/boardList"; 
-//	   }
-	  
+
+	// 게시판 전체 조회
 	   @RequestMapping("boardList")
 		public String boardList(@RequestParam(value="cp", required=false, defaultValue = "1") int cp, Model model) {
 			
@@ -48,7 +44,7 @@ public class BoardController {
 			
 			
 			List<Board> boardList = boardService.selectList(pInfo);
-			System.out.println(boardList);
+			
 			if(!boardList.isEmpty()) { 
 				List<Attachment> thList = boardService.selectThumbnailList(boardList);
 				
@@ -64,8 +60,6 @@ public class BoardController {
 		}
 	   
 	// 게시글 상세 조회
-	
-		
 		@RequestMapping("{qnaNo}")
 		public String boarView(@PathVariable int qnaNo,Model model , RedirectAttributes rdAttr, HttpServletRequest request) {
 			Board board = boardService.selectBoard(qnaNo);
@@ -104,11 +98,9 @@ public class BoardController {
 										
 			Member loginMember = (Member)model.getAttribute("loginMember");
 			
-			System.out.println(board.getQnaCategory()+"ggg");
 			board.setQnaWriter(loginMember.getMemberNo() + "");
 			
 		
-			
 			String savePath = request.getSession().getServletContext().getRealPath("resources/uploadImages");
 			
 			int result = boardService.insertBoard(board,images,savePath);
@@ -130,64 +122,7 @@ public class BoardController {
 			return "redirect:"+url;
 		}
 		
-		@RequestMapping("{qnaNo}/delete")
-		public String deleteBoard(
-								  @PathVariable int qnaNo,
-								  RedirectAttributes rdAttr,
-								  HttpServletRequest request) {
-			
-			
-			Board board = new Board(qnaNo);
-			
-			
-			int result = boardService.deleteBoard(board);
-			
-			String status = null;
-			String msg = null;
-			String url = null;
-			
-			
-			if(result > 0) {
-		
-				status = "success";
-				msg = "삭제되었습니다.";
-				url = "/board/list/" ;
-			}else {
-				status = "error";
-				msg = "게시글 삭제 실패";
-				url = request.getHeader("referer");
-				
-				
-			}
-			
-			
-			rdAttr.addFlashAttribute("status", status);
-			rdAttr.addFlashAttribute("msg", msg);
-			
-			
-			System.out.println(url);
-			
-			
-			
-			
-			
-			
-			
-			return "redirect:" + url;
-		}
-		
-		
-		/* ModelAndView
-		 * 
-		 * Model : 응답페이지에 값을 전달할 때 map 형태로 저장하여 전달하는 객체
-		 * 
-		 * View : 이동할 페이지 정보를 담는 객체(View라는 객체가 별도로 존재하지 않음.)
-		 * 
-		 * 단순히 응답페이지에 데이터 전달, viewName 설정 시 사용하는 객체
-		 * 
-		 * 
-		 */
-		
+	
 		
 		
 		//게시글 수정
@@ -215,6 +150,35 @@ public class BoardController {
 			return mv;
 			
 		}
+		
+		  //게시글 삭제
+		  @RequestMapping("{qnaNo}/delete")
+	      public String deleteHelp(@PathVariable int qnaNo, RedirectAttributes rdAttr, HttpServletRequest request) {
+	         
+		
+			  
+	         int result = boardService.deleteBoard(qnaNo);
+	         
+	         String url = null;
+	         String msg = null;
+	         String status = null;
+	         
+	         if(result > 0) {
+
+	            status = "success";
+	            msg = "게시글 삭제 완료";
+	             url = "/board/boardList";
+	         } else {
+
+	            status = "error";
+	            msg = "게시글 삭제 실패";
+	            url = request.getHeader("referer");
+	         }
+	         rdAttr.addFlashAttribute("status", status);
+	          rdAttr.addFlashAttribute("msg", msg);
+	          
+	         return "redirect:" + url;
+	      }
 		
 		
 		// 게시글 수정
@@ -281,6 +245,7 @@ public class BoardController {
 			
 		}
 		
+		//게시글 검색
 		@RequestMapping("search")
 		public String search(@RequestParam(value="cp", required = false, defaultValue = "1") int cp, Search search,
 								Model model) {
@@ -292,14 +257,12 @@ public class BoardController {
 				System.out.println(b);
 			}
 		
-			if(!boardList.isEmpty()) {
-				List<Attachment> thList = boardService.selectThumbnailList(boardList);
-				model.addAttribute("thList", thList);
-			}
+		
 			model.addAttribute("boardList", boardList);
 			model.addAttribute("pInfo", pInfo);
 			return "board/boardList";
 		}
+		
 		
 		@ResponseBody
 		@RequestMapping("mainBoardList")
@@ -311,4 +274,8 @@ public class BoardController {
 			return gson.toJson(boardList);
 		}
 		
+	
+	
+		
+		  
 }

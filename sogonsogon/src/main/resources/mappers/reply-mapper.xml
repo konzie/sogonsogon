@@ -11,13 +11,17 @@
         <result property="replySelect" column="REPLY_SELECT"/>
         <result property="qnaNo" column="QNA_NO"/>
         <result property="replyWriter" column="REPLY_WRITER"/>
+      
 	</resultMap>
 	
  	<!--  댓글 조회  -->
 	<select id="selectList" parameterType="_int" resultMap="replyResultSet">
-	SELECT * FROM V_RREPLY
+	<!-- SELECT * FROM V_RREPLY
 	WHERE PARENT_BOARD_NO= #{qnaNo}
-	ORDER BY REPLY_NO DESC
+	ORDER BY REPLY_NO DESC -->
+	SELECT REPLY_NO, REPLY_CONTENT, REPLY_CREATE_DATE, MEMBER_ID AS REPLY_WRITER , REPLY_CREATE_DATE, REPLY_MODIFY_DATE FROM REPLY 
+    JOIN MEMBER ON (REPLY_WRITER = MEMBER_NO)
+    WHERE PARENT_BOARD_NO = #{qnaNo}
 	</select>
  	
  	<!--  댓글 삽입  -->

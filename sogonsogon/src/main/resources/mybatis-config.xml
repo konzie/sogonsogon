@@ -26,6 +26,7 @@
       <typeAlias type="com.kh.sogon.room.model.vo.RoomMember" alias="RoomMember"/>
       <typeAlias type="com.kh.sogon.board.model.vo.Board" alias="Board"/>
       <typeAlias type="com.kh.sogon.board.model.vo.Reply" alias="Reply"/>
+      <typeAlias type="com.kh.sogon.board.model.vo.Attachment" alias="Attachment"/>
       <typeAlias type="com.kh.sogon.roomboard.model.vo.RoomBoardAttachment" alias="RoomBoardAttachment"/>
       <typeAlias type="com.kh.sogon.roomboard.model.vo.RoomBoardReply" alias="RoomBoardReply"/>
       <typeAlias type="com.kh.sogon.mypage.model.vo.ReportMember" alias="ReportMember"/>
