@@ -275,5 +275,9 @@
 	<insert id="insertAnswer" parameterType="HelpAnswer">
 		INSERT INTO HELP_ANSWER VALUES(SEQ_ANSWER.NEXTVAL, #{answerContent}, SYSDATE, DEFAULT, #{helpNo})
 	</insert>
+	
+	<select id="selectAnswer" parameterType="_int" resultMap="HelpAnswerResultSet">
+		SELECT * FROM HELP_ANSWER WHERE HELP_NO = #{helpNo}
+	</select>
 
 </mapper>

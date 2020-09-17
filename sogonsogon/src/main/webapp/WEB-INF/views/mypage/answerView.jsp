@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -61,8 +62,13 @@
 	<div class="content2">       
       <h4 class="mb-5">답변달기</h4>
       
+      <form action="${contextPath}/mypage/insertAnswer/${help.helpNo}">
       <hr>
-      <h3 id="title">${help.helpTitle}</h3><h6 id="category"> [카테고리 : ${help.helpCategory}]</h6>
+      <h3 id="title">
+      <c:if test="${help.lockStatus=='Y'}">
+	     <img src="${contextPath}/resources/images/lock2.png" width="40px" height="40px">
+	  </c:if>
+      ${help.helpTitle}</h3><h6 id="category"> [카테고리 : ${help.helpCategory}]</h6>
       <hr>
       <div>
 		<p id="writer"> 작성자 : ${help.writerNick} </p><p id="date">${help.helpModifyDate}</p>
@@ -70,11 +76,12 @@
 		<div id="board-content">${help.helpContent}
 		</div>
 		<div><br><p>답글 작성</p>
-		<input id="answer-content" name="answer">
+		<textarea id="answer-content" name="answer"></textarea>
 		</div>
 		<div class="float-right">
-		<button type="button" class="btn btn-warning" onclick="location.href ='../insertAnswer/${help.helpNo}'">등록</button>
+		<button type="submit" class="btn btn-warning">등록</button>
 		</div>
+		</form>
 		</div>
 	</div>    
    
