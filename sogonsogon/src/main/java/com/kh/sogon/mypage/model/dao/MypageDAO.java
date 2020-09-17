@@ -255,6 +255,10 @@ public class MypageDAO {
 	public int insertAnswer(HelpAnswer helpAnswer) {
 		return sqlSession.insert("mypageMapper.insertAnswer", helpAnswer);
 	}
+
+	public HelpAnswer selectAnswer(int boardNo) {
+		return sqlSession.selectOne("mypageMapper.selectAnswer", boardNo);
+	}
 	
 	
 }

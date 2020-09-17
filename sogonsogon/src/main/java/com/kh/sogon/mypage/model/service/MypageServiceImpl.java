@@ -310,4 +310,9 @@ public class MypageServiceImpl implements MypageService{
 		return mypageDAO.insertAnswer(helpAnswer);
 	}
 
+	@Override
+	public HelpAnswer selectAnswer(int boardNo) {
+		return mypageDAO.selectAnswer(boardNo);
+	}
+
 }

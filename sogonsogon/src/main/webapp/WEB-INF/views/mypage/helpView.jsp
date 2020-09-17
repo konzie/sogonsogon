@@ -41,6 +41,11 @@
       	padding: 10px;
       	font-size: 15px;
       }
+      
+      #answer{
+      	font-size: 17px;
+      	font-weight: bold;
+      }
 </style>
 <title>고객센터 상세조회</title>
 </head>
@@ -66,10 +71,17 @@
       <div>
 		<p id="writer"> 작성자 : ${help.writerNick} </p><p id="date">${help.helpModifyDate}</p>
 	  </div>
-		<div id="board-content">${help.helpContent}</div>
+		<div id="board-content">${help.helpContent}
+		<hr>
+		<c:if test="${!empty answer}">
+			<p id="answer">${answer.answerContent}</p>
+		</c:if>
+		</div>
 		<hr>
 		<div class="float-right">
-		<button type="button" class="btn btn-warning" onclick="location.href ='${contextPath}/mypage/answerView/${help.helpNo}'">답글달기</button>
+		<c:if test="${empty answer}">
+			<button type="button" class="btn btn-warning" onclick="location.href ='${contextPath}/mypage/answerView/${help.helpNo}'">답글달기</button>
+		</c:if>
 		<button type="button" class="btn btn-warning" onclick="location.href ='../adminhelp'">목록으로</button>
 		</div>
 		</div>

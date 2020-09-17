@@ -399,6 +399,10 @@ public class MypageController {
 		Help help = mypageService.helpView(boardNo);
 		
 		model.addAttribute("help", help);
+
+		HelpAnswer answer = mypageService.selectAnswer(boardNo);
+
+		model.addAttribute("answer", answer);
 		
 		return "mypage/helpView";
 	}
@@ -638,8 +642,8 @@ public class MypageController {
 	}
 	
 	@RequestMapping("insertAnswer/{helpNo}")
-	public String insertAnswer(@PathVariable int helpNo, @RequestParam("answer") String answer, Model model, RedirectAttributes rdAttr){
-		
+	public String insertAnswer(@PathVariable int helpNo, String answer, Model model, RedirectAttributes rdAttr){
+
 		HelpAnswer helpAnswer = new HelpAnswer();
 		
 		helpAnswer.setHelpNo(helpNo);
@@ -660,6 +664,6 @@ public class MypageController {
 		rdAttr.addFlashAttribute("status",status);
 		rdAttr.addFlashAttribute("msg",msg);
 		
-		return "mypage/adminhelp";
+		return "redirect:/mypage/adminhelp";
 	}
 }

@@ -205,4 +205,6 @@ public interface MypageService {
 	 */
 	public abstract int insertAnswer(HelpAnswer helpAnswer);
 
+	public abstract HelpAnswer selectAnswer(int boardNo);
+
 }
