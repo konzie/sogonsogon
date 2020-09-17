@@ -28,7 +28,7 @@ public class MypageServiceImpl implements MypageService{
 	
 	@Autowired // 의존성 주입(DI)
 	private PageInfo pInfo;
-	   
+
 	// 비밀번호 확인 Service 구현
 	   @Transactional(rollbackFor = Exception.class)   
 	   @Override

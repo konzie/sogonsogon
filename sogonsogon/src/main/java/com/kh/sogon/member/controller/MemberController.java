@@ -282,7 +282,7 @@ public class MemberController {
 		        }else {
 		        	rdAttr.addFlashAttribute("status","error");
 					rdAttr.addFlashAttribute("msg","아이디, 이름, 휴대폰번호를 확인해주세요.");	
-					url="redirect:/member/findIdForm";
+					url="redirect:/member/findPwdForm";
 		        }
 		        
 		        return url;
