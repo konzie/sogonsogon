@@ -81,7 +81,7 @@ public class HelpController {
 			   if(help.getLockStatus().equals("Y") ){
 				   //model.addAttribute("msg","비공개된 게시글 입니다.");		  
 	 
-				   if(help.getHelpWriter().equals(loginMember.getMemberNick())) {
+				   if(help.getHelpWriter().equals(loginMember.getMemberNick()) || loginMember.getMemberGrade().equals("A")) {
 					   
 					   model.addAttribute("help", help);
 					   
@@ -91,11 +91,7 @@ public class HelpController {
 				   }
 				   return "help/helpView";
 			   }
-			   
-		   
-		   
-
-		   
+			   	   
 		   }
 		  
 		   model.addAttribute("help", help);

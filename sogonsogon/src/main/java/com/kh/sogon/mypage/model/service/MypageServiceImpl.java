@@ -17,6 +17,7 @@ import com.kh.sogon.mypage.model.vo.HelpAnswer;
 import com.kh.sogon.mypage.model.vo.ReportMember;
 import com.kh.sogon.room.model.vo.Room;
 import com.kh.sogon.room.model.vo.RoomMember;
+import com.kh.sogon.roomboard.model.vo.RoomBoard;
 
 @Service
 public class MypageServiceImpl implements MypageService{
@@ -321,4 +322,27 @@ public class MypageServiceImpl implements MypageService{
 		return  mypageDAO.mainNoticeList();
 	}
 
+	@Override
+	public PageInfo roomReportPage(int cp) {
+		int listRoomBoardCount = mypageDAO.getListReportRoomCount();
+		
+		pInfo.setPageInfo(cp, listRoomBoardCount);
+
+		return pInfo;
+	}
+
+	@Override
+	public List<RoomBoard> selectRoomReportList(PageInfo roomPInfo) {
+		return mypageDAO.selectRoomReportList(roomPInfo);
+	}
+
+	@Override
+	public int deleteRoomReport(RoomBoard board) {
+		return mypageDAO.deleteRoomReport(board);
+	}
+
+	@Override
+	public int restorReportRoom(RoomBoard board) {
+		return mypageDAO.restorReportRoom(board);
+	}
 }

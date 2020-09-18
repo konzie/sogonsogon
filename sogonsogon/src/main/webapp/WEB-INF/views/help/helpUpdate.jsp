@@ -47,13 +47,13 @@
     <div class="col-md-2"></div>
     <div class="col-md-8">
         <h2 class="text-center">문의글 쓰기</h2>
-        <form action="insertAction"
+        <form action="updateAction"
         enctype="multipart/form-data" role="form" method="post" onsubmit="return validate();">
           <table class="table table-striped">
 
 					<label class="input-group-addon mr-3 insert-label">카테고리</label> 
 					<select	class="custom-select" id="category" name="helpCategory" style="width: 150px;">
-						<option>선택</option>
+						<option value="00">선택</option>
 						<option value="10">사이트 이용</option>
 						<option value="20">시스템</option>
 						<option value="30">기타</option>
@@ -96,7 +96,7 @@
             <tr>
                  
                 <td colspan="2"  class="text-center">
-                    <button type="submit" class="btn btn-success">등록</button>
+                    <button type="submit" class="btn btn-success">수정</button>
                     <input type="reset" value="초기화" class="btn btn-warning">
                     <a href="${contextPath}/help/list/1" class="btn btn-primary">돌아가기</a>
                 </td>
@@ -114,6 +114,12 @@
 
  
 <script>
+
+$.each($("#category>option"), function(index, item){
+    if($(item).text() == "${help.helpCategory}"){
+       $(item).prop("selected","true");
+    }
+ });
 
 
 // 유효성검사

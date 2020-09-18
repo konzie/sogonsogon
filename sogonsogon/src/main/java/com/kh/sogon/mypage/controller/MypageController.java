@@ -28,6 +28,7 @@ import com.kh.sogon.mypage.model.vo.HelpAnswer;
 import com.kh.sogon.mypage.model.vo.ReportMember;
 import com.kh.sogon.room.model.vo.Room;
 import com.kh.sogon.room.model.vo.RoomMember;
+import com.kh.sogon.roomboard.model.vo.RoomBoard;
 import com.sun.org.glassfish.gmbal.ParameterNames;
 
 @SessionAttributes({"loginMember"})
@@ -48,20 +49,13 @@ public class MypageController {
 		
 		List<ReportMember> reportList = mypageService.findMember(loginMember.getMemberNick());
 		
-		if(reportList.size()<=0) {
-			ReportMember member = new ReportMember();
-			
-			member.setMemberNick(loginMember.getMemberNick());
-			member.setBoardNo(0);
-			
-			int result = mypageService.insertMember(member);
-			
-			if(result>0) {
-				reportList = mypageService.findMember(loginMember.getMemberNick());
-			}
+		if(reportList.size()>0) {
+			model.addAttribute("report", reportList.get(0));
 		}
 		
-		model.addAttribute("report", reportList.get(0));
+		Board reportView = mypageService.noticeView(reportList.get(0).getBoardNo());
+		
+		model.addAttribute("reportView", reportView);
 		
 		return "mypage/mypagemain";
 	}
@@ -128,8 +122,6 @@ public class MypageController {
 		Member loginMember = (Member)model.getAttribute("loginMember");
 
 		List<RoomMember> roomMemberList = mypageService.selectRoomMemberList(loginMember.getMemberNo());
-		
-		System.out.println(roomMemberList);
 		
 		PageInfo pInfo = null;
 		List<Room> roomList = null;
@@ -241,7 +233,7 @@ public class MypageController {
 		
 		PageInfo pInfo = mypageService.reportPage(cp);
 
-		pInfo.setLimit(10);
+		pInfo.setLimit(5);
 		
 		List<Board> reportList = mypageService.selectDList(pInfo);
 		
@@ -251,8 +243,23 @@ public class MypageController {
 			}
 		}                           
 		
+		PageInfo roomPInfo = mypageService.roomReportPage(cp);
+
+		roomPInfo.setLimit(5);
+		
+		List<RoomBoard> roomReportList = mypageService.selectRoomReportList(roomPInfo);
+		
+		for(int i=0;i<roomReportList.size();i++) {
+			if(roomReportList.get(i).getRoomBoardContent().length()>20) {
+				roomReportList.get(i).setRoomBoardContent(roomReportList.get(i).getRoomBoardContent().substring(0,20)+"...");
+			}
+		}
+
 		model.addAttribute("reportList", reportList);
 		model.addAttribute("pInfo", pInfo);
+		
+		model.addAttribute("roomReportList", roomReportList);
+		model.addAttribute("roomPInfo", roomPInfo);
 
 		return "mypage/adminreport";
 		}
@@ -521,9 +528,9 @@ public class MypageController {
 		
 		return url;
 	}	
-		
-	@RequestMapping("updateReport/{memberNick}/{boardNo}")
-	public String updateReport(@PathVariable String memberNick, @PathVariable int boardNo, Model model, RedirectAttributes rdAttr){
+
+	@RequestMapping("updateReport/{memberNick}/{boardNo}/{roomNo}")
+	public String updateReport(@PathVariable String memberNick, @PathVariable int boardNo, @PathVariable int roomNo, Model model, RedirectAttributes rdAttr){
 
 		List<ReportMember> memberList = mypageService.findMember(memberNick);
 
@@ -531,8 +538,14 @@ public class MypageController {
 		if(memberList.size()>0){
 			member = memberList.get(0);
 		}else {
+			
 			member.setMemberNick(memberNick);
-			member.setBoardNo(boardNo);
+			member.setRoomBoardNo(roomNo);
+			if(roomNo>0) { // roomNo 있을 때
+				member.setRoomBoardNo(boardNo);
+			}else { // roomNo 없을 때
+				member.setBoardNo(boardNo);
+			}
 			
 			int result = mypageService.insertMember(member);
 
@@ -543,21 +556,30 @@ public class MypageController {
 		
 		int memberNo = memberList.get(0).getMemberNo();
 		
-		member.setBoardNo(boardNo);
 		member.setMemberNo(memberNo);
-		
-		int result= mypageService.updateReport(member);
+		int result= mypageService.updateReport(member);			
 
 		String status = null;
 		String msg = null;
 		
 		if(result>0) {
-			int result2 = deleteReport(boardNo);
-			
+			int result2=0;
+			if(roomNo>0) {
+				RoomBoard board = new RoomBoard();
+				board.setRoomBoardNo(boardNo);
+				board.setRoomNo(roomNo);
+				result2=mypageService.deleteRoomReport(board);
+			}else {
+				result2=mypageService.deleteNotice(boardNo);				
+			}
+
 			if(result2>0) {
 				status = "success";
 				msg = "신고 처리 완료";
+				
 				PageInfo pInfo = mypageService.reportPage(1);
+
+				pInfo.setLimit(5);
 				
 				List<Board> reportList = mypageService.selectDList(pInfo);
 				
@@ -567,13 +589,27 @@ public class MypageController {
 					}
 				}                           
 				
-				model.addAttribute("reportList", reportList);
-				model.addAttribute("pInfo", pInfo);
+				PageInfo roomPInfo = mypageService.roomReportPage(1);
+
+				roomPInfo.setLimit(5);
 				
+				List<RoomBoard> roomReportList = mypageService.selectRoomReportList(roomPInfo);
+				
+				for(int i=0;i<roomReportList.size();i++) {
+					if(roomReportList.get(i).getRoomBoardContent().length()>20) {
+						roomReportList.get(i).setRoomBoardContent(roomReportList.get(i).getRoomBoardContent().substring(0,20)+"...");
+					} 
+				
+				model.addAttribute("reportList", reportList);
+				model.addAttribute("pInfo", pInfo);	
+				
+				model.addAttribute("roomReportList", roomReportList);
+				model.addAttribute("roomPInfo", roomPInfo);
+				}
+			}else {
+				status = "error";
+				msg = "신고 처리 실패";
 			}
-		}else {
-			status = "error";
-			msg = "신고 처리 실패";
 		}
 		
 		rdAttr.addFlashAttribute("status",status);
@@ -582,13 +618,6 @@ public class MypageController {
 		return "redirect:/mypage/adminreport";
 	}
 	
-	private int deleteReport(int boardNo) {
-		int result = mypageService.deleteNotice(boardNo);
-		
-		return result;
-		
-	}
-
 	@RequestMapping("restoreReport/{writerNick}/{boardNo}")
 	public String restoreReport(@PathVariable int boardNo, @PathVariable String writerNick, Model model, RedirectAttributes rdAttr){
 		
@@ -597,6 +626,7 @@ public class MypageController {
 		ReportMember member = new ReportMember();
 		
 		member.setMemberNick(writerNick);
+
 		int result2=0;
 		if(result > 0) {
 			List<ReportMember> reportList = mypageService.findMember(writerNick);
@@ -614,6 +644,8 @@ public class MypageController {
 					
 			PageInfo pInfo = mypageService.reportPage(1);
 			
+			pInfo.setLimit(5);
+			
 			List<Board> reportList = mypageService.selectDList(pInfo);
 			
 			for(int i=0;i<reportList.size();i++) {
@@ -623,15 +655,69 @@ public class MypageController {
 			}                           
 			
 			model.addAttribute("reportList", reportList);
-			model.addAttribute("pInfo", pInfo);
-			
-		}else {
+			model.addAttribute("pInfo", pInfo);	
+			}else {
 			status = "error";
 			msg = "게시글 복원 실패";
 			url = "mypage/noticeView/"+boardNo;
 		}
 		
+		rdAttr.addFlashAttribute("status", status);
+		rdAttr.addFlashAttribute("msg", msg);
+		
 		return url;
+	}
+	
+	@RequestMapping("restoreReportRoom/{memberNick}/{roomBoardNo}/{roomNo}")
+	public String restorReportRoom(@PathVariable String memberNick, @PathVariable int roomBoardNo, @PathVariable int roomNo, Model model, RedirectAttributes rdAttr) {
+		
+		RoomBoard board = new RoomBoard();
+		board.setRoomBoardNo(roomBoardNo);
+		board.setRoomNo(roomNo);
+		int result = mypageService.restorReportRoom(board);
+		
+		ReportMember member = new ReportMember();
+		
+		member.setMemberNick(memberNick);
+
+		int result2=0;
+		if(result > 0) {
+			List<ReportMember> reportList = mypageService.findMember(memberNick);
+			result2 = mypageService.restoreMember(reportList.get(0).getMemberNo());
+		}
+		
+		String status = null;
+		String msg = null;
+		
+		if(result2 > 0) {
+			status = "success";
+			msg = "게시글 복원 성공";
+			
+			PageInfo roomPInfo = mypageService.roomReportPage(1);
+
+			roomPInfo.setLimit(5);
+			
+			List<RoomBoard> roomReportList = mypageService.selectRoomReportList(roomPInfo);
+			
+			for(int i=0;i<roomReportList.size();i++) {
+				if(roomReportList.get(i).getRoomBoardContent().length()>20) {
+					roomReportList.get(i).setRoomBoardContent(roomReportList.get(i).getRoomBoardContent().substring(0,20)+"...");
+				} 
+			
+			model.addAttribute("roomReportList", roomReportList);
+			model.addAttribute("roomPInfo", roomPInfo);
+			}
+			
+		}else {
+			status = "error";
+			msg = "게시글 복원 실패";
+		}
+		
+		
+		rdAttr.addFlashAttribute("status", status);
+		rdAttr.addFlashAttribute("msg", msg);
+		
+		return "redirect:/mypage/adminreport";
 	}
 	
 	@RequestMapping("answerView/{helpNo}")
@@ -679,5 +765,4 @@ public class MypageController {
 		Gson gson = new Gson();
 		return gson.toJson(noticeList);
 	}
-	
 }

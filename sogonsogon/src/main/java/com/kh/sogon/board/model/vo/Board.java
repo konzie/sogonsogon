@@ -16,6 +16,7 @@ public class Board {
 	private String qnaContent;
 	private String writerNick;
 	private int writer;
+	private int likeCount;
 	
 	public Board(){
 		
@@ -138,13 +139,19 @@ public class Board {
 		this.writer = writer;
 	}
 
+	public int getLikeCount() {
+		return likeCount;
+	}
+
+	public void setLikeCount(int likeCount) {
+		this.likeCount = likeCount;
+	}
+
 	@Override
 	public String toString() {
 		return "Board [qnaNo=" + qnaNo + ", qnaCategory=" + qnaCategory + ", qnaTitle=" + qnaTitle + ", qnaStatus="
 				+ qnaStatus + ", qnaAnswer=" + qnaAnswer + ", qnaModifyDate=" + qnaModifyDate + ", qnaCreateDate="
 				+ qnaCreateDate + ", qnaWriter=" + qnaWriter + ", writerName=" + writerName + ", qnaContent="
-				+ qnaContent + ", writerNick=" + writerNick + ", writer=" + writer + "]";
+				+ qnaContent + ", writerNick=" + writerNick + ", writer=" + writer + ", likeCount=" + likeCount + "]";
 	}
-
-
 }

@@ -141,7 +141,7 @@
                     
                     $("#infoList").append($p1);
                     <c:if test="${!empty loginMember}">
-	                    var $p2 = $("<p>").html("현재 방 내에서 채택된 답변 수 : 10 <br> 작성한 글 수  : 1<br> 작성한 댓글 수 : 3<br>");
+	                    var $p2 = $("<p>").html("현재 방 내에서 채택된 답변 수 : 0 <br> 작성한 글 수  : ${writeBoardCount}<br> 작성한 댓글 수 : ${writeBoardReplyCount}<br>");
 	                    var $button = $("<button>", {type : "button" , id : "outRoom", class : "btn-primary"}).text("방 탈퇴");
 	                    $("#infoList").append($p2, $button);
                     </c:if>

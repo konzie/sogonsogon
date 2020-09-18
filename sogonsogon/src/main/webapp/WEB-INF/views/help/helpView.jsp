@@ -10,7 +10,7 @@
     #back-color{
         width: 100%;
         height: 100%;
-        background-color:#ff9d38;}
+        background-color:#F0EDEB;}
     #wrapper{   margin:auto; 
                 width: 880px;}          
     .detailView{
@@ -62,12 +62,22 @@
     			background-color:#fff; padding:6px 14px;}
     #deleteBtn:hover{border:1px solid #ff4d32;}
     
+    
+    
     #listBtn{	text-decoration:none;
     			border:1px solid #e4e4e4;
     			float:right; font-size:13px; 
     			color:black; border-radius:3px;
-    			background-color:#fff; padding:6px 14px;}
+    			background-color:#fff; padding:6px 14px;
+    			margin-right:10px;}
     #listBtn:hover{border:1px solid #4d4d4d; }
+    
+    #answerBtn{	text-decoration:none;
+    			border:1px solid #e4e4e4;
+    			float:right; font-size:13px; 
+    			color:#ff7600; border-radius:2px;
+    			background-color:#fff; padding:6px 14px;}
+    #answerBtn:hover{border:1px solid #ff7600; background-color:#fff6ed;}
     
 
 </style>
@@ -118,6 +128,15 @@
             		<div class="update-Btn"><a id="updateBtn" type="button">수정</a></div>
             		<div class="delete-Btn"><a id="deleteBtn" type="button">삭제</a></div>
             		
+                    <div class="list-Btn"><a id="listBtn" type="button" href="${contextPath}/help/list/1">목록</a></div>
+	
+                	</c:if>
+                	
+                	<c:if test="${loginMember.memberGrade == 'A'}">
+            		<div class="update-Btn"><a id="updateBtn" type="button">수정</a></div>
+            		<div class="delete-Btn"><a id="deleteBtn" type="button">삭제</a></div>
+            		
+            		<div class="answer-Btn"><a id="answerBtn" type="button" href="${contextPath}/help/answerwrite">답변 작성</a></div>
                     <div class="list-Btn"><a id="listBtn" type="button" href="${contextPath}/help/list/1">목록</a></div>
 	
                 	</c:if>

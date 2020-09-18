@@ -63,6 +63,12 @@ public class RoomBoardReplyServiceImpl implements RoomBoardReplyService {
 	public int deleteReply(int replyNo) {
 		return roomBoardReplyDAO.deleteReply(replyNo);
 	}
+	
+	// 댓글 채택 구현 Service
+	@Override
+	public int adoptionReply(int replyNo, int memberNo, int roomBoardNo) {
+		return roomBoardReplyDAO.adoptionReply(replyNo, memberNo, roomBoardNo);
+	}
 
 	// 크로스 사이트 스크립트 방지 메소드
 	private String replaceParameter(String param) {
@@ -76,5 +82,13 @@ public class RoomBoardReplyServiceImpl implements RoomBoardReplyService {
 
 		return result;
 	}
+
+	// 댓글 채택된거 있는지 확인하는 Service 구현
+	@Override
+	public int adoptionReplyChk(int roomBoardNo) {
+		return roomBoardReplyDAO.adoptionReplyChk(roomBoardNo);
+	}
+
+
 
 }
