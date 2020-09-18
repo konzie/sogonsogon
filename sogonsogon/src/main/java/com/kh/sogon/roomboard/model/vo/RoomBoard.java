@@ -14,6 +14,7 @@ public class RoomBoard {
 	private Timestamp roomBoardCreateDate;
 	private Timestamp roomBoardModifyDate;
 	private int roomBoardReadCount;
+	private int roomBoardLikeCount;
 	
 	public RoomBoard() {
 		// TODO Auto-generated constructor stub
@@ -98,6 +99,14 @@ public class RoomBoard {
 	public void setRoomBoardReadCount(int roomBoardReadCount) {
 		this.roomBoardReadCount = roomBoardReadCount;
 	}
+	
+	public int getRoomBoardLikeCount() {
+		return roomBoardLikeCount;
+	}
+
+	public void setRoomBoardLikeCount(int roomBoardLikeCount) {
+		this.roomBoardLikeCount = roomBoardLikeCount;
+	}
 
 	@Override
 	public String toString() {
@@ -105,8 +114,7 @@ public class RoomBoard {
 				+ ", roomBoardTitle=" + roomBoardTitle + ", roomBoardContent=" + roomBoardContent
 				+ ", roomBoardWriterNo=" + roomBoardWriterNo + ", roomBoardWriter=" + roomBoardWriter
 				+ ", roomBoardCreateDate=" + roomBoardCreateDate + ", roomBoardModifyDate=" + roomBoardModifyDate
-				+ ", roomBoardReadCount=" + roomBoardReadCount + "]";
+				+ ", roomBoardReadCount=" + roomBoardReadCount + ", roomBoardLikeCount=" + roomBoardLikeCount + "]";
 	}
-	
-	
+
 }

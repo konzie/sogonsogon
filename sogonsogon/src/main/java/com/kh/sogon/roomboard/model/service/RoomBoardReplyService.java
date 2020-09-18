@@ -31,5 +31,11 @@ public interface RoomBoardReplyService {
 	 * @return
 	 */
 	int updateReply(RoomBoardReply reply);
+	
+	/** 댓글 삭제 Service
+	 * @param replyNo
+	 * @return
+	 */
+	int deleteReply(int replyNo);
 
 }

@@ -90,5 +90,25 @@ public interface RoomBoardService {
 	 */
 	List<RoomBoard> roomBoardSelectSearchList(RoomBoardPageInfo pInfo, RoomBoardSearch roomBoardSearch);
 
+	/** 게시글 좋아요 Service
+	 * @param roomBoardNo
+	 * @return
+	 */
+	int boardLike(int roomBoardNo, int memberNo);
+
+	/** 게시글 좋아요 갯수 Service
+	 * @param roomBoardNo
+	 * @param memberNo
+	 * @return
+	 */
+	int boardLikeCount(int roomBoardNo);
+
+	/** 사용자 좋아요 여부 Service
+	 * @param roomBoardNo
+	 * @param memberNo
+	 * @return
+	 */
+	int boardLikeUserChk(int roomBoardNo, int memberNo);
+
 
 }

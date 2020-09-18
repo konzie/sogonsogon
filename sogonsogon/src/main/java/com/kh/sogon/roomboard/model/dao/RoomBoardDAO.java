@@ -1,5 +1,6 @@
 package com.kh.sogon.roomboard.model.dao;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -151,6 +152,56 @@ public class RoomBoardDAO {
 		RowBounds rowBounds = new RowBounds(offset, pInfo.getLimit());
 		
 		return sqlSession.selectList("roomBoardMapper.selectSearchList", map, rowBounds);
+	}
+
+	/** 게시판 좋아요 체크
+	 * @param roomBoardNo
+	 * @param memberNo
+	 * @return
+	 */
+	public int boardLikeChk(int roomBoardNo, int memberNo) {
+		Map<String, Integer> map = new HashMap<String, Integer>();
+		
+		map.put("roomBoardNo", roomBoardNo);
+		map.put("memberNo", memberNo);
+		
+		return sqlSession.selectOne("roomBoardMapper.boardLikeChk", map);
+	}
+
+	/** 게시글 좋아요 등록
+	 * @param roomBoardNo
+	 * @param memberNo
+	 * @return
+	 */
+	public int boardLikeAdd(int roomBoardNo, int memberNo) {
+		Map<String, Integer> map = new HashMap<String, Integer>();
+		
+		map.put("roomBoardNo", roomBoardNo);
+		map.put("memberNo", memberNo);
+		
+		return sqlSession.insert("roomBoardMapper.boardLikeAdd", map);
+	}
+
+	/** 게시글 좋아요 삭제
+	 * @param roomBoardNo
+	 * @param memberNo
+	 * @return
+	 */
+	public int boardLikeDelete(int roomBoardNo, int memberNo) {
+		Map<String, Integer> map = new HashMap<String, Integer>();
+		
+		map.put("roomBoardNo", roomBoardNo);
+		map.put("memberNo", memberNo);
+		
+		return sqlSession.delete("roomBoardMapper.boardLikeDelete", map);
+	}
+
+	/** 게시글 좋아요 갯수
+	 * @param roomBoardNo
+	 * @return result
+	 */
+	public int boardLikeCount(int roomBoardNo) {
+		return sqlSession.selectOne("roomBoardMapper.boardLikeCount", roomBoardNo);
 	}
 
 }

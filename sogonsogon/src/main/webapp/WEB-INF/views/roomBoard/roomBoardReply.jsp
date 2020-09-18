@@ -179,7 +179,7 @@ function selectReplyList(){
 				var $btnArea = $("<div>").addClass("btnArea");
 				
 				// 로그인 되어 있는 경우에 답글 버튼 추가
-				if(loginMemberId != ""){
+				if(loginMemberId != "" && rList[i].replyDepth != 1){
 					// ** 추가되는 댓글에 onclick 이벤트를 부여하여 버튼 클릭 시 답글창을 생성하는 함수를 이벤트 핸들러로 추가함. 
 					var $reply2 = $("<button>").addClass("btn btn-sm btn-primary ml-1 reply2").text("답글").attr("onclick", "addReply2Area(this, "+rList[i].parentReplyNo+")");
 					$btnArea.append($reply2);
@@ -189,7 +189,7 @@ function selectReplyList(){
 				if(rList[i].memberId == loginMemberId){
 					
 					var $showUpdate = $("<button>").addClass("btn btn-sm btn-primary ml-1").attr("id","replyUpdate").text("수정").attr("onclick", "updateReplyArea(this, "+rList[i].parentReplyNo+")");
-					var $deleteReply = $("<button>").addClass("btn btn-sm btn-primary ml-1").text("삭제");
+					var $deleteReply = $("<button>").addClass("btn btn-sm btn-primary ml-1").attr("id","replyUpdate").text("삭제").attr("onclick", "deleteReply(this, "+rList[i].replyNo+")");
 					$btnArea.append($showUpdate, $deleteReply);
 				}
 				
@@ -214,6 +214,26 @@ function selectReplyList(){
 }
 
 //-----------------------------------------------------------------------------------------
+
+// 댓글 삭제
+function deleteReply(el, replyNo) {
+	var cancleConfirm = confirm("정말 댓글 삭제하시겠습니까?");
+	
+	if(cancleConfirm) {
+		$.ajax({
+			url : "${contextPath}/roomBoard/reply/deleteReply/" + replyNo,
+			type : "get",
+			success : function(result) {
+				alert(result);
+				selectReplyList();
+			}, error : function() {
+				console.log("통신 실패");
+			}
+		});
+		
+		return cancleConfirm;
+	}
+}
 
 // 댓글 등록
 $("#addReply").on("click", function(){

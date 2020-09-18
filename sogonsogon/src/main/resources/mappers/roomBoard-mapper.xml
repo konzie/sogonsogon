@@ -13,6 +13,7 @@
         <result property="roomBoardModifyDate" column="ROOM_BOARD_MODIFY_DATE"/>
         <result property="roomBoardReadCount" column="ROOM_BOARD_READ_COUNT"/>
         <result property="roomBoardWriter" column="MEMBER_ID"/>
+        <result property="roomBoardLikeCount" column="ROOM_BOARD_LIKE_COUNT"/>
     </resultMap>
     
     <resultMap type="RoomBoardAttachment" id="roomBoardAttachmentResultSet">
@@ -25,7 +26,8 @@
     </resultMap>
     
 	<select id="roomBoardSelectList" parameterType="_int" resultMap="roomBoardResultSet">
-		SELECT ROOM_BOARD_NO, ROOM_BOARD_TYPE, ROOM_BOARD_TITLE, MEMBER_ID, ROOM_BOARD_CREATE_DATE, ROOM_BOARD_READ_COUNT, ROOM_BOARD_TYPE, ROOM_BOARD_MODIFY_DATE
+		SELECT ROOM_BOARD_NO, ROOM_BOARD_TYPE, ROOM_BOARD_TITLE, MEMBER_ID, ROOM_BOARD_CREATE_DATE, ROOM_BOARD_READ_COUNT, ROOM_BOARD_TYPE, ROOM_BOARD_MODIFY_DATE,
+				(SELECT COUNT(*) FROM ROOM_BOARD_LIKE WHERE LIKE_ROOM_BOARD_NO = ROOM_BOARD_NO) AS ROOM_BOARD_LIKE_COUNT
 		FROM ROOMBOARD
 		JOIN MEMBER ON (ROOM_BOARD_WRITER = MEMBER_NO)
 		WHERE ROOM_NO = #{roomNo}
@@ -45,7 +47,7 @@
 	
 	<!-- 게시글 상세 조회 -->
 	<select id="selectBoard" parameterType="_int" resultMap="roomBoardResultSet">
-		SELECT ROOM_BOARD_NO, ROOM_BOARD_TYPE, ROOM_BOARD_TITLE,ROOM_BOARD_CONTENT, MEMBER_ID, ROOM_BOARD_CREATE_DATE, ROOM_BOARD_READ_COUNT
+		SELECT ROOM_BOARD_NO, ROOM_BOARD_TYPE, ROOM_BOARD_TITLE,ROOM_BOARD_CONTENT, MEMBER_ID, ROOM_BOARD_CREATE_DATE, ROOM_BOARD_MODIFY_DATE, ROOM_BOARD_READ_COUNT
 		FROM ROOMBOARD
 		JOIN MEMBER ON (ROOM_BOARD_WRITER = MEMBER_NO)
 		WHERE ROOM_BOARD_NO = #{boardNo} 
@@ -160,7 +162,8 @@
    
    <!-- 검색 게시글 목록 조회 -->
    <select id="selectSearchList" parameterType="map" resultMap="roomBoardResultSet">
-   		SELECT ROOM_BOARD_NO, ROOM_BOARD_TYPE, ROOM_BOARD_TITLE, MEMBER_ID, ROOM_BOARD_CREATE_DATE, ROOM_BOARD_READ_COUNT, ROOM_BOARD_TYPE, ROOM_BOARD_MODIFY_DATE
+   		SELECT ROOM_BOARD_NO, ROOM_BOARD_TYPE, ROOM_BOARD_TITLE, MEMBER_ID, ROOM_BOARD_CREATE_DATE, ROOM_BOARD_READ_COUNT, ROOM_BOARD_TYPE, ROOM_BOARD_MODIFY_DATE,
+   				(SELECT COUNT(*) FROM ROOM_BOARD_LIKE WHERE LIKE_ROOM_BOARD_NO = ROOM_BOARD_NO) AS ROOM_BOARD_LIKE_COUNT
    		FROM ROOMBOARD
    		JOIN MEMBER ON (ROOM_BOARD_WRITER = MEMBER_NO)
    		<!-- Map 객체를 사용할 경우 key값을 호출하면 해당 value값을 얻을 수 있음 -->
@@ -185,5 +188,32 @@
    			</choose>
    		</if>
    		ORDER BY ROOM_BOARD_NO DESC
+   </select>
+   
+   <!-- 게시글 좋아요 체크 -->
+   <select id="boardLikeChk" parameterType="map" resultType="_int">
+   		SELECT COUNT(*)
+   		FROM ROOM_BOARD_LIKE
+   		WHERE LIKE_ROOM_BOARD_NO = #{roomBoardNo}
+   		AND LIKE_MEMBER_NO = #{memberNo}
+   </select>
+   
+   <!-- 게시글 좋아요 등록 -->
+   <insert id="boardLikeAdd" parameterType="map">
+   		INSERT INTO ROOM_BOARD_LIKE VALUES (#{roomBoardNo}, #{memberNo})
+   </insert>
+   
+   <!-- 게시글 좋아요 삭제 -->
+   <delete id="boardLikeDelete" parameterType="map">
+   		DELETE FROM ROOM_BOARD_LIKE
+   		WHERE LIKE_ROOM_BOARD_NO = #{roomBoardNo}
+   		AND LIKE_MEMBER_NO = #{memberNo} 
+   </delete>
+   
+   <!-- 게시글 좋아요 갯수 -->
+   <select id="boardLikeCount" parameterType="_int" resultType="_int">
+      	SELECT COUNT(*)
+   		FROM ROOM_BOARD_LIKE
+   		WHERE LIKE_ROOM_BOARD_NO = #{roomBoardNo}
    </select>
 </mapper>

@@ -57,6 +57,12 @@ public class RoomBoardReplyServiceImpl implements RoomBoardReplyService {
 
 		return roomBoardReplyDAO.updateReply(reply);
 	}
+	
+	// 댓글 삭제 서비스 구현
+	@Override
+	public int deleteReply(int replyNo) {
+		return roomBoardReplyDAO.deleteReply(replyNo);
+	}
 
 	// 크로스 사이트 스크립트 방지 메소드
 	private String replaceParameter(String param) {

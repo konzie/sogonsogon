@@ -41,5 +41,13 @@ public class RoomBoardReplyDAO {
 	public int updateReply(RoomBoardReply reply) {
 		return sqlSession.update("roomBoardReplyMapper.updateReply", reply);
 	}
+	
+	/** 댓글 삭제 DAO
+	 * @param replyNo
+	 * @return
+	 */
+	public int deleteReply(int replyNo) {
+		return sqlSession.update("roomBoardReplyMapper.deleteReply", replyNo);
+	}
 
 }

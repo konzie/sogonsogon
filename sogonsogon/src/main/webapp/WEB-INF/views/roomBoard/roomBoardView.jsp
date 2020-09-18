@@ -70,6 +70,23 @@
 						<p>마지막 수정일 :${board.roomBoardModifyDate} </p>  
 					</div>
 					
+					<!-- 추천 기능 -->
+					<div>
+						<div class="w3-border w3-center w3-padding">
+							<br>
+							<c:if test="${ loginMember == null }">
+								<i class="fa fa-heart" style="font-size:16px;cursor: pointer;"></i>
+								<span class="rec_count"></span>	
+								<br>
+								<h6>추천 기능은 로그인 후 사용 가능합니다.</h6>	
+							</c:if>
+							<c:if test="${ loginMember != null }">
+								<i class="fa fa-heart" id="rec_update" style="font-size:16px;cursor: pointer;"></i>
+								&nbsp;<span class="rec_count"></span>
+							</c:if>
+						</div>
+					</div>
+					
 				</div>
 
 				<hr>
@@ -144,13 +161,81 @@
 	</div>
 	<jsp:include page="../common/footer.jsp"/>
 	
-	<script>	
+	<script>
+		$(function(){
+			 recCount(); // 처음 시작했을 때 실행되도록 해당 함수 호출
+			 <c:if test="${ loginMember != null }">
+				 boardLikeUserChk();
+			 </c:if>
+		});
+		
 		$("#deleteBtn").on("click", function() {
 			if(confirm("정말 삭제 하시겠습니까?")) {
 				// spring/board/1/515/delete
 				location.href = "${board.roomBoardNo}/delete";
 			}
 		});
+		
+		// 추천버튼 클릭시(추천 추가 또는 추천 제거)
+		$("#rec_update").click(function(){
+			$.ajax({
+				url: "${contextPath}/roomBoard/boardLike",
+                type: "POST",
+                data: {
+                	roomBoardNo: '${board.roomBoardNo}',
+                	memberNo: '${sessionScope.loginMember.memberNo}'
+                },
+                success: function (result) {
+                	if(result > 0) {
+                		$(".fa-heart").css("color", "black");
+                	} else {
+                		$(".fa-heart").css("color", "red");
+                	}
+                	
+			        recCount();
+                }, error : function() {
+                	console.log("AJAX 통신 에러");
+                }
+			});
+		});
+		
+		// 게시글 추천수
+	    function recCount() {
+			$.ajax({
+				url: "${contextPath}/roomBoard/boardLikeCount",
+                type: "POST",
+                data: {
+                	roomBoardNo: '${board.roomBoardNo}'
+                },
+                success: function (count) {
+                	$(".rec_count").html(count);
+                }, error : function() {
+                	console.log("AJAX 통신 에러");
+                }
+			});
+	    };
+	    
+		// 사용자 좋아요 여부 체크
+	    function boardLikeUserChk() {
+			$.ajax({
+				url: "${contextPath}/roomBoard/boardLikeUserChk",
+                type: "POST",
+                data: {
+                	roomBoardNo: '${board.roomBoardNo}',
+                	memberNo: '${sessionScope.loginMember.memberNo}'
+                },
+                success: function (result) {
+                	if(result > 0) {
+                		$(".fa-heart").css("color", "red");
+                	} else {
+                		$(".fa-heart").css("color", "black");
+                	}
+                }, error : function() {
+                	console.log("AJAX 통신 에러");
+                }
+			});
+	    };
+	   
 		
 	</script>
 </body>

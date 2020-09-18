@@ -87,4 +87,20 @@ public class RoomBoardReplyController {
 		
 		return str;
 	}
+	
+	// 댓글 삭제
+	@ResponseBody
+	@RequestMapping(value="deleteReply/{replyNo}",
+					produces = "application/text; charset=utf-8;")
+	public String deleteReply(@PathVariable int replyNo) {
+		
+		int result = roomBoardReplyService.deleteReply(replyNo);
+		
+		String str = "댓글  삭제 ";
+		
+		if(result > 0) str += "성공";
+		else           str += "실패";
+		
+		return str;
+	}
 }
