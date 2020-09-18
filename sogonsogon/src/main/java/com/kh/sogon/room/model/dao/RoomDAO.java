@@ -191,5 +191,34 @@ public class RoomDAO {
 		return  sqlSession.selectList("roomMapper.mainRoomList", null);
 	}
 
+
+	
+	/** 작성게시글 갯수 확인을 위한 DAO
+	 * @param roomNo
+	 * @param loginMemberNo
+	 * @return
+	 */
+	public int writeBoardCount(int roomNo, int loginMemberNo) {
+		Map<String, Integer> map = new HashMap<String, Integer>();
+		
+		map.put("roomNo", roomNo);
+		map.put("memberNo", loginMemberNo);
+		return sqlSession.selectOne("roomMapper.writeBoardCount", map);
+	}
+
+
+	/** 작성게시글 댓글 갯수 확인을 위한 DAO
+	 * @param roomNo
+	 * @param loginMemberNo
+	 * @return
+	 */
+	public int writeBoardReplyCount(int roomNo, int loginMemberNo) {
+		Map<String, Integer> map = new HashMap<String, Integer>();
+		
+		map.put("roomNo", roomNo);
+		map.put("memberNo", loginMemberNo);
+		return sqlSession.selectOne("roomMapper.writeBoardReplyCount", map);
+	}
+
 	
 }

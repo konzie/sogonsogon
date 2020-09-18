@@ -165,7 +165,7 @@
 		$(function(){
 			 recCount(); // 처음 시작했을 때 실행되도록 해당 함수 호출
 			 <c:if test="${ loginMember != null }">
-				 boardLikeUserChk();
+				 boardLikeUserChk();  
 			 </c:if>
 		});
 		

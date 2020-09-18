@@ -38,4 +38,18 @@ public interface RoomBoardReplyService {
 	 */
 	int deleteReply(int replyNo);
 
+	/** 댓글 채택 Service
+	 * @param replyNo
+	 * @param memberNo
+	 * @param roomBoardNo
+	 * @return
+	 */
+	int adoptionReply(int replyNo, int memberNo, int roomBoardNo);
+
+	/** 댓글 채택된거 있는지 확인하는 Service
+	 * @param roomBoardNo
+	 * @return
+	 */
+	int adoptionReplyChk(int roomBoardNo);
+
 }

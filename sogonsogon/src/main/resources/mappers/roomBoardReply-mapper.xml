@@ -45,4 +45,25 @@
 		WHERE ROOM_BOARD_REPLY_NO = #{replyNo} 
 		OR (ROOM_BOARD_REPLY_NO != ROOM_BOARD_PARENT_REPLY_NO AND ROOM_BOARD_PARENT_REPLY_NO = #{replyNo})
 	</update>
+	
+	<insert id="adoptionReply" parameterType="map">
+		INSERT INTO ROOM_BOARD_REPLY_ADOPTION
+		VALUES(#{replyNo}, SYSDATE, #{roomBoardNo}, #{memberNo})
+	</insert>
+	
+	<select id="adoptionReplyChk" parameterType="_int" resultType="_int">
+		SELECT ADOPTION_REPLY_NO
+		FROM ROOM_BOARD_REPLY_ADOPTION
+		WHERE ADOPTION_BOARD_NO = #{roomBoardNo}
+		
+		UNION ALL
+		
+		SELECT -1 AS ADOPTION_REPLY_NO
+		FROM DUAL
+		WHERE NOT EXISTS (
+			SELECT NVL(ADOPTION_REPLY_NO,-1)
+			FROM ROOM_BOARD_REPLY_ADOPTION
+			WHERE ADOPTION_BOARD_NO = #{roomBoardNo}
+		)
+	</select>
 </mapper>
