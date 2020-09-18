@@ -61,7 +61,6 @@ public class RoomController {
 		
 		@RequestMapping("roomDetail/{roomNo}")
 		public String roomDetailView(@PathVariable int roomNo, @RequestParam(value = "inputPwd", required = false, defaultValue = "-1") String inputPwd, Model model, RedirectAttributes rdAttr, HttpServletRequest request,Room room) {
-			System.out.println(roomNo);
 			Member loginMember = (Member)model.getAttribute("loginMember");
 			
 			if(loginMember != null)
@@ -72,7 +71,12 @@ public class RoomController {
 			
 			String returnPath = null;
 			if(roomDetail != null) {
-				
+				if(loginMember != null) {
+					int writeBoardCount = roomService.writeBoardCount(roomNo, loginMember.getMemberNo());
+					int writeBoardReplyCount = roomService.writeBoardReplyCount(roomNo, loginMember.getMemberNo());
+					model.addAttribute("writeBoardCount", writeBoardCount);
+					model.addAttribute("writeBoardReplyCount", writeBoardReplyCount);
+				}
 				model.addAttribute("roomDetail", roomDetail);
 				returnPath = "room/roomDetail";
 			} else {

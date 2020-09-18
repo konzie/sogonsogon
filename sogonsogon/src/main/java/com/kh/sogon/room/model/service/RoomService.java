@@ -86,6 +86,20 @@ public interface RoomService {
 	 */
 	List<Room> mainRoomList();
 
+	/** 작성 게시글 갯수 확인 Service
+	 * @param roomNo
+	 * @param loginMemberNo
+	 * @return
+	 */
+	int writeBoardCount(int roomNo, int loginMemberNo);
+
+	/**작성 게시글 댓글 갯수 확인 Service
+	 * @param roomNo
+	 * @param memberNo
+	 * @return
+	 */
+	int writeBoardReplyCount(int roomNo, int loginMemberNo);
+
 
 
 }
