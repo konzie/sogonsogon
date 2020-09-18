@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-	
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <style>
 /*댓글*/
 .replyWrite>table {
@@ -168,7 +169,11 @@ function selectReplyList(){
 				var $rDate = $("<p>").addClass("rDate")
 								.html("작성일 : " + rList[i].replyCreateDate + "<br>"
 											+ "마지막 수정 날짜 : " + rList[i].replyModifyDate);
-				$div.append($rWriter).append($rDate)
+				var $rButton = null;
+				<c:if test="${fn:trim(board.roomBoardWriter) eq fn:trim(loginMember.memberId)}">
+					$rButton = $("<button>").addClass("btn btn-sm btn-primary ml-1 adoption").text("채택").attr("onclick", "addAdoption(this, "+rList[i].replyNo+")");
+				</c:if>
+				$div.append($rWriter).append($rDate).append($rButton);
 				
 				
 				// 댓글 내용
@@ -203,17 +208,61 @@ function selectReplyList(){
 				
 				// 댓글 영역을 화면에 배치
 				$replyListArea.append($li).append($hr);
+				
 			});
-			
+			chkAdoption();
 		}, error : function(request, status, error){
 			 	console.log("ajax 통신 오류");
 				console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
 	        
 		}
 	});
+	
 }
 
 //-----------------------------------------------------------------------------------------
+// 댓글 채택
+function addAdoption(el, replyNo) {
+	var cancleConfirm = confirm("정말 이 댓글을 채택하시겠습니까?");
+	var memberNo = "${loginMember.memberNo}";
+	var roomBoardNo = "${board.roomBoardNo}";
+	
+	if(cancleConfirm) {
+		$.ajax({
+			url : "${contextPath}/roomBoard/reply/adoptionReply/" + replyNo,
+			type : "post",
+			data : {"memberNo" : memberNo, "roomBoardNo" : roomBoardNo},
+			success : function(result) {
+				alert(result);
+				console.log("채택 완료");
+				$p = $("<span>").text("채택되었습니다");
+				$(el).parent().parent().css("background-color", "yellow").append($p);
+				$(".adoption").remove();
+				
+			},error : function() {
+				console.log("통신 실패");
+			}
+		});
+	}
+}
+
+// 댓글 채택 있는지 확인
+function chkAdoption() {
+	var roomBoardNo = "${board.roomBoardNo}";
+	$.ajax({
+		url : "${contextPath}/roomBoard/reply/adoptionReplyChk/" + roomBoardNo,
+		type : "post",
+		success : function(result) {
+			if(result > 0) {
+				$p = $("<span>").text("채택되었습니다");
+				$("#" + parseInt(result)).css("background-color", "yellow").append($p);
+				$(".adoption").remove();
+			}
+		},error : function() {
+			console.log("통신 실패");
+		}
+	});
+}
 
 // 댓글 삭제
 function deleteReply(el, replyNo) {
@@ -427,7 +476,7 @@ function cancelReply2(){
  	 		if($(".rContent").is(":visible")) {
  	 			console.log("테스트 중 ");
  	 			$(".rContent").show();
- 	 			$(".btnArea").show();
+ 	 			$(".btnArea").show(); 
  	 		}
  	 		
  		}

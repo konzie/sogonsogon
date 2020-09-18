@@ -1,6 +1,8 @@
 package com.kh.sogon.roomboard.model.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +50,30 @@ public class RoomBoardReplyDAO {
 	 */
 	public int deleteReply(int replyNo) {
 		return sqlSession.update("roomBoardReplyMapper.deleteReply", replyNo);
+	}
+
+	/** 댓글 채택 DAO
+	 * @param replyNo
+	 * @param memberNo
+	 * @param roomBoardNo
+	 * @return
+	 */
+	public int adoptionReply(int replyNo, int memberNo, int roomBoardNo) {
+		Map<String, Integer> map = new HashMap<String, Integer>();
+		
+		map.put("replyNo", replyNo);
+		map.put("memberNo", memberNo);
+		map.put("roomBoardNo", roomBoardNo);
+		
+		return sqlSession.insert("roomBoardReplyMapper.adoptionReply", map);
+	}
+
+	/** 댓글 채택된거 있는지 확인하는 DAO
+	 * @param roomBoardNo
+	 * @return
+	 */
+	public int adoptionReplyChk(int roomBoardNo) {
+		return sqlSession.selectOne("roomBoardReplyMapper.adoptionReplyChk", roomBoardNo);
 	}
 
 }

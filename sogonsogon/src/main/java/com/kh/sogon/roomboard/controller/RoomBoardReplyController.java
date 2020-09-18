@@ -103,4 +103,31 @@ public class RoomBoardReplyController {
 		
 		return str;
 	}
+	
+	// 댓글 채택
+	@ResponseBody
+	@RequestMapping(value="adoptionReply/{replyNo}",
+					produces = "application/text; charset=utf-8;")
+	public String adoptionReply(@PathVariable int replyNo, int memberNo, int roomBoardNo) {
+		
+		int result = roomBoardReplyService.adoptionReply(replyNo, memberNo, roomBoardNo);
+		
+		String str = "댓글  채택 ";
+		
+		if(result > 0) str += "성공";
+		else           str += "실패";
+		
+		return str;
+	}
+	
+	// 댓글 채택된거 있는지 체크
+	@ResponseBody
+	@RequestMapping(value="adoptionReplyChk/{roomBoardNo}",
+					produces = "application/text; charset=utf-8;")
+	public String adoptionReplyChk(@PathVariable int roomBoardNo) {
+		
+		int result = roomBoardReplyService.adoptionReplyChk(roomBoardNo);
+		
+		return result + "";
+	}
 }
