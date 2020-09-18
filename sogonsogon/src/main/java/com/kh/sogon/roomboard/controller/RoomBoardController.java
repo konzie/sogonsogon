@@ -83,6 +83,32 @@ public class RoomBoardController {
 
 		return gson.toJson(map);
 	}
+	
+	
+	// 게시글 좋아요
+	@ResponseBody
+	@RequestMapping("boardLike")
+	public String boardLike(int roomBoardNo, int memberNo) {
+		int result = roomBoardService.boardLike(roomBoardNo, memberNo);
+		return result + "";
+	}
+	
+	// 게시글 좋아요 갯수
+	@ResponseBody
+	@RequestMapping("boardLikeCount")
+	public String boardLikeCount(int roomBoardNo) {
+		int result = roomBoardService.boardLikeCount(roomBoardNo);
+		return result + "";
+	}
+	
+	// 게시글 좋아요 사용자 체크 여부
+	@ResponseBody
+	@RequestMapping("boardLikeUserChk")
+	public String boardLikeUserChk(int roomBoardNo, int memberNo) {
+		int result = roomBoardService.boardLikeUserChk(roomBoardNo, memberNo);
+		return result + "";
+	}
+	
 
 	@RequestMapping("{roomNo}/boardInsertView")
 	public String boardInsertView() {

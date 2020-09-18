@@ -46,9 +46,8 @@
 					
 					<!-- 방장 회원 전용 메뉴-->
 					<c:if test="${loginMember.getMemberId() eq roomDetail.memberId}">
-					<a href="#" class="list-group-item" id="roomMemberInfo">방 회원
-						조회</a> <a href="#" class="list-group-item">공지사항 작성</a> <a href="#"
-						class="list-group-item">방 정보 수정</a>
+					<a href="#" class="list-group-item" id="roomMemberInfo">방 회원 조회</a>
+					<a href="#" class="list-group-item">방 정보 수정</a>
 					</c:if>
 
 				</div>
@@ -121,11 +120,28 @@
             var enterChk = false;
             $("#moreInfo").on("click", function() {
                 if(!enterChk) {
-                    /* var $p1 = $("<p>").html("<br><h6>방 생성날짜 : ${roomDetail.roomCreateDate}</h6><br> 현재 방 내에서 채택된 답변 수 : 10 <br> 작성한 글 수  : 1<br> 작성한 글 수 : 3<br>"); */
-                    var $p1 = $("<p>").html("<br><h6>방 생성날짜 : ${roomDetail.roomCreateDate}</h6><br>");
+                	<jsp:useBean id="now" class="java.util.Date"/>
+                	
+                    <fmt:formatDate var="today" value="${now}" pattern="yyyy-MM-dd"/>
+                    <fmt:formatDate var="createDate" value="${roomDetail.roomCreateDate}" pattern="yyyy-MM-dd"/>
+                    <fmt:formatDate var="createTime" value="${roomDetail.roomCreateDate}" pattern="hh:mm:ss"/>
+                    
+                    
+                    <c:choose>   
+                    	<c:when test="${today == createDate}">
+                    	   
+                    	   var $p1 = $("<p>").html("<br><h6>방 생성날짜 : ${createTime}</h6><br>");
+                    	</c:when>
+                    	<c:otherwise>
+                     	  
+                     	 	var $p1 = $("<p>").html("<br><h6>방 생성날짜 : ${createDate}</h6><br>");
+                    	</c:otherwise>
+                 	</c:choose>
+                            
+                    
                     $("#infoList").append($p1);
                     <c:if test="${!empty loginMember}">
-	                    var $p2 = $("<p>").html("현재 방 내에서 채택된 답변 수 : 10 <br> 작성한 글 수  : 1<br> 작성한 글 수 : 3<br>");
+	                    var $p2 = $("<p>").html("현재 방 내에서 채택된 답변 수 : 10 <br> 작성한 글 수  : 1<br> 작성한 댓글 수 : 3<br>");
 	                    var $button = $("<button>", {type : "button" , id : "outRoom", class : "btn-primary"}).text("방 탈퇴");
 	                    $("#infoList").append($p2, $button);
                     </c:if>
@@ -133,6 +149,7 @@
                     enterChk = true;
                 }
             });
+            
             
          	// 게시글 상세보기 기능 구현
             $(function(){
@@ -253,7 +270,7 @@
 							$td4 = $("<td>").text(object.rbList[i].roomBoardWriter);
 							$td5 = $("<td>").text(object.rbList[i].roomBoardCreateDate);
 							$td6 = $("<td>").text(object.rbList[i].roomBoardReadCount);
-							$td7 = $("<td>").text("0");
+							$td7 = $("<td>").text(object.rbList[i].roomBoardLikeCount);
 							
 							$tr.append($td1,$td2,$td3,$td4,$td5,$td6,$td7);
 							$table.append($tr);

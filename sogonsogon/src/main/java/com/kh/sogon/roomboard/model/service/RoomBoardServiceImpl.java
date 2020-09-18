@@ -307,6 +307,40 @@ public class RoomBoardServiceImpl implements RoomBoardService {
 		
 		return roomBoardDAO.selectSearchList(pInfo, map);
 	}
+
+	// 게시글 좋아요 서비스 구현
+	@Transactional(rollbackFor = Exception.class)	
+	@Override
+	public int boardLike(int roomBoardNo, int memberNo) {
+
+		int result = 0;
+		// 좋아요 체크
+		int chkResult = roomBoardDAO.boardLikeChk(roomBoardNo, memberNo);
+		
+		if(chkResult > 0) {
+			// 체크가 되어있다면 삭제
+			result = roomBoardDAO.boardLikeDelete(roomBoardNo, memberNo);
+		} else {
+			// 체크가 안되어있다면 추가
+			result = roomBoardDAO.boardLikeAdd(roomBoardNo, memberNo);
+		}
+		
+		return chkResult;
+	}
+
+	// 게시글 좋아요 갯수 서비스 구현
+	@Override
+	public int boardLikeCount(int roomBoardNo) {
+		int result = roomBoardDAO.boardLikeCount(roomBoardNo);
+		return result;
+	}
+
+	// 게시글 사용자 좋아요 여부 서비스 구현
+	@Override
+	public int boardLikeUserChk(int roomBoardNo, int memberNo) {
+		int result = roomBoardDAO.boardLikeChk(roomBoardNo, memberNo);
+		return result;
+	}
 	
 	
 }
