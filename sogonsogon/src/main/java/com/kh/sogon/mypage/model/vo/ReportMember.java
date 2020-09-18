@@ -10,6 +10,8 @@ public class ReportMember {
 	private Date reportDate;
 	private String memberNick;
 	private int boardNo;
+	private int roomBoardNo;
+	private int roomNo;
 	
 	public ReportMember() {
 		// TODO Auto-generated constructor stub
@@ -72,10 +74,27 @@ public class ReportMember {
 		this.boardNo = boardNo;
 	}
 
+	public int getRoomBoardNo() {
+		return roomBoardNo;
+	}
+
+	public void setRoomBoardNo(int roomBoardNo) {
+		this.roomBoardNo = roomBoardNo;
+	}
+
+	public int getRoomNo() {
+		return roomNo;
+	}
+
+	public void setRoomNo(int roomNo) {
+		this.roomNo = roomNo;
+	}
+
 	@Override
 	public String toString() {
 		return "ReportMember [memberNo=" + memberNo + ", reportStatus=" + reportStatus + ", reportCount=" + reportCount
-				+ ", reportDate=" + reportDate + ", memberNick=" + memberNick + ", boardNo=" + boardNo + "]";
+				+ ", reportDate=" + reportDate + ", memberNick=" + memberNick + ", boardNo=" + boardNo
+				+ ", roomBoardNo=" + roomBoardNo + ", roomNo=" + roomNo + "]";
 	}
 	
 	
