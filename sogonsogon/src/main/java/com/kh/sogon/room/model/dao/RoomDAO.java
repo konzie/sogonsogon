@@ -191,5 +191,10 @@ public class RoomDAO {
 		return  sqlSession.selectList("roomMapper.mainRoomList", null);
 	}
 
+
+	public List<RoomMember> mainLikeList() {
+		return sqlSession.selectList("roomMapper.mainLikeList", null);
+	}
+
 	
 }

@@ -25,6 +25,8 @@
         <result property="roomMemberMemberNo" column="ROOM_MEMBER_MEMBER_NO"/>
         <result property="roomMemberMemberGrade" column="ROOM_MEMBER_MEMBER_GRADE"/>
         <result property="roomMemberEnrollDate" column="ROOM_MEMBER_ENROLL_DATE"/>
+        <result property="roomMemberNick" column="MEMBER_NICK"/>
+        <result property="LikeCount" column="SUM_LIKE_COUNT"/>
     </resultMap>
     
     <!-- room 상세 정보 조회 쿼리 -->
@@ -149,6 +151,20 @@
 		FROM STUDY_ROOM JOIN MEMBER ON(ROOM_MEMBER_NO=MEMBER_NO)
 		WHERE ROOM_STATUS = 'Y' ORDER BY ROOM_NO DESC)
 		<![CDATA[ WHERE ROWNUM <=4 ]]>
+	</select>
+	
+	<select id="mainLikeList"  resultType="list"  resultMap="roomMemberResultSet">
+        SELECT * FROM
+            (SELECT ROOM_BOARD_WRITER, MEMBER_NICK, SUM(LIKE_COUNT) SUM_LIKE_COUNT 
+            FROM(
+                SELECT ROOM_BOARD_WRITER, MEMBER_NICK, LIKE_ROOM_BOARD_NO, COUNT(*) LIKE_COUNT
+                FROM ROOM_BOARD_LIKE
+                JOIN ROOMBOARD ON(ROOM_BOARD_NO = LIKE_ROOM_BOARD_NO)
+                JOIN MEMBER ON(ROOM_BOARD_WRITER = MEMBER_NO)
+                GROUP BY ROOM_BOARD_WRITER, MEMBER_NICK, LIKE_ROOM_BOARD_NO)
+            GROUP BY ROOM_BOARD_WRITER, MEMBER_NICK
+            ORDER BY SUM_LIKE_COUNT DESC)
+         <![CDATA[ WHERE ROWNUM <=3]]>
 	</select>
 	
 </mapper>

@@ -273,7 +273,26 @@
 		text-decoration: none;
   			color: white;
 	}
-
+	
+	/* 광고영역 */
+        .likelist{
+            background: rgb(252, 246, 231);
+            width: 350px;
+            height: 200px;
+            text-align: center;
+            position: fixed;
+            bottom: 200px;
+            right: 100px;
+            padding: 10px;
+        }
+        .closeBtn{
+            background: white;
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            line-height: 20px;
+        }
 </style>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
@@ -547,6 +566,19 @@
      </form> <!-- modal end -->
      </c:if>
      
+     <!-- 광고영역 -->
+        <div class="likelist">
+            <h3>당첨자 발표(좋아요순)</h3>
+            <div>1등. <span class="likeCount"></span>  - 문화상품권</div>
+            <div>2등. <span class="likeCount"></span> - 문화상품권</div>
+            <div>3등. <span class="likeCount"></span> - 문화상품권</div>
+         
+             입력하신 연락처로 연락드립니다.<br>
+             마이페이지에서 연락처를 확인해주세요.
+         
+        </div>
+        
+     
    <jsp:include page="WEB-INF/views/common/footer.jsp" />
 
 	
@@ -719,6 +751,29 @@
 			var nBoardNo = $(this).parent().children().eq(0).text();
 			console.log(nBoardNo);
 			location.href="${contextPath}/board/"+nBoardNo;
+		});
+	});
+	
+	
+	$(function(){
+		$.ajax({
+			url: "${contextPath}/room/mainLikeList",
+			dataType : "json",
+			success: function(mainLikeList){
+				
+				$.each(mainLikeList, function(index, item){
+
+					var $memberNick = item.roomMemberNick;
+					var $likeCount = item.LikeCount;
+				
+					 console.log($memberNick);
+					 console.log($likeCount);
+					$(".likeCount").text($memberNick + "(" +$likeCount +")");
+					// 지금 3등만 입력되고 있어요.... 입력받는 화면을 아이디로 주거나해야될듯! 휴
+				});
+			},error: function(){
+				console.log("ajax 통신 실패");
+			}
 		});
 	});
 	

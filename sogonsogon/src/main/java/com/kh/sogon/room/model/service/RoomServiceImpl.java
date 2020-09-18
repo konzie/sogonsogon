@@ -168,5 +168,10 @@ public class RoomServiceImpl implements RoomService{
 		return roomDAO.mainRoomList();
 	}
 
+	@Override
+	public List<RoomMember> mainLikeList() {
+		return roomDAO.mainLikeList();
+	}
+
 
 }

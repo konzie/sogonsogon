@@ -82,9 +82,14 @@ public interface RoomService {
 	List<Room> searchList(PageInfo pInfo, String search);
 
 	/** 메인 화면 List얻어오기
-	 * @return
+	 * @return list
 	 */
 	List<Room> mainRoomList();
+
+	/** 메인 화면 좋아요 많이 받은 사람 top3
+	 * @return list
+	 */
+	List<RoomMember> mainLikeList();
 
 
 

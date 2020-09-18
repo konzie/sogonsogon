@@ -7,6 +7,8 @@ public class RoomMember {
    private int roomMemberMemberNo;
    private char roomMemberMemberGrade;
    private Timestamp roomMemberEnrollDate;
+   private String roomMemberNick;
+   private int LikeCount;
    
    public RoomMember() {
    }
@@ -59,13 +61,43 @@ public class RoomMember {
    public void setRoomMemberEnrollDate(Timestamp roomMemberEnrollDate) {
       this.roomMemberEnrollDate = roomMemberEnrollDate;
    }
+   
+   
 
-   @Override
-   public String toString() {
-      return "RoomMember [roomMemberRoomNo=" + roomMemberRoomNo + ", roomMemberMemberNo=" + roomMemberMemberNo
-            + ", roomMemberMemberGrade=" + roomMemberMemberGrade + ", roomMemberEnrollDate=" + roomMemberEnrollDate
-            + "]";
+   public String getRoomMemberNick() {
+	   return roomMemberNick;
    }
+
+
+	
+	public void setRoomMemberNick(String roomMemberNick) {
+		this.roomMemberNick = roomMemberNick;
+	}
+	
+	
+	
+	public int getLikeCount() {
+		return LikeCount;
+	}
+	
+	
+	
+	public void setLikeCount(int likeCount) {
+		LikeCount = likeCount;
+	}
+
+
+
+	@Override
+	public String toString() {
+		return "RoomMember [roomMemberRoomNo=" + roomMemberRoomNo + ", roomMemberMemberNo=" + roomMemberMemberNo
+				+ ", roomMemberMemberGrade=" + roomMemberMemberGrade + ", roomMemberEnrollDate=" + roomMemberEnrollDate
+				+ ", roomMemberNick=" + roomMemberNick + ", LikeCount=" + LikeCount + "]";
+	}
+
+
+
+
 
    
    
