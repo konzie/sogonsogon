@@ -1,5 +1,6 @@
 package com.kh.sogon.help.controller;
 
+
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -170,7 +171,36 @@ public class HelpController {
 		  return mv;
 	  }
 	  
-	  
+	  // 게시글 수정
+      @RequestMapping("no={helpNo}/updateAction")
+      public ModelAndView updateAction(@PathVariable int helpNo, 
+                                 ModelAndView mv, Help upHelp, int cp, boolean[] deleteImages,
+                                 RedirectAttributes rdAttr, HttpServletRequest request,
+                                 @RequestParam(value="images", required = false) List<MultipartFile> images ) {
+    	  
+         upHelp.setHelpNo(helpNo);         
+         
+         int result = helpService.updateHelp(upHelp);
+         
+         String status = null;
+         String msg = null;
+         String url = null;
+         if(result > 0) {
+            status = "success";
+            msg = "문의글 수정 완료";
+            url = "../no=" + helpNo + "?cp="+cp;
+         } else {
+            status = "error";
+            msg = "문의글 수정 실패";
+            url = request.getHeader("referer");
+         }
+         mv.setViewName("redirect:" + url);
+         
+         rdAttr.addFlashAttribute("status", status);
+         rdAttr.addFlashAttribute("msg", msg);
+         return mv;
+         
+      }
 	  
 	  
 	  

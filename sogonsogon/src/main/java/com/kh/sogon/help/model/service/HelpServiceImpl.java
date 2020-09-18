@@ -104,4 +104,18 @@ public class HelpServiceImpl implements HelpService{
 		
 		return result;
 	}
+	
+	// 문의글 수정 Service 구현
+	@Override
+	@Transactional(rollbackFor = Exception.class)
+	public int updateHelp(Help upHelp) {
+		
+		
+		//크로스사이트스크립트 방지 처리
+		upHelp.setHelpContent(replaceParameter(upHelp.getHelpContent()));
+		
+		int result  = helpDAO.updateHelp(upHelp);
+		
+		return result;
+	}
 }
