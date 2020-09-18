@@ -315,4 +315,10 @@ public class MypageServiceImpl implements MypageService{
 		return mypageDAO.selectAnswer(boardNo);
 	}
 
+	// 메인 공지사항 조회
+	@Override
+	public List<Board> mainNoticeList() {
+		return  mypageDAO.mainNoticeList();
+	}
+
 }

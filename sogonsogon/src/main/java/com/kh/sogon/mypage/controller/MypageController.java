@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.kh.sogon.board.model.vo.Board;
 import com.kh.sogon.help.model.vo.Help;
 import com.kh.sogon.member.model.vo.Member;
@@ -666,4 +668,16 @@ public class MypageController {
 		
 		return "redirect:/mypage/adminhelp";
 	}
+	
+	// 메인에서 공지사항 조회
+	@ResponseBody
+	@RequestMapping("mainNoticeList")
+	public String mainNoticeList() {
+		List<Board> noticeList = mypageService.mainNoticeList();
+		
+		//for(Board r : noticeList) { System.out.println(r); }
+		Gson gson = new Gson();
+		return gson.toJson(noticeList);
+	}
+	
 }
