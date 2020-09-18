@@ -47,9 +47,10 @@
         <result property="qnaCreateDate" column="QNA_CREATE_DATE"/>
         <result property="qnaModifyDate" column="QNA_MODIFY_DATE"/>
         <result property="writerNick" column="MEMBER_NICK"/>
+        <result property="likeCount" column="LIKE_CNT"/>
     </resultMap>
     
-         <!-- 자유질문방 댓글 -->
+    <!-- 자유질문방 댓글 -->
 	<resultMap id="ReplyResultSet" type="Reply" >
         <id property="replyNo" column="REPLY_NO"/>
         <result property="qnaNo" column="QNA_NO"/>
@@ -84,6 +85,20 @@
         <result property="roomMemberCount" column="ROOM_ENTER_NUMBER"/>
     </resultMap>
     
+    <!-- 스터디방 게시글  -->
+    <resultMap type="RoomBoard" id="roomBoardResultSet">
+        <id property="roomBoardNo" column="ROOM_BOARD_NO"/>
+        <result property="roomNo" column="ROOM_NO"/>
+        <result property="roomBoardType" column="ROOM_BOARD_TYPE"/>
+        <result property="roomBoardTitle" column="ROOM_BOARD_TITLE"/>
+        <result property="roomBoardContent" column="ROOM_BOARD_CONTENT"/>
+        <result property="roomBoardWriterNo" column="ROOM_BOARD_WRITER"/>
+        <result property="roomBoardCreateDate" column="ROOM_BOARD_CREATE_DATE"/>
+        <result property="roomBoardModifyDate" column="ROOM_BOARD_MODIFY_DATE"/>
+        <result property="roomBoardReadCount" column="ROOM_BOARD_READ_COUNT"/>
+        <result property="roomBoardWriter" column="MEMBER_NICK"/>
+    </resultMap>
+    
     <!-- 방 멤버 -->
 	<resultMap id="RoomMemberResultSet" type="RoomMember" >
         <id property="roomMemberRoomNo" column="ROOM_MEMBER_ROOM_NO"/>
@@ -100,6 +115,8 @@
     	<result property="reportDate" column="REPORT_DATE"/>
     	<result property="memberNick" column="MEMBER_NICK"/>
     	<result property="boardNo" column="REPORT_BOARD_NO"/>
+    	<result property="roomBoardNo" column="REPORT_ROOM_BOARD_NO"/>
+    	<result property="boardNo" column="ROOM_NO"/>
     </resultMap>
     
     <!-- 고객센터 답변 -->
@@ -133,7 +150,7 @@
 	
 	<!-- 총 신고 게시글 조회 -->
 	<select id="selectDList" resultMap="qnaResultSet">
-		SELECT * FROM QNABOARD JOIN MEMBER ON(QNA_WRITER=MEMBER_NO) WHERE QNA_STATUS='D' ORDER BY QNA_CREATE_DATE DESC
+		SELECT * FROM QNABOARD JOIN MEMBER ON(QNA_WRITER=MEMBER_NO) JOIN QNA_CATEGORY ON(QNA_CATEGORY=CATEGORY_NO) WHERE QNA_STATUS='D' ORDER BY QNA_CREATE_DATE DESC
 	</select>
 		
 	<!-- 고객센터 게시글 수 조회 -->
@@ -173,11 +190,21 @@
 
 	<!-- 총 boardList 조회 -->
 	<select id="selectBList" parameterType="_int" resultMap="qnaResultSet">
-		SELECT * FROM QNABOARD WHERE QNA_WRITER = #{replyWriter} ORDER BY QNA_CREATE_DATE DESC
+		SELECT * FROM QNABOARD JOIN MEMBER ON(QNA_WRITER = MEMBER_NO) JOIN QNA_CATEGORY ON(QNA_CATEGORY=CATEGORY_NO) WHERE QNA_WRITER = #{writer} ORDER BY QNA_CREATE_DATE DESC
 	</select>
 
-	<select id="selectRoomMemberList" parameterType="_int" resultMap="RoomMemberResultSet">
-		SELECT * FROM ROOM_MEMBER WHERE ROOM_MEMBER_MEMBER_NO = #{roomMemberMemberNo}
+   <select id="selectRoomMemberList" parameterType="_int" resultMap="RoomMemberResultSet">
+      SELECT * FROM ROOM_MEMBER WHERE ROOM_MEMBER_MEMBER_NO = #{roomMemberMemberNo}
+   </select>
+   
+	<select id="selectRoomList" parameterType="list" resultMap="roomResultSet">
+		SELECT ROOM_NO,ROOM_TYPE,ROOM_TITLE,MEMBER_NICK,ROOM_CREATE_DATE,ROOM_TAG,ROOM_OPEN,ROOM_MAX_NUMBER,ROOM_CONTENT,
+		(SELECT COUNT(*) FROM ROOM_MEMBER WHERE ROOM_MEMBER_ROOM_NO = STUDY_ROOM.ROOM_NO GROUP BY ROOM_MEMBER_ROOM_NO) ROOM_ENTER_NUMBER
+	    FROM STUDY_ROOM JOIN MEMBER ON(ROOM_MEMBER_NO=MEMBER_NO) WHERE ROOM_STATUS = 'Y' AND ROOM_NO IN 
+	<foreach collection="list" index="i" item="roomList" open="(" close=")" separator=",">
+		#{roomList.roomMemberRoomNo}
+	</foreach>
+	ORDER BY ROOM_NO DESC
 	</select>
 	
 	<!-- 채택된 댓글 수 조회 -->
@@ -218,14 +245,6 @@
      	</foreach>
 	</select>
 	
-	<select id="selectRoomList" parameterType="list" resultMap="roomResultSet">
-		SELECT * FROM STUDY_ROOM WHERE ROOM_NO IN
-		<foreach collection="list" index="i" item="roomList" open="(" close=")" separator=",">
-     		#{roomList.roomMemberRoomNo}
-     	</foreach>
-     	ORDER BY ROOM_CREATE_DATE DESC
-	</select>
-	
 	<!-- 공지사항 상세조회  -->
 	<select id="noticeView" parameterType="_int" resultMap="qnaResultSet">
 		SELECT * FROM QNABOARD JOIN MEMBER ON(QNA_WRITER=MEMBER_NO) JOIN QNA_CATEGORY ON(QNA_CATEGORY=CATEGORY_NO) WHERE QNA_NO=#{qnaNo}
@@ -257,11 +276,18 @@
 	</select>
 	
 	<insert id="insertMember" parameterType="ReportMember">
-		INSERT INTO REPORT_MEMBER VALUES((SELECT MEMBER_NO FROM MEMBER WHERE MEMBER_NICK=#{memberNick}),DEFAULT,DEFAULT,DEFAULT,#{boardNo})
+		INSERT INTO REPORT_MEMBER VALUES((SELECT MEMBER_NO FROM MEMBER WHERE MEMBER_NICK=#{memberNick}),DEFAULT,DEFAULT,DEFAULT,#{boardNo},#{roomBoardNo},#{roomNo})
 	</insert>
 	
 	<update id="updateReport" parameterType="ReportMember">
-		UPDATE REPORT_MEMBER SET REPORT_COUNT=REPORT_COUNT+1, REPORT_BOARD_NO=#{boardNo}, REPORT_DATE = SYSDATE, REPORT_STATUS='Y' WHERE MEMBER_NO = #{memberNo}
+		UPDATE REPORT_MEMBER SET REPORT_COUNT=REPORT_COUNT+1, 
+		<if test="#{roomNo==0}">
+				REPORT_BOARD_NO=#{boardNo},
+		</if>
+		<if test="#{roomNo>0}">
+				REPORT_ROOM_BOARD_NO=#{roomBoardNo},ROOM_NO=#{roomNo},
+		</if>
+		REPORT_DATE = SYSDATE, REPORT_STATUS='Y' WHERE MEMBER_NO = #{memberNo}
 	</update>
 	
 	<update id="restoreMember" parameterType="_int">
@@ -280,13 +306,30 @@
 		SELECT * FROM HELP_ANSWER WHERE HELP_NO = #{helpNo}
 	</select>
 
-	<select id="mainNoticeList" resultMap="qnaResultSet" >
-		SELECT * FROM (SELECT QNA_NO,CATEGORY_NM,QNA_TITLE,MEMBER_NICK 
+   <select id="mainNoticeList" resultMap="qnaResultSet" >
+      SELECT * FROM (SELECT QNA_NO,CATEGORY_NM,QNA_TITLE,MEMBER_NICK 
         FROM QNABOARD 
         JOIN MEMBER ON(QNA_WRITER=MEMBER_NO)
         JOIN QNA_CATEGORY ON(QNA_CATEGORY=CATEGORY_NO)
         WHERE QNA_WRITER = 1
+        AND QNA_STATUS = 'Y'
         ORDER BY QNA_CREATE_DATE DESC)
-		<![CDATA[ WHERE ROWNUM <=3 ]]>
+      <![CDATA[ WHERE ROWNUM <=3 ]]>
+   </select>
+	
+	<select id="getListReportRoomCount" parameterType="_int" resultType="_int">
+		SELECT COUNT(*) FROM ROOMBOARD WHERE ROOM_BOARD_STATUS='R'
 	</select>
+	
+	<select id="selectRoomReportList" parameterType="_int" resultMap="roomBoardResultSet">
+		SELECT * FROM ROOMBOARD JOIN MEMBER ON(ROOM_BOARD_WRITER=MEMBER_NO) WHERE ROOM_BOARD_STATUS='R' ORDER BY ROOM_BOARD_CREATE_DATE DESC
+	</select>
+	
+	<update id="deleteRoomReport" parameterType="RoomBoard">
+		UPDATE ROOMBOARD SET ROOM_BOARD_STATUS='N' WHERE ROOM_BOARD_NO = #{roomBoardNo} AND ROOM_NO = #{roomNo}
+	</update>
+	
+	<update id="restorReportRoom" parameterType="RoomBoard">
+		UPDATE ROOMBOARD SET ROOM_BOARD_STATUS='Y' WHERE ROOM_BOARD_NO = #{roomBoardNo} AND ROOM_NO = #{roomNo}
+	</update>
 </mapper>

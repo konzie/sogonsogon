@@ -62,7 +62,7 @@
 	<div class="content2">       
       <h4 class="mb-5">답변달기</h4>
       
-      <form action="${contextPath}/mypage/insertAnswer/${help.helpNo}">
+      <form action="${contextPath}/mypage/insertAnswer/${help.helpNo}" onsubmit="return validate();">
       <hr>
       <h3 id="title">
       <c:if test="${help.lockStatus=='Y'}">
@@ -86,6 +86,14 @@
 	</div>    
    
    <jsp:include page="../common/footer.jsp" />
-
+<script>
+function validate() {
+	if ($("#answer-content").val().trim().length == 0) {
+		alert("답변을 입력해 주세요.");
+		$("#answer-content").focus();
+		return false;
+	}
+}
+</script>
 </body>
 </html>
