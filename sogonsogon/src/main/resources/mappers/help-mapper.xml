@@ -53,6 +53,14 @@
 		HELP_STATUS = 'N'
 		WHERE HELP_NO = #{helpNo}
 	</update>
+	
+	<!-- 문의글 수정 -->
+	<update id="updateHelp" parameterType="help">
+		UPDATE HELPBOARD SET
+		HELP_CATEGORY=#{helpCategory}, HELP_TITLE=#{helpTitle}, HELP_CONTENT=#{helpContent},
+		HELP_MODIFY_DATE=SYSDATE, LOCK_STATUS=#{lockStatus}
+		WHERE HELP_NO=#{helpNo}
+	</update>
 
 	
 </mapper>

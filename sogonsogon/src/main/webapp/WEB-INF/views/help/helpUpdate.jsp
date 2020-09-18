@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"  pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>   
 <%String cp = request.getParameter("cp");%>
 
 <!DOCTYPE html>
@@ -47,7 +48,7 @@
     <div class="col-md-2"></div>
     <div class="col-md-8">
         <h2 class="text-center">문의글 쓰기</h2>
-        <form action="updateAction"
+        <form action="updateAction?cp=${param.cp}"
         enctype="multipart/form-data" role="form" method="post" onsubmit="return validate();">
           <table class="table table-striped">
 
@@ -60,10 +61,12 @@
 					</select>
 
 				<div class="lock_status">
-					<label>공개</label>&nbsp;
-					<input type="radio" name="lockStatus" value="N" checked>
-					<label>비공개</label>&nbsp;
-					<input type="radio" name="lockStatus" value="Y">
+				<label>비공개</label>&nbsp;
+				<input type="checkbox" id="lockYN"
+				<c:if test="${help.lockStatus == 'Y'}">checked</c:if>  
+				
+				>
+				<input type="hidden" value="${help.lockStatus}" id="lockStatus" name="lockStatus"	>
 				</div>
 			
             <tr>
@@ -115,15 +118,23 @@
  
 <script>
 
+//카테고리
 $.each($("#category>option"), function(index, item){
     if($(item).text() == "${help.helpCategory}"){
        $(item).prop("selected","true");
     }
  });
+ 
+ //비밀글
+ $
 
 
 // 유효성검사
 function validate(){
+	if($("#category").val() == "00"){
+			alert("카테고리를 입력해주세요.");
+			return false;
+	}
 	if($("#title").val().trim().length == 0){
 		alert("제목을 입력해 주세요.");
 		$("#title").focus();
@@ -135,3 +146,15 @@ function validate(){
 		return false;
 	}
 }
+ 
+ $("#lockYN").change(function(){
+     if($("#lockYN").is(":checked")){
+     	$("#lockStatus").attr("value", "Y");
+     }else{
+     	$("#lockStatus").attr("value", "N");
+     }
+ });
+
+
+
+</script>
