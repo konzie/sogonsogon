@@ -229,18 +229,23 @@
       
 
       // 태그 입력창 생성 + 2번까지(수정)
-      for(var i=0; i<2; i++ ){
-	      $(".plusbutton").on("click", function(){
-	         $tag = $('<input type="text">').addClass("form-control tags").attr("id", "tags").attr("name","roomTag");
-	         $(".tagbox").append($tag);
-	      });
-    	  i++;
-    	  if(i==2){
-    		  break;
-    		  $(".plusbutton").css("display","hidden");
-    	  }
-      }
-
+      var tagCnt = 0;
+      
+       $(".plusbutton").on("click", function(){
+      		if(tagCnt <2){
+		         $tag = $('<input type="text">').addClass("form-control tags").attr("id", "tags").attr("name","roomTag");
+		         $(".tagbox").append($tag);''
+		         tagCnt++;
+      		}
+      		
+      		if(tagCnt >= 2){
+      			 //$(".plusbutton").css("display","hidden");
+      			 $(".plusbutton").hide();
+      			 // 마이너스가 될때 text에 - 넣으면됨
+      		}
+	   });
+      
+      
   	 
       // 비공개 버튼 누를시 password input태그 생성
       $("#c").on("change",function(){

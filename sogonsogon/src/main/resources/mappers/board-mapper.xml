@@ -12,29 +12,29 @@
         <result property="qnaModifyDate" column="QNA_MODIFY_DATE"/>
         <result property="qnaCreateDate" column="QNA_CREATE_DATE"/>
      	<result property="qnaWriter" column="QNA_WRITER"/>
-     	<result property="qnaCategory" column="QNA_CATEGORY"/>
+     	<result property="qnaCategory" column="CATEGORY_NM"/>
      	<result property="writerNick" column="MEMBER_NICK"/>
      	
     </resultMap>
     
-	<!-- <resultMap type="Attachment" id="AttachmentResultSet">
-        <id property="qnaNo" column="QNA_NO"/>
-        <result property="qnaTitle" column="QNA_TITLE"/>
-        <result property="qnaContent" column="QNA_CONTENT"/>
-        <result property="qnaStatus" column="QNA_STATUS"/>
-        <result property="qnaAnswer" column="QNA_ANSWER"/>
-        <result property="qnaModifyDate" column="QNA_MODIFY_DATE"/>
-        <result property="qnaCreateDate" column="QNA_CREATE_DATE"/>
-     	<result property="qnaWriter" column="QNA_WRITER"/>
-     	<result property="qnaCategory" column="QNA_CATEGORY"/>
-     	
-    </resultMap> -->
-
+	<resultMap type="Attachment" id="attachmentResultSet">
+		<id property="fileNo" column="FILE_NO"/>		
+		<result property="parentBoardNo" column="PARENT_BOARD_NO"/>
+		<result property="fileOriginName" column="FILE_ORIGIN_NAME"/>
+		<result property="fileChangeName" column="FILE_CHANGE_NAME"/>
+		<result property="filePath" column="FILE_PATH"/>
+		<result property="fileLevel" column="FILE_LEVEL"/>
+	</resultMap>
 
 
       <!-- 자유 질문방  전체 게시글 수 조회 -->
 		<select id="getListCount" resultType="_int">
-			SELECT COUNT(*) FROM V_BOARD
+		<!-- SELECT QNA_NO,CATEGORY_NM, QNA_TITLE, QNA_WRITER, QNA_CREATE_DATE, QNA_STATUS , MEMBER_NICK -->
+		SELECT COUNT(*)
+		FROM QNABOARD
+		JOIN QNA_CATEGORY ON (QNA_CATEGORY=CATEGORY_NO)
+		JOIN MEMBER ON(QNA_WRITER = MEMBER_NO)
+
 		
 		</select>
 
@@ -43,8 +43,10 @@
 		<!-- 게시글 목록 조회 -->
 		<select id = "selectList" parameterType="_int" resultMap = "boardResultSet">
 			
-			SELECT * FROM V_BOARD
-			
+			SELECT QNA_NO,CATEGORY_NM, QNA_TITLE, QNA_WRITER, QNA_CREATE_DATE, QNA_STATUS , MEMBER_NICK
+			FROM QNABOARD
+			JOIN QNA_CATEGORY ON (QNA_CATEGORY=CATEGORY_NO)
+			JOIN MEMBER ON(QNA_WRITER = MEMBER_NO)
 			ORDER BY QNA_NO DESC
 		
 		</select>	
@@ -52,7 +54,10 @@
 
 	<!-- 게시글 상세 조회 -->
 	<select id="selectBoard" parameterType="_int" resultMap="boardResultSet" >
-		SELECT * FROM V_BOARD
+		SELECT QNA_NO,CATEGORY_NM, QNA_TITLE, QNA_WRITER, QNA_MODIFY_DATE, QNA_STATUS , MEMBER_NICK, QNA_CONTENT
+		FROM QNABOARD
+		JOIN QNA_CATEGORY ON (QNA_CATEGORY=CATEGORY_NO)
+		JOIN MEMBER ON(QNA_WRITER = MEMBER_NO)
 		WHERE QNA_NO = #{qnaNo}
 		AND QNA_STATUS = 'Y'
 	
@@ -64,7 +69,7 @@
  	SELECT SEQ_BNO.NEXTVAL FROM DUAL
   </select>
 
-
+	<!-- 게시글 작성 -->
 	 <insert id="insertBoard" parameterType="Board" >
  	INSERT INTO QNABOARD VALUES
  	(
@@ -81,17 +86,15 @@
   </insert>
 	
 	
-	<update id="deleteBoard" parameterType="Board">
-	UPDATE BOARD SET 
-	BOARD_STATUS = 'N'
-	WHERE BOARD_NO = #{qnaNo}
-	
-	
-	
-	
+ 	
+ 	<!-- 게시글 삭제 -->
+ 	<update id="deleteBoard" parameterType="_int">
+		UPDATE QNABOARD SET
+		QNA_STATUS = 'N'
+		WHERE QNA_NO = #{qnaNo}
 	</update>
- 
- 
+	
+
  	<update id="updateBoard" parameterType="Board">
  	
  	UPDATE BOARD SET 
@@ -105,12 +108,12 @@
  	</update>
 	
 	
-	
-	<!-- <insert id="insertAttachment" parameterType="Attachment">
+	<insert id="insertAttachment" parameterType="Attachment">
  	INSERT INTO ATTACHMENT VALUES 
  	(SEQ_FNO.NEXTVAL,#{parentBoardNo},#{fileOriginName},#{fileChangeName},
  	#{filePath},#{fileLevel})
- 	</insert> -->
+ 	</insert>
+ 	
  	
  	 	
  	<delete id="deleteAttachment" parameterType="_int">
@@ -119,11 +122,99 @@
  	</delete>
  	
  	<select id="mainBoardList" resultType="list" resultMap="boardResultSet">
- 	    SELECT * FROM (SELECT QNA_NO,QNA_CATEGORY,QNA_TITLE,MEMBER_NICK
-		FROM QNABOARD JOIN MEMBER ON(QNA_WRITER=MEMBER_NO)
+   	    SELECT * FROM (SELECT QNA_NO,CATEGORY_NM,QNA_TITLE,MEMBER_NICK
+		FROM QNABOARD 
+        JOIN MEMBER ON(QNA_WRITER=MEMBER_NO)
+        JOIN QNA_CATEGORY ON(QNA_NO=CATEGORY_NO)
 		WHERE QNA_STATUS = 'Y' ORDER BY QNA_NO DESC)
 		<![CDATA[ WHERE ROWNUM <=3 ]]>
  	</select>
+ 	
+ 	
+ 	
+<!--  검색 조건이 포함된 전체 게시글 수 조회  -->
+<select id="getSearchListCount" parameterType="map" resultType="_int">
+
+SELECT COUNT(*) FROM V_BOARD
+
+<!--  Map 객체를 사용할 경우 ke6 값을 호출하면 해당 value값을 얻을 수 있음 . -->
+
+<!-- Map 객체에 존재하는 key값이 search인 요소의 ct필드 값이 null이 아닐  경우  -->
+<if test="search.ct != null">
+WHERE QNA_CATEGORY IN
+<foreach collection="search.ct" index="index" item="ctName"
+		open="(" close=")" separator=",">
+		#{ctName}
+		</foreach>
+
+
+</if>
+<!-- Map 객체에 존재하는 key 갓이 search인 요소의 sVal필드 값이 null이 아닐 경우  -->
+<if test="search.sVal != null">
+	<bind name="sv" value="'%' + search.sVal + '%'"/>
+AND
+<choose>
+	<when test="search.sKey == 'tit'">
+	
+		QNA_TITLE LIKE #{sv}
+	</when>
+<when test="search.sKey == 'con'">
+		QNA_TITLE LIKE #{sv}
+	
+	</when>
+	<otherwise>
+ (QNA_TITLE LIKE #{sv}
+  OR QNA_CONTENT LIKE #{sv})
+	
+	</otherwise>
+</choose>
+
+
+
+</if>
+</select>
+ 	
+
+<!--  검색 게시글 목록 조회  -->
+<select id="selectSearchList" parameterType="map" resultMap="boardResultSet">
+
+SELECT *FROM V_BOARD
+
+<if test="search.ct != null">
+WHERE QNA_CATEGORY IN
+<foreach collection="search.ct" index="index" item="ctName"
+		open="(" close=")" separator=",">
+		#{ctName}
+		</foreach>
+
+</if>
+<!-- Map 객체에 존재하는 key 갓이 search인 요소의 sVal필드 값이 null이 아닐 경우  -->
+<if test="search.sVal != null">
+	<bind name="sv" value="'%' + search.sVal + '%'"/>
+AND
+<choose>
+	<when test="search.sKey == 'tit'">
+	
+		QNA_TITLE LIKE #{sv}
+	</when>
+<when test="search.sKey == 'con'">
+		QNA_TITLE LIKE #{sv}
+	
+	</when>
+	<otherwise>
+ (QNA_TITLE LIKE #{sv}
+  OR QNA_CONTENT LIKE #{sv})
+	
+	</otherwise>
+</choose>
+
+
+
+</if>
+ ORDER BY QNA_NO DESC
+</select>
+ 	
+ 	
  	
 </mapper>
 

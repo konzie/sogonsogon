@@ -20,9 +20,8 @@
       }
       
       #board-content{
-      	border : 1px solid brown;
       	width : 100%;
-      	height : 300px;
+      	height : 100px;
       }
       
       .btn{
@@ -40,9 +39,16 @@
       #board-content{
       	padding: 10px;
       	font-size: 15px;
+      	width : 100%; 
+      	height : 120px; 
+      }
+      
+      #answer-content{
+      	width:100%;
+      	height:300px;
       }
 </style>
-<title>공지사항 상세조회</title>
+<title>고객센터 답변달기</title>
 </head>
 <body>
   <jsp:include page="../common/header.jsp"/>
@@ -54,33 +60,28 @@
   <div class="content">
   <jsp:include page="adminpage2.jsp"/>
 	<div class="content2">       
-      <h4 class="mb-5">신고게시글 상세조회</h4>
+      <h4 class="mb-5">답변달기</h4>
       
+      <form action="${contextPath}/mypage/insertAnswer/${help.helpNo}">
       <hr>
-      <h3 id="title">${report.qnaTitle}</h3><h6 id="category"> [카테고리 : ${report.qnaCategory}]</h6>
+      <h3 id="title">
+      <c:if test="${help.lockStatus=='Y'}">
+	     <img src="${contextPath}/resources/images/lock2.png" width="40px" height="40px">
+	  </c:if>
+      ${help.helpTitle}</h3><h6 id="category"> [카테고리 : ${help.helpCategory}]</h6>
       <hr>
       <div>
-		<p id="writer"> 작성자 : ${report.writerNick} </p><p id="date">${report.qnaCreateDate}</p>
+		<p id="writer"> 작성자 : ${help.writerNick} </p><p id="date">${help.helpModifyDate}</p>
 	  </div>
-		<div id="board-content">${report.qnaContent}
-		<p style="color:red;">
-			<br><br>-------------------------------<br>신고된 게시글 입니다
-		</p>
+		<div id="board-content">${help.helpContent}
 		</div>
-		<hr>
+		<div><br><p>답글 작성</p>
+		<textarea id="answer-content" name="answer"></textarea>
+		</div>
 		<div class="float-right">
-		
-		<c:choose>
-		<c:when test="${loginMember.memberNo==1}">
-			<button type="button" class="btn btn-danger" onclick="location.href ='../updateReport/${report.writerNick}/${report.qnaNo}'">삭제</button>
-			<button type="button" class="btn btn-dark" onclick="location.href ='../restoreReport/${report.writerNick}/${report.qnaNo}'">복원</button>
-			<button type="button" class="btn btn-warning" onclick="location.href ='../adminreport'">목록으로</button>
-		</c:when>
-		<c:otherwise>
-			<button type="button" class="btn btn-warning" onclick="location.href ='../mypage'">돌아가기</button>
-		</c:otherwise>
-		</c:choose>
+		<button type="submit" class="btn btn-warning">등록</button>
 		</div>
+		</form>
 		</div>
 	</div>    
    

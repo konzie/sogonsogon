@@ -45,8 +45,6 @@ public interface BoardService {
 	 */
 	public abstract int insertBoard(Board board, List<MultipartFile> images, String savePath);
 
-	public abstract int deleteBoard(Board board);
-
 
 	public abstract int updateBoard(Board upBoard, String savePath, List<MultipartFile> images, boolean[] deleteImages);
 
@@ -72,6 +70,12 @@ public interface BoardService {
 
 	// 메인화면 list 조회
 	public abstract List<Board> mainBoardList();
+
+	// 삭제 service
+	public abstract int deleteBoard(int qnaNo);
+
+
+
 
 	
 	

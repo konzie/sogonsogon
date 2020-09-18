@@ -85,7 +85,7 @@
             	</div>
             	<div class="detail-info">
             		<dl>
-            			<dt>작성자</dt> <dd>${board.qnaWriter}</dd>
+            			<dt>작성자</dt> <dd>${board.writerNick}</dd>
             		</dl>
             		<dl>
             			<dt>수정일</dt> <dd>${board.qnaModifyDate}</dd>
@@ -94,9 +94,9 @@
             	</div>
             	<div class="content">${board.qnaContent}</div>
             	<div class="detail-footer">
-            		<c:if test="${loginMember.memberNick == board.qnaWriter}">
+            		<c:if test="${loginMember.memberNo == board.qnaWriter}">
             		<div class="update-Btn"><a id="updateBtn" type="button" href="${contextPath}/board/list">수정</a></div>
-            		<div class="delete-Btn"><a id="deleteBtn" type="button" href="${contextPath}/board/list">삭제</a></div>
+            		<div class="delete-Btn"><a id="deleteBtn" type="button" href="${contextPath}/board/${board.qnaNo}/delete">삭제</a></div>
             		
                     <div class="list-Btn"><a id="listBtn" type="button" href="${contextPath}/board/list">목록</a></div>
                 	</c:if>

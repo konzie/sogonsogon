@@ -2,6 +2,8 @@ package com.kh.sogon.mypage.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -14,15 +16,19 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.kh.sogon.board.model.vo.Board;
 import com.kh.sogon.help.model.vo.Help;
 import com.kh.sogon.member.model.vo.Member;
 import com.kh.sogon.board.model.vo.PageInfo;
 import com.kh.sogon.board.model.vo.Reply;
 import com.kh.sogon.mypage.model.service.MypageService;
+import com.kh.sogon.mypage.model.vo.HelpAnswer;
 import com.kh.sogon.mypage.model.vo.ReportMember;
 import com.kh.sogon.room.model.vo.Room;
 import com.kh.sogon.room.model.vo.RoomMember;
+import com.sun.org.glassfish.gmbal.ParameterNames;
 
 @SessionAttributes({"loginMember"})
 @Controller
@@ -38,7 +44,25 @@ public class MypageController {
 	
 	@RequestMapping("mypage")
 	public String mypage(Model model) {	
-	
+		Member loginMember = (Member)model.getAttribute("loginMember");
+		
+		List<ReportMember> reportList = mypageService.findMember(loginMember.getMemberNick());
+		
+		if(reportList.size()<=0) {
+			ReportMember member = new ReportMember();
+			
+			member.setMemberNick(loginMember.getMemberNick());
+			member.setBoardNo(0);
+			
+			int result = mypageService.insertMember(member);
+			
+			if(result>0) {
+				reportList = mypageService.findMember(loginMember.getMemberNick());
+			}
+		}
+		
+		model.addAttribute("report", reportList.get(0));
+		
 		return "mypage/mypagemain";
 	}
 	
@@ -247,7 +271,7 @@ public class MypageController {
 			if(helpList.get(i).getHelpContent().length()>20) {
 				helpList.get(i).setHelpContent(helpList.get(i).getHelpContent().substring(0,20)+"...");
 			}
-		}                                                                   
+		}                                    
 		model.addAttribute("helpList", helpList);
 		model.addAttribute("pInfo", pInfo);
 
@@ -362,11 +386,12 @@ public class MypageController {
 	@RequestMapping("reportView/{boardNo}")
 	public String reportView(@PathVariable int boardNo, Model model) {
 		
+		Member loginMember = (Member)model.getAttribute("loginMember");
 		
 		Board report = mypageService.noticeView(boardNo);
 		
 		model.addAttribute("report", report);
-		
+		model.addAttribute("loginMember", loginMember);
 		return "mypage/reportView";
 	}
 	
@@ -374,8 +399,12 @@ public class MypageController {
 	public String helpView(@PathVariable int boardNo, Model model) {
 		
 		Help help = mypageService.helpView(boardNo);
-
+		
 		model.addAttribute("help", help);
+
+		HelpAnswer answer = mypageService.selectAnswer(boardNo);
+
+		model.addAttribute("answer", answer);
 		
 		return "mypage/helpView";
 	}
@@ -495,16 +524,28 @@ public class MypageController {
 		
 	@RequestMapping("updateReport/{memberNick}/{boardNo}")
 	public String updateReport(@PathVariable String memberNick, @PathVariable int boardNo, Model model, RedirectAttributes rdAttr){
-		
+
+		List<ReportMember> memberList = mypageService.findMember(memberNick);
+
 		ReportMember member = new ReportMember();
+		if(memberList.size()>0){
+			member = memberList.get(0);
+		}else {
+			member.setMemberNick(memberNick);
+			member.setBoardNo(boardNo);
+			
+			int result = mypageService.insertMember(member);
+
+			if(result>0) {
+				memberList = mypageService.findMember(member.getMemberNick());
+			}
+		}
+		
+		int memberNo = memberList.get(0).getMemberNo();
 		
 		member.setBoardNo(boardNo);
-		member.setMemberNick(memberNick);
-
-		int memberNo = mypageService.findMember(member);
-		
 		member.setMemberNo(memberNo);
-
+		
 		int result= mypageService.updateReport(member);
 
 		String status = null;
@@ -558,8 +599,8 @@ public class MypageController {
 		member.setMemberNick(writerNick);
 		int result2=0;
 		if(result > 0) {
-			int memberNo = mypageService.findMember(member);
-			result2 = mypageService.restoreMember(memberNo);
+			List<ReportMember> reportList = mypageService.findMember(writerNick);
+			result2 = mypageService.restoreMember(reportList.get(0).getMemberNo());
 		}
 		
 		String status = null;
@@ -593,8 +634,50 @@ public class MypageController {
 		return url;
 	}
 	
-	@RequestMapping("answerhelp/{boardNo}")
-	public String answerhelp() {
-		return "";
+	@RequestMapping("answerView/{helpNo}")
+	public String answerView(@PathVariable int helpNo, Model model, RedirectAttributes rdAttr){
+		
+		Help help = mypageService.helpView(helpNo);
+		
+		model.addAttribute("help", help);
+		return "mypage/answerView";
 	}
+	
+	@RequestMapping("insertAnswer/{helpNo}")
+	public String insertAnswer(@PathVariable int helpNo, String answer, Model model, RedirectAttributes rdAttr){
+
+		HelpAnswer helpAnswer = new HelpAnswer();
+		
+		helpAnswer.setHelpNo(helpNo);
+		helpAnswer.setAnswerContent(answer);
+		int result = mypageService.insertAnswer(helpAnswer);
+		
+		String status = null;
+		String msg = null;
+		
+		if(result > 0) {
+			status = "success";
+			msg = "답변 달기 성공";
+		}else {
+			status = "error";
+			msg = "답변 달기 실패";
+		}
+		
+		rdAttr.addFlashAttribute("status",status);
+		rdAttr.addFlashAttribute("msg",msg);
+		
+		return "redirect:/mypage/adminhelp";
+	}
+	
+	// 메인에서 공지사항 조회
+	@ResponseBody
+	@RequestMapping("mainNoticeList")
+	public String mainNoticeList() {
+		List<Board> noticeList = mypageService.mainNoticeList();
+		
+		//for(Board r : noticeList) { System.out.println(r); }
+		Gson gson = new Gson();
+		return gson.toJson(noticeList);
+	}
+	
 }

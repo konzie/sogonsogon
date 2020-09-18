@@ -8,12 +8,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.kh.sogon.board.model.service.ReplyService;
 import com.kh.sogon.board.model.vo.Reply;
+import com.kh.sogon.member.model.vo.Member;
 
+@SessionAttributes({"loginMember"})
 @Controller
 @RequestMapping("/reply/*")
 public class ReplyController {
@@ -26,13 +29,7 @@ public class ReplyController {
 	@ResponseBody
 	public String selectList(@PathVariable int qnaNo, Model model) {
 		
-		
-		System.out.println("qnaNo = " + qnaNo);
-		
 		List<Reply> rList = replyService.selectList(qnaNo);
-		
-		
-		System.out.println(rList);
 		
 		Gson gson = new GsonBuilder().create();
 		
@@ -43,8 +40,9 @@ public class ReplyController {
 	// 댓글 삽입 
 	@RequestMapping(value="insertReply/{qnaNo}", produces = "application/text; charset=utf-8;")
 	@ResponseBody
-	public String insertReply(@PathVariable int qnaNo, Reply reply) {
+	public String insertReply(@PathVariable int qnaNo, Reply reply, Model model) {
 		
+		reply.setReplyWriter( ((Member)(model.getAttribute("loginMember"))).getMemberNo() );
 		reply.setParentBoardNo(qnaNo);
 		
 		int result = replyService.insertReply(reply);

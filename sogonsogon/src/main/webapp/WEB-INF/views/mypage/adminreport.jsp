@@ -48,8 +48,7 @@
                         <th>제목</th>
                         <th>내용</th>
                         <th>작성자</th>						
-                        <th>작성일</th>						
-                        <th>게시글 상태</th>
+                        <th>작성일</th>		
                         <th>처리 </th>
                     </tr>
                 </thead>
@@ -57,7 +56,7 @@
                 <c:choose>
           			<c:when test="${empty reportList}">
 		         		<tr>		
-		         			<td colspan="8" align="center">존재하는 게시글이 없습니다.</td>
+		         			<td colspan="7" align="center">존재하는 게시글이 없습니다.</td>
 		         		</tr>
           			</c:when>	
           			<c:otherwise>
@@ -83,7 +82,6 @@
 		              				<c:otherwise>${createDate}</c:otherwise>
 		              			</c:choose>
 		              		</td>
-		              		<td>${board.qnaStatus}</td>
 		              		<td><button type="button" class="btn btn-danger btn-sm" onclick="location.href ='updateReport/${board.writerNick}/${board.qnaNo}'">경고</button>          <button type="button" class="btn btn-dark btn-sm" onclick="location.href ='restoreReport/${board.writerNick}/${board.qnaNo}'">X</button></td>
 	              		</tr>	
           				</c:forEach>

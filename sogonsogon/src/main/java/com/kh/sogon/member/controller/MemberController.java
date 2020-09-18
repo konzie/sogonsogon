@@ -48,8 +48,6 @@ public class MemberController {
 							HttpServletResponse response, HttpServletRequest request) { 
 		
 		
-		System.out.println(member.getMemberId()+"/"+member.getMemberPwd());
-		
 		Member loginMember = memberService.login(member);
 		
 		
@@ -60,17 +58,6 @@ public class MemberController {
 		}else {
 			model.addAttribute("loginMember",loginMember);
 
-			// 쿠키 객체  생성
-			Cookie cookie = new Cookie("saveId", member.getMemberId());
-
-			if(saveId != null) { // 아이디 저장이 체크된 경우
-				// 쿠키 생성
-				cookie.setMaxAge(60 * 60 * 24 * 7); // 쿠키를 1주일 유지
-			}else {
-				cookie.setMaxAge(0); // 쿠키 삭제
-			}
-			
-			response.addCookie(cookie);			
 		}
 		model.addAttribute("loginMember", loginMember);
 		// request scope로 "loginMember"라는 key를 추가하고
@@ -247,8 +234,6 @@ public class MemberController {
 		        }
 		        
 		        paramMap.put("pw",pw);
-		        
-		        System.out.println(pw);
 		        
 		        int result=memberService.findPwd(paramMap);
 

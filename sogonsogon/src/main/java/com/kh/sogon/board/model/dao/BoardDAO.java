@@ -107,4 +107,38 @@ public List<Board> mainBoardList() {
 
 
 
+
+/** 문의글 삭제 DAO
+ * @param qnaNo
+ * @return result
+ */
+public int deleteBoard(int qnaNo) {
+	return sqlSession.update("boardMapper.deleteBoard", qnaNo);
+	
+}
+
+
+/** 검색이 포함된 페이징처리
+ * @param map
+ * @return
+ */
+public int getSerchListCount(Map<String, Object> map) {
+	
+	return sqlSession.selectOne("boardMapper.getSearchListCount", map);
+}
+
+
+
+
+public List<Board> selectSearchList(PageInfo pInfo, Map<String, Object> map) {
+
+	int offset = (pInfo.getCurrentPage() -1)* pInfo.getLimit();
+	
+	RowBounds rowBounds = new RowBounds(offset, pInfo.getLimit());
+	
+	return sqlSession.selectList("boardMapper.selectSearchList", map, rowBounds);
+}
+
+
+
 }
