@@ -53,18 +53,25 @@
 
 					<label class="input-group-addon mr-3 insert-label">카테고리</label> 
 					<select	class="custom-select" id="category" name="helpCategory" style="width: 150px;">
-						<option>선택</option>
+						<option value="00">선택</option>
 						<option value="10">사이트 이용</option>
 						<option value="20">시스템</option>
 						<option value="30">기타</option>
 					</select>
+					<input type="hidden" id="categoryNo" value="00">
 
-				<div class="lock_status">
+				<!--  <div class="lock_status">
 					<label>공개</label>&nbsp;
 					<input type="radio" name="lockStatus" value="N" checked>
 					<label>비공개</label>&nbsp;
 					<input type="radio" name="lockStatus" value="Y">
+				</div>-->
+				<div class="lock_status">
+				<label>비공개</label>&nbsp;
+				<input type="checkbox" id="lockYN">
+				<input type="hidden" value="N" id="lockStatus" name="lockStatus">
 				</div>
+				
 			
             <tr>
                 <td>제목</td>
@@ -114,10 +121,12 @@
 
  
 <script>
-
-
 // 유효성검사
 function validate(){
+	if($("#category").val() == "00"){
+		alert("카테고리를 입력해주세요.");
+		return false;
+	}
 	if($("#title").val().trim().length == 0){
 		alert("제목을 입력해 주세요.");
 		$("#title").focus();
@@ -138,3 +147,6 @@ function validate(){
         	$("#lockStatus").attr("value", "N");
         }
     });
+	
+    
+</script>    
