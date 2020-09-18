@@ -20,8 +20,27 @@
 	font-weight: normal;
 	font-style: normal;
 }
-
-
+	@font-face {
+	  font-family: 'FontAwesome';
+	  src: url('../fonts/fontawesome-webfont.eot?v=4.7.0');
+	  src: url('../fonts/fontawesome-webfont.eot?#iefix&v=4.7.0') format('embedded-opentype'), url('../fonts/fontawesome-webfont.woff2?v=4.7.0') format('woff2'), url('../fonts/fontawesome-webfont.woff?v=4.7.0') format('woff'), url('../fonts/fontawesome-webfont.ttf?v=4.7.0') format('truetype'), url('../fonts/fontawesome-webfont.svg?v=4.7.0#fontawesomeregular') format('svg');
+	  font-weight: normal;
+	  font-style: normal;
+	}
+            @font-face {
+    font-family: 'TmoneyRoundWindExtraBold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-07@1.0/TmoneyRoundWindExtraBold.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+            @font-face {
+    font-family: 'JSDongkang-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/JSDongkang-RegularA1.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+            
+            
 
 .room-box {
 	width: 100%;
@@ -29,7 +48,7 @@
 	/*  display: flex; */
 	justify-content: center;
 	flex-wrap: unset;
-	font-family: 'Poppins', sans-serif;
+	    font-family: 'JSDongkang-Regular';
 	text-align: center;
 }
 
@@ -123,8 +142,6 @@
 	margin: 0px 6px;
 }
 
-
-
 .button-area {
 	height: 40px;
 	width: 100%;
@@ -189,14 +206,73 @@
 		width: 100%;
 	}
 	#roomListArea{
-		background-color: #f8f9fa;
 		height: 300px;
 	}
 	.container{
 		width: 100%;
 	}
+		
+	/* 테이블 css */
+	th{
+		background: rgba(252, 163, 17,0.9);
+	}
+	.boardTable > thead > tr > th:nth-child(1), 
+	.notieTable > thead > tr > th:nth-child(1) {
+		background: rgba(252, 163, 17,0.9);
+		border-top-left-radius: 10px;
+	}
+	.boardTable > thead > tr > th:nth-child(4), 
+	.notieTable > thead > tr > th:nth-child(4){
+		background: rgba(252, 163, 17,0.9);
+		border-top-right-radius: 10px;
+	}
+	#freeboard > tr:nth-child(3) > td:nth-child(1),
+	#noticeBoard > tr:nth-child(3) > td:nth-child(1){
+			border-bottom-left-radius: 10px;
+	}
 	
-
+	#freeboard > tr:nth-child(3) > td:nth-child(4),
+	#noticeBoard > tr:nth-child(3) > td:nth-child(4){
+			border-bottom-right-radius: 10px;
+	}
+	
+	.boardTable .notieTable{
+	border-spacing: 5px;
+	/* border-collapse: separate; */
+	}
+	
+	.boardTable th,.boardTable td, .notieTable th, .notieTable td{
+		padding: 8px;
+	}
+	.bordTitle{
+	background-image: linear-gradient(transparent 50%, #F8CD07 40%);
+	 font-family: 'TmoneyRoundWindExtraBold';
+	}
+	.freeBoard tr, .noticeBoard tr{
+		cursor: pointer;
+		background:#f8f9fa;
+	}
+	.tablesize{
+		width: 500px;
+	}
+	
+	.more{
+		width: 70px;
+		height: 26px;
+		font-size: 20px;
+		/* display: inline-block; */
+		background: rgba(252, 163, 17,0.9);
+  		border-radius: 14px;
+  		padding: 3px;
+   		font-size: 14px;
+   		margin-left: 6px;
+   		 font-family: 'TmoneyRoundWindExtraBold';
+	}
+	
+	.more > a{
+		text-decoration: none;
+  			color: white;
+	}
 
 </style>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -248,20 +324,17 @@
     <!-- 이미지 슬라이드 영역 end -->
     
 <!-- body with:100%할시 container이름변경  -->
-	<div class="container">
-		<div class="row">
-			<div class="col-lg-6" align="center">이미지영역1</div>
-			<div class="col-lg-6" align="center">이미지영역2</div>
-		</div>
+	<div class="container" >
+
 
 		<hr>
 
       <div class="row">
          <div class="col-lg-6" align="center">
             <p>
-            <h2>자유게시판</h2>
+            <h2><span class="bordTitle">자유게시판</span></h2>
             </p>
-            <table class="table"  style="border-spacing:5px 10px;">
+            <table class="boardTable tablesize" >
                <thead>
                   <tr>
                      <th>글번호</th>
@@ -274,12 +347,12 @@
                </tbody>
             </table>
          </div>
-         
+
          <div class="col-lg-6" align="center">
             <p>
-            <h2>공지사항</h2>
+            <h2><span class="bordTitle">공지사항</span></h2>
             </p>
-            <table class="table"   cellspacing="10">
+            <table class="notieTable tablesize">
 			<thead>
                   <tr>
                      <th>글번호</th>
@@ -294,11 +367,14 @@
          </div>
       </div>
 
+
+
       <hr>
 
       <div class="row">
          <div class="col-lg-12" align="center">
-            <h2>방 리스트</h2>
+            <h2><span class="bordTitle">방 리스트 최신순</span><span class="more"><a href="${contextPath}/room/roomList/1">더보기</a></span></h2>
+            <p></p>
          </div>
       </div>
 
@@ -605,7 +681,7 @@
 				url: "${contextPath}/mypage/mainNoticeList",
 				dataType : "json",
 				success: function(noticeList){
-					console.log(noticeList);
+					//console.log(noticeList);
 					
 					//$(".noticeBoard").html(""); // 리스트 갱신을 위해 이전 내용 삭제
 					
@@ -627,6 +703,25 @@
 			})
 
 			});
+	
+	// 자유게시판 클릭시 이동
+	$(function(){
+		$(document).on("click", ".freeBoard td", function(){
+			var fBoardNo = $(this).parent().children().eq(0).text();
+			console.log(fBoardNo);
+			location.href="${contextPath}/board/"+fBoardNo;
+		});
+	});
+	
+	// 공지사항 클릭시 이동
+	$(function(){
+		$(document).on("click", ".noticeBoard td", function(){
+			var nBoardNo = $(this).parent().children().eq(0).text();
+			console.log(nBoardNo);
+			location.href="${contextPath}/board/"+nBoardNo;
+		});
+	});
+	
 	</script>
 </body>
 </html>
