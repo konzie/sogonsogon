@@ -185,12 +185,12 @@
 	
 	<!-- 내가 쓴 글 수 조회 -->
 	<select id="getListBCount" parameterType="_int" resultType="_int">
-		SELECT COUNT(*) FROM QNABOARD WHERE QNA_WRITER = #{writer} ORDER BY QNA_CREATE_DATE DESC
+		SELECT COUNT(*) FROM QNABOARD WHERE QNA_WRITER = #{writer} AND QNA_STATUS != 'N' ORDER BY QNA_CREATE_DATE DESC
 	</select>
 
 	<!-- 총 boardList 조회 -->
 	<select id="selectBList" parameterType="_int" resultMap="qnaResultSet">
-		SELECT * FROM QNABOARD JOIN MEMBER ON(QNA_WRITER = MEMBER_NO) JOIN QNA_CATEGORY ON(QNA_CATEGORY=CATEGORY_NO) WHERE QNA_WRITER = #{writer} ORDER BY QNA_CREATE_DATE DESC
+		SELECT * FROM QNABOARD JOIN MEMBER ON(QNA_WRITER = MEMBER_NO) JOIN QNA_CATEGORY ON(QNA_CATEGORY=CATEGORY_NO) WHERE QNA_WRITER = #{writer} AND QNA_STATUS != 'N' ORDER BY QNA_CREATE_DATE DESC
 	</select>
 
    <select id="selectRoomMemberList" parameterType="_int" resultMap="RoomMemberResultSet">
@@ -251,7 +251,7 @@
 	</select>
 	
 	<update id="updateNotice" parameterType="Board">
-		UPDATE QNABOARD SET QNA_CATEGORY=#{qnaCategory}, QNA_TITLE=#{qnaTitle}, QNA_CONTENT=#{qnaContent}, QNA_MODIFY_DATE=SYSDATE WHERE QNA_NO=#{qnaNo}
+		UPDATE QNABOARD SET QNA_CATEGORY=(SELECT CATEGORY_NO FROM QNA_CATEGORY WHERE CATEGORY_NM=#{qnaCategory}), QNA_TITLE=#{qnaTitle}, QNA_CONTENT=#{qnaContent}, QNA_MODIFY_DATE=SYSDATE WHERE QNA_NO=#{qnaNo}
 	</update>
 		
 	<!-- 공지사항 삭제 -->
@@ -332,4 +332,20 @@
 	<update id="restorReportRoom" parameterType="RoomBoard">
 		UPDATE ROOMBOARD SET ROOM_BOARD_STATUS='Y' WHERE ROOM_BOARD_NO = #{roomBoardNo} AND ROOM_NO = #{roomNo}
 	</update>
+	
+	<select id="boardView" parameterType="_int" resultMap="qnaResultSet">
+		SELECT * FROM QNABOARD JOIN MEMBER ON(QNA_WRITER=MEMBER_NO) JOIN QNA_CATEGORY ON(QNA_CATEGORY=CATEGORY_NO) WHERE QNA_NO=#{boardNo}
+	</select>
+	
+	<select id="myReportBoard" parameterType="string" resultMap="qnaResultSet">
+		SELECT * FROM QNABOARD WHERE QNA_WRITER=(SELECT MEMBER_NO FROM MEMBER WHERE MEMBER_NICK=#{memberNick})
+	</select>
+	
+	<select id="getListroomBoardCount" parameterType="_int" resultType="_int">
+		SELECT COUNT(*) FROM ROOMBOARD WHERE ROOM_BOARD_WRITER=#{roomBoardWriterNo} AND ROOM_BOARD_STATUS !='N'
+	</select>
+	
+	<select id="selectRoomBoardList" parameterType="_int"  resultMap="roomBoardResultSet">
+		SELECT *  FROM ROOMBOARD JOIN MEMBER ON(ROOM_BOARD_WRITER = MEMBER_NO) WHERE ROOM_BOARD_WRITER=#{roomBoardWriterNo} AND ROOM_BOARD_STATUS !='N' ORDER BY ROOM_BOARD_CREATE_DATE DESC, ROOM_NO DESC
+	</select>
 </mapper>
