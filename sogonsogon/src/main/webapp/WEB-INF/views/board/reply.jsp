@@ -143,7 +143,7 @@ function selectReplyList(){
 				
 				// 작성자, 작성일, 수정일 영역 
 				var $div = $("<div>");
-				var $rWriter = $("<a>").addClass("rWriter idSelect").html(rList[i].memberId);
+				var $rWriter = $("<a>").addClass("rWriter idSelect").html(rList[i].writerNick);
 				var $rDate = $("<p>").addClass("rDate")
 								.html("작성일 : " + rList[i].replyCreateDate + "<br>"
 											+ "마지막 수정 날짜 : " + rList[i].replyModifyDate);
