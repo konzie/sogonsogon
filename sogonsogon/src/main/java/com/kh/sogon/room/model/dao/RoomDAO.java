@@ -222,5 +222,13 @@ public class RoomDAO {
 
 	}
 
+
+	/** 메인 좋아요 top3 조회하기
+	 * @return list
+	 */
+	public List<RoomMember> mainLikeList() {
+		return sqlSession.selectList("roomMapper.mainLikeList", null);
+	}
+
 	
 }
