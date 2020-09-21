@@ -18,6 +18,8 @@ import com.kh.sogon.board.model.vo.Attachment;
 import com.kh.sogon.board.model.vo.Board;
 import com.kh.sogon.board.model.vo.PageInfo;
 import com.kh.sogon.board.model.vo.Search;
+import com.kh.sogon.roomboard.model.vo.RoomBoard;
+import com.kh.sogon.roomboard.model.vo.RoomBoardAttachment;
 
 
 @Service
@@ -208,14 +210,20 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 
-
-
+	// 게시글 수정 구현 Service
+    @Transactional(rollbackFor = Exception.class)
 	@Override
 	public int updateBoard(Board upBoard, String savePath, List<MultipartFile> images, boolean[] deleteImages) {
-		// TODO Auto-generated method stub
-		return 0;
+  	// images : 수정된 파일 리스트
+    	
+    	upBoard.setQnaContent(replaceParameter(upBoard.getQnaContent()));
+		int result = boardDAO.updateBoard(upBoard); // 게시글만 수정
+		
+	
+			
+		
+		return result;
 	}
-
 
 
 

@@ -126,7 +126,7 @@ public class BoardController {
 		
 		
 		//게시글 수정
-		@RequestMapping("{type}/{qnaNo}/update")
+		@RequestMapping("{qnaNo}/update")
 		public ModelAndView updateView(@PathVariable int qnaNo, ModelAndView mv) {
 			
 			
@@ -182,29 +182,21 @@ public class BoardController {
 		
 		
 		// 게시글 수정
-		
-		@RequestMapping("{type}/{qnaNo}/updateAction")
-		public ModelAndView updateAction(@PathVariable int type,
-										 @PathVariable int qnaNo,
+		// "updateAction?cp=${param.cp}"
+		@RequestMapping("updateAction/{qnaNo}")
+		public ModelAndView updateAction(@PathVariable int qnaNo,
 										 ModelAndView mv,
-										 Board upBoard, int cp, boolean[] deleteImages,
+										 Board upBoard, boolean[] deleteImages,
 										 RedirectAttributes rdAttr,
 										 HttpServletRequest request,
 										 @RequestParam(value="thumbnail", required = false) MultipartFile thumbnail,
 										 @RequestParam(value="images", required =false) List<MultipartFile> images) {
 			
 			System.out.println("deleteImages : " + Arrays.toString(deleteImages));
-			
-			
+			System.out.println("tt");
+			System.out.println(upBoard +"yyy");
 			upBoard.setQnaNo(qnaNo);
 			
-			System.out.println("thumbnail : " + thumbnail);
-			for(int i=0; i<images.size(); i++) {
-				System.out.println("images["+ i + "] : " + images.get(i).getOriginalFilename());
-			}
-			
-		
-			images.add(0, thumbnail);
 			
 		
 			String savePath = request.getSession().getServletContext().getRealPath("resources/uploadImages");
@@ -220,7 +212,7 @@ public class BoardController {
 				
 				status = "success";
 				msg = "수정되었습니다.";
-				url = "../" +qnaNo+"?cp="+cp;
+				url = "../" +qnaNo;
 				
 				
 				
