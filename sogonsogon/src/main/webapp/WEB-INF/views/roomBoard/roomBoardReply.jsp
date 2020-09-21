@@ -235,8 +235,8 @@ function addAdoption(el, replyNo) {
 			success : function(result) {
 				alert(result);
 				console.log("채택 완료");
-				$p = $("<span>").text("채택되었습니다 (채택 시 수정, 삭제가 불가능합니다)");
-				$(el).parent().parent().css("background-color", "yellow").append($p);
+				$p = $("<span>").text(" 채택되었습니다 (채택 시 수정, 삭제가 불가능합니다)");
+				$(el).parent().parent().css("background-color", "#F2F2F2").append($p);
 				$(el).parent().parent().children(".btnArea").remove();
 				$(".adoption").remove();
 				
@@ -255,8 +255,8 @@ function chkAdoption() {
 		type : "post",
 		success : function(result) {
 			if(result > 0) {
-				$p = $("<span>").text("채택되었습니다 (채택 시 수정, 삭제가 불가능합니다)");
-				$("#" + parseInt(result)).css("background-color", "yellow").append($p);
+				$p = $("<span>").addClass("fas fa-check-circle").text(" 채택되었습니다 (채택 시 수정, 삭제가 불가능합니다)");
+				$("#" + parseInt(result)).css("background-color", "#F2F2F2").append($p);
 				$("#" + parseInt(result)).children(".btnArea").remove();
 				$(".adoption").remove();
 			}
@@ -401,7 +401,7 @@ function addReply2Area(el, parentReplyNo){
 	var replyWriter = $(el).parent().prev().prev().children("a").text();
 	
  	if(dupStatus) {
- 		alert("수정과 답글은 동시에 불가능합니다.")
+ 		alert("수정과 답글은 동시에 불가능합니다.") 
  		return false;
  	}
 	
