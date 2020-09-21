@@ -6,7 +6,7 @@ public class Answer {
 	private int answerNo;                  
     private String answerContent;         
     private int parentHelpNo;            
-    private String memberId;            
+    private String writer;            
     private Timestamp answerCreateDate;    
     private Timestamp answerModifyDate;    
     private String answerStatus;     
@@ -15,13 +15,13 @@ public class Answer {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Answer(int answerNo, String answerContent, int parentHelpNo, String memberId, Timestamp answerCreateDate,
+	public Answer(int answerNo, String answerContent, int parentHelpNo, String writer, Timestamp answerCreateDate,
 			Timestamp answerModifyDate, String answerStatus) {
 		super();
 		this.answerNo = answerNo;
 		this.answerContent = answerContent;
 		this.parentHelpNo = parentHelpNo;
-		this.memberId = memberId;
+		this.writer = writer;
 		this.answerCreateDate = answerCreateDate;
 		this.answerModifyDate = answerModifyDate;
 		this.answerStatus = answerStatus;
@@ -51,12 +51,12 @@ public class Answer {
 		this.parentHelpNo = parentHelpNo;
 	}
 
-	public String getMemberId() {
-		return memberId;
+	public String getWriter() {
+		return writer;
 	}
 
-	public void setMemberId(String memberId) {
-		this.memberId = memberId;
+	public void setWriter(String writer) {
+		this.writer = writer;
 	}
 
 	public Timestamp getAnswerCreateDate() {
@@ -86,9 +86,10 @@ public class Answer {
 	@Override
 	public String toString() {
 		return "Answer [answerNo=" + answerNo + ", answerContent=" + answerContent + ", parentHelpNo=" + parentHelpNo
-				+ ", memberId=" + memberId + ", answerCreateDate=" + answerCreateDate + ", answerModifyDate="
+				+ ", writer=" + writer + ", answerCreateDate=" + answerCreateDate + ", answerModifyDate="
 				+ answerModifyDate + ", answerStatus=" + answerStatus + "]";
 	}
-
     
+    
+
 }
