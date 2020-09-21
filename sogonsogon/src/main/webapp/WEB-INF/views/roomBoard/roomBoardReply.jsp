@@ -401,7 +401,7 @@ function addReply2Area(el, parentReplyNo){
 	var replyWriter = $(el).parent().prev().prev().children("a").text();
 	
  	if(dupStatus) {
- 		alert("수정과 답글은 동시에 불가능합니다.")
+ 		alert("수정과 답글은 동시에 불가능합니다.") 
  		return false;
  	}
 	
