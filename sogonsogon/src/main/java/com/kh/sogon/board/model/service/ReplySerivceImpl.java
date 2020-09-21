@@ -52,6 +52,7 @@ public class ReplySerivceImpl implements ReplyService {
 
 			// 개행문자 처리 \n -> <br>
 			reply.setContent(reply.getContent().replaceAll("\n", "<br>"));
+			reply.setReplyModifyDate(reply.getReplyModifyDate());
 
 			return replyDAO.updateReply(reply);
 		}

@@ -28,6 +28,7 @@
     FROM REPLY
     JOIN MEMBER ON (REPLY_WRITER = MEMBER_NO)
     WHERE PARENT_BOARD_NO = #{qnaNo}
+    AND REPLY_STATUS = 'Y'
 	</select>
  	
  	<!--  댓글 삽입  -->
@@ -38,7 +39,8 @@
 
  	<!-- 댓글 수정 -->
 	<update id="updateReply" parameterType="Reply">
-		UPDATE REPLY SET REPLY_CONTENT = #{content}, REPLY_MODIFY_DATE = SYSDATE WHERE REPLY_NO = #{replyNo}
+		UPDATE REPLY SET REPLY_CONTENT = #{content}, REPLY_MODIFY_DATE = SYSDATE
+		WHERE REPLY_NO = #{replyNo}
 	</update>
 	
 	<!-- 댓글 삭제 -->

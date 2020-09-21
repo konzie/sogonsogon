@@ -57,7 +57,7 @@ public class ReplyController {
 
 	// 댓글 수정
 	@ResponseBody
-	@RequestMapping(value="updateReply/{boardNo}",
+	@RequestMapping(value="updateReply/{qnaNo}",
     				produces = "application/text; charset=utf-8;")
 	public String updateReply(@PathVariable int qnaNo, Reply reply) {
 		// reply 커맨드 객체를 이용하여 전달받은 이름, 댓글내용을 한 객체에 저장
