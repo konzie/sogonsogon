@@ -25,7 +25,7 @@ public interface ReplyService {
 	 * @param reply
 	 * @return
 	 */
-	int updateReply(RoomBoardReply reply);
+	int updateReply(Reply reply);
 	
 	/** 댓글 삭제 Service
 	 * @param replyNo
@@ -33,18 +33,5 @@ public interface ReplyService {
 	 */
 	int deleteReply(int replyNo);
 
-	/** 댓글 채택 Service
-	 * @param replyNo
-	 * @param memberNo
-	 * @param qnaNo
-	 * @return
-	 */
-	int adoptionReply(int replyNo, int memberNo, int qnaNo);
-
-	/** 댓글 채택된거 있는지 확인하는 Service
-	 * @param qnaNo
-	 * @return
-	 */
-	int adoptionReplyChk(int qnaNo);
 
 }

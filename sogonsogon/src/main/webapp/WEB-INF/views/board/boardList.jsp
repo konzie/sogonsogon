@@ -379,7 +379,7 @@
 	   	<!--------------------------------- 페이징바  ---------------------------------->
 	      <%-- 검색 파라미터가 포함된 url 생성  --%>
 	      <c:url var="searchParameter" value="${pInfo.boardType}">
-	      <c:if test="${!empty paramValues.ct }">
+	      <c:if test="${!empty paramValues.ct}">
 	      <c:forEach var="ctName" items="${paramValues.ct}">
 	      	<c:param name ="ct" value="${ctName}"/>
 	      	

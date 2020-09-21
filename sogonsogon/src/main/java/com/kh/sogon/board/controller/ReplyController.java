@@ -59,7 +59,7 @@ public class ReplyController {
 	@ResponseBody
 	@RequestMapping(value="updateReply/{boardNo}",
     				produces = "application/text; charset=utf-8;")
-	public String updateReply(@PathVariable int qnaNo, RoomBoardReply reply) {
+	public String updateReply(@PathVariable int qnaNo, Reply reply) {
 		// reply 커맨드 객체를 이용하여 전달받은 이름, 댓글내용을 한 객체에 저장
 		
 		reply.setParentBoardNo(qnaNo);
@@ -89,32 +89,5 @@ public class ReplyController {
 		
 		return str;
 	}
-	
-	// 댓글 채택
-	@ResponseBody
-	@RequestMapping(value="adoptionReply/{replyNo}",
-					produces = "application/text; charset=utf-8;")
-	public String adoptionReply(@PathVariable int replyNo, int memberNo, int qnaNo) {
-		
-		int result = replyService.adoptionReply(replyNo, memberNo, qnaNo);
-		
-		String str = "댓글  채택 ";
-		
-		if(result > 0) str += "성공";
-		else           str += "실패";
-		
-		return str;
-	}
-	
-	// 댓글 채택된거 있는지 체크
-	@ResponseBody
-	@RequestMapping(value="adoptionReplyChk/{roomBoardNo}",
-					produces = "application/text; charset=utf-8;")
-	public String adoptionReplyChk(@PathVariable int qnaNo) {
-		
-		int result = replyService.adoptionReplyChk(qnaNo);
-		
-		return result + "";
-	}
-	
+
 }

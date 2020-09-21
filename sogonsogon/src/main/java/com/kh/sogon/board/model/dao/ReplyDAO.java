@@ -44,7 +44,7 @@ public class ReplyDAO {
 	 * @param reply
 	 * @return
 	 */
-	public int updateReply(RoomBoardReply reply) {
+	public int updateReply(Reply reply) {
 		return sqlSession.update("replyMapper.updateReply", reply);
 	}
 	
@@ -56,30 +56,7 @@ public class ReplyDAO {
 		return sqlSession.update("replyMapper.deleteReply", replyNo);
 	}
 
-	/** 댓글 채택 DAO
-	 * @param replyNo
-	 * @param memberNo
-	 * @param qnaNo
-	 * @return
-	 */
-	public int adoptionReply(int replyNo, int memberNo, int qnaNo) {
-		Map<String, Integer> map = new HashMap<String, Integer>();
-		
-		map.put("replyNo", replyNo);
-		map.put("memberNo", memberNo);
-		map.put("roomBoardNo", qnaNo);
-		
-		return sqlSession.insert("replyMapper.adoptionReply", map);
-	}
-
-	/** 댓글 채택된거 있는지 확인하는 DAO
-	 * @param qnaNo
-	 * @return
-	 */
-	public int adoptionReplyChk(int qnaNo) {
-		return sqlSession.selectOne("replyMapper.adoptionReplyChk", qnaNo);
-	}
-
+	
 	
 	
 }

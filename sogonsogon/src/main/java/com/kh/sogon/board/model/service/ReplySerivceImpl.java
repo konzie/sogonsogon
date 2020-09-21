@@ -46,12 +46,12 @@ public class ReplySerivceImpl implements ReplyService {
     }
 
 	// 댓글 수정 서비스 구현
-		public int updateReply(RoomBoardReply reply) {
+		public int updateReply(Reply reply) {
 			// 크로스 사이트 스크립팅 방지
-			reply.setReplyContent(replaceParameter(reply.getReplyContent()));
+			reply.setContent(replaceParameter(reply.getContent()));
 
 			// 개행문자 처리 \n -> <br>
-			reply.setReplyContent(reply.getReplyContent().replaceAll("\n", "<br>"));
+			reply.setContent(reply.getContent().replaceAll("\n", "<br>"));
 
 			return replyDAO.updateReply(reply);
 		}
@@ -61,18 +61,6 @@ public class ReplySerivceImpl implements ReplyService {
 		public int deleteReply(int replyNo) {
 			return replyDAO.deleteReply(replyNo);
 		}
-		
-		// 댓글 채택 구현 Service
-		@Override
-		public int adoptionReply(int replyNo, int memberNo, int qnaNo) {
-			return replyDAO.adoptionReply(replyNo, memberNo, qnaNo);
-		}
 
-		// 댓글 채택된거 있는지 확인하는 Service 구현
-		@Override
-		public int adoptionReplyChk(int qnaNo) {
-			return replyDAO.adoptionReplyChk(qnaNo);
-		}
 
-	
 }
