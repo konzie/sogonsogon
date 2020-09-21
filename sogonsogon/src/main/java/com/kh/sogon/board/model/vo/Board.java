@@ -17,13 +17,15 @@ public class Board {
 	private String writerNick;
 	private int writer;
 	private int likeCount;
+	private int replyWriter;
 	
 	public Board(){
 		
 	}
 
 	public Board(int qnaNo, String qnaCategory, String qnaTitle, String qnaStatus, String qnaAnswer, Date qnaModifyDate,
-			Date qnaCreateDate, String qnaWriter, String writerName, String qnaContent, String writerNick) {
+			Date qnaCreateDate, String qnaWriter, String writerName, String qnaContent, String writerNick, int writer,
+			int likeCount, int replyWriter) {
 		super();
 		this.qnaNo = qnaNo;
 		this.qnaCategory = qnaCategory;
@@ -36,16 +38,19 @@ public class Board {
 		this.writerName = writerName;
 		this.qnaContent = qnaContent;
 		this.writerNick = writerNick;
+		this.writer = writer;
+		this.likeCount = likeCount;
+		this.replyWriter = replyWriter;
 	}
 
 	public int getQnaNo() {
 		return qnaNo;
 	}
-	
+
 	public void setQnaNo(int qnaNo) {
 		this.qnaNo = qnaNo;
 	}
-	
+
 	public String getQnaCategory() {
 		return qnaCategory;
 	}
@@ -57,7 +62,7 @@ public class Board {
 	public String getQnaTitle() {
 		return qnaTitle;
 	}
-	
+
 	public void setQnaTitle(String qnaTitle) {
 		this.qnaTitle = qnaTitle;
 	}
@@ -93,7 +98,7 @@ public class Board {
 	public void setQnaCreateDate(Date qnaCreateDate) {
 		this.qnaCreateDate = qnaCreateDate;
 	}
-	
+
 	public String getQnaWriter() {
 		return qnaWriter;
 	}
@@ -101,7 +106,7 @@ public class Board {
 	public void setQnaWriter(String qnaWriter) {
 		this.qnaWriter = qnaWriter;
 	}
-	
+
 	public String getWriterName() {
 		return writerName;
 	}
@@ -125,11 +130,6 @@ public class Board {
 	public void setWriterNick(String writerNick) {
 		this.writerNick = writerNick;
 	}
-  
-	public Board(int qnaNo) {
-		super();
-		this.qnaNo = qnaNo;
-	}
 
 	public int getWriter() {
 		return writer;
@@ -147,11 +147,22 @@ public class Board {
 		this.likeCount = likeCount;
 	}
 
+	public int getReplyWriter() {
+		return replyWriter;
+	}
+
+	public void setReplyWriter(int replyWriter) {
+		this.replyWriter = replyWriter;
+	}
+
 	@Override
 	public String toString() {
 		return "Board [qnaNo=" + qnaNo + ", qnaCategory=" + qnaCategory + ", qnaTitle=" + qnaTitle + ", qnaStatus="
 				+ qnaStatus + ", qnaAnswer=" + qnaAnswer + ", qnaModifyDate=" + qnaModifyDate + ", qnaCreateDate="
 				+ qnaCreateDate + ", qnaWriter=" + qnaWriter + ", writerName=" + writerName + ", qnaContent="
-				+ qnaContent + ", writerNick=" + writerNick + ", writer=" + writer + ", likeCount=" + likeCount + "]";
+				+ qnaContent + ", writerNick=" + writerNick + ", writer=" + writer + ", likeCount=" + likeCount
+				+ ", replyWriter=" + replyWriter + "]";
 	}
+
+	
 }

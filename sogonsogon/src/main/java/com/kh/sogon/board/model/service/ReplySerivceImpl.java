@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.sogon.board.model.dao.ReplyDAO;
 import com.kh.sogon.board.model.vo.Reply;
+import com.kh.sogon.roomboard.model.vo.RoomBoardReply;
 
 @Service
 public class ReplySerivceImpl implements ReplyService {
@@ -44,18 +45,22 @@ public class ReplySerivceImpl implements ReplyService {
         return result;
     }
 
-    
-    // 답글 작성 
-	@Transactional(rollbackFor = Exception.class)
-	@Override
-	public int insertReply2(Reply reply) {
-		// 크로스 사이트 스크립팅 방지
-        reply.setContent(
-                replaceParameter(reply.getQnaContent()));
+	// 댓글 수정 서비스 구현
+		public int updateReply(Reply reply) {
+			// 크로스 사이트 스크립팅 방지
+			reply.setContent(replaceParameter(reply.getContent()));
 
-        // 개행문자 처리 \n -> <br>
-        reply.setContent(
-                reply.getQnaContent().replaceAll("\n", "<br>"));
-		return replyDAO.insertReply2(reply);
-	}
+			// 개행문자 처리 \n -> <br>
+			reply.setContent(reply.getContent().replaceAll("\n", "<br>"));
+
+			return replyDAO.updateReply(reply);
+		}
+		
+		// 댓글 삭제 서비스 구현
+		@Override
+		public int deleteReply(int replyNo) {
+			return replyDAO.deleteReply(replyNo);
+		}
+
+
 }

@@ -299,9 +299,6 @@
     .write-Btn{float: right;}
     
     #col-sm-4>hr{background-color:white;}
-    
-    img{width:23px; height:23px;}
-
         </style>
         <script>
             $(document).ready(function(){
@@ -356,21 +353,22 @@
                                    <td>${board.qnaCategory}</td>
                                    <td>${board.qnaTitle}</td>
                                    <td>${board.writerNick}</td>
-                                   <td>
-                                      <jsp:useBean id="now" class="java.util.Date"></jsp:useBean>
-                                      <fmt:formatDate var="today" value="${now}" pattern="yyyy-MM-dd"/>
-                                      <fmt:formatDate var="createDate" value="${board.qnaCreateDate}" pattern="yyyy-MM-dd"/>
-                                      <fmt:formatDate var="createTime" value="${board.qnaCreateDate}" pattern="hh:mm:ss"/>
-                                      
-                                      <c:choose>
-                                         <c:when test="${today == createDate }">
-                                            ${createTime}
-                                         </c:when>
-                                         <c:otherwise>
-                                         ${createDate}
-                                         </c:otherwise>
-                                         </c:choose>
-                                   </td>
+                                   
+                                     <td>    
+                              <jsp:useBean id="now" class="java.util.Date"/>
+                            
+                              <fmt:formatDate var="today" value="${now}" pattern="yyyy-MM-dd"/>
+                              <fmt:formatDate var="createDate" value="${board.qnaCreateDate}" pattern="yyyy-MM-dd"/>
+                       
+                              <c:choose>   
+                                 <c:when test="${today == createDate}">
+                                   ${createDate}
+                                 </c:when>
+                                 <c:otherwise>
+                                    ${createDate}
+                                 </c:otherwise>
+                              </c:choose>
+                           </td>
                                    <td>${board.qnaAnswer}</td>
                                    </tr>   
                              </c:forEach>
@@ -381,7 +379,7 @@
 	   	<!--------------------------------- 페이징바  ---------------------------------->
 	      <%-- 검색 파라미터가 포함된 url 생성  --%>
 	      <c:url var="searchParameter" value="${pInfo.boardType}">
-	      <c:if test="${!empty paramValues.ct }">
+	      <c:if test="${!empty paramValues.ct}">
 	      <c:forEach var="ctName" items="${paramValues.ct}">
 	      	<c:param name ="ct" value="${ctName}"/>
 	      	

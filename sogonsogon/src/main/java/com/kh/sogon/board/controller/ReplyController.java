@@ -15,6 +15,7 @@ import com.google.gson.GsonBuilder;
 import com.kh.sogon.board.model.service.ReplyService;
 import com.kh.sogon.board.model.vo.Reply;
 import com.kh.sogon.member.model.vo.Member;
+import com.kh.sogon.roomboard.model.vo.RoomBoardReply;
 
 @SessionAttributes({"loginMember"})
 @Controller
@@ -53,20 +54,40 @@ public class ReplyController {
 		else            str += "실패";
 		return str;
 	}
-	
-	// 댓글 삽입 
-	@RequestMapping(value="insertReply2/{qnaNo}", produces = "application/text; charset=utf-8;")
+
+	// 댓글 수정
 	@ResponseBody
-	public String insertReply2(@PathVariable int qnaNo, Reply reply) {
+	@RequestMapping(value="updateReply/{boardNo}",
+    				produces = "application/text; charset=utf-8;")
+	public String updateReply(@PathVariable int qnaNo, Reply reply) {
+		// reply 커맨드 객체를 이용하여 전달받은 이름, 댓글내용을 한 객체에 저장
 		
 		reply.setParentBoardNo(qnaNo);
 		
-		int result = replyService.insertReply2(reply);
+		int result = replyService.updateReply(reply);
 		
-		String str = "댓글 삽입";
+		String str = "댓글 수정 ";
 		
-		if(result > 0 ) str += "성공 ";
-		else            str += "실패";
+		if(result > 0) str += "성공";
+		else           str += "실패";
+		
 		return str;
 	}
+	
+	// 댓글 삭제
+	@ResponseBody
+	@RequestMapping(value="deleteReply/{replyNo}",
+					produces = "application/text; charset=utf-8;")
+	public String deleteReply(@PathVariable int replyNo) {
+		
+		int result = replyService.deleteReply(replyNo);
+		
+		String str = "댓글  삭제 ";
+		
+		if(result > 0) str += "성공";
+		else           str += "실패";
+		
+		return str;
+	}
+
 }

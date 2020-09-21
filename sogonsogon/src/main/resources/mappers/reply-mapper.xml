@@ -13,7 +13,10 @@
         <result property="qnaNo" column="QNA_NO"/>
         <result property="replyWriter" column="REPLY_WRITER"/>
        	<result property="writerNick" column="MEMBER_NICK"/>
-        <result property="memberId" column="MEMBER_ID"/>      
+        <result property="memberId" column="MEMBER_ID"/>  
+        <result property="qnaTitle" column="QNA_TITLE"/>  
+        <result property="qnaWriter" column="QNA_WRITER"/>  
+        
 	</resultMap>
 	
  	<!--  댓글 조회  -->
@@ -32,44 +35,19 @@
  	INSERT INTO REPLY(REPLY_NO, REPLY_CONTENT,PARENT_BOARD_NO, REPLY_WRITER) 
 	VALUES(SEQ_RNO.NEXTVAL, #{content}, #{parentBoardNo}, #{replyWriter})
  	</insert>
- 	
- 	<!-- 대댓글삽입  -->
- 	<insert id="insertReply2" parameterType="Reply" >
- 	INSERT INTO REPLY(REPLY_NO, REPLY_CONTENT,PARENT_BOARD_NO,REPLY_WRITER) 
-	VALUES(SEQ_RNO.NEXTVAL, #{content}, #{parentBoardNo}, #{replyWriter})
- 	</insert>
- 	
+
  	<!-- 댓글 수정 -->
 	<update id="updateReply" parameterType="Reply">
-		UPDATE REPLY SET REPLY_CONTENT = #{Content}, REPLY_MODIFY_DT = SYSDATE WHERE REPLY_NO = #{replyNo}
+		UPDATE REPLY SET REPLY_CONTENT = #{content}, REPLY_MODIFY_DATE = SYSDATE WHERE REPLY_NO = #{replyNo}
 	</update>
 	
 	<!-- 댓글 삭제 -->
 	<update id="deleteReply" parameterType="_int">
 		UPDATE REPLY SET REPLY_STATUS = 'N' 
 		WHERE REPLY_NO = #{replyNo} 
-		OR (REPLY_NO != PARENT_REPLY_NO AND PARENT_REPLY_NO = #{replyNo})
+	
 	</update>
 	
-	<insert id="adoptionReply" parameterType="map">
-		INSERT INTO REPLY_ADOPTION
-		VALUES(#{replyNo}, SYSDATE, #{roomBoardNo}, #{memberNo})
-	</insert>
-	
-	<select id="adoptionReplyChk" parameterType="_int" resultType="_int">
-		SELECT ADOPTION_REPLY_NO
-		FROM REPLY_ADOPTION
-		WHERE ADOPTION_BOARD_NO = #{roomBoardNo}
-		
-		UNION ALL
-		
-		SELECT -1 AS ADOPTION_REPLY_NO
-		FROM DUAL
-		WHERE NOT EXISTS (
-			SELECT NVL(ADOPTION_REPLY_NO,-1)
-			FROM REPLY_ADOPTION
-			WHERE ADOPTION_BOARD_NO = #{roomBoardNo}
-		)
-	</select>
+
  	
 </mapper>

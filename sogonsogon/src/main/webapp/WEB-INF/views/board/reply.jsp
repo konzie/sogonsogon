@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <style>
 /*댓글*/
 .replyWrite>table {
@@ -156,17 +157,10 @@ function selectReplyList(){
 				
 				// 답글, 수정, 삭제 버튼 영역
 				var $btnArea = $("<div>").addClass("btnArea");
-				
-				// 로그인 되어 있는 경우에 답글 버튼 추가
-				if(loginMemberNo != ""){
-					// ** 추가되는 댓글에 onclick 이벤트를 부여하여 버튼 클릭 시 답글창을 생성하는 함수를 이벤트 핸들러로 추가함. 
-					var $reply2 = $("<button>").addClass("btn btn-sm btn-primary ml-1 reply2").text("답글").attr("onclick", "addReply2Area(this, "+rList[i].parentReplyNo+")");
-					$btnArea.append($reply2);
-				}
+
 				
 				// 현재 댓글의 작성자와 로그인한 멤버의 아이디가 같을 때 버튼 추가
-				console.log(rList[i].replyWriter+"tt");
-					console.log(loginMemberNo+"yy");
+				
 				if(rList[i].replyWriter == loginMemberNo){
 					
 					
@@ -191,7 +185,7 @@ function selectReplyList(){
 				
 				
 			});
-			
+		
 		}, error : function(request, status, error){
 			 	console.log("ajax 통신 오류");
 				console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
@@ -201,7 +195,6 @@ function selectReplyList(){
 }
 
 //-----------------------------------------------------------------------------------------
-
 // 댓글 등록
 $("#addReply").on("click", function(){
 	
@@ -242,92 +235,92 @@ $("#addReply").on("click", function(){
 	} 
 });
 
-//-----------------------------------------------------------------------------------------
-// 답글 버튼 클릭 동작
-function addReply2Area(el, parentReplyNo){
-	// 답글 작성 영역이 여러 개 생기지 않도록 처리
-	var check = cancelReply2(); //답글 취소 처리 함수
+
+
+// 댓글 삭제
+function deleteReply(el, replyNo) {
+	var cancleConfirm = confirm("정말 댓글 삭제하시겠습니까?");
 	
-	// 부모 댓글의 작성자를 얻어와 placeholder로 사용할 목적 
-	var replyWriter = $(el).parent().prev().prev().children("a").text();
-	
-	// 이미 화면에 존재하는 답글 작성 영역이 삭제 되어야지만 
-	// 새로운 답글 영역을 생성, 추가함 
-	if(check){
-		var $div = $("<div>").addClass("reply2Area");
-		var $textArea = $("<textarea rows='3'>").addClass("reply2Content").attr("placeholder", replyWriter + "님께 답글 작성하기");
-		var $btnArea = $("<div>").addClass("btnArea");
+	if(cancleConfirm) {
+		$.ajax({
+			url : "${contextPath}/reply/deleteReply/" + replyNo,
+			type : "get",
+			success : function(result) {
+				alert(result);
+				selectReplyList();
+			}, error : function() {
+				console.log("통신 실패");
+			}
+		});
 		
-		var $insertBtn = $("<button>").addClass("btn btn-sm btn-primary ml-1").text("등록").attr("onclick", "addReply2(this, " + parentReplyNo + ", \'" + replyWriter + "\')");
-		var $cancelBtn = $("<button>").addClass("btn btn-sm btn-secondary ml-1 reply-cancel").text("취소").attr("onclick", "cancelReply2()");
-		
-		$btnArea.append($insertBtn,$cancelBtn);
-		
-		$div.append($textArea, $btnArea);  
-		$(el).parent().after($div);
+		return cancleConfirm;
 	}
-	
-	$(".reply2Content").focus();
-}
-
-
-//-----------------------------------------------------------------------------------------
-// 답글 등록
-function addReply2(el, parentReplyNo, replyWriter){
-	
-	// el: 답글 등록 버튼 요소 
-	// parentReplyNo
-	
-	console.log($(el).parent().prev().val());
-	console.log(parentReplyNo);
-	console.log(replyWriter);
-	
-	var replyContent = $(el).parent().prev().val(); // textArea에 등록된 값 
-	var memberId = "${loginMember.memberNo}";  //답글 작성자 회원 번호 
-	
-	$.ajax({
-		url : "${contextPath}/reply/insertReply2/${board.qnaNo}",
-		data : {"replyContent" : replyContent,
-				"parentReplyNo" : parentReplyNo,
-				"memberId" : memberId},
-		dataType : "text",
-		success : function(result){
-			alert(result);
-			
-			selectReplyList();
-		},error : function(){
-			console.log("통신 실패");
-		}
-	});  
 }
 
 //-----------------------------------------------------------------------------------------
-// 답글 취소
-function cancelReply2(){
-	
-	// 다른 답글이 작성된 상태로  새로운 답글이 클릭된 경우 
-	// 이미 작성된 답글을 삭제할 것이지 확인하는 작업.
-	
-	// 이미 존재하는 답글을 삭제할 것이지 확인하는 작업. 
-	var tmp = $(".reply2Area").children("textArea").val();
-	// textarea에 값이 작성되어 있지 않으면 ""(빈 문자열 )반환
-	
-	// 작성된 값이 없다면 
-	if(tmp == "" || tmp == undefined){
-		$(".reply2Area").remove(); // 클래스명이 reply2Area인 요소를 모두 제거 
-		
-		return true;
-		
-	}else{
-		var cancelConfirm = confirm("작성된 댓글 내용이 사라집니다. 취소 하시겠습니까?");
-		
-		if(cancelConfirm){
-			$(".reply2Area").remove();
-		}
-		
-		return cancelConfirm;
-	}
-	
-}
+
+//댓글 수정 클릭 동작
+ function updateReplyArea(el, parentReplyNo){
+ 	// el : 클릭된 답글 버튼, // parentReplyNo : 클릭된 답글 버튼이 포함된 댓글의 부모 댓글 번호
+ 	
+ 	// 답글 작성 영역이 여러 개 생기지 않도록 처리
+ 	var check = cancelReply2();
+ 	
+ 	if(dupStatus) {
+ 		alert("수정과 답글은 동시에 불가능합니다.")
+ 		return false;
+ 	}
+ 	
+ 	
+ 	// 이미 화면에 존재하는 답글 작성 영역이 삭제 되어야지만
+ 	// 새로운 답글 영역을 생성, 추가함
+ 	if(check){
+ 		dupStatus = true;
+ 	var replyOldContent = $(el).parent().prev().text();
+ 	
+ 	var $textArea = $("<textArea rows='3'>").addClass("updateReplyContent").val(replyOldContent);
+ 	
+ 	$(el).parent().prev().last("p").hide();
+ 	$(el).parent().prev().last().append($textArea);
+ 	$(el).parent().hide();
+ 	
+
+ 		var $div = $("<div>").addClass("updateReplyArea");
+ 		var $btnArea = $("<div>").addClass("btnArea");
+ 		
+ 		var $insertBtn = $("<button>").addClass("btn btn-sm btn-primary ml-1").text("등록").attr("onclick", "updateReply(this, " + $(el).parent().parent().attr('id') +")");
+ 		var $cancelBtn = $("<button>").addClass("btn btn-sm btn-secondary ml-1 updateReply-cancle").text("취소").attr("onclick", "cancelReply2()");
+ 		
+ 		$btnArea.append($insertBtn,$cancelBtn);
+ 		
+ 		$div.append($textArea, $btnArea);  
+ 		$(el).parent().after($div);
+ 	}
+ 	
+ }
+ 
+//댓글 수정
+ function updateReply(el, replyNo){
+ 	console.log($(el).parent().prev().val());
+ 	console.log(replyNo);
+ 	
+ 	
+ 	var replyContent = $(el).parent().prev().val();
+ 	
+ 	$.ajax({
+ 		url : "${contextPath}/reply/updateReply/${board.qnaNo}",
+ 		data : {"replyContent" : replyContent,
+ 				"replyNo" : replyNo},
+ 		dataType : "text",
+ 		success : function(result){
+ 			alert(result);
+ 			
+ 			selectReplyList();
+ 		},error : function(){
+ 			console.log("통신 실패");
+ 		}
+ 	});  
+ }
+ 
 
 </script>
