@@ -74,18 +74,30 @@ public class RoomController {
 				if(loginMember != null) {
 					int writeBoardCount = roomService.writeBoardCount(roomNo, loginMember.getMemberNo());
 					int writeBoardReplyCount = roomService.writeBoardReplyCount(roomNo, loginMember.getMemberNo());
+					int writeBoardReplyAdoptionCount = roomService.writeBoardReplyAdoptionCount(roomNo, loginMember.getMemberNo());
+					
 					model.addAttribute("writeBoardCount", writeBoardCount);
 					model.addAttribute("writeBoardReplyCount", writeBoardReplyCount);
+					model.addAttribute("writeBoardReplyAdoptionCount", writeBoardReplyAdoptionCount);
 				}
 				model.addAttribute("roomDetail", roomDetail);
 				returnPath = "room/roomDetail";
 			} else {
 		        rdAttr.addFlashAttribute("status", "error");
 		        rdAttr.addFlashAttribute("msg", "삭제되었거나 없는 방 또는 권한이 없습니다");
-				returnPath = "redirect:/room/roomList";
+				returnPath = "redirect:/room/roomList/1";
 			}
 			
 			return returnPath;
+		}
+		
+		// 방 탈퇴
+		@RequestMapping("roomDetail/withDraw/{roomNo}")
+		public String withDraw(@PathVariable int roomNo, int memberNo) {
+			
+			int result = roomService.withDraw(roomNo, memberNo);
+			
+			return "redirect:/room/roomList/1";
 		}
 
 		@RequestMapping("createRoom")

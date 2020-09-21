@@ -220,5 +220,33 @@ public class RoomDAO {
 		return sqlSession.selectOne("roomMapper.writeBoardReplyCount", map);
 	}
 
+
+	/** 방 회원 탈퇴 DAO
+	 * @param roomNo, memberNo
+	 * @return
+	 */
+	public int withDraw(int roomNo, int memberNo) {
+		Map<String, Integer> map = new HashMap<String, Integer>();
+		
+		map.put("roomNo", roomNo);
+		map.put("memberNo", memberNo);
+		
+		return sqlSession.delete("roomMapper.withDraw", map);
+	}
+
+
+	/** 작성 댓글 채택 갯수 DAO
+	 * @param roomNo
+	 * @param memberNo
+	 * @return
+	 */
+	public int writeBoardReplyAdoptionCount(int roomNo, int memberNo) {
+		Map<String, Integer> map = new HashMap<String, Integer>();
+		
+		map.put("roomNo", roomNo);
+		map.put("memberNo", memberNo);
+		return sqlSession.selectOne("roomMapper.writeBoardReplyAdoptionCount", map);
+	}
+
 	
 }

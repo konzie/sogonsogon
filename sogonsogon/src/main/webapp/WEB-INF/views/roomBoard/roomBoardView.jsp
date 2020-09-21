@@ -149,6 +149,10 @@
 							<a href="${updateUrl}" class="btn btn-primary ml-1 mr-1">수정</a>
 							<button id="deleteBtn" class="btn btn-primary">삭제</button> 
 						</c:if>
+						
+						<c:if test="${ loginMember != null }">
+							<button id="reportBtn" class="btn btn-outline-danger">신고하기</button> 
+						</c:if>
 					</div>
 				</div>
 			</div>
@@ -173,6 +177,11 @@
 			if(confirm("정말 삭제 하시겠습니까?")) {
 				// spring/board/1/515/delete
 				location.href = "${board.roomBoardNo}/delete";
+			}
+		});
+		
+		$("#reportBtn").on("click", function() {
+			if(confirm("게시글 작성자를 정말 신고 하시겠습니까?")) {
 			}
 		});
 		
