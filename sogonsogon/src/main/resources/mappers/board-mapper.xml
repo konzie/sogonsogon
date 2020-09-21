@@ -36,7 +36,7 @@
 		FROM QNABOARD
 		JOIN QNA_CATEGORY ON (QNA_CATEGORY=CATEGORY_NO)
 		JOIN MEMBER ON(QNA_WRITER = MEMBER_NO)
-
+        WHERE QNA_STATUS = 'Y'
 		
 		</select>
 
@@ -49,6 +49,7 @@
 			FROM QNABOARD
 			JOIN QNA_CATEGORY ON (QNA_CATEGORY=CATEGORY_NO)
 			JOIN MEMBER ON(QNA_WRITER = MEMBER_NO)
+			WHERE QNA_STATUS = 'Y'
 			ORDER BY QNA_NO DESC
 		
 		</select>	
@@ -70,21 +71,23 @@
  	SELECT SEQ_BNO.NEXTVAL FROM DUAL
   </select>
 
-	<!-- 게시글 작성 -->
-	 <insert id="insertBoard" parameterType="Board" >
- 	INSERT INTO QNABOARD VALUES
- 	(
- 	#{qnaNo},
- 	#{qnaTitle},
- 	'Y',
- 	DEFAULT,
- 	SYSDATE,
- 	SYSDATE,
- 	#{qnaCategory},
- 	#{qnaWriter},
- 	#{qnaContent}
- 	)
+   <!-- 게시글 작성 -->
+    <insert id="insertBoard" parameterType="Board" >
+    INSERT INTO QNABOARD VALUES
+    (
+    #{qnaNo},
+    #{qnaTitle},
+    'Y',
+    DEFAULT,
+    SYSDATE,
+    SYSDATE,
+    #{qnaContent},
+    #{qnaWriter},
+    #{qnaCategory},
+    DEFAULT
+    )
   </insert>
+   
 	
 	
  	
