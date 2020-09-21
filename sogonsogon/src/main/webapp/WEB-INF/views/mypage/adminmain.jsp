@@ -93,7 +93,7 @@
 	  </div>
 	   	
 	   	<div id="report" class="board">
-	   		<h4 class="mb-1 tableTitle"><a href="adminreport">신고 게시판</a></h4>
+	   		<h4 class="mb-1 tableTitle"><a href="adminreport">신고 게시판</a></h4><button class="btn btn-outline-secondary btn-sm tableButton" onclick="location.href ='adminreport'">메뉴로 이동</button>
        <table class="table table-striped table-hover">
                 <thead>
                     <tr>
