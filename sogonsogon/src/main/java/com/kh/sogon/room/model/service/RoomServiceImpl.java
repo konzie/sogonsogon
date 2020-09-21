@@ -186,5 +186,16 @@ public class RoomServiceImpl implements RoomService{
 		return roomDAO.mainLikeList();
 	}
 
+	@Override
+	public int withDraw(int roomNo, int memberNo) {
+		return roomDAO.withDraw(roomNo, memberNo);
+	}
+
+	// 작성 댓글 채택 갯수 Service 구현
+	@Override
+	public int writeBoardReplyAdoptionCount(int roomNo, int memberNo) {
+		return roomDAO.writeBoardReplyAdoptionCount(roomNo, memberNo);
+	}
+
 
 }

@@ -14,6 +14,8 @@
      	<result property="qnaWriter" column="QNA_WRITER"/>
      	<result property="qnaCategory" column="CATEGORY_NM"/>
      	<result property="writerNick" column="MEMBER_NICK"/>
+     	<result property="likeCount" column="LIKE_CNT"/>
+     	
      	
     </resultMap>
     
@@ -34,7 +36,7 @@
 		FROM QNABOARD
 		JOIN QNA_CATEGORY ON (QNA_CATEGORY=CATEGORY_NO)
 		JOIN MEMBER ON(QNA_WRITER = MEMBER_NO)
-
+        WHERE QNA_STATUS = 'Y'
 		
 		</select>
 
@@ -47,6 +49,7 @@
 			FROM QNABOARD
 			JOIN QNA_CATEGORY ON (QNA_CATEGORY=CATEGORY_NO)
 			JOIN MEMBER ON(QNA_WRITER = MEMBER_NO)
+			WHERE QNA_STATUS = 'Y'
 			ORDER BY QNA_NO DESC
 		
 		</select>	
@@ -59,7 +62,6 @@
 		JOIN QNA_CATEGORY ON (QNA_CATEGORY=CATEGORY_NO)
 		JOIN MEMBER ON(QNA_WRITER = MEMBER_NO)
 		WHERE QNA_NO = #{qnaNo}
-		AND QNA_STATUS = 'Y'
 	
 	</select>
 
@@ -69,21 +71,23 @@
  	SELECT SEQ_BNO.NEXTVAL FROM DUAL
   </select>
 
-	<!-- 게시글 작성 -->
-	 <insert id="insertBoard" parameterType="Board" >
- 	INSERT INTO QNABOARD VALUES
- 	(
- 	#{qnaNo},
- 	#{qnaTitle},
- 	'Y',
- 	DEFAULT,
- 	SYSDATE,
- 	SYSDATE,
- 	#{qnaCategory},
- 	#{qnaWriter},
- 	#{qnaContent}
- 	)
+   <!-- 게시글 작성 -->
+    <insert id="insertBoard" parameterType="Board" >
+    INSERT INTO QNABOARD VALUES
+    (
+    #{qnaNo},
+    #{qnaTitle},
+    'Y',
+    DEFAULT,
+    SYSDATE,
+    SYSDATE,
+    #{qnaContent},
+    #{qnaWriter},
+    #{qnaCategory},
+    DEFAULT
+    )
   </insert>
+   
 	
 	
  	
@@ -214,6 +218,33 @@ AND
  ORDER BY QNA_NO DESC
 </select>
  	
+ 	   <!-- qna 게시글 좋아요 체크 -->
+   <select id="qnaLikeChk" parameterType="map" resultType="_int">
+   		SELECT COUNT(*)
+   		FROM QNA_BOARD_LIKE
+   		WHERE LIKE_QNA_NO = #{qnaNo}
+   		AND LIKE_QNA_MEMBER_NO = #{memberNo}
+   </select>
+   
+   <!-- qna 게시글 좋아요 등록 -->
+   <insert id="qnaLikeAdd" parameterType="map">
+   		INSERT INTO QNA_BOARD_LIKE VALUES (#{qnaNo}, #{memberNo})
+   </insert>
+   
+   <!-- qna 게시글 좋아요 삭제 -->
+   <delete id="qnaLikeDelete" parameterType="map">
+   		DELETE FROM QNA_BOARD_LIKE
+   		WHERE LIKE_QNA_NO = #{qnaNo}
+   		AND LIKE_QNA_MEMBER_NO = #{memberNo} 
+   </delete>
+   
+   <!-- qna 게시글 좋아요 갯수 -->
+   <select id="qnaLikeCount" parameterType="_int" resultType="_int">
+      	SELECT COUNT(*)
+   		FROM QNA_BOARD_LIKE
+   		WHERE LIKE_QNA_NO = #{qnaNo}
+   </select>
+   
  	
  	
 </mapper>

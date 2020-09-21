@@ -235,8 +235,9 @@ function addAdoption(el, replyNo) {
 			success : function(result) {
 				alert(result);
 				console.log("채택 완료");
-				$p = $("<span>").text("채택되었습니다");
+				$p = $("<span>").text("채택되었습니다 (채택 시 수정, 삭제가 불가능합니다)");
 				$(el).parent().parent().css("background-color", "yellow").append($p);
+				$(el).parent().parent().children(".btnArea").remove();
 				$(".adoption").remove();
 				
 			},error : function() {
@@ -254,8 +255,9 @@ function chkAdoption() {
 		type : "post",
 		success : function(result) {
 			if(result > 0) {
-				$p = $("<span>").text("채택되었습니다");
+				$p = $("<span>").text("채택되었습니다 (채택 시 수정, 삭제가 불가능합니다)");
 				$("#" + parseInt(result)).css("background-color", "yellow").append($p);
+				$("#" + parseInt(result)).children(".btnArea").remove();
 				$(".adoption").remove();
 			}
 		},error : function() {

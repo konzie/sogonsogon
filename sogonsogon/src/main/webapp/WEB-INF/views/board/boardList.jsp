@@ -371,7 +371,7 @@
                                          </c:otherwise>
                                          </c:choose>
                                    </td>
-                                   <td>${board.qnaStatus}</td>
+                                   <td>${board.qnaAnswer}</td>
                                    </tr>   
                              </c:forEach>
                        </c:otherwise>

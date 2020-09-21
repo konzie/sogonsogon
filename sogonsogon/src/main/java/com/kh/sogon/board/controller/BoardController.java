@@ -274,6 +274,33 @@ public class BoardController {
 		}
 		
 	
+
+		// 게시글 좋아요
+		@ResponseBody
+		@RequestMapping("qnaBoardLike")
+		public String qnaBoardLike(int qnaNo, int memberNo) {
+			System.out.println(qnaNo);
+			System.out.println("sjadjdhsk");
+			int result = boardService.qnaBoardLike(qnaNo, memberNo);
+			return result + "";
+		}
+		
+		// 게시글 좋아요 갯수
+		@ResponseBody
+		@RequestMapping("qnaLikeCount")
+		public String qnaLikeCount(int qnaNo) {
+			int result = boardService.qnaLikeCount(qnaNo);
+			return result + "";
+		}
+		
+		// 게시글 좋아요 사용자 체크 여부
+		@ResponseBody
+		@RequestMapping("qnaLikeUserChk")
+		public String qnaLikeUserChk(int qnaNo, int memberNo) {
+			int result = boardService.qnaLikeUserChk(qnaNo, memberNo);
+			return result + "";
+		}
+		
 	
 		
 		  
