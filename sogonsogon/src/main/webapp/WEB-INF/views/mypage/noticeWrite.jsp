@@ -68,7 +68,7 @@
 				
 				<div class="form-inline mb-2">
 					<label>제목</label> 
-					<textarea class="form-control" name="title" rows="1" cols="170" style="resize: none;"></textarea>
+					<textarea class="form-control" name="title" rows="1" cols="170" style="resize: none;" id="title"></textarea>
 				</div>
 
 				<div class="form-inline mb-2">
@@ -92,7 +92,6 @@
 					<button type="button" class="btn btn-warning" onclick="location.href='adminnotice'">목록으로</button>
 				</div>
 			</form>
-	</div>
 	</div>
 	   <jsp:include page="../common/footer.jsp" />
 

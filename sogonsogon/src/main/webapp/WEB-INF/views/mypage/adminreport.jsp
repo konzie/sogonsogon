@@ -82,7 +82,7 @@
 		              				<c:otherwise>${createDate}</c:otherwise>
 		              			</c:choose>
 		              		</td>
-		              		<td><button type="button" class="btn btn-danger btn-sm" onclick="location.href ='updateReport/${board.writerNick}/${board.qnaNo}/0'">경고</button>          <button type="button" class="btn btn-dark btn-sm" onclick="location.href ='restoreReport/${board.writerNick}/${board.qnaNo}/0'">X</button></td>
+		              		<td><button type="button" class="btn btn-danger btn-sm" onclick="location.href ='updateReport/${board.writerNick}/${board.qnaNo}/0'">경고</button>          <button type="button" class="btn btn-dark btn-sm" onclick="location.href ='restoreReport/${board.writerNick}/${board.qnaNo}'">X</button></td>
 	              		</tr>	
           				</c:forEach>
           			</c:otherwise>
@@ -111,7 +111,6 @@
                       </c:when>
                       <c:otherwise>
                          <li>
-                        <%-- <a class="page-link text-primary" href="${pInfo.boardType}?cp=${p}">${p}</a> --%>
                             <a class="page-link text-primary" href="?cp=${p}">${p}</a>
                          </li>
                       </c:otherwise>
@@ -120,7 +119,6 @@
                 
                 
                  <!-- 다음 페이지로(>) -->
-                <!-- next 생성 식:(현재페이지+9)/10*10+1 -->
                 <c:if test="${pInfo.maxPage>pInfo.endPage}">
                 <!-- 다음페이지(>) -->
                    <li>
@@ -161,14 +159,14 @@
           				<c:forEach var="roomBoard" items="${roomReportList}">
 	              		<tr>		
 	              			<jsp:useBean id="now1" class="java.util.Date"></jsp:useBean>
-	              			<fmt:formatDate var="today" value="${now1}" pattern="yyyy-MM-dd"/>
-	              			<fmt:formatDate var="createDate" value="${roomBoard.roomBoardCreateDate}" pattern="yyyy-MM-dd"/>
-	              			<fmt:formatDate var="createTime" value="${roomBoard.roomBoardCreateDate}" pattern="hh:mm:ss"/>
+	              			<fmt:formatDate var="today1" value="${now1}" pattern="yyyy-MM-dd"/>
+	              			<fmt:formatDate var="createDate1" value="${roomBoard.roomBoardCreateDate}" pattern="yyyy-MM-dd"/>
+	              			<fmt:formatDate var="createTime1" value="${roomBoard.roomBoardCreateDate}" pattern="hh:mm:ss"/>
 	              			<td>
-		              			<c:if test="${today == createDate}">
+		              			<c:if test="${today1 == createDate1}">
 	              			<span class="badge badge-primary new">new</span>
 		              			</c:if>
-		              		<span>${roomBoard.roomBoardNo}</span><span>(ROOM : ${roomBoard.roomNo})</span>
+		              		<span>${roomBoard.roomBoardNo}</span><span display="none">${roomBoard.roomNo}</span><span>(ROOM : ${roomBoard.roomNo})</span>
 		              		</td>
 		              		<td>${roomBoard.roomBoardType}</td>
 		              		<td>${roomBoard.roomBoardTitle}</td>
@@ -176,8 +174,8 @@
 		              		<td>${roomBoard.roomBoardWriter}</td>
 		              		<td>
 		              			<c:choose>
-		              				<c:when test="${today == createDate }">${createTime}</c:when>
-		              				<c:otherwise>${createDate}</c:otherwise>
+		              				<c:when test="${today1 == createDate1 }">${createTime1}</c:when>
+		              				<c:otherwise>${createDate1}</c:otherwise>
 		              			</c:choose>
 		              		</td>
 		              		<td><button type="button" class="btn btn-danger btn-sm" onclick="location.href ='updateReport/${roomBoard.roomBoardWriter}/${roomBoard.roomBoardNo}/${roomBoard.roomNo}'">경고</button>          <button type="button" class="btn btn-dark btn-sm" onclick="location.href ='restoreReportRoom/${roomBoard.roomBoardWriter}/${roomBoard.roomBoardNo}/${roomBoard.roomNo}'">X</button></td>
@@ -195,35 +193,33 @@
                    	<a class="page-link text-primary" href="?cp=1">&lt;&lt;</a>
                    </li>
                    <li>
-                      <fmt:parseNumber var="operand1" value="${(roomPInfo.currentPage-1)/roomPInfo.pagingBarSize}" integerOnly="true" />
-                      <c:set var="prev" value="${operand1 * 10 }" />
-                      <a class="page-link text-primary" href="?cp=${prev}">&lt;</a>
+                      <fmt:parseNumber var="operand3" value="${(roomPInfo.currentPage-1)/roomPInfo.pagingBarSize}" integerOnly="true" />
+                      <c:set var="prev1" value="${operand3 * 10 }" />
+                      <a class="page-link text-primary" href="?cp=${prev1}">&lt;</a>
                    </li>
                 </c:if>
                 
                 <!-- 10개의 페이지 목록 -->
-                <c:forEach var="p" begin="${roomPInfo.startPage}" end="${roomPInfo.endPage}">
+                <c:forEach var="p1" begin="${roomPInfo.startPage}" end="${roomPInfo.endPage}">
                    <c:choose>
-                      <c:when test="${p==roomPInfo.currentPage}">
-                         <li><a class="page-link">${p}</a></li>
+                      <c:when test="${p1==roomPInfo.currentPage}">
+                         <li><a class="page-link">${p1}</a></li>
                       </c:when>
                       <c:otherwise>
                          <li>
-                        	<a class="page-link text-primary" href="?cp=${p}">${p}</a>
+                        	<a class="page-link text-primary" href="?cp=${p1}">${p1}</a>
                          </li>
                       </c:otherwise>
                    </c:choose>
                 </c:forEach>
                 
-                
                  <!-- 다음 페이지로(>) -->
-                <!-- next 생성 식:(현재페이지+9)/10*10+1 -->
                 <c:if test="${roomPInfo.maxPage>roomPInfo.endPage}">
                 <!-- 다음페이지(>) -->
                    <li>
-                   <fmt:parseNumber var="operand2" value="${(roomPInfo.currentPage+9)/10}" integerOnly="true"/>
-                   <c:set var="next" value="${operand2*10+1}"/>
-                     <a class="page-link text-primary" href="?cp=${next}">&gt;</a>
+                   <fmt:parseNumber var="operand4" value="${(roomPInfo.currentPage+9)/10}" integerOnly="true"/>
+                   <c:set var="next1" value="${operand4*10+1}"/>
+                     <a class="page-link text-primary" href="?cp=${next1}">&gt;</a>
                    </li>
                    
                    <!-- 맨 끝으로(>>) -->
@@ -254,22 +250,10 @@
     $(".reportRoomBoard td:not(:last-child)").on("click",function(){
     	if($(this).parent().children().children().eq(0).text()=="new"){
     		var boardNo = $(this).parent().children().children().eq(1).text();
-    		var string = $(this).parent().children().children().eq(2).text(); 
-    		var roomNo;
-    		for(i=0; i<=string.length-1; i++){ 
-    			if((string[i]>="0")&&(string[i]<="9")){
-    				roomNo.append(string[i]); // 숫자만골라담을변수에 입력값의 배열값 추가 
-    			}
-    		}
+    		var roomNo = $(this).parent().children().children().eq(2).text(); 
     	}else{
     		var boardNo = $(this).parent().children().children().eq(0).text(); 
-    		var string = $(this).parent().children().children().eq(2).text(); 
-    		var roomNo;
-    		for(i=0; i<=string.length-1; i++){ 
-    			if((string[i]>="0")&&(string[i]<="9")){
-    				var roomNo.append(string[i]); // 숫자만골라담을변수에 입력값의 배열값 추가 
-    			}
-    		}
+    		var roomNo = $(this).parent().children().children().eq(1).text(); 
     	}
     	location.href = "${contextPath}/roomBoard/"+roomNo+"/"+boardNo;
     }).on("mouseenter", function(){
