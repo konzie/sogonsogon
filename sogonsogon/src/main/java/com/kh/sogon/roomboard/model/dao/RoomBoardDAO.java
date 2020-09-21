@@ -212,4 +212,12 @@ public class RoomBoardDAO {
 		return sqlSession.update("roomBoardMapper.reportBoard", boardNo);
 	}
 
+	/** 게시글 작성 시 방장 확인용 DAO
+	 * @param roomNo
+	 * @return
+	 */
+	public int boardChiefNo(int roomNo) {
+		return sqlSession.selectOne("roomBoardMapper.boardChiefNo", roomNo);
+	}
+
 }

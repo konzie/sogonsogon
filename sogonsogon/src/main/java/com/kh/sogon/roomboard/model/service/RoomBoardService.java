@@ -116,5 +116,11 @@ public interface RoomBoardService {
 	 */
 	int reportBoard(int boardNo);
 
+	/** 게시글 작성 시 방장 확인 용
+	 * @param roomNo
+	 * @return
+	 */
+	int boardChiefNo(int roomNo);
+
 
 }

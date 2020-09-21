@@ -111,7 +111,12 @@ public class RoomBoardController {
 	
 
 	@RequestMapping("{roomNo}/boardInsertView")
-	public String boardInsertView() {
+	public String boardInsertView(@PathVariable int roomNo, Model model) {
+		
+		int roomMemberNo = roomBoardService.boardChiefNo(roomNo);
+		
+		model.addAttribute("roomMemberNo", roomMemberNo);
+		
 		return "/roomBoard/roomBoardInsert";
 	}
 

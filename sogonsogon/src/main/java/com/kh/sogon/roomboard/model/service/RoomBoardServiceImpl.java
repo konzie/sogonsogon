@@ -347,6 +347,12 @@ public class RoomBoardServiceImpl implements RoomBoardService {
 	public int reportBoard(int boardNo) {
 		return roomBoardDAO.reportBoard(boardNo);
 	}
+
+	// 게시글 작성 시 방장 확인용 서비스 구현
+	@Override
+	public int boardChiefNo(int roomNo) {
+		return roomBoardDAO.boardChiefNo(roomNo);
+	}
 	
 	
 }
