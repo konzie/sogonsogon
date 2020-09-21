@@ -341,6 +341,12 @@ public class RoomBoardServiceImpl implements RoomBoardService {
 		int result = roomBoardDAO.boardLikeChk(roomBoardNo, memberNo);
 		return result;
 	}
+
+	// 게시글 신고 서비스 구현
+	@Override
+	public int reportBoard(int boardNo) {
+		return roomBoardDAO.reportBoard(boardNo);
+	}
 	
 	
 }

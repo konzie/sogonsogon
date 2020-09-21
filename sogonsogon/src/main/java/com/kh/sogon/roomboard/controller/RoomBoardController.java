@@ -235,6 +235,32 @@ public class RoomBoardController {
 
 		return "redirect:" + url;
 	}
+	
+	// 게시글 신고 기능
+	@RequestMapping("{roomNo}/{boardNo}/report")
+	public String reportBoard(@PathVariable int roomNo, @PathVariable int boardNo, RedirectAttributes rdAttr,
+			HttpServletRequest request) {
+
+		int result = roomBoardService.reportBoard(boardNo);
+
+		String url = null;
+		String status = null;
+		String msg = null;
+		if (result > 0) {
+			status = "success";
+			msg = "게시글 신고 완료";
+			url = "/room/roomDetail/" + roomNo;
+		} else {
+			// 삭제 실패 시 이전 요청 주소(상세조회 페이지)
+			status = "error";
+			msg = "게시글 신고 실패";
+			url = request.getHeader("referer");
+		}
+		rdAttr.addFlashAttribute("status", status);
+		rdAttr.addFlashAttribute("msg", msg);
+
+		return "redirect:" + url;
+	}
 
 	// 게시글 수정
 	@RequestMapping("{roomNo}/{boardNo}/updateAction")

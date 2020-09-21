@@ -175,13 +175,13 @@
 		
 		$("#deleteBtn").on("click", function() {
 			if(confirm("정말 삭제 하시겠습니까?")) {
-				// spring/board/1/515/delete
 				location.href = "${board.roomBoardNo}/delete";
 			}
 		});
 		
 		$("#reportBtn").on("click", function() {
 			if(confirm("게시글 작성자를 정말 신고 하시겠습니까?")) {
+				location.href = "${board.roomBoardNo}/report";
 			}
 		});
 		

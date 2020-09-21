@@ -204,4 +204,12 @@ public class RoomBoardDAO {
 		return sqlSession.selectOne("roomBoardMapper.boardLikeCount", roomBoardNo);
 	}
 
+	/** 게시글 신고 DAO
+	 * @param boardNo
+	 * @return
+	 */
+	public int reportBoard(int boardNo) {
+		return sqlSession.update("roomBoardMapper.reportBoard", boardNo);
+	}
+
 }

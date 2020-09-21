@@ -110,5 +110,11 @@ public interface RoomBoardService {
 	 */
 	int boardLikeUserChk(int roomBoardNo, int memberNo);
 
+	/** 게시글 신고 Service
+	 * @param boardNo
+	 * @return
+	 */
+	int reportBoard(int boardNo);
+
 
 }

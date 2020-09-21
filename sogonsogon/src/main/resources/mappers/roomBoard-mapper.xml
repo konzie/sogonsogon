@@ -216,4 +216,9 @@
    		FROM ROOM_BOARD_LIKE
    		WHERE LIKE_ROOM_BOARD_NO = #{roomBoardNo}
    </select>
+   
+   <!-- 게시글 신고 -->
+   <update id="reportBoard" parameterType="_int">
+   		UPDATE ROOMBOARD SET ROOM_BOARD_STATUS = 'R' WHERE ROOM_BOARD_NO = #{boardNo}
+   </update>
 </mapper>
