@@ -2,6 +2,8 @@ package com.kh.sogon.member.model.service;
 
 import java.util.Map;
 
+import javax.mail.MessagingException;
+
 import com.kh.sogon.member.model.vo.Member;
 
 public interface MemberService {
@@ -23,6 +25,9 @@ public interface MemberService {
 
 	// 비밀번호 찾기
 	int findPwd(Map<String, Object> paramMap);
+
+	// 비밀번호 찾기 (메일인증 보내기)
+	void sendPwd(Map<String, Object> paramMap) throws MessagingException;
 
 
 

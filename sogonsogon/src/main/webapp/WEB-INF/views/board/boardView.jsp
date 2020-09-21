@@ -66,8 +66,20 @@
     			border:1px solid #e4e4e4;
     			float:right; font-size:13px; 
     			color:black; border-radius:3px;
-    			background-color:#fff; padding:6px 14px;}
+    			background-color:#fff; padding:6px 14px;
+    			display : block;}
     #listBtn:hover{border:1px solid #4d4d4d; }
+    
+    #likeBtn{
+    	padding:6px 14px;
+    }
+
+	.list-Btn{
+		height:10px;
+		padding: 20px;
+	}
+	
+	
 
 </style>
 </head>
@@ -95,13 +107,34 @@
             	<div class="content">${board.qnaContent}</div>
             	<div class="detail-footer">
             		<c:if test="${loginMember.memberNo == board.qnaWriter}">
-            		<div class="update-Btn"><a id="updateBtn" type="button" href="${contextPath}/board/list">수정</a></div>
-            		<div class="delete-Btn"><a id="deleteBtn" type="button" href="${contextPath}/board/${board.qnaNo}/delete">삭제</a></div>
-            		
-                    <div class="list-Btn"><a id="listBtn" type="button" href="${contextPath}/board/list">목록</a></div>
+	            		<div class="update-Btn"><a id="updateBtn" type="button" href="${contextPath}/board/list">수정</a></div>
+	            		<div class="delete-Btn"><a id="deleteBtn" type="button" href="${contextPath}/board/${board.qnaNo}/delete">삭제</a></div>
+	            		
+<%-- 	                    <div class="list-Btn"><a id="listBtn" type="button" href="${contextPath}/board/boardList">목록</a></div>
+ --%>                	</c:if>
+                	<c:if test="${loginMember.memberNo != board.qnaWriter}">
+	                	<!-- 추천 기능 -->
+						<div>
+							<div class="w3-border w3-center w3-padding">
+								<c:if test="${ loginMember == null }">
+									<i class="fa fa-heart" style="font-size:16px;cursor: pointer;" id="likeBtn"></i>
+									<span class="rec_count"></span>	
+									<h6>추천 기능은 로그인 후 사용 가능합니다.</h6>	
+							
+								</c:if>
+								<c:if test="${ loginMember != null }">
+									<i class="fa fa-heart" id="rec_update" style="font-size:16px;cursor: pointer;"></i>
+									&nbsp;<span class="rec_count"></span>
+								</c:if>
+								
+							</div>
+						</div>
+						
                 	</c:if>
+                	
             	</div>
             </div>
+			<div class="list-Btn"><a id="listBtn" type="button" href="${contextPath}/board/boardList">목록</a></div>
         </div>
                <!-- 댓글영역  -->
 	 <jsp:include page="reply.jsp"/>
@@ -116,6 +149,80 @@
 		}
 		
 	});
+
+
+		$(function(){
+			 recCount(); // 처음 시작했을 때 실행되도록 해당 함수 호출
+			 <c:if test="${ loginMember != null }">
+				 qnaLikeUserChk();
+			 </c:if>
+		});
+		
+		
+		// 추천버튼 클릭시(추천 추가 또는 추천 제거)
+		$("#rec_update").click(function(){
+			
+			$.ajax({
+				url: "${contextPath}/board/qnaBoardLike",
+	            type: "POST",
+	            data: {
+	            	qnaNo: '${board.qnaNo}',
+	            	memberNo: '${sessionScope.loginMember.memberNo}'
+	            },
+	            success: function (result) {
+	            	if(result > 0) {
+	            		$(".fa-heart").css("color", "black");
+	            	} else {
+	            		$(".fa-heart").css("color", "red");
+	            	}
+	            	
+			        recCount();
+	            }, error : function() {
+	            	console.log("AJAX 통신 에러");
+	            }
+			});
+			
+		
+		});
+		
+		// 게시글 추천수
+	    function recCount() {
+			$.ajax({
+				url: "${contextPath}/board/qnaLikeCount",
+	            type: "POST",
+	            data: {
+	            	qnaNo: '${board.qnaNo}'
+	            },
+	            success: function (count) {
+	            	$(".rec_count").html(count);
+	            }, error : function() {
+	            	console.log("AJAX 통신 에러");
+	            }
+			});
+	    };
+	    
+		// 사용자 좋아요 여부 체크
+	    function qnaLikeUserChk() {
+			$.ajax({
+				url: "${contextPath}/board/qnaLikeUserChk",
+	            type: "POST",
+	            data: {
+	            	qnaNo: '${board.qnaNo}',
+	            	memberNo: '${sessionScope.loginMember.memberNo}'
+	            },
+	            success: function (result) {
+	            	if(result > 0) {
+	            		$(".fa-heart").css("color", "red");
+	            	} else {
+	            		$(".fa-heart").css("color", "black");
+	            	}
+	            }, error : function() {
+	            	console.log("AJAX 통신 에러");
+	            }
+			});
+	    };
+	   
+	 
 		
 		
 	</script>

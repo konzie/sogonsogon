@@ -2,8 +2,12 @@ package com.kh.sogon.member.model.service;
 
 import java.util.Map;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -91,17 +95,7 @@ public class MemberServiceImpl implements MemberService {
 	        sendMail.send();
 		
 	}
-//	// 회원가입
-//	@Transactional(rollbackFor = Exception.class)
-//	@Override
-//	public int signUp(Member signUpMember) throws Exception {
-//		
-//		String encPwd = bcPwd.encode(signUpMember.getMemberPwd());
-//		
-//		signUpMember.setMemberPwd(encPwd);
-//		
-//		return memberDAO.signUp(signUpMember);
-//	}
+
 	
 	 //회원가입 (이메일 인증 키 검증)
     public Member userAuth(String authKey) throws Exception {
@@ -136,6 +130,31 @@ public class MemberServiceImpl implements MemberService {
 	public int findPwd(Map<String, Object> paramMap) {
 		
 		return memberDAO.findPwd(paramMap);
+	}
+
+	// 비밀번호 찾기 인증메일
+	@Override
+	public void sendPwd(Map<String, Object> paramMap) throws MessagingException {
+
+		String setFrom = "sogontest@gmail.com";
+        String memberName=(String) paramMap.get("memberName");
+        String memberId=(String) paramMap.get("memberId"); // 받는사람 이메일(아이디)
+        String memberPhone=(String) paramMap.get("memberPhone");
+        String pw = (String) paramMap.get("pw");
+        
+        
+		MimeMessage message = mailSender.createMimeMessage();
+		MimeMessageHelper messageHelper = new MimeMessageHelper(message,
+				true, "UTF-8");
+		
+		messageHelper.setFrom(setFrom); // 보내는사람 생략하면 정상작동을 안함
+		messageHelper.setTo(memberId); // 받는사람 이메일
+		messageHelper.setSubject(memberName+"님 비밀번호 찾기 메일입니다."); // 메일제목은 생략이 가능하다
+		messageHelper.setText("임시 비밀번호는 "+pw+" 입니다."); // 메일 내용
+    	
+		mailSender.send(message);
+		  
+		
 	}
 
 	

@@ -10,6 +10,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.sogon.board.model.dao.BoardDAO;
@@ -278,6 +279,41 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 
+
+	// 게시글 좋아요 서비스 구현
+		@Transactional(rollbackFor = Exception.class)	
+		@Override
+		public int qnaBoardLike(int qnaNo, int memberNo) {
+
+			int result = 0;
+			// 좋아요 체크
+			int chkResult = boardDAO.qnaLikeChk(qnaNo, memberNo);
+			
+			if(chkResult > 0) {
+				// 체크가 되어있다면 삭제
+				result = boardDAO.qnaLikeDelete(qnaNo, memberNo);
+			} else {
+				// 체크가 안되어있다면 추가
+				result = boardDAO.qnaLikeAdd(qnaNo, memberNo);
+			}
+			
+			return chkResult;
+		}
+
+		// 게시글 좋아요 갯수 서비스 구현
+		@Override
+		public int qnaLikeCount(int qnaNo) {
+			int result = boardDAO.boardLikeCount(qnaNo);
+			return result;
+		}
+
+		// 게시글 사용자 좋아요 여부 서비스 구현
+		@Override
+		public int qnaLikeUserChk(int qnaNo, int memberNo) {
+			int result = boardDAO.qnaLikeChk(qnaNo, memberNo);
+			return result;
+		}
+		
 
 
 	
