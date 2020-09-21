@@ -12,6 +12,7 @@
         <result property="helpCreateDate" column="HELP_CREATE_DATE"/>
         <result property="helpModifyDate" column="HELP_MODIFY_DATE"/>
         <result property="lockStatus" column="LOCK_STATUS"/>
+        <result property="answerChk" column="ANSWER_CHK"/>
 		
 		
      
@@ -44,7 +45,7 @@
 	<insert id="insertHelp" parameterType="help">
 		INSERT INTO HELPBOARD
 		VALUES(#{helpNo},#{helpCategory},#{helpTitle},#{helpContent},
-				#{helpWriter},SYSDATE,'Y',SYSDATE,#{lockStatus})
+				#{helpWriter},SYSDATE,'Y',SYSDATE,#{lockStatus},DEFAULT)
 	</insert>
 	
 	<!-- 문의글 삭제 -->
