@@ -313,7 +313,7 @@
       </ol>
       <div class="carousel-inner">
         <div class="carousel-item active">
-        	<img src="${contextPath}/resources/images/슬라이드3.png">
+        	<img src="${contextPath}/resources/images/banner_3.png">
           <div class="carousel-caption d-none d-md-block">
 
           </div>
