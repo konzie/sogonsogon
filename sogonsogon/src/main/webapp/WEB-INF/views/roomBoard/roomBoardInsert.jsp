@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
@@ -25,6 +26,9 @@
 				<div class="mb-2">
 					<label class="input-group-addon mr-3 insert-label">카테고리</label> 
 					<select	class="custom-select" id="category" name="roomBoardType" style="width: 150px;">
+						<c:if test="${roomMemberNo eq loginMember.memberNo}">
+							<option value="공지">공지사항</option>
+						</c:if>
 						<option value="IT">IT</option>
 						<option value="요리">요리</option>
 						<option value="PC">PC</option>
@@ -129,6 +133,7 @@
 		
 		 // 이미지 공간을 클릭할 때 파일 첨부 창이 뜨도록 설정하는 함수
 	    $(function () {
+
 	       $("#fileArea").hide();
 
 	      $("#titleImgArea").click(function () {

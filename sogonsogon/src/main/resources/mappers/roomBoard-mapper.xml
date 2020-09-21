@@ -32,7 +32,7 @@
 		JOIN MEMBER ON (ROOM_BOARD_WRITER = MEMBER_NO)
 		WHERE ROOM_NO = #{roomNo}
 		AND ROOM_BOARD_STATUS = 'Y'
-		ORDER BY ROOM_BOARD_NO DESC
+		ORDER BY DECODE(ROOMBOARD.ROOM_BOARD_TYPE, '공지', 1, NULL) ASC, ROOM_BOARD_NO DESC
 	</select>
 	
 	<select id="getListCount" resultType="_int">
@@ -187,7 +187,7 @@
    				</otherwise>
    			</choose>
    		</if>
-   		ORDER BY ROOM_BOARD_NO DESC
+   		ORDER BY DECODE(ROOMBOARD.ROOM_BOARD_TYPE, '공지', 1, NULL) ASC, ROOM_BOARD_NO DESC
    </select>
    
    <!-- 게시글 좋아요 체크 -->
@@ -215,5 +215,15 @@
       	SELECT COUNT(*)
    		FROM ROOM_BOARD_LIKE
    		WHERE LIKE_ROOM_BOARD_NO = #{roomBoardNo}
+   </select>
+   
+   <!-- 게시글 신고 -->
+   <update id="reportBoard" parameterType="_int">
+   		UPDATE ROOMBOARD SET ROOM_BOARD_STATUS = 'R' WHERE ROOM_BOARD_NO = #{boardNo}
+   </update>
+   
+   <!-- 게시글 작성 시 방장 확인용 쿼리 -->
+   <select id="boardChiefNo" parameterType="_int" resultType="_int">
+   		SELECT ROOM_MEMBER_NO FROM STUDY_ROOM WHERE ROOM_NO = #{roomNo}
    </select>
 </mapper>

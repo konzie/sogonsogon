@@ -15,6 +15,10 @@
            width: 50px;
            height: 50px;
         }
+        
+        .trBold{
+        	font-weight: bold;
+        }
 </style>
 </head>
 <body>
@@ -261,7 +265,14 @@
 						
 						$.each(object.rbList, function(i){
 							$table = $("#list-table > tbody");
-							$tr = $("<tr>");
+							
+							if(object.rbList[i].roomBoardType == '공지') {
+								$tr = $("<tr>").addClass("trBold");
+							} else {
+								$tr = $("<tr>");
+							}
+							
+							
 							$td1 = $("<td>").text(object.rbList[i].roomBoardNo);
 							$td2 = $("<td>").text(object.rbList[i].roomBoardType);
 							$td3 = $("<td>").addClass("boardTitle");
@@ -282,6 +293,7 @@
 							$td7 = $("<td>").text(object.rbList[i].roomBoardLikeCount);
 							
 							$tr.append($td1,$td2,$td3,$td4,$td5,$td6,$td7);
+		
 							$table.append($tr);
 							
 						});
