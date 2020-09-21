@@ -204,7 +204,7 @@ function selectReplyList(){
 function addAdoption(el, replyNo) {
 	var cancleConfirm = confirm("정말 이 댓글을 채택하시겠습니까?");
 	var memberNo = "${loginMember.memberNo}";
-	var roomBoardNo = "${board.qnadNo}";
+	var roomBoardNo = "${board.qnaNo}";
 	
 	if(cancleConfirm) {
 		$.ajax({
