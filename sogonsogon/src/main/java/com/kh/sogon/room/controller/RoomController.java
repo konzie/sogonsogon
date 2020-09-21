@@ -177,8 +177,8 @@ public class RoomController {
 			 
 			List<RoomMember> mainLikeList = roomService.mainLikeList();
 			
-			System.out.println("메인라이크리스트");
-			for(RoomMember r : mainLikeList) { System.out.println(r); };
+			//System.out.println("메인라이크리스트");
+			//for(RoomMember r : mainLikeList) { System.out.println(r); };
 			 
 			Gson gson = new Gson();
 			return gson.toJson(mainLikeList);

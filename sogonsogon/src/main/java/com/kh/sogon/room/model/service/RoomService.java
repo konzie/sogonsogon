@@ -101,6 +101,8 @@ public interface RoomService {
 	 */
 	int writeBoardReplyCount(int roomNo, int loginMemberNo);
 
+	List<RoomMember> mainLikeList();
+
 
 
 
