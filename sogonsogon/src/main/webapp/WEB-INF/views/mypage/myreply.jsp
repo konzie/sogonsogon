@@ -57,7 +57,7 @@
                 <c:choose>
           			<c:when test="${empty replyList}">
 		         		<tr>		
-		         			<td colspan="4" align="center">채택된 댓글이 없습니다.</td>
+		         			<td colspan="5" align="center">채택된 댓글이 없습니다.</td>
 		         		</tr>
           			</c:when>	
           			<c:otherwise>

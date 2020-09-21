@@ -9,6 +9,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -28,6 +29,7 @@ import com.kh.sogon.mypage.model.vo.HelpAnswer;
 import com.kh.sogon.mypage.model.vo.ReportMember;
 import com.kh.sogon.room.model.vo.Room;
 import com.kh.sogon.room.model.vo.RoomMember;
+import com.kh.sogon.roomboard.model.vo.RoomBoard;
 import com.sun.org.glassfish.gmbal.ParameterNames;
 
 @SessionAttributes({"loginMember"})
@@ -48,20 +50,13 @@ public class MypageController {
 		
 		List<ReportMember> reportList = mypageService.findMember(loginMember.getMemberNick());
 		
-		if(reportList.size()<=0) {
-			ReportMember member = new ReportMember();
-			
-			member.setMemberNick(loginMember.getMemberNick());
-			member.setBoardNo(0);
-			
-			int result = mypageService.insertMember(member);
-			
-			if(result>0) {
-				reportList = mypageService.findMember(loginMember.getMemberNick());
-			}
+		if(reportList.size()>0) {
+			model.addAttribute("report", reportList.get(0));
 		}
 		
-		model.addAttribute("report", reportList.get(0));
+		Board reportView = mypageService.noticeView(reportList.get(0).getBoardNo());
+		
+		model.addAttribute("reportView", reportView);
 		
 		return "mypage/mypagemain";
 	}
@@ -129,8 +124,6 @@ public class MypageController {
 
 		List<RoomMember> roomMemberList = mypageService.selectRoomMemberList(loginMember.getMemberNo());
 		
-		System.out.println(roomMemberList);
-		
 		PageInfo pInfo = null;
 		List<Room> roomList = null;
 		
@@ -153,13 +146,30 @@ public class MypageController {
 		Member loginMember = (Member)model.getAttribute("loginMember");
 		
 		PageInfo pInfo = mypageService.boardPage(cp, loginMember.getMemberNo());
-		
+		pInfo.setLimit(5);
 		List<Board> boardList = mypageService.selectBList(pInfo, loginMember.getMemberNo());
 		                                                                   
 		model.addAttribute("boardList", boardList);
 		model.addAttribute("pInfo", pInfo);	
 		
+		PageInfo roomPInfo = mypageService.roomBoardPage(cp, loginMember.getMemberNo());
+		roomPInfo.setLimit(5);
+		List<RoomBoard> roomBoard = mypageService.selectRoomBoardList(roomPInfo, loginMember.getMemberNo());
+		                                                                   
+		model.addAttribute("roomBoard", roomBoard);
+		model.addAttribute("roomPInfo", roomPInfo);	
+		
 		return "mypage/myboard";
+	}
+		
+	@RequestMapping("boardView/{boardNo}")
+	public String boardView(@PathVariable int boardNo, Model model) {
+		
+		Board board = mypageService.boardView(boardNo);
+		
+		model.addAttribute("board", board);
+
+		return "mypage/boardView";
 	}
 	
 	// 회원 정보 수정 메뉴 클릭 시
@@ -241,7 +251,7 @@ public class MypageController {
 		
 		PageInfo pInfo = mypageService.reportPage(cp);
 
-		pInfo.setLimit(10);
+		pInfo.setLimit(5);
 		
 		List<Board> reportList = mypageService.selectDList(pInfo);
 		
@@ -251,8 +261,23 @@ public class MypageController {
 			}
 		}                           
 		
+		PageInfo roomPInfo = mypageService.roomReportPage(cp);
+
+		roomPInfo.setLimit(5);
+		
+		List<RoomBoard> roomReportList = mypageService.selectRoomReportList(roomPInfo);
+		
+		for(int i=0;i<roomReportList.size();i++) {
+			if(roomReportList.get(i).getRoomBoardContent().length()>20) {
+				roomReportList.get(i).setRoomBoardContent(roomReportList.get(i).getRoomBoardContent().substring(0,20)+"...");
+			}
+		}
+
 		model.addAttribute("reportList", reportList);
 		model.addAttribute("pInfo", pInfo);
+		
+		model.addAttribute("roomReportList", roomReportList);
+		model.addAttribute("roomPInfo", roomPInfo);
 
 		return "mypage/adminreport";
 		}
@@ -427,44 +452,53 @@ public class MypageController {
 	@RequestMapping("updateNotice/{boardNo}")
 	public String updateNotice(@PathVariable int boardNo, Model model) {
 		
+		Member member = (Member)model.getAttribute("loginMember");
+
 		Board notice = mypageService.noticeView(boardNo);
 
 		model.addAttribute("notice", notice);
-		
+		model.addAttribute("member", member);
 		return "mypage/updateNotice";
 	} 
 	
 	@RequestMapping("updateNotice2/{boardNo}")
 	public String updateNotice2(@PathVariable int boardNo, @RequestParam("category") String category, @RequestParam("title") String title, @RequestParam("content") String content, RedirectAttributes rdAttr, Model model) {
 		
+		Member member = (Member)model.getAttribute("loginMember");
 		Board notice = new Board();
 		
 		notice.setQnaCategory(category);
 		notice.setQnaNo(boardNo);
 		notice.setQnaTitle(title);
 		notice.setQnaContent(content);
-		
+
 		int result = mypageService.updateNotice(notice);
 		
 		String status=null;
 		String msg = null;
+		String url =null;
 		
 		if(result > 0) {
 			status = "success";
-			msg = "공지사항 수정 성공";
+			msg = "게시글 수정 성공";
 		}else {
 			status = "error";
-			msg = "공지사항 수정 실패";
+			msg = "게시글 수정 실패";
 		}
 				
 		rdAttr.addFlashAttribute("status",status);
 		rdAttr.addFlashAttribute("msg",msg);
-
-		return "redirect:/mypage/adminnotice";
+		
+		if(member.getMemberGrade().equals("G")) {
+			url="redirect:/mypage/myboard";
+		}else{
+			url = "redirect:/mypage/adminnotice";
+		}
+		return url;
 	}	
 	
 	@RequestMapping("noticeInsert")
-	public String noticeInsert(@RequestParam(value="title") String title, @RequestParam(value="content") String content, RedirectAttributes rdAttr, Model model) {
+	public String noticeInsert(@RequestParam(value="title") String title, @RequestParam(value="content") String content, @RequestParam(value="category") String category, RedirectAttributes rdAttr, Model model) {
 
 		Member loginMember = (Member)model.getAttribute("loginMember");
 		
@@ -472,6 +506,7 @@ public class MypageController {
 		
 		board.setQnaTitle(title);
 		board.setQnaContent(content);
+		board.setQnaCategory(category);
 		board.setWriter(loginMember.getMemberNo());
 		
 		int result = mypageService.noticeWrite(board);
@@ -498,7 +533,8 @@ public class MypageController {
 	}
 		
 	@RequestMapping("deleteNotice/{boardNo}")
-	public String deleteNotice(@PathVariable int boardNo, RedirectAttributes rdAttr) {
+	public String deleteNotice(@PathVariable int boardNo, RedirectAttributes rdAttr, Model model) {
+		Member member = (Member)model.getAttribute("loginMember");
 		
 		int result = mypageService.deleteNotice(boardNo);
 		
@@ -509,11 +545,19 @@ public class MypageController {
 		if(result > 0) {
 			status = "success";
 			msg = "게시글 삭제 성공";
-			url ="mypage/adminnotice";
+			if(member.getMemberGrade().equals("G")) {
+				url="redirect:/mypage/myboard";
+			}else {
+				url = "redirect:/mypage/adminnotice";
+			}
 		}else {
 			status = "error";
 			msg = "게시글 삭제 실패";
-			url = "mypage/noticeView/boardNo";
+			if(member.getMemberGrade().equals("G")) {
+				url="redirect:/mypage/myboard";
+			}else{
+				url = "redirect:/mypage/adminnotice";
+			}
 		}
 				
 		rdAttr.addFlashAttribute("status",status);
@@ -521,9 +565,9 @@ public class MypageController {
 		
 		return url;
 	}	
-		
-	@RequestMapping("updateReport/{memberNick}/{boardNo}")
-	public String updateReport(@PathVariable String memberNick, @PathVariable int boardNo, Model model, RedirectAttributes rdAttr){
+
+	@RequestMapping("updateReport/{memberNick}/{boardNo}/{roomNo}")
+	public String updateReport(@PathVariable String memberNick, @PathVariable int boardNo, @PathVariable int roomNo, Model model, RedirectAttributes rdAttr){
 
 		List<ReportMember> memberList = mypageService.findMember(memberNick);
 
@@ -531,8 +575,14 @@ public class MypageController {
 		if(memberList.size()>0){
 			member = memberList.get(0);
 		}else {
+			
 			member.setMemberNick(memberNick);
-			member.setBoardNo(boardNo);
+			member.setRoomBoardNo(roomNo);
+			if(roomNo>0) { // roomNo 있을 때
+				member.setRoomBoardNo(boardNo);
+			}else { // roomNo 없을 때
+				member.setBoardNo(boardNo);
+			}
 			
 			int result = mypageService.insertMember(member);
 
@@ -543,21 +593,30 @@ public class MypageController {
 		
 		int memberNo = memberList.get(0).getMemberNo();
 		
-		member.setBoardNo(boardNo);
 		member.setMemberNo(memberNo);
-		
-		int result= mypageService.updateReport(member);
+		int result= mypageService.updateReport(member);			
 
 		String status = null;
 		String msg = null;
 		
 		if(result>0) {
-			int result2 = deleteReport(boardNo);
-			
+			int result2=0;
+			if(roomNo>0) {
+				RoomBoard board = new RoomBoard();
+				board.setRoomBoardNo(boardNo);
+				board.setRoomNo(roomNo);
+				result2=mypageService.deleteRoomReport(board);
+			}else {
+				result2=mypageService.deleteNotice(boardNo);				
+			}
+
 			if(result2>0) {
 				status = "success";
 				msg = "신고 처리 완료";
+				
 				PageInfo pInfo = mypageService.reportPage(1);
+
+				pInfo.setLimit(5);
 				
 				List<Board> reportList = mypageService.selectDList(pInfo);
 				
@@ -567,13 +626,27 @@ public class MypageController {
 					}
 				}                           
 				
-				model.addAttribute("reportList", reportList);
-				model.addAttribute("pInfo", pInfo);
+				PageInfo roomPInfo = mypageService.roomReportPage(1);
+
+				roomPInfo.setLimit(5);
 				
+				List<RoomBoard> roomReportList = mypageService.selectRoomReportList(roomPInfo);
+				
+				for(int i=0;i<roomReportList.size();i++) {
+					if(roomReportList.get(i).getRoomBoardContent().length()>20) {
+						roomReportList.get(i).setRoomBoardContent(roomReportList.get(i).getRoomBoardContent().substring(0,20)+"...");
+					} 
+				
+				model.addAttribute("reportList", reportList);
+				model.addAttribute("pInfo", pInfo);	
+				
+				model.addAttribute("roomReportList", roomReportList);
+				model.addAttribute("roomPInfo", roomPInfo);
+				}
+			}else {
+				status = "error";
+				msg = "신고 처리 실패";
 			}
-		}else {
-			status = "error";
-			msg = "신고 처리 실패";
 		}
 		
 		rdAttr.addFlashAttribute("status",status);
@@ -582,13 +655,6 @@ public class MypageController {
 		return "redirect:/mypage/adminreport";
 	}
 	
-	private int deleteReport(int boardNo) {
-		int result = mypageService.deleteNotice(boardNo);
-		
-		return result;
-		
-	}
-
 	@RequestMapping("restoreReport/{writerNick}/{boardNo}")
 	public String restoreReport(@PathVariable int boardNo, @PathVariable String writerNick, Model model, RedirectAttributes rdAttr){
 		
@@ -597,6 +663,7 @@ public class MypageController {
 		ReportMember member = new ReportMember();
 		
 		member.setMemberNick(writerNick);
+
 		int result2=0;
 		if(result > 0) {
 			List<ReportMember> reportList = mypageService.findMember(writerNick);
@@ -614,6 +681,8 @@ public class MypageController {
 					
 			PageInfo pInfo = mypageService.reportPage(1);
 			
+			pInfo.setLimit(5);
+			
 			List<Board> reportList = mypageService.selectDList(pInfo);
 			
 			for(int i=0;i<reportList.size();i++) {
@@ -623,15 +692,69 @@ public class MypageController {
 			}                           
 			
 			model.addAttribute("reportList", reportList);
-			model.addAttribute("pInfo", pInfo);
-			
-		}else {
+			model.addAttribute("pInfo", pInfo);	
+			}else {
 			status = "error";
 			msg = "게시글 복원 실패";
 			url = "mypage/noticeView/"+boardNo;
 		}
 		
+		rdAttr.addFlashAttribute("status", status);
+		rdAttr.addFlashAttribute("msg", msg);
+		
 		return url;
+	}
+	
+	@RequestMapping("restoreReportRoom/{memberNick}/{roomBoardNo}/{roomNo}")
+	public String restorReportRoom(@PathVariable String memberNick, @PathVariable int roomBoardNo, @PathVariable int roomNo, Model model, RedirectAttributes rdAttr) {
+		
+		RoomBoard board = new RoomBoard();
+		board.setRoomBoardNo(roomBoardNo);
+		board.setRoomNo(roomNo);
+		int result = mypageService.restorReportRoom(board);
+		
+		ReportMember member = new ReportMember();
+		
+		member.setMemberNick(memberNick);
+
+		int result2=0;
+		if(result > 0) {
+			List<ReportMember> reportList = mypageService.findMember(memberNick);
+			result2 = mypageService.restoreMember(reportList.get(0).getMemberNo());
+		}
+		
+		String status = null;
+		String msg = null;
+		
+		if(result2 > 0) {
+			status = "success";
+			msg = "게시글 복원 성공";
+			
+			PageInfo roomPInfo = mypageService.roomReportPage(1);
+
+			roomPInfo.setLimit(5);
+			
+			List<RoomBoard> roomReportList = mypageService.selectRoomReportList(roomPInfo);
+			
+			for(int i=0;i<roomReportList.size();i++) {
+				if(roomReportList.get(i).getRoomBoardContent().length()>20) {
+					roomReportList.get(i).setRoomBoardContent(roomReportList.get(i).getRoomBoardContent().substring(0,20)+"...");
+				} 
+			
+			model.addAttribute("roomReportList", roomReportList);
+			model.addAttribute("roomPInfo", roomPInfo);
+			}
+			
+		}else {
+			status = "error";
+			msg = "게시글 복원 실패";
+		}
+		
+		
+		rdAttr.addFlashAttribute("status", status);
+		rdAttr.addFlashAttribute("msg", msg);
+		
+		return "redirect:/mypage/adminreport";
 	}
 	
 	@RequestMapping("answerView/{helpNo}")
@@ -680,4 +803,13 @@ public class MypageController {
 		return gson.toJson(noticeList);
 	}
 	
+	@ResponseBody
+	@RequestMapping("myReportBoard")
+	public List<Board> myReportBoard(HttpServletRequest request) {
+		String writer = request.getParameter("writer");
+		
+		System.out.println(writer);
+		
+		return mypageService.myReportBoard(writer);
+	}
 }

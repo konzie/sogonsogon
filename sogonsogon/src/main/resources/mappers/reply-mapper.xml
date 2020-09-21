@@ -5,12 +5,13 @@
 		<id property="replyNo" column="REPLY_NO"/>
         <result property="content" column="REPLY_CONTENT"/>
         <result property="parentBoardNo" column="PARENT_BOARD_NO"/>
-        <result property="replyCreateDate" column="REPLY_CREATE_DT"/>
-        <result property="replyModifyDate" column="REPLY_MODIFY_DT"/>
+        <result property="replyCreateDate" column="REPLY_CREATE_DATE"/>
+        <result property="replyModifyDate" column="REPLY_MODIFY_DATE"/>
         <result property="replyStatus" column="REPLY_STATUS"/>
         <result property="replySelect" column="REPLY_SELECT"/>
         <result property="qnaNo" column="QNA_NO"/>
         <result property="replyWriter" column="REPLY_WRITER"/>
+       	<result property="writerNick" column="MEMBER_NICK"/>
       
 	</resultMap>
 	
@@ -19,7 +20,8 @@
 	<!-- SELECT * FROM V_RREPLY
 	WHERE PARENT_BOARD_NO= #{qnaNo}
 	ORDER BY REPLY_NO DESC -->
-	SELECT REPLY_NO, REPLY_CONTENT, REPLY_CREATE_DATE, MEMBER_ID AS REPLY_WRITER , REPLY_CREATE_DATE, REPLY_MODIFY_DATE FROM REPLY 
+	SELECT REPLY_NO, REPLY_CONTENT, REPLY_CREATE_DATE, MEMBER_ID, REPLY_WRITER , REPLY_CREATE_DATE, REPLY_MODIFY_DATE, MEMBER_NICK
+    FROM REPLY
     JOIN MEMBER ON (REPLY_WRITER = MEMBER_NO)
     WHERE PARENT_BOARD_NO = #{qnaNo}
 	</select>

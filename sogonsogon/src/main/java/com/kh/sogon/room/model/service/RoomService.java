@@ -82,9 +82,10 @@ public interface RoomService {
 	List<Room> searchList(PageInfo pInfo, String search);
 
 	/** 메인 화면 List얻어오기
-	 * @return
+	 * @return list
 	 */
 	List<Room> mainRoomList();
+
 
 	/** 작성 게시글 갯수 확인 Service
 	 * @param roomNo
@@ -112,6 +113,9 @@ public interface RoomService {
 	 * @return
 	 */
 	int writeBoardReplyAdoptionCount(int roomNo, int memberNo);
+	
+	List<RoomMember> mainLikeList();
+
 
 
 

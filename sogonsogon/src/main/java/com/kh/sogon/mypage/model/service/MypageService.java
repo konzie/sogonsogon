@@ -9,6 +9,7 @@ import com.kh.sogon.mypage.model.vo.HelpAnswer;
 import com.kh.sogon.mypage.model.vo.ReportMember;
 import com.kh.sogon.room.model.vo.Room;
 import com.kh.sogon.room.model.vo.RoomMember;
+import com.kh.sogon.roomboard.model.vo.RoomBoard;
 import com.kh.sogon.board.model.vo.PageInfo;
 import com.kh.sogon.board.model.vo.Reply;
 
@@ -208,5 +209,21 @@ public interface MypageService {
 	public abstract HelpAnswer selectAnswer(int boardNo);
 
 	public abstract List<Board> mainNoticeList();
+
+	public abstract PageInfo roomReportPage(int cp);
+
+	public abstract List<RoomBoard> selectRoomReportList(PageInfo roomPInfo);
+
+	public abstract int deleteRoomReport(RoomBoard board);
+
+	public abstract int restorReportRoom(RoomBoard board);
+
+	public abstract Board boardView(int boardNo);
+
+	public abstract List<Board> myReportBoard(String writer);
+
+	public abstract PageInfo roomBoardPage(int cp, int memberNo);
+
+	public abstract List<RoomBoard> selectRoomBoardList(PageInfo roomPInfo, int memberNo);
 
 }

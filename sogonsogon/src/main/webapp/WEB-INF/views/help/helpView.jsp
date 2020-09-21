@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%String cp = request.getParameter("cp");%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -125,7 +126,10 @@
             	<div class="content">${help.helpContent}</div>
             	<div class="detail-footer">
             		<c:if test="${loginMember.memberNick == help.helpWriter}">
-            		<div class="update-Btn"><a id="updateBtn" type="button">수정</a></div>
+           				<c:url var="updateUrl" value="no=${help.helpNo}/update">
+                			<c:param name="cp" value="${param.cp}"/>
+                		</c:url>
+            		<div class="update-Btn"><a href="${updateUrl}" id="updateBtn" type="button">수정</a></div>
             		<div class="delete-Btn"><a id="deleteBtn" type="button">삭제</a></div>
             		
                     <div class="list-Btn"><a id="listBtn" type="button" href="${contextPath}/help/list/1">목록</a></div>
@@ -133,7 +137,10 @@
                 	</c:if>
                 	
                 	<c:if test="${loginMember.memberGrade == 'A'}">
-            		<div class="update-Btn"><a id="updateBtn" type="button">수정</a></div>
+                		<c:url var="updateUrl" value="no=${help.helpNo}/update">
+	                		<c:param name="cp" value="${param.cp}"/>
+	                	</c:url>
+            		<div class="update-Btn"><a href="${updateUrl}" id="updateBtn" type="button">수정</a></div>
             		<div class="delete-Btn"><a id="deleteBtn" type="button">삭제</a></div>
             		
             		<div class="answer-Btn"><a id="answerBtn" type="button" href="${contextPath}/help/answerwrite">답변 작성</a></div>
@@ -158,7 +165,6 @@
 	
 	$("#updateBtn").on("click",function(){
 		if(confirm("문의글을 수정하시겠습니까?")){
-			location.href = "no=${help.helpNo}/update";
 		}
 	});		
 	

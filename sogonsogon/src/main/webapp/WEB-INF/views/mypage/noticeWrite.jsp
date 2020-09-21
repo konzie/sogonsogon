@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,46 +20,69 @@
       padding:20px 0px 0px 30px;
       }
       
-      #deleteInfo{
-      text-decoration: none;
+      textarea{
+      	padding:10px;
       }
       
-      #id{
-      style:none;
+      label{
+      	margin:5px;
+      }
+      
+      .today{
+      	float: right;
       }
 </style>
 </head>
 <body>
 
   <jsp:include page="../common/header.jsp" />
-  
-  <div>
+  <c:choose>
+  <c:when test="${member.memberGrade=='G'}">
+	     <div>
   <jsp:include page="mypage.jsp" />
   </div>
   
   <div class="content">
   <jsp:include page="mypage2.jsp"/>
+  </c:when>
+  <c:otherwise>
+  <div>
+  <jsp:include page="adminpage.jsp" />
+  </div>
+  
+  <div class="content">
+  <jsp:include page="adminpage2.jsp"/>
+  </c:otherwise> 
+  </c:choose>  
   <div class="content2">       
 	   <h4 class="mb-5">공지사항 작성</h4>
 	    <form action="${contextPath}/mypage/noticeInsert" method="post" role="form" onsubmit="return validate();">
 				<div class="form-inline mb-2">
-					<label class="input-group-addon mr-3 insert-label">제목</label> 
-					<input type="text" class="form-control" id="title" name="title" size="100">
+					<label class="input-group-addon mr-3 insert-label">카테고리</label> 
+					<select name="category">
+						<option>코딩</option>
+						<option>외국어</option>
+						<option>기타</option>
+					</select>
+				</div>
+				
+				<div class="form-inline mb-2">
+					<label>제목</label> 
+					<textarea class="form-control" name="title" rows="1" cols="170" style="resize: none;"></textarea>
 				</div>
 
 				<div class="form-inline mb-2">
-					<label class="input-group-addon mr-3 insert-label">작성자</label>
+					<label>작성자</label>
 					<h5 class="my-0" id="writer">${loginMember.memberNick}</h5>
 				</div>
-
+					
 				<div class="form-inline mb-2">
-					<label class="input-group-addon mr-3 insert-label">작성일</label>
-					<h5 class="my-0" id="today"></h5>
+					<label>작성일</label> <h5 class="my-0" id="today"></h5>
 				</div>
 
 				<div class="form-inline mb-2">
-					<label for="content" class="input-group-addon mr-3 insert-label">내용</label>
-					<textarea class="form-control" id="content" name="content" rows="10" cols="100" style="resize: none;"></textarea>
+					<label>내용</label>
+					<textarea class="form-control" id="content" name="content" rows="10" cols="200" style="resize: none;"></textarea>
 				</div>
 				
 				<hr class="mb-4">

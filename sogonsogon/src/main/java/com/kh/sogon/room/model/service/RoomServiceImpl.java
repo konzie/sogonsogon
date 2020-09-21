@@ -168,7 +168,7 @@ public class RoomServiceImpl implements RoomService{
 		return roomDAO.mainRoomList();
 	}
 
-	// 작성 게시글 갯수 확인 Service 구현
+
 	@Override
 	public int writeBoardCount(int roomNo, int loginMemberNo) {
 		return roomDAO.writeBoardCount(roomNo, loginMemberNo);
@@ -178,6 +178,12 @@ public class RoomServiceImpl implements RoomService{
 	@Override
 	public int writeBoardReplyCount(int roomNo, int loginMemberNo) {
 		return roomDAO.writeBoardReplyCount(roomNo, loginMemberNo);
+
+	}
+
+	@Override
+	public List<RoomMember> mainLikeList() {
+		return roomDAO.mainLikeList();
 	}
 
 	@Override

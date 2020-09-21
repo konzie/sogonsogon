@@ -192,6 +192,7 @@ public class RoomDAO {
 	}
 
 
+
 	
 	/** 작성게시글 갯수 확인을 위한 DAO
 	 * @param roomNo
@@ -218,6 +219,15 @@ public class RoomDAO {
 		map.put("roomNo", roomNo);
 		map.put("memberNo", loginMemberNo);
 		return sqlSession.selectOne("roomMapper.writeBoardReplyCount", map);
+
+	}
+
+
+	/** 메인 좋아요 top3 조회하기
+	 * @return list
+	 */
+	public List<RoomMember> mainLikeList() {
+		return sqlSession.selectList("roomMapper.mainLikeList", null);
 	}
 
 

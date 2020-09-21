@@ -38,5 +38,11 @@ public interface HelpService {
 	 */
 	public abstract int deleteBoard(int helpNo);
 
+	/** 문의글 수정 Service
+	 * @param upHelp
+	 * @return result
+	 */
+	public abstract int updateHelp(Help upHelp);
+
 	
 }

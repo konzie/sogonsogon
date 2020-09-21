@@ -31,7 +31,7 @@ public class ReplyController {
 		
 		List<Reply> rList = replyService.selectList(qnaNo);
 		
-		Gson gson = new GsonBuilder().create();
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 		
 		return gson.toJson(rList);
 	}

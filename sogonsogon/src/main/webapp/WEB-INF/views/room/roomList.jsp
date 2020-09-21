@@ -53,7 +53,7 @@
     <c:forEach var="roomList" items="${roomList}">
         <div class="roomlist-box">
         
-          	 <div id="flag" style="top:-20px"></div>
+          	 <div id="flag" style="top:-19px"></div>
           	 
           	 
        		 <%-- <c:choose>
