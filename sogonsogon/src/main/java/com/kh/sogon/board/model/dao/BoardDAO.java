@@ -1,6 +1,7 @@
 package com.kh.sogon.board.model.dao;
 
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -137,6 +138,58 @@ public List<Board> selectSearchList(PageInfo pInfo, Map<String, Object> map) {
 	RowBounds rowBounds = new RowBounds(offset, pInfo.getLimit());
 	
 	return sqlSession.selectList("boardMapper.selectSearchList", map, rowBounds);
+}
+
+
+
+/** 게시판 좋아요 체크
+ * @param qnaNo
+ * @param memberNo
+ * @return
+ */
+public int qnaLikeChk(int qnaNo, int memberNo) {
+	Map<String, Integer> map = new HashMap<String, Integer>();
+	
+	map.put("qnaNo", qnaNo);
+	map.put("memberNo", memberNo);
+	
+	return sqlSession.selectOne("boardMapper.qnaLikeChk", map);
+}
+
+/** 게시글 좋아요 등록
+ * @param qnaNo
+ * @param memberNo
+ * @return
+ */
+public int qnaLikeAdd(int qnaNo, int memberNo) {
+	Map<String, Integer> map = new HashMap<String, Integer>();
+	
+	map.put("qnaNo", qnaNo);
+	map.put("memberNo", memberNo);
+	
+	return sqlSession.insert("boardMapper.qnaLikeAdd", map);
+}
+
+/** 게시글 좋아요 삭제
+ * @param qnaNo
+ * @param memberNo
+ * @return
+ */
+public int qnaLikeDelete(int qnaNo, int memberNo) {
+	Map<String, Integer> map = new HashMap<String, Integer>();
+	
+	map.put("qnaNo", qnaNo);
+	map.put("memberNo", memberNo);
+	
+	return sqlSession.delete("boardMapper.qnaLikeDelete", map);
+}
+
+/** 게시글 좋아요 갯수
+ * @param qnaNo
+ * @return result
+ */
+public int boardLikeCount(int qnaNo) {
+	return sqlSession.selectOne("boardMapper.qnaLikeCount", qnaNo);
 }
 
 

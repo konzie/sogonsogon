@@ -2,6 +2,7 @@ package com.kh.sogon.board.model.service;
 
 import java.util.List;
 
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.sogon.board.model.vo.Attachment;
@@ -73,6 +74,15 @@ public interface BoardService {
 
 	// 삭제 service
 	public abstract int deleteBoard(int qnaNo);
+
+	// 게시글 좋아요
+	public abstract int qnaBoardLike(int qnaNo, int memberNo);
+
+	// 게시글 좋아요 갯수
+	public abstract int qnaLikeCount(int qnaNo);
+
+	// 게시글 좋아요 사용자 체크 여부
+	public abstract int qnaLikeUserChk(int qnaNo, int memberNo);
 
 
 
