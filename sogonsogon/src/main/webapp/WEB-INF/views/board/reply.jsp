@@ -163,9 +163,8 @@ function selectReplyList(){
 				
 				if(rList[i].replyWriter == loginMemberNo){
 					
-					
-					var $showUpdate = $("<button>").addClass("btn btn-sm btn-primary ml-1").text("수정");
-					var $deleteReply = $("<button>").addClass("btn btn-sm btn-primary ml-1").text("삭제");
+					var $showUpdate = $("<button>").addClass("btn btn-sm btn-primary ml-1").attr("id","replyUpdate").text("수정").attr("onclick", "updateReplyArea(this, "+rList[i].parentReplyNo+")");
+					var $deleteReply = $("<button>").addClass("btn btn-sm btn-primary ml-1").attr("id","replyUpdate").text("삭제").attr("onclick", "deleteReply(this, "+rList[i].replyNo+")");
 					$btnArea.append($showUpdate, $deleteReply);
 				}
 				
@@ -237,7 +236,6 @@ $("#addReply").on("click", function(){
 
 
 
-// 댓글 삭제
 function deleteReply(el, replyNo) {
 	var cancleConfirm = confirm("정말 댓글 삭제하시겠습니까?");
 	
@@ -256,29 +254,21 @@ function deleteReply(el, replyNo) {
 		return cancleConfirm;
 	}
 }
-
 //-----------------------------------------------------------------------------------------
 
 //댓글 수정 클릭 동작
  function updateReplyArea(el, parentReplyNo){
- 	// el : 클릭된 답글 버튼, // parentReplyNo : 클릭된 답글 버튼이 포함된 댓글의 부모 댓글 번호
  	
- 	// 답글 작성 영역이 여러 개 생기지 않도록 처리
- 	var check = cancelReply2();
  	
- 	if(dupStatus) {
- 		alert("수정과 답글은 동시에 불가능합니다.")
- 		return false;
- 	}
  	
  	
  	// 이미 화면에 존재하는 답글 작성 영역이 삭제 되어야지만
  	// 새로운 답글 영역을 생성, 추가함
- 	if(check){
- 		dupStatus = true;
+ 	if(true){
+ 	
  	var replyOldContent = $(el).parent().prev().text();
  	
- 	var $textArea = $("<textArea rows='3'>").addClass("updateReplyContent").val(replyOldContent);
+ 	var $textArea = $("<textArea rows='3' cols='150'>").addClass("updateReplyContent").val(replyOldContent);
  	
  	$(el).parent().prev().last("p").hide();
  	$(el).parent().prev().last().append($textArea);
@@ -296,7 +286,7 @@ function deleteReply(el, replyNo) {
  		$div.append($textArea, $btnArea);  
  		$(el).parent().after($div);
  	}
- 	
+ 	$(".updateReplyContent").focus();
  }
  
 //댓글 수정
@@ -309,7 +299,7 @@ function deleteReply(el, replyNo) {
  	
  	$.ajax({
  		url : "${contextPath}/reply/updateReply/${board.qnaNo}",
- 		data : {"replyContent" : replyContent,
+ 		data : {"content" : replyContent,
  				"replyNo" : replyNo},
  		dataType : "text",
  		success : function(result){

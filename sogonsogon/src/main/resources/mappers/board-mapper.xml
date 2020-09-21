@@ -101,16 +101,18 @@
 
  	<update id="updateBoard" parameterType="Board">
  	
- 	UPDATE BOARD SET 
-	BOARD_CATEGORY = #{qnaCategory},
-	BOARD_TITLE = #{qnaTitle},
-	BOARD_CONTENT = #{qnaContent},
-	BOARD_MODIFY_DT = SYSDATE
-	WHERE BOARD_NO = #{qnaNo}
+ 	UPDATE QNABOARD SET 
+	QNA_CATEGORY = #{qnaCategory},
+	QNA_TITLE = #{qnaTitle},
+	QNA_CONTENT = #{qnaContent},
+	QNA_MODIFY_DATE = SYSDATE
+	WHERE QNA_NO = #{qnaNo}
  	
  	
  	</update>
-	
+
+   
+
 	
 	<insert id="insertAttachment" parameterType="Attachment">
  	INSERT INTO ATTACHMENT VALUES 
@@ -245,7 +247,7 @@ AND
    		WHERE LIKE_QNA_NO = #{qnaNo}
    </select>
    
- 	
+
  	
 </mapper>
 
