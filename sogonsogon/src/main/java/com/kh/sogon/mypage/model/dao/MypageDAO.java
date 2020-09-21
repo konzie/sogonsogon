@@ -289,6 +289,27 @@ public class MypageDAO {
 	public int restorReportRoom(RoomBoard board) {
 		return sqlSession.update("mypageMapper.restorReportRoom", board);
 	}
+
+	public Board boardView(int boardNo) {
+		return sqlSession.selectOne("mypageMapper.boardView",boardNo);
+	}
+
+	public List<Board> myReportBoard(String writer) {
+		return sqlSession.selectList("mypageMapper.myReportBoard",writer);
+	}
+
+	public int getListroomBoardCount(int memberNo) {
+		return sqlSession.selectOne("mypageMapper.getListroomBoardCount", memberNo);
+	}
+
+	public List<RoomBoard> selectRoomBoardList(PageInfo roomPInfo, int memberNo) {
+		
+		int offset = (roomPInfo.getCurrentPage() - 1) * roomPInfo.getLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, roomPInfo.getLimit());
+		
+		return sqlSession.selectList("mypageMapper.selectRoomBoardList", memberNo, rowBounds);
+	}
 	
 	
 }

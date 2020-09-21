@@ -47,11 +47,11 @@
   <jsp:include page="../common/header.jsp"/>
   
   <div>
-  <jsp:include page="adminpage.jsp" />
+  <jsp:include page="mypage.jsp" />
   </div>
   
   <div class="content">
-  <jsp:include page="adminpage2.jsp"/>
+  <jsp:include page="mypage2.jsp"/>
 	<div class="content2">       
       <h4 class="mb-5">자유게시글 상세조회</h4>
       
@@ -66,7 +66,7 @@
 		<div class="float-right">
 		<button type="button" class="btn btn-warning" onclick="location.href ='../updateNotice/${board.qnaNo}'">수정</button>
 		<button type="button" class="btn btn-warning" onclick="location.href ='../deleteNotice/${board.qnaNo}'">삭제</button>
-		<button type="button" class="btn btn-warning" onclick="location.href ='../adminnotice'">목록으로</button>
+		<button type="button" class="btn btn-warning" onclick="location.href ='${contextPath}/mypage/myboard'">목록으로</button>
 		</div>
 		</div>
 	</div>    

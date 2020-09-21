@@ -255,14 +255,16 @@
     	if($(this).parent().children().children().eq(0).text()=="new"){
     		var boardNo = $(this).parent().children().children().eq(1).text();
     		var string = $(this).parent().children().children().eq(2).text(); 
+    		var roomNo;
     		for(i=0; i<=string.length-1; i++){ 
     			if((string[i]>="0")&&(string[i]<="9")){
-    				var roomNo.append(string[i]); // 숫자만골라담을변수에 입력값의 배열값 추가 
+    				roomNo.append(string[i]); // 숫자만골라담을변수에 입력값의 배열값 추가 
     			}
     		}
     	}else{
     		var boardNo = $(this).parent().children().children().eq(0).text(); 
     		var string = $(this).parent().children().children().eq(2).text(); 
+    		var roomNo;
     		for(i=0; i<=string.length-1; i++){ 
     			if((string[i]>="0")&&(string[i]<="9")){
     				var roomNo.append(string[i]); // 숫자만골라담을변수에 입력값의 배열값 추가 

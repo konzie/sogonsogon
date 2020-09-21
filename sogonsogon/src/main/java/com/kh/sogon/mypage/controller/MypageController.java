@@ -9,6 +9,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -145,13 +146,30 @@ public class MypageController {
 		Member loginMember = (Member)model.getAttribute("loginMember");
 		
 		PageInfo pInfo = mypageService.boardPage(cp, loginMember.getMemberNo());
-		
+		pInfo.setLimit(5);
 		List<Board> boardList = mypageService.selectBList(pInfo, loginMember.getMemberNo());
 		                                                                   
 		model.addAttribute("boardList", boardList);
 		model.addAttribute("pInfo", pInfo);	
 		
+		PageInfo roomPInfo = mypageService.roomBoardPage(cp, loginMember.getMemberNo());
+		roomPInfo.setLimit(5);
+		List<RoomBoard> roomBoard = mypageService.selectRoomBoardList(roomPInfo, loginMember.getMemberNo());
+		                                                                   
+		model.addAttribute("roomBoard", roomBoard);
+		model.addAttribute("roomPInfo", roomPInfo);	
+		
 		return "mypage/myboard";
+	}
+		
+	@RequestMapping("boardView/{boardNo}")
+	public String boardView(@PathVariable int boardNo, Model model) {
+		
+		Board board = mypageService.boardView(boardNo);
+		
+		model.addAttribute("board", board);
+
+		return "mypage/boardView";
 	}
 	
 	// 회원 정보 수정 메뉴 클릭 시
@@ -434,40 +452,49 @@ public class MypageController {
 	@RequestMapping("updateNotice/{boardNo}")
 	public String updateNotice(@PathVariable int boardNo, Model model) {
 		
+		Member member = (Member)model.getAttribute("loginMember");
+
 		Board notice = mypageService.noticeView(boardNo);
 
 		model.addAttribute("notice", notice);
-		
+		model.addAttribute("member", member);
 		return "mypage/updateNotice";
 	} 
 	
 	@RequestMapping("updateNotice2/{boardNo}")
 	public String updateNotice2(@PathVariable int boardNo, @RequestParam("category") String category, @RequestParam("title") String title, @RequestParam("content") String content, RedirectAttributes rdAttr, Model model) {
 		
+		Member member = (Member)model.getAttribute("loginMember");
 		Board notice = new Board();
 		
 		notice.setQnaCategory(category);
 		notice.setQnaNo(boardNo);
 		notice.setQnaTitle(title);
 		notice.setQnaContent(content);
-		
+
 		int result = mypageService.updateNotice(notice);
 		
 		String status=null;
 		String msg = null;
+		String url =null;
 		
 		if(result > 0) {
 			status = "success";
-			msg = "공지사항 수정 성공";
+			msg = "게시글 수정 성공";
 		}else {
 			status = "error";
-			msg = "공지사항 수정 실패";
+			msg = "게시글 수정 실패";
 		}
 				
 		rdAttr.addFlashAttribute("status",status);
 		rdAttr.addFlashAttribute("msg",msg);
-
-		return "redirect:/mypage/adminnotice";
+		
+		if(member.getMemberGrade().equals("G")) {
+			url="redirect:/mypage/myboard";
+		}else{
+			url = "redirect:/mypage/adminnotice";
+		}
+		return url;
 	}	
 	
 	@RequestMapping("noticeInsert")
@@ -505,7 +532,8 @@ public class MypageController {
 	}
 		
 	@RequestMapping("deleteNotice/{boardNo}")
-	public String deleteNotice(@PathVariable int boardNo, RedirectAttributes rdAttr) {
+	public String deleteNotice(@PathVariable int boardNo, RedirectAttributes rdAttr, Model model) {
+		Member member = (Member)model.getAttribute("loginMember");
 		
 		int result = mypageService.deleteNotice(boardNo);
 		
@@ -516,11 +544,19 @@ public class MypageController {
 		if(result > 0) {
 			status = "success";
 			msg = "게시글 삭제 성공";
-			url ="mypage/adminnotice";
+			if(member.getMemberGrade().equals("G")) {
+				url="redirect:/mypage/myboard";
+			}else {
+				url = "redirect:/mypage/adminnotice";
+			}
 		}else {
 			status = "error";
 			msg = "게시글 삭제 실패";
-			url = "mypage/noticeView/boardNo";
+			if(member.getMemberGrade().equals("G")) {
+				url="redirect:/mypage/myboard";
+			}else{
+				url = "redirect:/mypage/adminnotice";
+			}
 		}
 				
 		rdAttr.addFlashAttribute("status",status);
@@ -764,5 +800,15 @@ public class MypageController {
 		//for(Board r : noticeList) { System.out.println(r); }
 		Gson gson = new Gson();
 		return gson.toJson(noticeList);
+	}
+	
+	@ResponseBody
+	@RequestMapping("myReportBoard")
+	public List<Board> myReportBoard(HttpServletRequest request) {
+		String writer = request.getParameter("writer");
+		
+		System.out.println(writer);
+		
+		return mypageService.myReportBoard(writer);
 	}
 }

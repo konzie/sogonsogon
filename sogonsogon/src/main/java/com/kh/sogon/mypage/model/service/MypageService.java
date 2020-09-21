@@ -218,4 +218,12 @@ public interface MypageService {
 
 	public abstract int restorReportRoom(RoomBoard board);
 
+	public abstract Board boardView(int boardNo);
+
+	public abstract List<Board> myReportBoard(String writer);
+
+	public abstract PageInfo roomBoardPage(int cp, int memberNo);
+
+	public abstract List<RoomBoard> selectRoomBoardList(PageInfo roomPInfo, int memberNo);
+
 }

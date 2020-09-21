@@ -345,4 +345,28 @@ public class MypageServiceImpl implements MypageService{
 	public int restorReportRoom(RoomBoard board) {
 		return mypageDAO.restorReportRoom(board);
 	}
+
+	@Override
+	public Board boardView(int boardNo) {
+		return mypageDAO.boardView(boardNo);
+	}
+
+	@Override
+	public List<Board> myReportBoard(String writer) {
+		return mypageDAO.myReportBoard(writer);
+	}
+
+	@Override
+	public PageInfo roomBoardPage(int cp, int memberNo) {
+		int roomBoardCount = mypageDAO.getListroomBoardCount(memberNo);
+		
+		pInfo.setPageInfo(cp, roomBoardCount);
+
+		return pInfo;
+	}
+
+	@Override
+	public List<RoomBoard> selectRoomBoardList(PageInfo roomPInfo, int memberNo) {
+		return mypageDAO.selectRoomBoardList(roomPInfo, memberNo);
+	}
 }
