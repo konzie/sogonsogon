@@ -40,6 +40,10 @@ public class HelpDAO {
 		return sqlSession.selectList("helpMapper.selectList", 0 ,rowBounds);
 	}
 
+	/** 문의글 자세히 DAO
+	 * @param boardNo
+	 * @return
+	 */
 	public Help selectView(int boardNo) {
 		return sqlSession.selectOne("helpMapper.selectView", boardNo);
 	}

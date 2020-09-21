@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="helpMapper">
+
+
+<resultMap type="Answer" id="answerResultSet">
+      <id property="answerNo" column="ANSWER_NO"/>
+      <result property="answerContent" column="ANSWER_CONTENT"/>
+      <result property="parentHelpNo" column="HELP_NO"/>
+      <result property="writer" column="ANSWER_WRITER"/>
+      <result property="answerCreateDate" column="ANSWER_CREATE_DT"/>
+      <result property="answerModifyDate" column="ANSWER_MODIFY_DT"/>
+      <result property="answerStatus" column="ANSWER_STATUS"/>
+</resultMap>
+    
+    
+
+	
+</mapper>
+
+
+
+
+
+
