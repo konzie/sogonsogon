@@ -101,6 +101,19 @@ public interface RoomService {
 	 */
 	int writeBoardReplyCount(int roomNo, int loginMemberNo);
 
+	/** 방 회원 탈퇴
+	 * @param roomNo
+	 * @return
+	 */
+	int withDraw(int roomNo, int memberNo);
+
+	/** 작석 댓글 채택 갯수
+	 * @param roomNo
+	 * @param memberNo
+	 * @return
+	 */
+	int writeBoardReplyAdoptionCount(int roomNo, int memberNo);
+	
 	List<RoomMember> mainLikeList();
 
 

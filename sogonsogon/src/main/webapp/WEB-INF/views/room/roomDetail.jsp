@@ -57,7 +57,7 @@
 			</div>
 			<!-- /.col-lg-3 -->
 
-			<div class="col-lg-9">
+			<div class="col-lg-9"> 
 
 				<div class="card mt-4">
 					<div class="card-body">
@@ -118,6 +118,15 @@
 	
 	        <script>
             var enterChk = false;
+            
+            $("#infoList").on("click", 	"#outRoom", function() {
+            	console.log(1);
+            	var withDrawChk = confirm("정말 해당 방을 탈퇴 하시겠습니까?");
+            	if(withDrawChk) {
+	            	location.href= "${contextPath}/room/roomDetail/withDraw/${roomDetail.roomNo}?memberNo=${loginMember.memberNo}";
+            	}
+            });
+            
             $("#moreInfo").on("click", function() {
                 if(!enterChk) {
                 	<jsp:useBean id="now" class="java.util.Date"/>
@@ -141,8 +150,8 @@
                     
                     $("#infoList").append($p1);
                     <c:if test="${!empty loginMember}">
-	                    var $p2 = $("<p>").html("현재 방 내에서 채택된 답변 수 : 0 <br> 작성한 글 수  : ${writeBoardCount}<br> 작성한 댓글 수 : ${writeBoardReplyCount}<br>");
-	                    var $button = $("<button>", {type : "button" , id : "outRoom", class : "btn-primary"}).text("방 탈퇴");
+	                    var $p2 = $("<p>").html("현재 방 내에서 채택된 답변 수 : ${writeBoardReplyAdoptionCount} <br> 작성한 글 수  : ${writeBoardCount}<br> 작성한 댓글 수 : ${writeBoardReplyCount}<br>");
+	                    var $button = $("<button>", {type : "button" , id : "outRoom", class : "btn-primary"}).attr("onclick","${contextPath}/room/roomDetail/withDraw/${roomDetail.roomNo}?memberNo=${loginMember.memberNo}").text("방 탈퇴");
 	                    $("#infoList").append($p2, $button);
                     </c:if>
                     $("#moreInfo").hide();
