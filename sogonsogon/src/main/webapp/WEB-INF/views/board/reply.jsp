@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <style>
 /*댓글*/
 .replyWrite>table {
@@ -149,6 +150,11 @@ function selectReplyList(){
 											+ "마지막 수정 날짜 : " + rList[i].replyModifyDate);
 				$div.append($rWriter).append($rDate)
 				
+					var $rButton = null;
+				<c:if test="${fn:trim(board.replyWriter) eq fn:trim(loginMember.memberId)}">
+					$rButton = $("<button>").addClass("btn btn-sm btn-primary ml-1 adoption").text("채택").attr("onclick", "addAdoption(this, "+rList[i].replyNo+")");
+				</c:if>
+				$div.append($rWriter).append($rDate).append($rButton);
 				
 				// 댓글 내용
 				var $rContent = $("<p>").addClass("rContent").html(rList[i].content);
@@ -156,17 +162,10 @@ function selectReplyList(){
 				
 				// 답글, 수정, 삭제 버튼 영역
 				var $btnArea = $("<div>").addClass("btnArea");
-				
-				// 로그인 되어 있는 경우에 답글 버튼 추가
-				if(loginMemberNo != ""){
-					// ** 추가되는 댓글에 onclick 이벤트를 부여하여 버튼 클릭 시 답글창을 생성하는 함수를 이벤트 핸들러로 추가함. 
-					var $reply2 = $("<button>").addClass("btn btn-sm btn-primary ml-1 reply2").text("답글").attr("onclick", "addReply2Area(this, "+rList[i].parentReplyNo+")");
-					$btnArea.append($reply2);
-				}
+
 				
 				// 현재 댓글의 작성자와 로그인한 멤버의 아이디가 같을 때 버튼 추가
-				console.log(rList[i].replyWriter+"tt");
-					console.log(loginMemberNo+"yy");
+				
 				if(rList[i].replyWriter == loginMemberNo){
 					
 					
@@ -191,7 +190,7 @@ function selectReplyList(){
 				
 				
 			});
-			
+			chkAdoption();
 		}, error : function(request, status, error){
 			 	console.log("ajax 통신 오류");
 				console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
@@ -201,7 +200,68 @@ function selectReplyList(){
 }
 
 //-----------------------------------------------------------------------------------------
+// 댓글 채택
+function addAdoption(el, replyNo) {
+	var cancleConfirm = confirm("정말 이 댓글을 채택하시겠습니까?");
+	var memberNo = "${loginMember.memberNo}";
+	var roomBoardNo = "${board.qnadNo}";
+	
+	if(cancleConfirm) {
+		$.ajax({
+			url : "${contextPath}/board/reply/adoptionReply/" + replyNo,
+			type : "post",
+			data : {"memberNo" : memberNo, "qnaNo" : qnaNo},
+			success : function(result) {
+				alert(result);
+				console.log("채택 완료");
+				$p = $("<span>").text("채택되었습니다");
+				$(el).parent().parent().css("background-color", "orange").append($p);
+				$(".adoption").remove();
+				
+			},error : function() {
+				console.log("통신 실패");
+			}
+		});
+	}
+}
 
+// 댓글 채택 있는지 확인
+function chkAdoption() {
+	var roomBoardNo = "${board.qnaNo}";
+	$.ajax({
+		url : "${contextPath}/board/reply/adoptionReplyChk/" + qnaNo,
+		type : "post",
+		success : function(result) {
+			if(result > 0) {
+				$p = $("<span>").text("채택되었습니다");
+				$("#" + parseInt(result)).css("background-color", "orange").append($p);
+				$(".adoption").remove();
+			}
+		},error : function() {
+			console.log("통신 실패");
+		}
+	});
+}
+
+// 댓글 삭제
+function deleteReply(el, replyNo) {
+	var cancleConfirm = confirm("정말 댓글 삭제하시겠습니까?");
+	
+	if(cancleConfirm) {
+		$.ajax({
+			url : "${contextPath}/board/reply/deleteReply/" + replyNo,
+			type : "get",
+			success : function(result) {
+				alert(result);
+				selectReplyList();
+			}, error : function() {
+				console.log("통신 실패");
+			}
+		});
+		
+		return cancleConfirm;
+	}
+}
 // 댓글 등록
 $("#addReply").on("click", function(){
 	

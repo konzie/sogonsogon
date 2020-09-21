@@ -17,16 +17,17 @@ public class Reply {
 	private String qnaContent;
 	private int qnaWriter;
 	private int parentBoardNo;
-	
+	private int parentReplyNo; // 부모 댓글 번호
 
 	public Reply() {
 		
 	}
 
 
+
 	public Reply(int replyNo, String content, Date replyCreateDate, Date replyModifyDate, String replyStatus,
 			String replySelect, int qnaNo, int replyWriter, String writerNick, String qnaTitle, String qnaContent,
-			int qnaWriter, int parentBoardNo) {
+			int qnaWriter, int parentBoardNo, int parentReplyNo) {
 		super();
 		this.replyNo = replyNo;
 		this.content = content;
@@ -41,7 +42,9 @@ public class Reply {
 		this.qnaContent = qnaContent;
 		this.qnaWriter = qnaWriter;
 		this.parentBoardNo = parentBoardNo;
+		this.parentReplyNo = parentReplyNo;
 	}
+
 
 
 	public int getReplyNo() {
@@ -49,9 +52,11 @@ public class Reply {
 	}
 
 
+
 	public void setReplyNo(int replyNo) {
 		this.replyNo = replyNo;
 	}
+
 
 
 	public String getContent() {
@@ -59,9 +64,11 @@ public class Reply {
 	}
 
 
+
 	public void setContent(String content) {
 		this.content = content;
 	}
+
 
 
 	public Date getReplyCreateDate() {
@@ -69,9 +76,11 @@ public class Reply {
 	}
 
 
+
 	public void setReplyCreateDate(Date replyCreateDate) {
 		this.replyCreateDate = replyCreateDate;
 	}
+
 
 
 	public Date getReplyModifyDate() {
@@ -79,9 +88,11 @@ public class Reply {
 	}
 
 
+
 	public void setReplyModifyDate(Date replyModifyDate) {
 		this.replyModifyDate = replyModifyDate;
 	}
+
 
 
 	public String getReplyStatus() {
@@ -89,9 +100,11 @@ public class Reply {
 	}
 
 
+
 	public void setReplyStatus(String replyStatus) {
 		this.replyStatus = replyStatus;
 	}
+
 
 
 	public String getReplySelect() {
@@ -99,9 +112,11 @@ public class Reply {
 	}
 
 
+
 	public void setReplySelect(String replySelect) {
 		this.replySelect = replySelect;
 	}
+
 
 
 	public int getQnaNo() {
@@ -109,9 +124,11 @@ public class Reply {
 	}
 
 
+
 	public void setQnaNo(int qnaNo) {
 		this.qnaNo = qnaNo;
 	}
+
 
 
 	public int getReplyWriter() {
@@ -119,9 +136,11 @@ public class Reply {
 	}
 
 
+
 	public void setReplyWriter(int replyWriter) {
 		this.replyWriter = replyWriter;
 	}
+
 
 
 	public String getWriterNick() {
@@ -129,9 +148,11 @@ public class Reply {
 	}
 
 
+
 	public void setWriterNick(String writerNick) {
 		this.writerNick = writerNick;
 	}
+
 
 
 	public String getQnaTitle() {
@@ -139,9 +160,11 @@ public class Reply {
 	}
 
 
+
 	public void setQnaTitle(String qnaTitle) {
 		this.qnaTitle = qnaTitle;
 	}
+
 
 
 	public String getQnaContent() {
@@ -149,9 +172,11 @@ public class Reply {
 	}
 
 
+
 	public void setQnaContent(String qnaContent) {
 		this.qnaContent = qnaContent;
 	}
+
 
 
 	public int getQnaWriter() {
@@ -159,9 +184,11 @@ public class Reply {
 	}
 
 
+
 	public void setQnaWriter(int qnaWriter) {
 		this.qnaWriter = qnaWriter;
 	}
+
 
 
 	public int getParentBoardNo() {
@@ -169,9 +196,23 @@ public class Reply {
 	}
 
 
+
 	public void setParentBoardNo(int parentBoardNo) {
 		this.parentBoardNo = parentBoardNo;
 	}
+
+
+
+	public int getParentReplyNo() {
+		return parentReplyNo;
+	}
+
+
+
+	public void setParentReplyNo(int parentReplyNo) {
+		this.parentReplyNo = parentReplyNo;
+	}
+
 
 
 	@Override
@@ -180,7 +221,9 @@ public class Reply {
 				+ ", replyModifyDate=" + replyModifyDate + ", replyStatus=" + replyStatus + ", replySelect="
 				+ replySelect + ", qnaNo=" + qnaNo + ", replyWriter=" + replyWriter + ", writerNick=" + writerNick
 				+ ", qnaTitle=" + qnaTitle + ", qnaContent=" + qnaContent + ", qnaWriter=" + qnaWriter
-				+ ", parentBoardNo=" + parentBoardNo + "]";
+				+ ", parentBoardNo=" + parentBoardNo + ", parentReplyNo=" + parentReplyNo + "]";
 	}
+
+
 
 }

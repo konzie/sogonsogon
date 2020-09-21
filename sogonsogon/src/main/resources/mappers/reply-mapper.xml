@@ -32,13 +32,7 @@
  	INSERT INTO REPLY(REPLY_NO, REPLY_CONTENT,PARENT_BOARD_NO, REPLY_WRITER) 
 	VALUES(SEQ_RNO.NEXTVAL, #{content}, #{parentBoardNo}, #{replyWriter})
  	</insert>
- 	
- 	<!-- 대댓글삽입  -->
- 	<insert id="insertReply2" parameterType="Reply" >
- 	INSERT INTO REPLY(REPLY_NO, REPLY_CONTENT,PARENT_BOARD_NO,REPLY_WRITER) 
-	VALUES(SEQ_RNO.NEXTVAL, #{content}, #{parentBoardNo}, #{replyWriter})
- 	</insert>
- 	
+
  	<!-- 댓글 수정 -->
 	<update id="updateReply" parameterType="Reply">
 		UPDATE REPLY SET REPLY_CONTENT = #{Content}, REPLY_MODIFY_DT = SYSDATE WHERE REPLY_NO = #{replyNo}

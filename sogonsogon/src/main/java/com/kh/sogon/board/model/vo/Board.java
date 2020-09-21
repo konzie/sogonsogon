@@ -17,6 +17,7 @@ public class Board {
 	private String writerNick;
 	private int writer;
 	private int likeCount;
+	private String replyWriter;
 	
 	public Board(){
 		
