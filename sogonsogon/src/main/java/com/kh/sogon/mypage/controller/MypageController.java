@@ -498,7 +498,7 @@ public class MypageController {
 	}	
 	
 	@RequestMapping("noticeInsert")
-	public String noticeInsert(@RequestParam(value="title") String title, @RequestParam(value="content") String content, RedirectAttributes rdAttr, Model model) {
+	public String noticeInsert(@RequestParam(value="title") String title, @RequestParam(value="content") String content, @RequestParam(value="category") String category, RedirectAttributes rdAttr, Model model) {
 
 		Member loginMember = (Member)model.getAttribute("loginMember");
 		
@@ -506,6 +506,7 @@ public class MypageController {
 		
 		board.setQnaTitle(title);
 		board.setQnaContent(content);
+		board.setQnaCategory(category);
 		board.setWriter(loginMember.getMemberNo());
 		
 		int result = mypageService.noticeWrite(board);

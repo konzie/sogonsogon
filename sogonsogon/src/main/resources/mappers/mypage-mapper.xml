@@ -170,7 +170,7 @@
 	
 	<!-- 총 NoticeList 조회 -->
 	<select id="selectNList" resultMap="qnaResultSet">
-		SELECT * FROM QNABOARD JOIN MEMBER ON(QNA_WRITER=MEMBER_NO)WHERE QNA_WRITER = 1 ORDER BY QNA_CREATE_DATE DESC
+		SELECT * FROM QNABOARD JOIN MEMBER ON(QNA_WRITER=MEMBER_NO) JOIN QNA_CATEGORY ON(QNA_CATEGORY=CATEGORY_NO)WHERE QNA_WRITER = 1 ORDER BY QNA_CREATE_DATE DESC
 	</select>
 		
 	<!-- 멤버 수 조회 -->
@@ -264,7 +264,7 @@
 	</select>
 	
 	<insert id="noticeWrite" parameterType="Board">
-		INSERT INTO QNABOARD VALUES(#{qnaNo}, #{qnaTitle}, DEFAULT, DEFAULT, SYSDATE, SYSDATE, DEFAULT, #{writer}, #{qnaContent})
+		INSERT INTO QNABOARD VALUES(DEFAULT, DEFAULT, (SELECT CATEGORY_NO FROM QNA_CATAEGORY WHERE CATEGORY_NM = #{qnaCategory}), #{qnaContent}, SYSDATE, SYSDATE, #{qnaNo}, DEFAULT, #{qnaTitle}, #{writer})
 	</insert>
 	
 	<update id="restoreReport" parameterType="_int">
