@@ -88,7 +88,7 @@
            		</c:when>
             </c:choose>
             
-            <fmt:formatDate var="createDate" value="${roomList.roomCreateDate}" pattern="yyyy-MM-dd"/>
+            <fmt:formatDate var="createDate" value="${roomList.roomCreateDate}" pattern="yyyy-MM-dd"/> 
             
             <p class="room-content">
                 <div class="category" id="${tag}">${tag}.</div>
