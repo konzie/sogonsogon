@@ -63,5 +63,4 @@ public class ReplySerivceImpl implements ReplyService {
 			return replyDAO.deleteReply(replyNo);
 		}
 
-
 }

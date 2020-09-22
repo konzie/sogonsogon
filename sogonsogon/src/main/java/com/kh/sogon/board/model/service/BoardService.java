@@ -84,10 +84,8 @@ public interface BoardService {
 	// 게시글 좋아요 사용자 체크 여부
 	public abstract int qnaLikeUserChk(int qnaNo, int memberNo);
 
-
-
-
-	
+	// 댓글수 ㅈㅔ목옆에
+	public abstract int updateRcnt(int qnaNo);
 	
 	
 }
