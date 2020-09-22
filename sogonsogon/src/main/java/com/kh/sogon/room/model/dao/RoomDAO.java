@@ -258,5 +258,29 @@ public class RoomDAO {
 		return sqlSession.selectOne("roomMapper.writeBoardReplyAdoptionCount", map);
 	}
 
+
+	/** 방 회원 정보 출력용 DAO
+	 * @param roomNo
+	 * @return
+	 */
+	public List<RoomMember> memberInfo(int roomNo) {
+		return sqlSession.selectList("roomMapper.memberInfo", roomNo);
+	}
+
+
+	/** 방 회원 정보 추방 DAO
+	 * @param roomNo
+	 * @param memberNo
+	 * @return
+	 */
+	public int memberInfoDelete(int roomNo, int memberNo) {
+		Map<String, Integer> map = new HashMap<String, Integer>();
+		
+		map.put("roomNo", roomNo);
+		map.put("memberNo", memberNo);
+		
+		return sqlSession.delete("roomMapper.memberInfoDelete", map);
+	}
+
 	
 }

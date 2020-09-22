@@ -197,5 +197,17 @@ public class RoomServiceImpl implements RoomService{
 		return roomDAO.writeBoardReplyAdoptionCount(roomNo, memberNo);
 	}
 
+	// 방 안의 회원 정보 출력용
+	@Override
+	public List<RoomMember> memberInfo(int roomNo) {
+		return roomDAO.memberInfo(roomNo);
+	}
+
+	// 방 안의 회원 추방하기
+	@Override
+	public int memberInfoDelete(int roomNo, int memberNo) {
+		return roomDAO.memberInfoDelete(roomNo, memberNo);
+	}
+
 
 }
