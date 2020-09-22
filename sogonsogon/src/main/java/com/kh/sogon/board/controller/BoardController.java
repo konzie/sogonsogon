@@ -239,7 +239,7 @@ public class BoardController {
 		
 		//게시글 검색
 		@RequestMapping("search")
-		public String search(@RequestParam(value="cp", required = false, defaultValue = "1") int cp, Search search,
+		public String search( @RequestParam(value="cp", required = false, defaultValue = "1") int cp, Search search,
 								Model model) {
 			
 			PageInfo pInfo = boardService.pagination(cp, search);
