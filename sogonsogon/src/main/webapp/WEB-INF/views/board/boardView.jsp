@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>고객센터</title>
+<title>자유게시판</title>
 <style>
     #back-color{
         width: 100%;

@@ -86,6 +86,9 @@ public interface BoardService {
 
 	// 댓글수 ㅈㅔ목옆에
 	public abstract int updateRcnt(int qnaNo);
+
+	//신고기능
+	public abstract int reportBoard(int qnaNo);
 	
 	
 }

@@ -261,6 +261,11 @@ AND
  	  WHERE Q.QNA_NO = #{qnaNo}
  	</update>
 
+ 	 <!-- 게시글 신고 -->
+   <update id="reportBoard" parameterType="_int">
+   		UPDATE QNABOARD SET QNA_STATUS = 'R' WHERE QNA_NO = #{qnaNo}
+   </update>
+ 	
  	
 </mapper>
 

@@ -315,7 +315,7 @@
                 <div class="table-title">
                     <div class="row">
                         <div class="col-sm-4" id="colsm">
-                            <h2><b>자유 질문방</b></h2><hr><h5>자유롭게 질문을 주고 받으세요 ! </h5>
+                            <h2><b>자유 게시판</b></h2><hr><h5>자유롭게 질문을 주고 받으세요 ! </h5>
                         </div>
 
                     </div>
