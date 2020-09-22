@@ -32,6 +32,9 @@ public interface ReplyService {
 	 * @return
 	 */
 	int deleteReply(int replyNo);
+	
+
+
 
 
 }

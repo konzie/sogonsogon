@@ -293,6 +293,15 @@ public class BoardController {
 			return result + "";
 		}
 		
+		@ResponseBody
+		@RequestMapping("updateRcnt")
+		public String updateRcnt(int qnaNo) {
+			int result = boardService.updateRcnt(qnaNo);
+			
+			
+			
+			return result + "";
+		}
 	
 		
 		  
