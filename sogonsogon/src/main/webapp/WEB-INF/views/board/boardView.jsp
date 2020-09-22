@@ -79,6 +79,12 @@
 		padding: 20px;
 	}
 	
+	#reportBtn{
+	  float: right;
+	  
+	  
+	}
+	
 	
 
 </style>
@@ -126,10 +132,10 @@
 									<i class="fa fa-heart" id="rec_update" style="font-size:16px;cursor: pointer;"></i>
 									&nbsp;<span class="rec_count"></span>
 								</c:if>
-								
+								<button id="reportBtn" class="btn btn-outline-danger">신고</button>
 							</div>
 						</div>
-						
+					
                 	</c:if>
                 	
             	</div>
@@ -222,7 +228,12 @@
 			});
 	    };
 	   
-	 
+		
+		$("#reportBtn").on("click", function() {
+			if(confirm("게시글 작성자를 정말 신고 하시겠습니까?")) {
+				location.href = "${board.qnaNo}/report";
+			}
+		});
 		
 		
 	</script>
