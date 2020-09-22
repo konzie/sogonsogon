@@ -576,9 +576,9 @@
             
             <h5 style="margin-top: 10px; font-weight: bold;">이달의 지식왕</h5>
 
-            <div>1등. <span class="likeCount" id="likeCount0"></span> - 문화상품권</div>
-            <div>2등. <span class="likeCount" id="likeCount1"></span> - 문화상품권</div>
-            <div>3등. <span class="likeCount" id="likeCount2"></span> - 문화상품권</div>
+            <div>1등. <span class="likeCount" id="likeCount0"></span> - 상품권 만원</div>
+            <div>2등. <span class="likeCount" id="likeCount1"></span> - 상품권 오천원</div>
+            <div>3등. <span class="likeCount" id="likeCount2"></span> - 상품권 오천원</div>
          	<div style="font-size: 12px; margin-bottom: 6px; color: gray; margin-top: 2px;">
              입력하신 연락처로 연락드립니다.<br>
              마이페이지에서 연락처를 확인해주세요.<br>    	

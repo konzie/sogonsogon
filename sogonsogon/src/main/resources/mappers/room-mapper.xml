@@ -215,5 +215,11 @@
 	<delete id="memberInfoDelete" parameterType="map">
 		DELETE FROM ROOM_MEMBER WHERE ROOM_MEMBER_ROOM_NO = #{roomNo} AND ROOM_MEMBER_MEMBER_NO = #{memberNo}
 	</delete>
+	
+	
+	<select id="updateRoomList" resultMap="roomResultSet">
+		SELECT * FROM STUDY_ROOM
+		WHERE ROOM_NO = #{roomNo}
+	</select>
 </mapper>
 

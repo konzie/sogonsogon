@@ -130,7 +130,11 @@ public interface RoomService {
 	int memberInfoDelete(int roomNo, int memberNo);
 
 	
-
+	/** 방 정보 수정 Service
+	 * @param roomNo
+	 * @return
+	 */
+	Room updateRoomList(int roomNo);
 
 
 

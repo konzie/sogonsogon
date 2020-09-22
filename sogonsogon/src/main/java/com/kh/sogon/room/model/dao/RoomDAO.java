@@ -281,6 +281,15 @@ public class RoomDAO {
 		
 		return sqlSession.delete("roomMapper.memberInfoDelete", map);
 	}
+	
+	/** 방 정보 수정 (select 먼저)
+	 * @param roomNo
+	 * @return Room
+	 */
+	public Room updateRoomList(int roomNo) {
+		return sqlSession.selectOne("roomMapper.updateRoomList", roomNo);
+	}
+
 
 	
 }
