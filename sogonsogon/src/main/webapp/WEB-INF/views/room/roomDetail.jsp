@@ -19,6 +19,10 @@
         .trBold{
         	font-weight: bold;
         }
+        
+        #modalMemberInfo{display:none; position:relative;}
+		#modalMemberInfo .modalContent{width:790px; height:600px; padding:20px; border:1px solid #ccc; position:fixed; left:50%; top:50%; z-index:11; background:#fff;}
+		#modalMemberInfo .modalContent #modalMemberInfoClose{position:absolute; right:0; top:0; cursor:pointer;}
 </style>
 </head>
 <body>
@@ -44,13 +48,12 @@
 							</c:otherwise>
 						</c:choose>
 					</p>
-					<p class="list-group-item fas fa-angle-down" id="moreInfo"
-						style="cursor: pointer; color: blue;">&nbsp;더 보기</p>
+					<p class="list-group-item fas fa-angle-down" id="moreInfo" style="cursor: pointer; color: blue;">&nbsp;더 보기</p>
 					<div id="infoList"></div>
 					
 					<!-- 방장 회원 전용 메뉴-->
 					<c:if test="${loginMember.getMemberId() eq roomDetail.memberId}">
-					<a href="#" class="list-group-item" id="roomMemberInfo">방 회원 조회</a>
+					<a href="#modalMemberInfo" class="list-group-item modalLink" id="roomMemberInfo">방 회원 조회</a>
 					<a href="#" class="list-group-item">방 정보 수정</a>
 					</c:if>
 
@@ -113,10 +116,20 @@
 
 			</div>
 			<!-- /.col-lg-9 -->
+			
+			<div id="modalMemberInfo">
+			  <div class="modalContent">
+			    <div></div> 
+			    <a id="modalMemberInfoClose" class="fas fa-times-circle"></a>
+			  </div>
+			</div>
 
 		</div>
 
 	</div>
+	
+	
+	
 
 	<jsp:include page="../common/footer.jsp" />
 	
@@ -374,9 +387,73 @@
 					}
 				});
 				
+          	  var modalLayer = $("#modalMemberInfo");
+        	  var modalLink = $(".modalLink");
+        	  var modalCont = $(".modalContent");
+        	  var marginLeft = modalCont.outerWidth()/2;
+        	  var marginTop = modalCont.outerHeight()/2; 
 
+        	  modalLink.click(function(){
+        	    modalLayer.fadeIn("slow");
+        	    modalCont.css({"margin-top" : -marginTop, "margin-left" : -marginLeft});
+        	    $(this).blur();
+        	    $(".modalContent > div").focus();
+        	    $(".modalContent table").remove();
+        	    
+        	    $table = $("<table>").addClass("table");
+        	    $tr = $("<tr>");
+        	    $th1 = $("<th>").text("닉네임");
+        	    $th2 = $("<th>").text("가입날짜");
+        	    $th3 = $("<th>").text("구분");
+        	    
+        	    $tr.append($th1, $th2, $th3);
+        	    
+        	    $table.append($tr);
+        	    
+        	    
+        	    $.ajax({
+        	    	url : "${contextPath}/room/roomDetail/memberInfo/${roomDetail.roomNo}",
+					type : "POST",
+					dataType:"json",
+					success : function(object){
+						console.log(object);
+						
+						$.each(object, function(i){
+			        	    $tr1 = $("<tr>");
+			        	    $td1 = $("<td>").text(object[i].roomMemberNick);
+			        	    $td2 = $("<td>").text(object[i].roomMemberEnrollDate);
+			        	    $td3 = $("<td>").html("<button class='btn-primary' onclick='memberInfoDelete("+ object[i].roomMemberMemberNo +")'>추방</button>");
+			        	    
+			        	    $tr1.append($td1, $td2, $td3);
+			        	    $table.append($tr1);
+		        	    });
+					}, error : function() {
+						console.log("Ajax 통신 에러");
+					}
+        	    });
+        	    
+        	    $(".modalContent").append($table);
+        	    return false;
+        	  });
+
+        	  $(".modalContent > #modalMemberInfoClose").click(function(){
+        	    modalLayer.fadeOut("slow");
+        	    modalLink.focus();
+        	  });		
 				
             });
+            
+            function memberInfoDelete(memberNo) {
+				$.ajax({
+					url : "${contextPath}/room/roomDetail/memberInfoDelete/${roomDetail.roomNo}?memberNo=" + memberNo,
+					type : "get",
+					success : function(){
+						$(".modalLink").click(); 
+					}, error : function() {
+						console.log("ajax 통신 에러");
+					}
+				});
+			}
          	
             
             
