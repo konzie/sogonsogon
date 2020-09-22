@@ -230,19 +230,31 @@
 
       // 태그 입력창 생성 + 2번까지(수정)
       var tagCnt = 0;
-      
+      var tagCnt2 = 0;
+
        $(".plusbutton").on("click", function(){
-      		if(tagCnt <2){
+
+      		if(tagCnt <3 ){
 		         $tag = $('<input type="text">').addClass("form-control tags").attr("id", "tags").attr("name","roomTag");
-		         $(".tagbox").append($tag);''
+		         $(".tagbox").append($tag);
 		         tagCnt++;
       		}
-      		
-      		if(tagCnt >= 2){
+      		if (tagCnt>=3){
       			 //$(".plusbutton").css("display","hidden");
-      			 $(".plusbutton").hide();
-      			 // 마이너스가 될때 text에 - 넣으면됨
-      		}
+      			
+      			 
+      			 if(tagCnt2 <3){ $(".plusbutton").text("-");
+	      			 $(".tags").last().remove();
+	      			 // 마이너스가 될때 text에 - 넣으면됨
+	      			tagCnt2++;
+      			 }else{	 
+      				$(".plusbutton").text("+");
+      			  $tag = $('<input type="text">').addClass("form-control tags").attr("id", "tags").attr("name","roomTag");
+ 		         $(".tagbox").append($tag);
+ 		        tagCnt2--;
+      			 }
+
+    	   }
 	   });
       
       

@@ -214,5 +214,10 @@ public class RoomServiceImpl implements RoomService{
 	public Room updateRoomList(int roomNo) {
 		return roomDAO.updateRoomList(roomNo);
 	}
+
+	@Override
+	public int updateRoomInsert(Room room) {
+		return roomDAO.updateRoomInsert(room);
+	}
 	
 }
