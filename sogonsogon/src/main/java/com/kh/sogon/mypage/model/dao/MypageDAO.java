@@ -279,7 +279,7 @@ public class MypageDAO {
 		
 		RowBounds rowBounds = new RowBounds(offset, roomPInfo.getLimit());
 		
-		return sqlSession.selectList("mypageMapper.selectRoomReportList", rowBounds);
+		return sqlSession.selectList("mypageMapper.selectRoomReportList", null, rowBounds);
 	}
 
 	public int deleteRoomReport(RoomBoard board) {
@@ -309,6 +309,14 @@ public class MypageDAO {
 		RowBounds rowBounds = new RowBounds(offset, roomPInfo.getLimit());
 		
 		return sqlSession.selectList("mypageMapper.selectRoomBoardList", memberNo, rowBounds);
+	}
+
+	public int selectBoard(RoomBoard board) {
+		return sqlSession.selectOne("mypageMapper.selectBoard", board);
+	}
+
+	public int updateHelp(int parentHelpNo) {
+		return sqlSession.update("mypageMapper.updateHelp", parentHelpNo);
 	}
 	
 	

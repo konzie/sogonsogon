@@ -17,14 +17,14 @@
         }
 
         .room-box {
-			width: 1000px;
+         width: 1200px;
             height: 35%;
             justify-content: center;
             flex-wrap: unset;
             font-family: 'GmarketSansMedium';
         }
         .roomlist-box {
-            width: 260px;
+            width: 320px;
             height: 220px;
             border-radius: 2.5px;
             box-sizing: border-box;
@@ -34,7 +34,7 @@
             text-align: center;
             box-shadow: 14px 14px rgb(255, 178, 181), -14px 14px rgb(255, 178, 181);
             position: relative;
-            
+            overflow: hidden;
         }
 
         .roomlist-box>img{
@@ -63,7 +63,6 @@
            text-align: center;
            position: relative;
            margin: auto;
-           margin-top: 5px;
         }
 
         .tags{
@@ -83,12 +82,12 @@
             margin: auto;
             color: white;
             line-height: 200%;
-            margin-top: 18px;
+            margin-top: 14px;
             cursor: pointer;
         }
         .category{
             font-size: 14px;
-            margin:28px 0px 2px 0px;
+            margin:10px 0px 2px 0px;
         }
         .review-box>p{
             clear: both;
@@ -242,13 +241,13 @@
       
       .content2{
       float:left; 
-      width:72%;
+      width: 78%;
       height:100%;
       padding:20px 0px 0px 30px;
       }      
       
       .pagination {
-      	justify-content: center;
+         justify-content: center;
       }
 </style>
 </head>
@@ -266,37 +265,37 @@
       <h4 class="mb-5">참여한 스터디방</h4>
      <c:choose>
      <c:when test="${empty roomList}">
-     	<div> 가입한 방이 없습니다</div>
-     	<div>
-     		<button onclick="location.href='../room/roomList/1'">방 리스트 보기</button>
-     		<button onclick="location.href='${contextPath}/room/insertRoom'">방 만들기</button>
-     	</div>
+        <div> 가입한 방이 없습니다</div>
+        <div>
+           <button onclick="location.href='../room/roomList/1'">방 리스트 보기</button>
+           <button onclick="location.href='${contextPath}/room/insertRoom'">방 만들기</button>
+        </div>
      </c:when>
      <c:otherwise>
-	<c:set var="roomList" value="${roomList}"/>
+   <c:set var="roomList" value="${roomList}"/>
     <div class="room-box">
     <c:forEach var="roomList" items="${roomList}">
         <div class="roomlist-box">
         <div id="flag" style="top:-20px"></div>
- 	 <c:choose>
-          		<c:when test="${roomList.roomType ==1}">
-          			<c:set var="tag" value="IT"/>
-          		</c:when>
-          		 <c:when test="${roomList.roomType ==2}">
-          			<c:set var="tag"  value="공모전"/>
-          		</c:when>
-          		<c:when test="${roomList.roomType ==3}">
-          			<c:set var="tag"  value="면접"/>
-          		</c:when>
-          		<c:when test="${roomList.roomType ==4}">
-          			<c:set var="tag"  value="전공"/>
-          		</c:when>
-          	    <c:when test="${roomList.roomType ==5}">
-          			<c:set var="tag"  value="외국어"/>
-          		</c:when>
-          		  	    <c:when test="${roomList.roomType ==6}">
-          			<c:set var="tag"  value="기타"/>
-          		</c:when>
+     <c:choose>
+                <c:when test="${roomList.roomType ==1}">
+                   <c:set var="tag" value="IT"/>
+                </c:when>
+                 <c:when test="${roomList.roomType ==2}">
+                   <c:set var="tag"  value="공모전"/>
+                </c:when>
+                <c:when test="${roomList.roomType ==3}">
+                   <c:set var="tag"  value="면접"/>
+                </c:when>
+                <c:when test="${roomList.roomType ==4}">
+                   <c:set var="tag"  value="전공"/>
+                </c:when>
+                 <c:when test="${roomList.roomType ==5}">
+                   <c:set var="tag"  value="외국어"/>
+                </c:when>
+                         <c:when test="${roomList.roomType ==6}">
+                   <c:set var="tag"  value="기타"/>
+                </c:when>
            </c:choose>
            
            <fmt:formatDate var="createDate" value="${roomList.roomCreateDate}" pattern="yyyy-MM-dd"/>
@@ -304,15 +303,13 @@
            <p class="room-content">
                <div class="category" id="${tag}">${tag}.</div>
                <p class="room-title">${roomList.roomTitle}</p>
-               <hr>
-				<span class="count1">참가인원 : ${roomList.roomMemberCount}</span>
-				<span  class="count2">/${roomList.roomMaxNumber}명</span>
-			<div style="font-size: 14px; margin-bottom: 8px; margin-top: 8px">개설일 : ${createDate}</div>
-				<div style="font-size: 14px; margin-bottom: 8px;">방장 : ${roomList.memberNick}</div>
-			<div class="room-text">${roomList.roomContent}</div>
+            <span class="count1">참가인원 : ${roomList.roomMemberCount}</span>
+            <span  class="count2">/${roomList.roomMaxNumber}명</span>
+         <div style="font-size: 14px; margin-bottom: 2px; margin-top: 2px">개설일 : ${createDate}</div>
+            <div style="font-size: 14px; margin-bottom: 2px;">방장 : ${roomList.memberNick}</div>
 
-			<c:set var="tags" value="${fn:split(roomList.roomTag, ',')}"/>
-	
+         <c:set var="tags" value="${fn:split(roomList.roomTag, ',')}"/>
+   
              <c:set var="roomNo" value="${roomList.roomNo}" />
             <div id="tagbox">
              <c:forEach var="tag" items="${tags}">
@@ -320,19 +317,19 @@
              </c:forEach>
            </div>
   
-		<c:choose>
-				<%-- test는 el만 적을 수 있음 (비교, 계산 같은걸 하나 EL 안에 작성가능) --%>
-			<c:when test="${roomList.roomMemberCount != roomList.roomMaxNumber}">
-	            <a data-toggle="modal"  data-target="#myModal">
-	            	<div class="join-button" id="${roomList.roomNo}" onclick="return validate();"><span>참여하기</span></div>
-	            </a>
-			</c:when>
-			<c:otherwise>
-	            <a data-toggle="modal" >
-	            	<div class="join-button noPart" id="${roomList.roomNo}" onclick="return validate();">참여불가</div>
-	            </a>
-			</c:otherwise>
-		</c:choose>
+      <c:choose>
+            <%-- test는 el만 적을 수 있음 (비교, 계산 같은걸 하나 EL 안에 작성가능) --%>
+         <c:when test="${roomList.roomMemberCount != roomList.roomMaxNumber}">
+               <a data-toggle="modal"  data-target="#myModal">
+                  <div class="join-button" id="${roomList.roomNo}" onclick="return validate();"><span>참여하기</span></div>
+               </a>
+         </c:when>
+         <c:otherwise>
+               <a data-toggle="modal" >
+                  <div class="join-button noPart" id="${roomList.roomNo}" onclick="return validate();">참여불가</div>
+               </a>
+         </c:otherwise>
+      </c:choose>
            
       </div> <!-- roomlist end-->
       </c:forEach>
@@ -346,7 +343,7 @@
             <ul class="pagination">
                <c:if test="${pInfo.currentPage  > pInfo.pagingBarSize}">   
                    <li>
-                   	<a class="page-link text-primary" href="?cp=1">&lt;&lt;</a>
+                      <a class="page-link text-primary" href="?cp=1">&lt;&lt;</a>
                    </li>
                    <li>
                       <fmt:parseNumber var="operand1" value="${(pInfo.currentPage-1)/pInfo.pagingBarSize}" integerOnly="true" />
@@ -417,45 +414,41 @@
 
 <script>
 $(".join-button").on("click",function(){
-	if($(".loginText").text() ==""){ // 로그인안됐을때 경고창
-		alert("로그인을 해주세요");
-		return false;
-	    
-	}else{
-		$(".pass-area").css("display","block");   
-		   var roomNo = $(this).attr("id");
-		   // console.log(roomNo);
-		   $(".hiddenNo").val(roomNo);
-		
-		   $(".transPage").prop("action", "${contextPath}/room/roomDetail/"+ roomNo);
-		   
-			$.ajax({
-				url : "${contextPath}/room/roomMList/"+roomNo,
-				type : "POST",
-				dataType : "JSON",
-				success : function(map){
-					$(".m-title").html("\""+map.room.roomTitle+"\''");
-					$(".m-content").html(map.room.roomContent);
-					
-					// 비공개 방인경우 비밀번호 입력창 사라짐
-					if(map.room.roomOpen == 'Y' ){
-						$(".pass-area").css("display","none");
-						
-					}
-					
-					// 로그인한 멤버가 이미 가입한 방일때 
-					for(var i=0; i<map.roomMember.length; i++){
-						if(roomNo == map.roomMember[i].roomMemberRoomNo){
-							$(".pass-area").css("display","none");
-							$(".m-content").append("<br>+이미 가입한 방입니다.");
-						}
-					} 
-		
-				},error : function(){
-					 console.log("ajax 통신 실패");
-				}
-			});
-	} // else end
+
+      $(".pass-area").css("display","block");   
+         var roomNo = $(this).attr("id");
+         // console.log(roomNo);
+         $(".hiddenNo").val(roomNo);
+      
+         $(".transPage").prop("action", "${contextPath}/room/roomDetail/"+ roomNo);
+         
+         $.ajax({
+            url : "${contextPath}/room/roomMList/"+roomNo,
+            type : "POST",
+            dataType : "JSON",
+            success : function(map){
+               $(".m-title").html("\""+map.room.roomTitle+"\''");
+               $(".m-content").html(map.room.roomContent);
+               
+               // 비공개 방인경우 비밀번호 입력창 사라짐
+               if(map.room.roomOpen == 'Y' ){
+                  $(".pass-area").css("display","none");
+                  
+               }
+               
+               // 로그인한 멤버가 이미 가입한 방일때 
+               for(var i=0; i<map.roomMember.length; i++){
+                  if(roomNo == map.roomMember[i].roomMemberRoomNo){
+                     $(".pass-area").css("display","none");
+                     $(".m-content").append("<br>+이미 가입한 방입니다.");
+                  }
+               } 
+      
+            },error : function(){
+                console.log("ajax 통신 실패");
+            }
+         });
+    // else end
 });
 
 </script>

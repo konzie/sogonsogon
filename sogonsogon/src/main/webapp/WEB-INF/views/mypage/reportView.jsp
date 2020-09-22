@@ -72,7 +72,7 @@
 		
 		<c:choose>
 		<c:when test="${loginMember.memberNo==1}">
-			<button type="button" class="btn btn-danger" onclick="location.href ='../updateReport/${report.writerNick}/${report.qnaNo}'">삭제</button>
+			<button type="button" class="btn btn-danger" onclick="location.href ='../updateReport/${report.writerNick}/${report.qnaNo}/0'">삭제</button>
 			<button type="button" class="btn btn-dark" onclick="location.href ='../restoreReport/${report.writerNick}/${report.qnaNo}'">복원</button>
 			<button type="button" class="btn btn-warning" onclick="location.href ='../adminreport'">목록으로</button>
 		</c:when>

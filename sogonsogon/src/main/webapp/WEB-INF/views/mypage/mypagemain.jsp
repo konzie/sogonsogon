@@ -59,6 +59,10 @@
       	margin:5px;
       	color:#E04848;
       }
+      
+      #greeting{
+      	
+      }
 </style>
 </head>
 <body>   
@@ -72,20 +76,35 @@
   <div class="content">
   <jsp:include page="mypage2.jsp"/>
 	<div class="content2">   
-	<h4>신고된 게시글</h4>  
+	<h2 align="center" id="greeting">${loginMember.memberNick} 님 환영합니다! </h2>
+	<h5>신고된 게시글</h5>  
 		<c:choose>
           	<c:when test="${empty report}">
           		<p>신고된 사항이 없습니다.</p>
           	</c:when>
         <c:otherwise>
-           
+         
+        <c:choose>
+        <c:when test="${report.roomNo>0}"> 
 		<div id="reportContent">
-        	<h3>제목 : ${reportView.qnaTitle.trim()}</h3><hr>
+        	<h3>제목 : ${board.roomBoardTitle}</h3><hr>
+        	<div>방 번호 : ${board.roomNo}</div><div> [ 게시글 번호 : ${board.roomBoardNo} ] </div>
+        	<div id="writer">작성자 : ${board.roomBoardWriter}</div><div id="writeday">작성일 : ${board.roomBoardCreateDate}</div>
+        	<br>
+        	<hr>
+			<div id="board-content">${board.roomBoardContent}</div>
+		</div>
+		</c:when>
+		<c:otherwise>
+		<div id="reportContent">
+        	<h3>제목 : ${reportView.qnaTitle}</h3><hr>
         	<div id="writer">작성자 : ${reportView.writerNick}</div><div id="writeday">작성일 : ${reportView.qnaCreateDate}</div>
         	<br>
         	<hr>
 			<div id="board-content">${reportView.qnaContent}</div>
 		</div>
+		</c:otherwise>
+		</c:choose>
 			<div id="reportNotice">
 					해당 게시글이 신고되었습니다. 
 					<br>현재 신고된 수는 ${report.reportCount} 입니다. 
