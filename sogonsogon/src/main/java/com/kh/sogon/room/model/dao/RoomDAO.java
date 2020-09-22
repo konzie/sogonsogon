@@ -291,5 +291,10 @@ public class RoomDAO {
 	}
 
 
+	public int updateRoomInsert(Room room) {
+		return sqlSession.update("roomMapper.updateRoomInsert", room);
+	}
+
+
 	
 }

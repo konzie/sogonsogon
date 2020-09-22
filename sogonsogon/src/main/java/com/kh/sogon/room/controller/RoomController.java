@@ -219,23 +219,48 @@ public class RoomController {
 			 
 		 }
 		 
-		 
-			@RequestMapping("updateRoom/{roomNo}")
-			 public String updateRoom(@PathVariable int roomNo, Model model) {
-				 Room updateList = roomService.updateRoomList(roomNo);
-				 
-				 model.addAttribute("updateList", updateList);
-				 //System.out.println(updateList);
-				 return "room/updateRoom";
-			 }
-
-			 @RequestMapping("updateRoomInfo/{roomNo}")
-			 public String updateRoomInsert(@PathVariable int roomNo) {
-				 
-
-				 //System.out.println("룸뉴패스" + roomNo);
-				 
-				 return null;
-			 }
+		 // 룸 업데이트 화면 이동용 조회
+		@RequestMapping("updateRoom/{roomNo}")
+		 public String updateRoom(@PathVariable int roomNo, Model model) {
+			 Room updateList = roomService.updateRoomList(roomNo);
+			 Member loginMember = (Member)model.getAttribute("loginMember");
+			 
+			Room roomDetail = roomService.roomDetailInfo(roomNo, loginMember);
+			
+			//System.out.println("룸디테일" +roomDetail);	
+			 model.addAttribute("updateList", updateList);
+			 model.addAttribute("roomDetail", roomDetail);
+			 //System.out.println(updateList);
+			 return "room/updateRoom";
+		 }
+		
+		// 룸 업데이트
+		 @RequestMapping("updateRoomInfo/{roomNo}")
+		 public String updateRoomInsert(@PathVariable int roomNo, Room room, @RequestParam String newPassword,
+				 											  RedirectAttributes rdAttr, HttpServletRequest request, Model model) {
+			 
+			 
+			 System.out.println("뉴패쓰" + newPassword);
+			 room.setRoomPassword(newPassword);
+			 int result = roomService.updateRoomInsert(room);
+			 
+		
+			 String url = null;
+			 String status = null;
+			 String msg = null;
+			 if (result > 0) {
+					status = "success";
+					msg = "게시글 수정 성공";
+					url = "/room/roomDetail/" + roomNo;
+				} else {
+					status = "error";
+					msg = "게시글 수정 실패";
+					url = request.getHeader("referer");
+				}
+				rdAttr.addFlashAttribute("status", status);
+				rdAttr.addFlashAttribute("msg", msg);
+				
+			return "redirect:" + url;
+		 }
 
 }
