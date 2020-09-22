@@ -323,10 +323,17 @@ public class BoardServiceImpl implements BoardService{
 		}
 		
 
+	
+	
+	
 
-	
-	
-	
+		@Override
+		public int updateRcnt(int qnaNo) {
+			
+			int result = boardDAO.updateRcnt(qnaNo);
+			return result;
+		}
+
 
 
 }

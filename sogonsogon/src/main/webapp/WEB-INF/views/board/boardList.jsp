@@ -329,7 +329,7 @@
                             <th id="title">제목</th>
                             <th id="writer">작성자</th>                  
                             <th id="create_dt">작성일</th>                  
-                            <th id="status">답변/미답변</th>
+                            <th id="status">추천수</th>
                             <th></th>
 
                         </tr>
@@ -351,7 +351,9 @@
                                    <tr>      
                                    <td>${board.qnaNo}</td>
                                    <td>${board.qnaCategory}</td>
-                                   <td>${board.qnaTitle}</td>
+                                   <td>${board.qnaTitle}
+                                   <c:if test="${board.rCnt >0 }">[${board.rCnt}]</c:if></td>
+                                   <c:set var="flag" value="false"/>
                                    <td>${board.writerNick}</td>
                                    
                                      <td>    
@@ -369,7 +371,7 @@
                                  </c:otherwise>
                               </c:choose>
                            </td>
-                                   <td>${board.qnaAnswer}</td>
+                                   <td>${board.likeCount}</td>
                                    </tr>   
                              </c:forEach>
                        </c:otherwise>

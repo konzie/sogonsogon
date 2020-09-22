@@ -237,4 +237,11 @@ public int deleteAttachment2(int fileNo) {
 }
 
 
+
+public int updateRcnt(int qnaNo) {
+	return sqlSession.update("boardMapper.updateRcnt", qnaNo);
+}
+
+
+
 }

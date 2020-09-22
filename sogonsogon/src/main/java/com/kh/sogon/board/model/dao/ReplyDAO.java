@@ -56,7 +56,9 @@ public class ReplyDAO {
 		return sqlSession.update("replyMapper.deleteReply", replyNo);
 	}
 
-	
-	
+
+
+
+
 	
 }
