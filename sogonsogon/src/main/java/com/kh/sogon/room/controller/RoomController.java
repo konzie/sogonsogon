@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.websocket.server.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -195,5 +196,46 @@ public class RoomController {
 			Gson gson = new Gson();
 			return gson.toJson(mainLikeList);
 		 }
+		 
+		 // 방 상세 가입 회원 조회하기
+		 @ResponseBody
+		 @RequestMapping("roomDetail/memberInfo/{roomNo}")
+		 public String memberInfo(@PathVariable int roomNo) {
+			 
+			List<RoomMember> memberInfo = roomService.memberInfo(roomNo);
+			
+			Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+			return gson.toJson(memberInfo);
+		 }
+		 
+		 // 방 상세 가입 회원 추방하기
+		 @ResponseBody
+		 @RequestMapping("roomDetail/memberInfoDelete/{roomNo}")
+		 public int memberInfoDelete(@PathVariable int roomNo, int memberNo) {
+			 
+			 int result = roomService.memberInfoDelete(roomNo, memberNo);
+			 
+			 return result;
+			 
+		 }
+		 
+		 
+			@RequestMapping("updateRoom/{roomNo}")
+			 public String updateRoom(@PathVariable int roomNo, Model model) {
+				 Room updateList = roomService.updateRoomList(roomNo);
+				 
+				 model.addAttribute("updateList", updateList);
+				 //System.out.println(updateList);
+				 return "room/updateRoom";
+			 }
+
+			 @RequestMapping("updateRoomInfo/{roomNo}")
+			 public String updateRoomInsert(@PathVariable int roomNo) {
+				 
+
+				 //System.out.println("룸뉴패스" + roomNo);
+				 
+				 return null;
+			 }
 
 }

@@ -315,7 +315,7 @@
                 <div class="table-title">
                     <div class="row">
                         <div class="col-sm-4" id="colsm">
-                            <h2><b>자유 질문방</b></h2><hr><h5>자유롭게 질문을 주고 받으세요 ! </h5>
+                            <h2><b>자유 게시판</b></h2><hr><h5>자유롭게 질문을 주고 받으세요 ! </h5>
                         </div>
 
                     </div>
@@ -329,7 +329,7 @@
                             <th id="title">제목</th>
                             <th id="writer">작성자</th>                  
                             <th id="create_dt">작성일</th>                  
-                            <th id="status">답변/미답변</th>
+                            <th id="status">추천수</th>
                             <th></th>
 
                         </tr>
@@ -351,7 +351,9 @@
                                    <tr>      
                                    <td>${board.qnaNo}</td>
                                    <td>${board.qnaCategory}</td>
-                                   <td>${board.qnaTitle}</td>
+                                   <td>${board.qnaTitle}
+                                   <c:if test="${board.rCnt >0 }">[${board.rCnt}]</c:if></td>
+                                   <c:set var="flag" value="false"/>
                                    <td>${board.writerNick}</td>
                                    
                                      <td>    
@@ -369,7 +371,7 @@
                                  </c:otherwise>
                               </c:choose>
                            </td>
-                                   <td>${board.qnaAnswer}</td>
+                                   <td>${board.likeCount}</td>
                                    </tr>   
                              </c:forEach>
                        </c:otherwise>

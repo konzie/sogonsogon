@@ -136,7 +136,7 @@
 		              				<c:otherwise>${createDate}</c:otherwise>
 		              			</c:choose>
 		              		</td>
-		              		<td><button type="button" class="btn btn-danger btn-sm" onclick="location.href ='updateReport/${board.writerNick}/${board.qnaNo}'">경고</button>          <button type="button" class="btn btn-dark btn-sm" onclick="location.href ='restoreReport/${board.writerNick}/${board.qnaNo}'">X</button></td>
+		              		<td><button type="button" class="btn btn-danger btn-sm" onclick="location.href ='${contextPath}/mypage/updateReport/${board.writerNick}/${board.qnaNo}/0'">경고</button>          <button type="button" class="btn btn-dark btn-sm" onclick="location.href ='${contextPath}/mypage/restoreReport/${board.writerNick}/${board.qnaNo}'">X</button></td>
 	              		</tr>	
           				</c:forEach>
           			</c:otherwise>
@@ -150,13 +150,13 @@
        <table class="table table-striped table-hover">
                 <thead>
                     <tr>
-                        <th>글번호</th>
-                        <th>분류</th>
-                        <th>제목</th>
-                        <th>내용</th>
-                        <th>작성자</th>						
-                        <th>작성일</th>						
-                        <th>비밀글</th>
+                        <th id="boardNo">글번호</th>
+                        <th id="category">분류</th>
+                        <th id="title">제목</th>
+                        <th id="title">내용</th>
+                        <th id="writer">작성자</th>						
+                        <th id="create_dt">작성일</th>						
+                        <th id="lockStatus">답변여부</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -170,26 +170,35 @@
           				<c:forEach var="board" items="${helpList}">
 	              		<tr>		
 	              			<jsp:useBean id="now2" class="java.util.Date"></jsp:useBean>
-	              			<fmt:formatDate var="today" value="${now2}" pattern="yyyy-MM-dd"/>
-	              			<fmt:formatDate var="createDate" value="${board.helpCreateDate}" pattern="yyyy-MM-dd"/>
-	              			<fmt:formatDate var="createTime" value="${board.helpCreateDate}" pattern="hh:mm:ss"/>
+	              			<fmt:formatDate var="today2" value="${now2}" pattern="yyyy-MM-dd"/>
+	              			<fmt:formatDate var="createDate2" value="${board.helpCreateDate}" pattern="yyyy-MM-dd"/>
+	              			<fmt:formatDate var="createTime2" value="${board.helpCreateDate}" pattern="hh:mm:ss"/>
 	              			<td>
-		              			<c:if test="${today == createDate}">
+		              			<c:if test="${today2 == createDate2}">
 	              			<span class="badge badge-primary new">new</span>
 		              			</c:if>
-		              		<span>${board.helpNo}</span>
-		              		</td>		
+		              		<span>${board.helpNo}
+	              			<c:if test="${board.lockStatus=='Y'}">
+	              				<img src="${contextPath}/resources/images/lock2.png" width="30px" height="30px">
+	              			</c:if>
+		              		</span>
+		              		</td>
 		              		<td>${board.helpCategory}</td>
 		              		<td>${board.helpTitle}</td>
 		              		<td>${board.helpContent}</td>
 		              		<td>${board.writerNick}</td>
 		              		<td>
 		              			<c:choose>
-		              				<c:when test="${today == createDate }">${createTime}</c:when>
-		              				<c:otherwise>${createDate}</c:otherwise>
+		              				<c:when test="${today2 == createDate2 }">${createTime2}</c:when>
+		              				<c:otherwise>${createDate2}</c:otherwise>
 		              			</c:choose>
 		              		</td>
-		              		<td>${board.lockStatus}</td>
+		              		<td>
+		              			<c:choose>
+		              				<c:when test="${board.answerChk=='N'}"><button type="button" class="btn btn-warning btn-sm" onclick="location.href='answerView/${board.helpNo}'">답변하기</button></c:when>
+		              				<c:otherwise><button type="button" class="btn btn-secondary btn-sm">답변완료</button></c:otherwise>
+		              			</c:choose>
+		              		</td>
 	              		</tr>	
           				</c:forEach>
           			</c:otherwise>

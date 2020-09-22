@@ -3,7 +3,7 @@ package com.kh.sogon.help.model.vo;
 import java.sql.Timestamp;
 
 public class Answer {
-	private int answerNo;                  
+   private int answerNo;                  
     private String answerContent;         
     private int parentHelpNo;            
     private String writer;            

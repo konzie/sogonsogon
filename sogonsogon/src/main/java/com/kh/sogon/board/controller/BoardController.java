@@ -293,6 +293,42 @@ public class BoardController {
 			return result + "";
 		}
 		
+		@ResponseBody
+		@RequestMapping("updateRcnt")
+		public String updateRcnt(int qnaNo) {
+			int result = boardService.updateRcnt(qnaNo);
+			
+			
+			
+			return result + "";
+		}
+		
+		// 게시글 신고 기능
+		@RequestMapping("{qnaNo}/report")
+		public String reportBoard(@PathVariable int qnaNo, RedirectAttributes rdAttr,
+				HttpServletRequest request) {
+
+			int result = boardService.reportBoard(qnaNo);
+
+			String url = null;
+			String status = null;
+			String msg = null;
+			if (result > 0) {
+				status = "success";
+				msg = "게시글 신고 완료";
+				url = "/board/boardList/";
+			} else {
+				// 삭제 실패 시 이전 요청 주소(상세조회 페이지)
+				status = "error";
+				msg = "게시글 신고 실패";
+				url = request.getHeader("referer");
+			}
+			rdAttr.addFlashAttribute("status", status);
+			rdAttr.addFlashAttribute("msg", msg);
+
+			return "redirect:" + url;
+		}
+
 	
 		
 		  

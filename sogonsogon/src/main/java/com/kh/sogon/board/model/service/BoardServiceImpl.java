@@ -323,10 +323,25 @@ public class BoardServiceImpl implements BoardService{
 		}
 		
 
+	
+	
+	
 
-	
-	
-	
+		@Override
+		public int updateRcnt(int qnaNo) {
+			
+			int result = boardDAO.updateRcnt(qnaNo);
+			return result;
+		}
+		
+		
+		// 게시글 신고 서비스 구현
+		@Override
+		public int reportBoard(int qnaNo) {
+			return boardDAO.reportBoard(qnaNo);
+		}
+
+
 
 
 }

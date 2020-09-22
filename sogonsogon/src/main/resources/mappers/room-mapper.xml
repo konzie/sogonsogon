@@ -202,6 +202,24 @@
    <delete id="withDraw">
       DELETE FROM ROOM_MEMBER WHERE ROOM_MEMBER_ROOM_NO = #{roomNo} AND ROOM_MEMBER_MEMBER_NO = #{memberNo}
    </delete>
+   
+   <!-- 방 회원 정보 조회 쿼리 -->
+   <select id="memberInfo" parameterType="_int" resultType="list"  resultMap="roomMemberResultSet">
+		SELECT ROOM_MEMBER_MEMBER_NO, MEMBER_ID, MEMBER_NICK, ROOM_MEMBER_ENROLL_DATE
+		FROM ROOM_MEMBER
+		JOIN MEMBER ON (MEMBER_NO = ROOM_MEMBER_MEMBER_NO)
+		WHERE MEMBER_STATUS = 'Y'
+		AND ROOM_MEMBER_ROOM_NO = #{roomNo}
+   </select>
 
+	<delete id="memberInfoDelete" parameterType="map">
+		DELETE FROM ROOM_MEMBER WHERE ROOM_MEMBER_ROOM_NO = #{roomNo} AND ROOM_MEMBER_MEMBER_NO = #{memberNo}
+	</delete>
+	
+	
+	<select id="updateRoomList" resultMap="roomResultSet">
+		SELECT * FROM STUDY_ROOM
+		WHERE ROOM_NO = #{roomNo}
+	</select>
 </mapper>
 

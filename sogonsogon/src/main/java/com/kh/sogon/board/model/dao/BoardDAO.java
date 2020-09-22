@@ -16,6 +16,14 @@ import com.kh.sogon.board.model.vo.PageInfo;
 import com.kh.sogon.board.model.vo.Search;
 import com.kh.sogon.roomboard.model.vo.RoomBoardAttachment;
 
+/**
+ * @author user1
+ *
+ */
+/**
+ * @author user1
+ *
+ */
 @Repository
 public class BoardDAO {
 	
@@ -235,6 +243,24 @@ public int insertAttachment(RoomBoardAttachment at) {
 public int deleteAttachment2(int fileNo) {
 	return sqlSession.delete("boardMapper.deleteAttachment2", fileNo);
 }
+
+
+
+public int updateRcnt(int qnaNo) {
+	return sqlSession.update("boardMapper.updateRcnt", qnaNo);
+}
+
+
+
+
+/** 게시글 신고 
+ * @param qnaNo
+ * @return
+ */
+public int reportBoard(int qnaNo) {
+	return sqlSession.update("boardMapper.reportBoard", qnaNo);
+}
+
 
 
 }

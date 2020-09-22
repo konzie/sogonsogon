@@ -116,6 +116,25 @@ public interface RoomService {
 	
 	List<RoomMember> mainLikeList();
 
+	/** 방 상세 회원 조회
+	 * @param roomNo
+	 * @return 
+	 */
+	List<RoomMember> memberInfo(int roomNo);
+
+	/** 방 상세 회원 추방
+	 * @param roomNo
+	 * @param memberNo
+	 * @return
+	 */
+	int memberInfoDelete(int roomNo, int memberNo);
+
+	
+	/** 방 정보 수정 Service
+	 * @param roomNo
+	 * @return
+	 */
+	Room updateRoomList(int roomNo);
 
 
 
