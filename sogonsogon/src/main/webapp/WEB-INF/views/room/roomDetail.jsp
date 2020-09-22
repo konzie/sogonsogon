@@ -448,7 +448,7 @@
 					url : "${contextPath}/room/roomDetail/memberInfoDelete/${roomDetail.roomNo}?memberNo=" + memberNo,
 					type : "get",
 					success : function(){
-						$(".modalLink").click();
+						$(".modalLink").click(); 
 					}, error : function() {
 						console.log("ajax 통신 에러");
 					}
