@@ -255,6 +255,41 @@
 
 	});
 	
+	
+	//답글 등록
+	$("#writeBtn").on("click", function(){
+	
+	var answerContent = $("#answerContent").val();
+	
+		// 글이 작성되었는지 유효성 검사
+		if(answerContent.trim().length == 0){
+			alert("답변 작성 후 클릭해주세요.");
+			$("#answerContent").focus();
+			
+		}else{ //작성되어 있다면
+			var url = "${contextPath}/answer/insertAnswer/${help.helpNo}";
+				$.ajax({
+					url : url,
+					type : "POST",
+					data : { "answerContent" : answerContent},
+					dataType : "text",
+					success : function(result){
+						alert(result);
+						window.location.reload(); //리로딩
+						$("#answerContent").val(""); // 기존 댓글 삭제
+						//selectReplyList();
+					},error : function(){
+						console.log("통신 실패");
+					}
+			});
+			
+		  
+				
+		}
+});
+
+	
+	
 	</script>
 </body>
 </html>

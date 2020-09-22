@@ -114,17 +114,17 @@
             <div class="detailView2">
             	<div class="detail-info2">
             		<dl>
-            			<dt>작성자</dt> <dd>${help.helpWriter}</dd>
+            			<dt>작성자</dt> <dd>관리자</dd>
             		</dl>
             		<dl>
-            			<dt>등록일</dt> <dd>${help.helpCreateDate}</dd>
+            			<dt>등록일</dt> <dd id="a1">${answer.answerCreateDate}</dd>
             		</dl>
             		<dl>
-            			<dt>수정일</dt> <dd>${help.helpModifyDate}</dd>
+            			<dt>수정일</dt> <dd id="a2">${answer.answerModifyDate}</dd>
             		</dl>
             			
             	</div>
-            	<div class="content2">${help.helpContent}</div>
+            	<div class="content2">${answer.answerContent}</div>
             	<div class="detail-footer2">
                 	
                 	<c:if test="${loginMember.memberGrade == 'A'}">
@@ -151,14 +151,22 @@
 	}
 	
 	function selectAnswer(){
-		var url = "${contextPath}/answer/selectanswer/${help.helpNo}";
+		var url = "${contextPath}/answer/selectAnswer/${help.helpNo}";
 		console.log(url);
 		$.ajax({
 			url : url,
 			type : "POST",
 			dataType:"json",
 			success:function(aList){
-				console.log(aList);								
+				console.log(aList);
+				
+				$("#a1").text(aList.answerCreateDate);
+				$("#a2").text(aList.answerModifyDate);
+				
+				$(".content2").text(aList.answerContent);
+				
+				
+
 				
 			}, error : function(request, status, error){
 				 	console.log("ajax 통신 오류");
@@ -181,9 +189,8 @@
 		if(confirm("문의글을 수정하시겠습니까?")){
 		}
 	});		
-	
-	}	
-	
+		
+	}
 	</script>
 </body>
 </html>
