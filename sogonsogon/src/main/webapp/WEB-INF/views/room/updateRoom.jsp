@@ -103,46 +103,7 @@
 	<jsp:include page="../common/header.jsp" />
 	<div class="container">
 
-		<div class="row">
 
-			<div class="col-lg-3">
-				<h1 class="my-4 card-header">방 정보</h1>
-				<div class="list-group">
-					<p>카테고리 : ${roomDetail.roomTypeName}</p>
-					<p>방장 : ${roomDetail.memberId}</p>
-					<p>회원 수 : ${roomDetail.roomMemberCount}명</p>
-					<p>
-						공개 여부 :
-						<c:set var="roomOpenValue" value="${roomDetail.roomOpen}" />
-						<c:choose>
-							<c:when test="${fn:contains(roomDetail.roomOpen, 'Y')}">
-								공개
-							</c:when>
-							<c:otherwise>
-								비공개
-							</c:otherwise>
-						</c:choose>
-					</p>
-					<p class="list-group-item fas fa-angle-down" id="moreInfo"
-						style="cursor: pointer; color: blue;">&nbsp;더 보기</p>
-					<div id="infoList"></div>
-
-					<!-- 방장 회원 전용 메뉴-->
-					<c:if test="${loginMember.getMemberId() eq roomDetail.memberId}">
-						<a href="#" class="list-group-item" id="roomMemberInfo">방 회원
-							조회</a>
-						<a href="${contextPath}/room/updateRoom/${roomDetail.roomNo}"
-							class="list-group-item">방 정보 수정</a>
-					</c:if>
-
-				</div>
-				<div>
-					<button id="prevAtag" class="btn-secondary"
-						style="margin-top: 10px;" onclick="location.href='../roomList/1'">방
-						나가기</button>
-				</div>
-			</div>
-			<!-- /.col-lg-3 -->
 
 
 
@@ -153,13 +114,12 @@
 						width="40px;" style="margin-right: 10px;">방변경하기
 				</div>
 				<div class="boxarea">
-					<form action="updateRoomInsert" method="post" role="form"
-						onsubmit="return validate();">
+					<form action="../updateRoomInfo/${updateList.roomNo}" role="form" onsubmit="return validate();">
+	
 						<div class="form-group">
-							<label for="exampleFormControlInput1" class="bold">방 이름</label> <input
-								type="text" class="form-control" id="title" name="roomTitle"
-								placeholder="방 이름을 작성해주세요." style="width: 530px;"
-								value="${updateList.roomTitle}">
+							<label for="exampleFormControlInput1" class="bold">방 이름</label> 
+							<input type="text" class="form-control" id="title" name="roomTitle"
+								placeholder="방 이름을 작성해주세요." style="width: 530px;" value="${updateList.roomTitle}">
 						</div>
 
 
@@ -172,12 +132,14 @@
 							<label for="o">공개</label> &nbsp; 
 							<input type="radio" id="c" name="roomOpen" class="open" value="N">
 							<label for="c">비공개</label> <br>
-							<label for="exampleFormControlInput1" class="bold">기존 비밀번호</label>
-							<input type="password"  class="form-control passArea" name="newPassword" id="roomPassword2" style="width: 300px;" placeholder="기존 비밀번호를 입력해주세요.">
-							<span class="checkPassword"></span><br>
-								
-							<label for="exampleFormControlInput1" class="bold">변경 비밀번호</label>
-							<input type="password"  class="form-control passArea" name="newPassword"  style="width: 300px;" placeholder="변경 비밀번호를 입력해주세요.">
+							
+							<div class="passArea">
+								<label for="exampleFormControlInput1" class="bold" style="margin-top: 5px;">기존 비밀번호</label>
+								<input type="password"  class="form-control oldPassword" name="roomPassword" id="roomPassword2" style="width: 300px;" placeholder="기존 비밀번호를 입력해주세요.">
+								<span class="checkPassword"></span><br>
+								<label for="exampleFormControlInput1" class="bold" style="margin-top: 2px;">변경 비밀번호</label>
+								<!-- <input type="password"  class="form-control passArea" name="newPassword"  style="width: 300px;" placeholder="변경 비밀번호를 입력해주세요."> -->
+							</div>
 						</div>
 
 						<div class="form-group">
@@ -202,8 +164,7 @@
 						</div>
 
 						<div class="form-group">
-							<label for="exampleFormControlTextarea1" class="bold">방
-								소개</label>
+							<label for="exampleFormControlTextarea1" class="bold">방 소개</label>
 							<textarea class="form-control" id="content" name="roomContent"
 								rows="7" style="resize: none;"
 								placeholder="방에 대한 간략한 소개를 입력해주세요.">${updateList.roomContent}</textarea>
@@ -234,63 +195,64 @@
 			</div>
 			<jsp:include page="../common/footer.jsp" />
 
-			<script type="text/javascript">
-// 유효성 검사 
+<script type="text/javascript">
+
+// check 결과 가져오기
  $(function(){
-	
 	if( '${updateList.roomOpen}' == 'N'){
 		$("#c").prop("checked", true); 
 		$("#roomPassword").css("display","block");
 	}else{
 		$("#o").prop("checked", true); 
-
 	}
 
 });
 
+// 유효성 검사
 function validate() {
 	  // 방 이름
-   if ($("#title").val().trim().length == 0) {
-      alert("방 이름을 입력해 주세요.");
-      $("#title").focus();
-      return false;
-   }
+	   if ($("#title").val().trim().length == 0) {
+	      alert("방 이름을 입력해 주세요.");
+	      $("#title").focus();
+	      return false;
+	   }
 	    
-	 	 // 참가 인원 수
-   if ($(".maxNumber").val().trim().length == 0) {
-      alert("참가 인원 수를 입력해주세요.");
-      $(".maxNumber").focus();
-      return false;
-   }
-	  
+	   // 참가 인원 수
+	   if ($(".maxNumber").val().trim().length == 0) {
+	      alert("참가 인원 수를 입력해주세요.");
+	      $(".maxNumber").focus();
+	      return false;
+	   }
+		  
 	  // 방 소개
-   if ($("#content").val().trim().length == 0) {
-      alert("방 소개를 입력해 주세요.");
-      $("#content").focus();
-      return false;
-   }
+	   if ($("#content").val().trim().length == 0) {
+	      alert("방 소개를 입력해 주세요.");
+	      $("#content").focus();
+	      return false;
+	   }
 
 	  // 태그
-   if ($(".tags").val().trim().length == 0) {
-      alert("태그를 입력해 주세요");  
-      var tag =  $(".tags");
-      tag[0].focus();
-      return false;
-   }
+	   if ($(".tags").val().trim().length == 0) {
+	      alert("태그를 입력해 주세요");  
+	      var tag =  $(".tags");
+	      tag[0].focus();
+	      return false;
+	   }
 	 
 	  // 비밀번호
 	  if($("#c").prop("checked")){
-		  if($(".passArea").val().trim() == ""){
+		  if($(".roomPassword").val().trim() == ""){
 			  alert("비밀번호를 입력해주세요");
 			  return false;
 		  }
 	  }
 	  
 	  
+	  
 }
 
 
-// 태그 입력창 생성 + 2번까지(수정)
+/* // 태그 입력창 생성 + 2번까지(수정)
 var tagCnt = 0;
 
  $(".plusbutton").on("click", function(){
@@ -305,25 +267,20 @@ var tagCnt = 0;
 			 $(".plusbutton").hide();
 			 // 마이너스가 될때 text에 - 넣으면됨
 		}
- });
+ }); */
 
 
-	 
 	// 비공개 버튼 누를시 password input태그 생성
 	$("#c").on("change",function(){
-			$("#roomPassword").css("display","block");
-			$(".boxarea").css("height", "740px");
+			$(".passArea").css("display","block");
+			$(".boxarea").css("height", "790px");
 	});
 	
 	$("#o").on("change",function(){
-			$("#roomPassword").css("display","none");
-			$(".boxarea").css("height", "700px");
+			$(".passArea").css("display","none");
+			$(".boxarea").css("height", "620px");
 	});
 	
-	// 이전으로
-	$("#return-btn").on("click",function(){
-		 location.href = "${header.referer}";
-	});
 	
 	/* $.each($(".custom-select>option"), function(index, item){
 		console.log(item);
@@ -332,9 +289,8 @@ var tagCnt = 0;
 		   }
 		});  */
 		
-		
-	// console.log($("#tmp${updateList.roomType}").val());
 	// 카테고리 SELECT 
+	// console.log($("#tmp${updateList.roomType}").val());
 	$("#tmp${updateList.roomType}").prop("selected","true");
 	
 	// 목록으로 돌아가기
@@ -342,16 +298,18 @@ var tagCnt = 0;
    	 location.href = "${header.referer}";
      });
 	
-
+	// 이전 비밀번호 일치 검사
 	$("#roomPassword2").on("keyup",function(){
 		var oldPassword = ${updateList.roomPassword};
 
-			console.log($("#roomPassword2").text());
+			// console.log($("#roomPassword2").text());
+			
 			if($("#roomPassword2").val() == oldPassword){
-				$(".checkPassword").text("비밀번호가 일치합니다.");
+				$(".checkPassword").text("비밀번호가 일치합니다.").css("color","green");
 		
 			}else{
-				$(".checkPassword").text("비밀번호가 불일치합니다.");
+				$(".checkPassword").text("비밀번호가 불일치합니다.").css("color","red");
+
 			}
 
 	});

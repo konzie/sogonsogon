@@ -218,5 +218,24 @@ public class RoomController {
 			 return result;
 			 
 		 }
+		 
+		 
+			@RequestMapping("updateRoom/{roomNo}")
+			 public String updateRoom(@PathVariable int roomNo, Model model) {
+				 Room updateList = roomService.updateRoomList(roomNo);
+				 
+				 model.addAttribute("updateList", updateList);
+				 //System.out.println(updateList);
+				 return "room/updateRoom";
+			 }
+
+			 @RequestMapping("updateRoomInfo/{roomNo}")
+			 public String updateRoomInsert(@PathVariable int roomNo) {
+				 
+
+				 //System.out.println("룸뉴패스" + roomNo);
+				 
+				 return null;
+			 }
 
 }

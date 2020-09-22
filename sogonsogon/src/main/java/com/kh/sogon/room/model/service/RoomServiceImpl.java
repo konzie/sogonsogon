@@ -209,5 +209,10 @@ public class RoomServiceImpl implements RoomService{
 		return roomDAO.memberInfoDelete(roomNo, memberNo);
 	}
 
-
+	// 방 정보 수정 Service 구현
+	@Override
+	public Room updateRoomList(int roomNo) {
+		return roomDAO.updateRoomList(roomNo);
+	}
+	
 }
