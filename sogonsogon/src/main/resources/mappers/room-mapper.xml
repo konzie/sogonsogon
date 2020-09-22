@@ -221,5 +221,14 @@
 		SELECT * FROM STUDY_ROOM
 		WHERE ROOM_NO = #{roomNo}
 	</select>
+	
+	<update id="updateRoomInsert" parameterType="Room">
+		UPDATE STUDY_ROOM SET 
+		ROOM_TITLE=#{roomTitle}, ROOM_OPEN=#{roomOpen}, ROOM_PWD=#{roomPassword},
+		ROOM_TYPE=#{roomType}, ROOM_MAX_NUMBER=#{roomMaxNumber}, 
+		ROOM_CONTENT=#{roomContent}, ROOM_TAG=#{roomTag}, ROOM_MODIFY_DATE=SYSDATE
+		WHERE ROOM_NO=#{roomNo}
+	</update>
+	
 </mapper>
 

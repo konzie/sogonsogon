@@ -243,6 +243,7 @@
 	.tablesize{
 		width: 500px;
 		margin-top: 20px;
+		overflow: hidden;
 	}
 	/* 테이블 css end */
 	
@@ -319,7 +320,7 @@
           </div>
         </div>
         <div class="carousel-item">
-        	<img src="${contextPath}/resources/images/슬라이드3.png">
+        	<img src="${contextPath}/resources/images/banner_2.png">
           <div class="carousel-caption d-none d-md-block">
 
           </div>
