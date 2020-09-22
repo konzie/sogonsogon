@@ -226,4 +226,6 @@ public interface MypageService {
 
 	public abstract List<RoomBoard> selectRoomBoardList(PageInfo roomPInfo, int memberNo);
 
+	public abstract int selectBoard(RoomBoard board);
+
 }

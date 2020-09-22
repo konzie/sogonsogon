@@ -29,6 +29,7 @@ import com.kh.sogon.mypage.model.vo.HelpAnswer;
 import com.kh.sogon.mypage.model.vo.ReportMember;
 import com.kh.sogon.room.model.vo.Room;
 import com.kh.sogon.room.model.vo.RoomMember;
+import com.kh.sogon.roomboard.model.service.RoomBoardService;
 import com.kh.sogon.roomboard.model.vo.RoomBoard;
 import com.sun.org.glassfish.gmbal.ParameterNames;
 
@@ -51,12 +52,22 @@ public class MypageController {
 		List<ReportMember> reportList = mypageService.findMember(loginMember.getMemberNick());
 		
 		if(reportList.size()>0) {
-			model.addAttribute("report", reportList.get(0));
+			if(reportList.get(0).getRoomNo()>0) {
+				RoomBoard board = new RoomBoard();
+				board.setRoomBoardNo(reportList.get(0).getRoomBoardNo());
+				board.setRoomNo(reportList.get(0).getRoomNo());
+				int result = mypageService.selectBoard(board);
+				
+				if(result>0) {
+					model.addAttribute("board", board);		
+				}
+			}else {
+				Board reportView = mypageService.noticeView(reportList.get(0).getBoardNo());
+				model.addAttribute("reportView", reportView);
+			}
 		}
-		
-		Board reportView = mypageService.noticeView(reportList.get(0).getBoardNo());
-		
-		model.addAttribute("reportView", reportView);
+		model.addAttribute("report", reportList.get(0));
+		model.addAttribute("loginMember", loginMember);
 		
 		return "mypage/mypagemain";
 	}
@@ -133,6 +144,7 @@ public class MypageController {
 			roomList = mypageService.selectRoomList(pInfo, roomMemberList);
 		}
 
+		model.addAttribute("loginMember", loginMember);
 		model.addAttribute("roomList", roomList);
 		model.addAttribute("pInfo", pInfo);
 		
@@ -260,6 +272,10 @@ public class MypageController {
 				reportList.get(i).setQnaContent(reportList.get(i).getQnaContent().substring(0,20)+"...");
 			}
 		}                           
+
+		model.addAttribute("reportList", reportList);
+		model.addAttribute("pInfo", pInfo);
+		
 		
 		PageInfo roomPInfo = mypageService.roomReportPage(cp);
 
@@ -272,9 +288,6 @@ public class MypageController {
 				roomReportList.get(i).setRoomBoardContent(roomReportList.get(i).getRoomBoardContent().substring(0,20)+"...");
 			}
 		}
-
-		model.addAttribute("reportList", reportList);
-		model.addAttribute("pInfo", pInfo);
 		
 		model.addAttribute("roomReportList", roomReportList);
 		model.addAttribute("roomPInfo", roomPInfo);
@@ -428,8 +441,10 @@ public class MypageController {
 		model.addAttribute("help", help);
 
 		HelpAnswer answer = mypageService.selectAnswer(boardNo);
-
-		model.addAttribute("answer", answer);
+		
+		if(answer!=null) {
+			model.addAttribute("answer", answer);			
+		}
 		
 		return "mypage/helpView";
 	}
@@ -567,7 +582,7 @@ public class MypageController {
 	}	
 
 	@RequestMapping("updateReport/{memberNick}/{boardNo}/{roomNo}")
-	public String updateReport(@PathVariable String memberNick, @PathVariable int boardNo, @PathVariable int roomNo, Model model, RedirectAttributes rdAttr){
+	public String updateReport(@PathVariable String memberNick, @PathVariable int boardNo, @PathVariable int roomNo, Model model, RedirectAttributes rdAttr, SessionStatus sessionstatus){
 
 		List<ReportMember> memberList = mypageService.findMember(memberNick);
 
@@ -614,6 +629,11 @@ public class MypageController {
 				status = "success";
 				msg = "신고 처리 완료";
 				
+				
+				if(member.getReportCount()>=3) {
+					mypageService.deleteInfo(memberNo);
+				}
+				
 				PageInfo pInfo = mypageService.reportPage(1);
 
 				pInfo.setLimit(5);
@@ -624,8 +644,11 @@ public class MypageController {
 					if(reportList.get(i).getQnaContent().length()>20) {
 						reportList.get(i).setQnaContent(reportList.get(i).getQnaContent().substring(0,20)+"...");
 					}
-				}                           
+				}      
 				
+				model.addAttribute("reportList", reportList);
+				model.addAttribute("pInfo", pInfo);	
+			
 				PageInfo roomPInfo = mypageService.roomReportPage(1);
 
 				roomPInfo.setLimit(5);
@@ -636,13 +659,11 @@ public class MypageController {
 					if(roomReportList.get(i).getRoomBoardContent().length()>20) {
 						roomReportList.get(i).setRoomBoardContent(roomReportList.get(i).getRoomBoardContent().substring(0,20)+"...");
 					} 
-				
-				model.addAttribute("reportList", reportList);
-				model.addAttribute("pInfo", pInfo);	
+				}
 				
 				model.addAttribute("roomReportList", roomReportList);
 				model.addAttribute("roomPInfo", roomPInfo);
-				}
+
 			}else {
 				status = "error";
 				msg = "신고 처리 실패";
@@ -771,7 +792,7 @@ public class MypageController {
 
 		HelpAnswer helpAnswer = new HelpAnswer();
 		
-		helpAnswer.setHelpNo(helpNo);
+		helpAnswer.setParentHelpNo(helpNo);
 		helpAnswer.setAnswerContent(answer);
 		int result = mypageService.insertAnswer(helpAnswer);
 		
@@ -798,7 +819,6 @@ public class MypageController {
 	public String mainNoticeList() {
 		List<Board> noticeList = mypageService.mainNoticeList();
 		
-		//for(Board r : noticeList) { System.out.println(r); }
 		Gson gson = new Gson();
 		return gson.toJson(noticeList);
 	}
@@ -807,8 +827,6 @@ public class MypageController {
 	@RequestMapping("myReportBoard")
 	public List<Board> myReportBoard(HttpServletRequest request) {
 		String writer = request.getParameter("writer");
-		
-		System.out.println(writer);
 		
 		return mypageService.myReportBoard(writer);
 	}

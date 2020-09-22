@@ -101,16 +101,18 @@
 
  	<update id="updateBoard" parameterType="Board">
  	
- 	UPDATE BOARD SET 
-	BOARD_CATEGORY = #{qnaCategory},
-	BOARD_TITLE = #{qnaTitle},
-	BOARD_CONTENT = #{qnaContent},
-	BOARD_MODIFY_DT = SYSDATE
-	WHERE BOARD_NO = #{qnaNo}
+ 	UPDATE QNABOARD SET 
+	QNA_CATEGORY = #{qnaCategory},
+	QNA_TITLE = #{qnaTitle},
+	QNA_CONTENT = #{qnaContent},
+	QNA_MODIFY_DATE = SYSDATE
+	WHERE QNA_NO = #{qnaNo}
  	
  	
  	</update>
-	
+
+   
+
 	
 	<insert id="insertAttachment" parameterType="Attachment">
  	INSERT INTO ATTACHMENT VALUES 
@@ -126,11 +128,13 @@
  	</delete>
  	
  	<select id="mainBoardList" resultType="list" resultMap="boardResultSet">
-   	    SELECT * FROM (SELECT QNA_NO,CATEGORY_NM,QNA_TITLE,MEMBER_NICK
+   	       	    SELECT * FROM (SELECT QNA_NO,CATEGORY_NM,QNA_TITLE,MEMBER_NICK
 		FROM QNABOARD 
         JOIN MEMBER ON(QNA_WRITER=MEMBER_NO)
-        JOIN QNA_CATEGORY ON(QNA_NO=CATEGORY_NO)
-		WHERE QNA_STATUS = 'Y' ORDER BY QNA_NO DESC)
+        JOIN QNA_CATEGORY ON(QNA_CATEGORY=CATEGORY_NO)
+		WHERE QNA_STATUS = 'Y' 
+        AND NOT QNA_WRITER = 1
+        ORDER BY QNA_NO DESC )
 		<![CDATA[ WHERE ROWNUM <=3 ]]>
  	</select>
  	
@@ -245,7 +249,7 @@ AND
    		WHERE LIKE_QNA_NO = #{qnaNo}
    </select>
    
- 	
+
  	
 </mapper>
 

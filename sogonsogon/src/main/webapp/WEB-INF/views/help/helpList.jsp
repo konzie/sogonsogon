@@ -140,7 +140,16 @@
                                  </c:otherwise>
                               </c:choose>
                            </td>
-                           <td><span class="status text-wait">&bull;</span> 미답변</td>
+                           <td>
+                           	<c:choose>
+                           		<c:when test="${help.answerChk == 'Y'}">
+                           			<span class="status text-success" style="margin: -8px 2px 0 0;">&bull;</span> 답변   	
+		                  		</c:when>
+		                  		<c:otherwise>
+		                  			<span class="status text-wait" style="margin: -8px 2px 0 0;">&bull;</span> 미답변  
+		                  		</c:otherwise>                                            		
+                           	</c:choose>
+                           </td>
                            <td><a class="view" title="자세히" data-toggle="tooltip"><i style="cursor : pointer;" class="material-icons">&#xE5C8;</i></a></td>
                         </tr>
                      </c:forEach>
@@ -218,6 +227,18 @@
         			location.href = boardUrl;      			
         		});	
         	});
+        	
+        	$(function(){
+        		$("#writeBtn").on("click",function(){
+        			
+        			if(${loginMember.memberGrade == 'A'}){
+        				alert("관리자 계정으로 로그인하셨습니다.");
+        				return false;
+        			}    			
+        		});	
+        	});
+        	
+        	
         	       
         </script>
         

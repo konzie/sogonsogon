@@ -88,7 +88,7 @@
 		              		</td>
 		              		<td>
 		              			<c:choose>
-		              				<c:when test="${board.answerNo==''}"><button type="button" class="btn btn-warning btn-sm" onclick="location.href='answerView/${helpList}'">답변하기</button></c:when>
+		              				<c:when test="${board.answerChk=='N'}"><button type="button" class="btn btn-warning btn-sm" onclick="location.href='answerView/${board.helpNo}'">답변하기</button></c:when>
 		              				<c:otherwise><button type="button" class="btn btn-secondary btn-sm">답변완료</button></c:otherwise>
 		              			</c:choose>
 		              		</td>

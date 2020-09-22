@@ -308,15 +308,24 @@ public class MypageServiceImpl implements MypageService{
 	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public int insertAnswer(HelpAnswer helpAnswer) {
-		return mypageDAO.insertAnswer(helpAnswer);
+		int result = mypageDAO.updateHelp(helpAnswer.getParentHelpNo());
+		
+		int result2=0;
+		if(result > 0) {
+			result2 = mypageDAO.insertAnswer(helpAnswer);			
+		}
+		
+		return result2;
 	}
 
+	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public HelpAnswer selectAnswer(int boardNo) {
 		return mypageDAO.selectAnswer(boardNo);
 	}
 
 	// 메인 공지사항 조회
+	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public List<Board> mainNoticeList() {
 		return  mypageDAO.mainNoticeList();
@@ -368,5 +377,10 @@ public class MypageServiceImpl implements MypageService{
 	@Override
 	public List<RoomBoard> selectRoomBoardList(PageInfo roomPInfo, int memberNo) {
 		return mypageDAO.selectRoomBoardList(roomPInfo, memberNo);
+	}
+
+	@Override
+	public int selectBoard(RoomBoard board) {
+		return mypageDAO.selectBoard(board);
 	}
 }

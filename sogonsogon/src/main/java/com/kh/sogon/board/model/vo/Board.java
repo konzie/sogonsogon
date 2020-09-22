@@ -164,5 +164,6 @@ public class Board {
 				+ ", replyWriter=" + replyWriter + "]";
 	}
 
-	
+
+
 }

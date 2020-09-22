@@ -23,6 +23,7 @@
       <typeAlias type="com.kh.sogon.roomboard.model.vo.RoomBoard" alias="RoomBoard"/>
       <typeAlias type="com.kh.sogon.member.model.vo.Member" alias="Member"/>
       <typeAlias type="com.kh.sogon.help.model.vo.Help" alias="Help"/>
+      <typeAlias type="com.kh.sogon.help.model.vo.Answer" alias="Answer"/>
       <typeAlias type="com.kh.sogon.room.model.vo.RoomMember" alias="RoomMember"/>
       <typeAlias type="com.kh.sogon.board.model.vo.Board" alias="Board"/>
       <typeAlias type="com.kh.sogon.board.model.vo.Reply" alias="Reply"/>
@@ -40,6 +41,7 @@
       <mapper resource="/mappers/mypage-mapper.xml"/>
       <mapper resource="/mappers/member-mapper.xml"/>
       <mapper resource="/mappers/help-mapper.xml"/>
+      <mapper resource="/mappers/answer-mapper.xml"/>
       <mapper resource="/mappers/roomBoardReply-mapper.xml"/>
       <mapper resource="/mappers/board-mapper.xml"/>
       <mapper resource="/mappers/reply-mapper.xml"/>

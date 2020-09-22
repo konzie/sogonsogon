@@ -32,7 +32,7 @@
         <result property="helpStatus" column="HELP_STATUS"/>
         <result property="writerNick" column="MEMBER_NICK"/>
         <result property="lockStatus" column="LOCK_STATUS"/>
-        <result property="answerNo" column="ANSWER_NO"/>
+        <result property="answerChk" column="ANSWER_CHK"/>
     </resultMap>
      
      <!-- 자유질문방 -->
@@ -116,16 +116,18 @@
     	<result property="memberNick" column="MEMBER_NICK"/>
     	<result property="boardNo" column="REPORT_BOARD_NO"/>
     	<result property="roomBoardNo" column="REPORT_ROOM_BOARD_NO"/>
-    	<result property="boardNo" column="ROOM_NO"/>
+    	<result property="roomNo" column="ROOM_NO"/>
     </resultMap>
     
     <!-- 고객센터 답변 -->
     <resultMap id="HelpAnswerResultSet" type="HelpAnswer">
     	<id property="answerNo" column="ANSWER_NO"/>
     	<result property="answerContent" column="ANSWER_CONTENT"/>
-    	<result property="answerCreateDate" column="ANSWER_CREATE_DATE"/>
+    	<result property="parentHelpNo" column="HELP_NO"/>
+    	<result property="writer" column="ANSWER_WRITER"/>
+    	<result property="answerCreateDate" column="ANSWER_CREATE_DT"/>
+    	<result property="answerModifyDate" column="ANSWER_MODIFY_DT"/>
     	<result property="answerStatus" column="ANSWER_STATUS"/>
-    	<result property="helpNo" column="HELP_NO"/>
     </resultMap>
     
    <!-- 비밀번호 찾기 -->
@@ -150,17 +152,17 @@
 	
 	<!-- 총 신고 게시글 조회 -->
 	<select id="selectDList" resultMap="qnaResultSet">
-		SELECT * FROM QNABOARD JOIN MEMBER ON(QNA_WRITER=MEMBER_NO) JOIN QNA_CATEGORY ON(QNA_CATEGORY=CATEGORY_NO) WHERE QNA_STATUS='D' ORDER BY QNA_CREATE_DATE DESC
+		SELECT * FROM QNABOARD JOIN MEMBER ON(QNA_WRITER=MEMBER_NO) JOIN QNA_CATEGORY ON(QNA_CATEGORY=CATEGORY_NO) WHERE QNA_STATUS='D' AND MEMBER_NO !=1 ORDER BY QNA_CREATE_DATE DESC
 	</select>
 		
 	<!-- 고객센터 게시글 수 조회 -->
 	<select id="getListQCount" resultType="_int">
-		SELECT COUNT(*) FROM HELPBOARD
+		SELECT COUNT(*) FROM HELPBOARD WHERE HELP_STATUS='Y'
 	</select>
 	
 	<!-- 총 고객센터 게시글 조회 -->
 	<select id="selectQList" resultMap="helpResultSet">
-		SELECT * FROM HELPBOARD JOIN MEMBER ON(HELP_WRITER=MEMBER_NO) JOIN HELP_CATEGORY ON(HELP_CATEGORY=CATEGORY_NO) LEFT OUTER JOIN HELP_ANSWER USING(HELP_NO) ORDER BY HELP_CREATE_DATE DESC
+		SELECT * FROM HELPBOARD JOIN MEMBER ON(HELP_WRITER=MEMBER_NO) JOIN HELP_CATEGORY ON(HELP_CATEGORY=CATEGORY_NO) LEFT OUTER JOIN HELP_ANSWER USING(HELP_NO) WHERE HELP_STATUS='Y' ORDER BY HELP_CREATE_DATE DESC
 	</select>
 			
 	<!-- 공지사항 수 조회 -->
@@ -170,7 +172,7 @@
 	
 	<!-- 총 NoticeList 조회 -->
 	<select id="selectNList" resultMap="qnaResultSet">
-		SELECT * FROM QNABOARD JOIN MEMBER ON(QNA_WRITER=MEMBER_NO) JOIN QNA_CATEGORY ON(QNA_CATEGORY=CATEGORY_NO)WHERE QNA_WRITER = 1 ORDER BY QNA_CREATE_DATE DESC
+		SELECT * FROM QNABOARD JOIN MEMBER ON(QNA_WRITER=MEMBER_NO) JOIN QNA_CATEGORY ON(QNA_CATEGORY=CATEGORY_NO)WHERE QNA_WRITER = 1 AND QNA_STATUS='Y' ORDER BY QNA_CREATE_DATE DESC
 	</select>
 		
 	<!-- 멤버 수 조회 -->
@@ -264,7 +266,7 @@
 	</select>
 	
 	<insert id="noticeWrite" parameterType="Board">
-		INSERT INTO QNABOARD VALUES(DEFAULT, DEFAULT, (SELECT CATEGORY_NO FROM QNA_CATAEGORY WHERE CATEGORY_NM = #{qnaCategory}), #{qnaContent}, SYSDATE, SYSDATE, #{qnaNo}, DEFAULT, #{qnaTitle}, #{writer})
+		INSERT INTO QNABOARD VALUES(#{qnaNo}, #{qnaTitle}, DEFAULT, DEFAULT, SYSDATE, SYSDATE, #{qnaContent}, #{writer}, (SELECT CATEGORY_NO FROM QNA_CATEGORY WHERE CATEGORY_NM = #{qnaCategory}), DEFAULT)
 	</insert>
 	
 	<update id="restoreReport" parameterType="_int">
@@ -299,11 +301,11 @@
 	</select>
 	
 	<insert id="insertAnswer" parameterType="HelpAnswer">
-		INSERT INTO HELP_ANSWER VALUES(SEQ_ANSWER.NEXTVAL, #{answerContent}, SYSDATE, DEFAULT, #{helpNo})
+		INSERT INTO HELP_ANSWER VALUES(SEQ_ANSWER.NEXTVAL, #{answerContent}, #{parentHelpNo}, 1, SYSDATE, SYSDATE, 'Y')
 	</insert>
 	
 	<select id="selectAnswer" parameterType="_int" resultMap="HelpAnswerResultSet">
-		SELECT * FROM HELP_ANSWER WHERE HELP_NO = #{helpNo}
+		SELECT * FROM HELP_ANSWER WHERE HELP_NO = #{parentHelpNo}
 	</select>
 
    <select id="mainNoticeList" resultMap="qnaResultSet" >
@@ -322,7 +324,7 @@
 	</select>
 	
 	<select id="selectRoomReportList" parameterType="_int" resultMap="roomBoardResultSet">
-		SELECT * FROM ROOMBOARD JOIN MEMBER ON(ROOM_BOARD_WRITER=MEMBER_NO) WHERE ROOM_BOARD_STATUS='R' ORDER BY ROOM_BOARD_CREATE_DATE DESC
+		SELECT * FROM ROOMBOARD JOIN MEMBER ON(ROOM_BOARD_WRITER=MEMBER_NO) WHERE ROOM_BOARD_STATUS='R' ORDER BY ROOM_BOARD_CREATE_DATE DESC, ROOM_NO DESC
 	</select>
 	
 	<update id="deleteRoomReport" parameterType="RoomBoard">
@@ -348,4 +350,12 @@
 	<select id="selectRoomBoardList" parameterType="_int"  resultMap="roomBoardResultSet">
 		SELECT *  FROM ROOMBOARD JOIN MEMBER ON(ROOM_BOARD_WRITER = MEMBER_NO) WHERE ROOM_BOARD_WRITER=#{roomBoardWriterNo} AND ROOM_BOARD_STATUS !='N' ORDER BY ROOM_BOARD_CREATE_DATE DESC, ROOM_NO DESC
 	</select>
+	
+	<select id="selectBoard" parameterType="RoomBoard" resultType="_int">
+		SELECT * FROM ROOMBOARD WHERE ROOM_BOARD_NO = #{roomBoardNo} AND ROOM_NO = #{roomNo}
+	</select>
+	
+	<update id="updateHelp" parameterType="_int">
+		UPDATE HELPBOARD SET ANSWER_CHK='Y' WHERE HELP_NO=#{helpNo}
+	</update>
 </mapper>

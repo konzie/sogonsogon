@@ -14,6 +14,7 @@ import com.kh.sogon.board.model.vo.Attachment;
 import com.kh.sogon.board.model.vo.Board;
 import com.kh.sogon.board.model.vo.PageInfo;
 import com.kh.sogon.board.model.vo.Search;
+import com.kh.sogon.roomboard.model.vo.RoomBoardAttachment;
 
 @Repository
 public class BoardDAO {
@@ -192,6 +193,48 @@ public int boardLikeCount(int qnaNo) {
 	return sqlSession.selectOne("boardMapper.qnaLikeCount", qnaNo);
 }
 
+
+
+
+/** 게시글 수정 DAO
+ * @param upBoard
+ * @return
+ */
+public int updateBoard(Board upBoard) {
+	return sqlSession.update("boardMapper.updateBoard", upBoard);
+}
+
+
+
+/** 파일 수정 DAO
+ * @param at
+ * @return result
+ */
+public int updateAttachment(RoomBoardAttachment at) {
+	return sqlSession.update("boardMapper.updateAttachment", at);
+}
+
+
+
+
+/** 파일 정보 삽입 DAO
+ * @param at
+ * @return result
+ */
+public int insertAttachment(RoomBoardAttachment at) {
+	return sqlSession.insert("boardMapper.insertAttachment", at);
+}
+
+
+
+
+/** 파일 1개 정보 삭제 DAO
+ * @param fileNo
+ * @return result
+ */
+public int deleteAttachment2(int fileNo) {
+	return sqlSession.delete("boardMapper.deleteAttachment2", fileNo);
+}
 
 
 }
