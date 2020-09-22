@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="helpMapper">
+<mapper namespace="answerMapper">
 
 
 <resultMap type="Answer" id="answerResultSet">
@@ -13,7 +13,20 @@
       <result property="answerStatus" column="ANSWER_STATUS"/>
 </resultMap>
     
-    
+    <!-- 답변 조회 -->
+    <select id="selectAnswer" parameterType="_int" resultMap="answerResultSet">
+		SELECT * FROM HELP_ANSWER WHERE HELP_NO = #{helpNo}
+	</select>
+	
+	<!-- 답변 삽입 -->
+	<insert id="insertAnswer" parameterType="answer">
+		INSERT INTO HELP_ANSWER VALUES(SEQ_ANO.NEXTVAL, #{answerContent}, #{parentHelpNo}, 1, SYSDATE, SYSDATE, 'Y')
+	</insert>
+	
+	<!-- 답변 여부 업데이트 -->
+	<update id="updateHelp" parameterType="_int">
+		UPDATE HELPBOARD SET ANSWER_CHK='Y' WHERE HELP_NO=#{helpNo}
+	</update>
 
 	
 </mapper>

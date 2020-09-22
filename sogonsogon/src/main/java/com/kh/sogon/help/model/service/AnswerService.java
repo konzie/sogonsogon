@@ -10,4 +10,10 @@ public interface AnswerService {
 	 */
 	Answer selectAnswer(int helpNo);
 
+	/** 답변 삽입 Service
+	 * @param answer
+	 * @return
+	 */
+	int insertAnswer(Answer answer);
+
 }

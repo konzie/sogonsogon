@@ -30,18 +30,44 @@ public class AnswerController {
 	   
 	   //답변 조회
 	   @ResponseBody
-	   @RequestMapping("selectAnswer/{boardNo}")
+	   @RequestMapping("selectAnswer/{helpNo}")
 	   public String answerView(@PathVariable int helpNo) {
+		   
 		   
 		   Answer answer = answerService.selectAnswer(helpNo);
 		   
-		   Gson gson = new GsonBuilder().setDateFormat("yyyy년 MM월 dd일 HH:mm:ss").create();
+		   Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
 		   
+		   System.out.println("답변 : " + answer);
 
 		   return gson.toJson(answer);	
 		   
 	   
 	   }
+	   
+	   //답변 삽입
+	   @ResponseBody
+		@RequestMapping(value="insertAnswer/{helpNo}", produces = "application/text; charset= utf-8")
+							//produces : 응답 데이터의 mime type, 문자인코딩 지정 속성
+							// -> ajax 통신 시 한글로 된 String 을 리턴할 경우 줄 사용함.
+		public String insertAnswer(@PathVariable int helpNo, Answer answer) {
+			//reply 커맨드 객체를 이용하여 전달받은 이름, 댓글 내용을 한 객체에 저장
+			// + boardNo도 reply 객체의 parentBoardNo에 저장
+			answer.setParentHelpNo(helpNo);
+		
+			int result = answerService.insertAnswer(answer);
+			
+			String str = "답변 삽입";
+			
+			if(result > 0) {
+				str += "성공";
+			}else {
+				str +="실패";
+			} 
+		
+		return str;
+		
+		}
 	   	
 	  
 }
