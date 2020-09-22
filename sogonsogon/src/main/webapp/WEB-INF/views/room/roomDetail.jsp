@@ -400,7 +400,7 @@
         	    $(".modalContent > div").focus();
         	    $(".modalContent table").remove();
         	    
-        	    $table = $("<table>").addClass("table");
+        	    $table = $("<table>").addClass("table table-striped");
         	    $tr = $("<tr>");
         	    $th1 = $("<th>").text("닉네임");
         	    $th2 = $("<th>").text("가입날짜");
@@ -416,13 +416,17 @@
 					type : "POST",
 					dataType:"json",
 					success : function(object){
-						console.log(object);
 						
 						$.each(object, function(i){
 			        	    $tr1 = $("<tr>");
 			        	    $td1 = $("<td>").text(object[i].roomMemberNick);
 			        	    $td2 = $("<td>").text(object[i].roomMemberEnrollDate);
-			        	    $td3 = $("<td>").html("<button class='btn-primary' onclick='memberInfoDelete("+ object[i].roomMemberMemberNo +")'>추방</button>");
+			        	    
+			        	    if(${loginMember.getMemberNo()} != object[i].roomMemberMemberNo ) {
+			        	    	$td3 = $("<td>").html("<button class='btn-primary' onclick='memberInfoDelete("+ object[i].roomMemberMemberNo +")'>추방</button>");
+			        	    } else {
+			        	    	$td3 = $("<td>").html("<strong>방장</strong>");
+			        	    }
 			        	    
 			        	    $tr1.append($td1, $td2, $td3);
 			        	    $table.append($tr1);
