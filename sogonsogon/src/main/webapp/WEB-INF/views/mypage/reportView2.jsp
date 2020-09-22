@@ -29,7 +29,7 @@
       	margin:10px 0;
       }
       
-      #title, #category, #writer, #date{
+      h6, #title, #category, #writer, #date{
       	display: inline-block;
       }
       
@@ -57,12 +57,14 @@
       <h4 class="mb-5">신고게시글 상세조회</h4>
       
       <hr>
-      <h3 id="title">${report.qnaTitle}</h3><h6 id="category"> [카테고리 : ${report.qnaCategory}]</h6>
+      <h6>no. ${board.roomBoardNo} [방번호 : ${board.roomNo}]</h6><h6 id="category"> [카테고리 : ${board.roomBoardType}]</h6>
+      <hr>
+      <h3 id="title">${board.roomBoardTitle}</h3>
       <hr>
       <div>
-		<p id="writer"> 작성자 : ${report.writerNick} </p><p id="date">${report.qnaCreateDate}</p>
+		<p id="writer"> 작성자 : ${board.roomBoardWriter} </p><p id="date">${board.roomBoardCreateDate}</p>
 	  </div>
-		<div id="board-content">${report.qnaContent}
+		<div id="board-content">${board.roomBoardContent}
 		<p style="color:red;">
 			<br><br>-------------------------------<br>신고된 게시글 입니다
 		</p>
@@ -70,16 +72,9 @@
 		<hr>
 		<div class="float-right">
 		
-		<c:choose>
-		<c:when test="${loginMember.memberNo==1}">
-			<button type="button" class="btn btn-danger" onclick="location.href ='../updateReport/${report.writer}/${report.qnaNo}/0'">삭제</button>
-			<button type="button" class="btn btn-dark" onclick="location.href ='../restoreReport/${report.writer}/${report.qnaNo}'">복원</button>
-			<button type="button" class="btn btn-warning" onclick="location.href ='../reportBoard'">목록으로</button>
-		</c:when>
-		<c:otherwise>
-			<button type="button" class="btn btn-warning" onclick="location.href ='../mypage'">돌아가기</button>
-		</c:otherwise>
-		</c:choose>
+			<button type="button" class="btn btn-danger" onclick="location.href ='${contextPath}/mypage/updateReport/${board.roomBoardWriterNo}/${board.roomBoardNo}/${board.roomNo}'">삭제</button>
+			<button type="button" class="btn btn-dark" onclick="location.href ='${contextPath}/mypage/restoreReportRoom/${board.roomBoardWriterNo}/${board.roomBoardNo}/${board.roomNo}'">복원</button>
+			<button type="button" class="btn btn-warning" onclick="location.href ='${contextPath}/mypage/reportRoom'">목록으로</button>
 		</div>
 		</div>
 	</div>    

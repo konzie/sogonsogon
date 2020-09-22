@@ -168,7 +168,7 @@ public interface MypageService {
 	/** 신고받은 게시글 작성자 찾기 Service
 	 * @param memberNick
 	 */
-	public abstract List<ReportMember> findMember(String memberNick);
+	public abstract List<ReportMember> findMember(int memberNo);
 	
 	/** 신고멤버에 멤버 추가 Service
 	 * @param member
@@ -227,5 +227,11 @@ public interface MypageService {
 	public abstract List<RoomBoard> selectRoomBoardList(PageInfo roomPInfo, int memberNo);
 
 	public abstract int selectBoard(RoomBoard board);
+
+	public abstract int reportCount2();
+
+	public abstract RoomBoard roomBoard(RoomBoard board);
+
+	public abstract int reportInfo(int memberNo);
 
 }

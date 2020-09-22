@@ -271,8 +271,8 @@ public class MypageServiceImpl implements MypageService{
 	// 신고받은 게시글 작성자 찾기 Service 구현
 	@Transactional(rollbackFor = Exception.class)
 	@Override
-	public List<ReportMember> findMember(String memberNick) {
-		return mypageDAO.findMember(memberNick);
+	public List<ReportMember> findMember(int memberNo) {
+		return mypageDAO.findMember(memberNo);
 	}
 
 	@Transactional(rollbackFor = Exception.class)
@@ -382,5 +382,20 @@ public class MypageServiceImpl implements MypageService{
 	@Override
 	public int selectBoard(RoomBoard board) {
 		return mypageDAO.selectBoard(board);
+	}
+
+	@Override
+	public int reportCount2() {
+		return mypageDAO.reportCount2();
+	}
+
+	@Override
+	public RoomBoard roomBoard(RoomBoard board) {
+		return mypageDAO.roomBoard(board);
+	}
+
+	@Override
+	public int reportInfo(int memberNo) {
+		return mypageDAO.reportInfo(memberNo);
 	}
 }
