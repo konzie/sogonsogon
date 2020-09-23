@@ -53,19 +53,14 @@
     <c:forEach var="roomList" items="${roomList}">
         <div class="roomlist-box">
         
-          	 <div id="flag" style="top:-19px"></div>
-          	 
-          	 
-       		 <%-- <c:choose>
-				<c:when test="${roomList.roomOpen ==Y}">
-          		 	<div id="flag" style="top:-20px"><img class="check-lock"></div>
-				</c:when>
-				<c:otherwise>
-					<div id="flag" style="top:-20px"><img class="check-lock"><img src="${contextPath}/resources/images/roomList-flag.png"  style="width: 20px; margin-top: 8px;"></div>
-				</c:otherwise>
-        	</c:choose> --%>
-          	 
-          	 
+          	 <div id="flag" style="top:-19px">
+          	 </div>
+			
+			<%-- 		<c:if test="${roomList.roomOpen }== 'Y'" >
+					<c:set var="src" value="${contextPath}/resources/images/lock.png" />
+						<img src="${src}">
+				</c:if>  --%>
+	
           	 
           	<c:choose>
            		<c:when test="${roomList.roomType ==1}">
@@ -91,6 +86,8 @@
             <fmt:formatDate var="createDate" value="${roomList.roomCreateDate}" pattern="yyyy-MM-dd"/> 
             
             <p class="room-content">
+          
+				
                 <div class="category" id="${tag}">${tag}.</div>
                 <p class="room-title">${roomList.roomTitle}</p>
                 <hr>
@@ -298,10 +295,10 @@ $(".clear-btn").on("click",function(){
 						for(var i=0; i<map.roomMember.length; i++){
 							if(roomNo == map.roomMember[i].roomMemberRoomNo){
 								$(".pass-area").css("display","none");
-								$(".m-content").append("<br>+이미 가입한 방입니다.");
+								$(".m-content").append("<br>이미 가입한 방입니다.<br>바로 입장이 가능합니다.").css("font-size","18px;");
 							}
 						} 
-			
+						
 					},error : function(){
 						 console.log("ajax 통신 실패");
 					}

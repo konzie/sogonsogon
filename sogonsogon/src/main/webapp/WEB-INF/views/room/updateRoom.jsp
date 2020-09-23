@@ -131,6 +131,11 @@
 		height: 40px;
 		margin-bottom: 10px;
 	}
+ 	.passArea2{
+		display: none;
+	} 
+
+
 </style>
 <body>
 
@@ -271,7 +276,8 @@
 </div> 
 			<jsp:include page="../common/footer.jsp" />
 <script type="text/javascript">
-// 유효성 검사
+
+//유효성 검사
 function validate() {
 	  // 방 이름
 	   if ($("#title").val().trim().length == 0) {
@@ -311,22 +317,24 @@ function validate() {
 	  }
 
 	  // 기존 비밀번호 검사
-	  var oldPassword = ${updateList.roomPassword};
-	  if($("#roomPassword2").val() =! oldPassword){
+	  var oldPassword = "${updateList.roomPassword}";
+	  if($("#roomPassword2").val() !=  oldPassword ){
 		  $("#roomPassword2").focus();
 		  return false;
 	  }
+	  
 }
 
 //check 결과 가져오기
 $(function(){
-	if( '${updateList.roomOpen}' == 'N'){
+	// 비공개 방일때 비밀번호 입력창 hidden
+	if( '${updateList.roomOpen}' != 'Y'){
 		$(".c").prop("checked", true); 
 		$(".passArea2").css("display","block");
 	}
 	
 	
-});
+}); 
 
 	// 비공개 버튼 누를시 password input태그 생성
 	$("#c").on("change",function(){
@@ -339,65 +347,54 @@ $(function(){
 			$(".boxarea").css("height", "620px");
 	});
 	
-	
-	/* $.each($(".custom-select>option"), function(index, item){
-		console.log(item);
-		if($(item).val() == "${updateList.roomOpen}"){
-		      $(item).prop("selected","true");
-		   }
-		});  */
 		
 	// 카테고리 SELECT 
 	// console.log($("#tmp${updateList.roomType}").val());
 	$("#tmp${updateList.roomType}").prop("selected","true");
 	
 	// 목록으로 돌아가기
-    $("#return-btn").on("click",function(){
-   	 location.href = "${header.referer}";
-     });
+	 $("#return-btn").on("click",function(){
+		 location.href = "${header.referer}";
+	  });
 	
 	// 이전 비밀번호 일치 검사
 	$("#roomPassword2").on("keyup",function(){
-		var oldPassword = ${updateList.roomPassword};
+		  var oldPassword = "${updateList.roomPassword}";
 
-			// console.log($("#roomPassword2").text());
-			
 			if($("#roomPassword2").val() == oldPassword){
 				$(".checkPassword").text("비밀번호가 일치합니다.").css("color","green");
-				
 			}else{
 				$(".checkPassword").text("비밀번호가 불일치합니다.").css("color","red");
 			}
 
-	});
+	}); 
 
-    // 태그 입력창 생성 + 2번까지(수정)
-    var tagCnt = 0;
-    var tagCnt2 = 0;
+ // 태그 입력창 생성 + 2번까지(수정)
+ var tagCnt = 0;
+ var tagCnt2 = 0;
 
-     $(".plusbutton").on("click", function(){
+  $(".plusbutton").on("click", function(){
 
-    		if(tagCnt <3 ){
+ 		if(tagCnt <3 ){
 		         $tag = $('<input type="text">').addClass("form-control tags").attr("id", "tags").attr("name","roomTag");
 		         $(".tagbox").append($tag);
 		         tagCnt++;
-    		}
-    		if (tagCnt>=3){
-    			 //$(".plusbutton").css("display","hidden");
-    			
-    			 
-    			 if(tagCnt2 <3){ $(".plusbutton").text("-");
+ 		}
+ 		if (tagCnt>=3){
+ 			 //$(".plusbutton").css("display","hidden");
+ 			
+ 			 if(tagCnt2 <3){ $(".plusbutton").text("-");
 	      			 $(".tags").last().remove();
 	      			 // 마이너스가 될때 text에 - 넣으면됨
 	      			tagCnt2++;
-    			 }else{	 
-    				$(".plusbutton").text("+");
-    			  $tag = $('<input type="text">').addClass("form-control tags").attr("id", "tags").attr("name","roomTag");
+ 			 }else{	 
+ 				$(".plusbutton").text("+");
+ 			  $tag = $('<input type="text">').addClass("form-control tags").attr("id", "tags").attr("name","roomTag");
 		         $(".tagbox").append($tag);
 		        tagCnt2--;
-    			 }
+ 			 }
 
-  	   }
+	   }
 	   });
 	
 	

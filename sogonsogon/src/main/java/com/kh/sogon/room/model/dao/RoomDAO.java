@@ -296,5 +296,16 @@ public class RoomDAO {
 	}
 
 
+	public int insertMember(int memberNo, int roomNo) {
+		Map<String, Integer> map = new HashMap<String, Integer>();
+		
+		map.put("memberNo", memberNo);
+		map.put("roomNo", roomNo);
+		
+		System.out.println(memberNo + "/" + roomNo);
+		return sqlSession.insert("roomMapper.insertMember", map);
+	}
+
+
 	
 }

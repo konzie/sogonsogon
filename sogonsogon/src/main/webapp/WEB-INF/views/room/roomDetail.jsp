@@ -54,7 +54,7 @@
 					<!-- 방장 회원 전용 메뉴-->
 					<c:if test="${loginMember.getMemberId() eq roomDetail.memberId}">
 					<a href="#modalMemberInfo" class="list-group-item modalLink" id="roomMemberInfo">방 회원 조회</a>
-					<a href="${contextPath}/room/updateRoom/${roomDetail.roomNo}" class="list-group-item">방 정보 수정</a>
+					<a href="${contextPath}/room/updateRoom/${roomDetail.roomNo}" class="list-group-item" id="roomUpdateBtn">방 정보 수정</a>
 					</c:if>
 
 				</div>
@@ -455,8 +455,6 @@
 				});
 			}
          	
-            
-            
 
         </script>
 </body>

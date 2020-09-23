@@ -89,7 +89,7 @@
 	    <property name="port" value="587" />
 	    <property name="defaultEncoding" value="utf-8"/>
 	    <property name="username" value="sogontest@gmail.com" />
-	    <property name="password" value="sogon1234" />
+	    <property name="password" value="fbnjviwqwfidvctq" />
 	    
 	    <property name="javaMailProperties">
 		    <props>

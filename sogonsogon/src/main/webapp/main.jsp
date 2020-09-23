@@ -278,6 +278,7 @@
 		text-decoration: none;
 	}
 
+
 </style>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
@@ -605,7 +606,9 @@
 			success: function(roomList){
 				
 				for(var i=0; i<roomList.length; i++){
-					var tags =(roomList[i].roomTag).split(',');
+					var tags =(roomList[i].roomTag).split(",");
+					
+					console.log(tags);
 					
 					if(roomList[i].roomType == "1"){
 						var caregoryName = "IT";
@@ -664,7 +667,7 @@
 						for(var i=0; i<map.roomMember.length; i++){
 							if(roomNo == map.roomMember[i].roomMemberRoomNo){
 								$(".pass-area").css("display","none");
-								$(".m-content").append("<br>+이미 가입한 방입니다.");
+								$(".m-content").append("<br><br>이미 가입한 방입니다.<br>바로 입장이 가능합니다.");
 							}
 						} 
 			
@@ -699,10 +702,12 @@
 					$("#freeBoard").html(""); // 리스트 갱신을 위해 이전 내용 삭제
 					
 					$.each(boardList, function(index, item){
+						var splitTitle = (item.qnaTitle).substring(0,22);
+						
 						var $tr = $("<tr>"); // 행
 						var $td1 = $("<td>").text(" "+item.qnaNo);
 						var $td2 = $("<td>").text(item.qnaCategory);
-						var $td3 = $("<td>").text(item.qnaTitle);
+						var $td3 = $("<td>").text(splitTitle);
 						var $td4 = $("<td>").text(item.writerNick);		
 						
 						$tr.append($td1, $td2, $td3, $td4);
@@ -725,10 +730,11 @@
 					$(".noticeBoard").html(""); // 리스트 갱신을 위해 이전 내용 삭제
 					
 					$.each(noticeList, function(index, item){
+						var splitTitle = (item.qnaTitle).substring(0,22);
 						var $tr = $("<tr>"); // 행
 						var $td1 = $("<td>").text(item.qnaNo);
 						var $td2 = $("<td>").text(item.qnaCategory);
-						var $td3 = $("<td>").text(item.qnaTitle);
+						var $td3 = $("<td>").text(splitTitle);
 						var $td4 = $("<td>").text(item.writerNick);		
 						
 						$tr.append($td1, $td2, $td3, $td4);

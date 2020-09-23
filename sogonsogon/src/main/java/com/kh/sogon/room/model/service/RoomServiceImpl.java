@@ -55,6 +55,7 @@ public class RoomServiceImpl implements RoomService{
 				/*if(bcPwd.matches(pwdLoad, loginMember.getMemberPwd())) {*/
 				if(pwdLoad.equals(inputPwd)) {
 					// 비밀번호 맞을 때
+					System.out.println("룸앤오" + roomNo);
 					room = roomDAO.roomDetailInfo(roomNo);
 					
 					// 맞다면 즐겨찾기 등록
@@ -84,7 +85,7 @@ public class RoomServiceImpl implements RoomService{
 			// 회원수 출력을 위한 세터 등록
 			room.setRoomMemberCount(memberCount);
 		}
-		
+		System.out.println("룸!!!!"+ room);
 		return room;
 	}
 
@@ -219,5 +220,10 @@ public class RoomServiceImpl implements RoomService{
 	public int updateRoomInsert(Room room) {
 		return roomDAO.updateRoomInsert(room);
 	}
+
+	/*
+	 * @Override public int insertMember(int memberNo, int roomNo) { return
+	 * roomDAO.insertMember(memberNo, roomNo); }
+	 */
 	
 }
