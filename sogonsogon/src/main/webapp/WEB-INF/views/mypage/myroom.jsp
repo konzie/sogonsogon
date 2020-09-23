@@ -18,10 +18,11 @@
 
         .room-box {
          width: 1200px;
-            height: 35%;
-            justify-content: center;
-            flex-wrap: unset;
-            font-family: 'GmarketSansMedium';
+         height: 35%;
+         justify-content: center;
+         flex-wrap: unset;
+         font-family: 'GmarketSansMedium';
+         margin: 0px;
         }
         .roomlist-box {
             width: 320px;
@@ -249,6 +250,9 @@
       .pagination {
          justify-content: center;
       }
+      .my-4{
+      	margin-right: 300px !important;
+      }
 </style>
 </head>
 <body>   
@@ -386,27 +390,6 @@
             </ul>
         </div> 
       
-     <!-- Modal -->
-     <div class="modal fade" id="myModal" role="dialog">
-       <div class="modal-dialog modal-lg">
-         <div class="modal-content">
-           <div class="modal-header">
-             <button type="button" class="close" data-dismiss="modal">&times;</button>
-             <h4 class="modal-title"></h4>
-           </div>
-           <div class="modal-body">
-
-                <p>초보 자바 개발자들 모임</p>
-               <p>방소개</p>
-               <input type="password"> 
-            
-                <a data-dismiss="modal"><div class="modal-button2">뒤로가기</div></a>
-                <a href="roomDetail"><div class="modal-button2">참여하기</div></a>
-           </div>
-         </div>
-       </div>
-     </div> <!-- modal end -->
-     
      
      </div>
  </div>    
@@ -414,41 +397,12 @@
 
 <script>
 $(".join-button").on("click",function(){
-
-      $(".pass-area").css("display","block");   
          var roomNo = $(this).attr("id");
-         // console.log(roomNo);
+
          $(".hiddenNo").val(roomNo);
+
+		location.href="${contextPath}/room/roomDetail/"+ roomNo;
       
-         $(".transPage").prop("action", "${contextPath}/room/roomDetail/"+ roomNo);
-         
-         $.ajax({
-            url : "${contextPath}/room/roomMList/"+roomNo,
-            type : "POST",
-            dataType : "JSON",
-            success : function(map){
-               $(".m-title").html("\""+map.room.roomTitle+"\''");
-               $(".m-content").html(map.room.roomContent);
-               
-               // 비공개 방인경우 비밀번호 입력창 사라짐
-               if(map.room.roomOpen == 'Y' ){
-                  $(".pass-area").css("display","none");
-                  
-               }
-               
-               // 로그인한 멤버가 이미 가입한 방일때 
-               for(var i=0; i<map.roomMember.length; i++){
-                  if(roomNo == map.roomMember[i].roomMemberRoomNo){
-                     $(".pass-area").css("display","none");
-                     $(".m-content").append("<br>+이미 가입한 방입니다.");
-                  }
-               } 
-      
-            },error : function(){
-                console.log("ajax 통신 실패");
-            }
-         });
-    // else end
 });
 
 </script>
