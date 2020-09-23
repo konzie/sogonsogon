@@ -45,14 +45,7 @@ public class BoardController {
 			
 			List<Board> boardList = boardService.selectList(pInfo);
 			
-			if(!boardList.isEmpty()) { 
-				List<Attachment> thList = boardService.selectThumbnailList(boardList);
-				
-			/*for(Attachment at : thList) {
-					System.out.println(at);
-				}*/
-				model.addAttribute("thList", thList);
-				}
+			
 			model.addAttribute("boardList" ,boardList);
 			model.addAttribute("pInfo", pInfo);
 		
@@ -66,11 +59,11 @@ public class BoardController {
 			
 			String url = null;
 			if(board != null) { 
-		/*		List<Attachment> files = boardService.selectFiles(qnaNo);
+			List<Attachment> files = boardService.selectFiles(qnaNo);
 				
 				if(!files.isEmpty()) {
 					model.addAttribute("files",files);
-				}*/
+				}
 				
 				model.addAttribute("board", board);
 				url = "board/boardView";

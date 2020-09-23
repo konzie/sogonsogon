@@ -57,12 +57,6 @@ public interface BoardService {
 	public abstract List<Attachment> selectFiles(int qnaNo);
 
 
-	public abstract List<Attachment> selectThumbnailList(List<Board> boardList);
-
-	// 높은 조회수 게시글 조회 
-	public abstract List<Board> selectTopViews();
-
-
 	public abstract PageInfo pagination(int cp, Search search);
 
 	// r검색 목록 조회 

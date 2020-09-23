@@ -228,28 +228,10 @@ public class BoardServiceImpl implements BoardService{
 
 
 	@Override
-	public List<Attachment> selectFiles(int boardNo) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Attachment> selectFiles(int qnaNo) {
+		return boardDAO.selectFiles(qnaNo);
 	}
 
-
-
-
-	@Override
-	public List<Attachment> selectThumbnailList(List<Board> boardList) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-
-
-	@Override
-	public List<Board> selectTopViews() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 
 

@@ -36,6 +36,7 @@
     
 </style>
 
+
 </head>
 <body>
  
@@ -123,6 +124,19 @@ function validate(){
 		$("#link").focus();
 		return false;
 	}  */
+	
+    var content = $("#content").val();
+    var ban = ["관리자","개" , "미친놈" , "ㅅㅂ" ];
+    
+    for (var i=0; i<ban.length; i++){
+       if(content.indexOf(ban[i]) != -1){
+          alert("욕설을 포함한 게시글은 등록되지 않습니다.");
+          $("#content").val("");
+          return false;
+       }
+    } 
+
+	
 }
 
 $(function(){
@@ -142,4 +156,9 @@ $(function(){
 	});
 	
 });
+
+
+
+
+
 	</script>

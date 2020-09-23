@@ -263,4 +263,11 @@ public int reportBoard(int qnaNo) {
 
 
 
+
+public List<Attachment> selectFiles(int qnaNo) {
+	return sqlSession.selectList("boardMapper.selectFiles", qnaNo);
+}
+
+
+
 }
