@@ -35,13 +35,19 @@
     
     
 </style>
-
+<!------------------ Summernote ------------------>
+<link rel="stylesheet" href="${contextPath}/resources/summernote/css/summernote-lite.css">
+<!------------------------------------------------>
 
 </head>
 <body>
  
  <%@ include file="../common/header.jsp" %>
-
+	<!------------------ Summernote ------------------>
+	<script src="${contextPath}/resources/summernote/js/summernote-lite.js"></script>
+	<script src="${contextPath}/resources/summernote/js/summernote-ko-KR.js"></script>
+	<script src="${contextPath}/resources/summernote/js/summernote.js"></script>
+	<!------------------------------------------------>
 <div class="row">
     <div class="col-md-2"></div>
     <div class="col-md-8">
@@ -66,9 +72,18 @@
             
             <tr>
                 <td>글내용</td>
-                <td><textarea rows="10" cols="50" id="content" name="qnaContent" class="form-control"></textarea></td>
+                <td><!--  <textarea rows="10" cols="50" id="content" name="qnaContent" class="form-control"></textarea>-->
+                <!------------------ Summernote ------------------>
+	
+						<textarea class="form-control" id="summernote" name="qnaContent"></textarea>
+			
+					<!------------------------------------------------>	
+                
+                </td>
             </tr>
              <tr>
+             
+             
             	<td>이미지 삽입</td>
             	<td>
             	<div id="fileArea">

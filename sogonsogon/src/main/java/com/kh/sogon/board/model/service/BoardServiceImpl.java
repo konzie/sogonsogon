@@ -94,7 +94,7 @@ public class BoardServiceImpl implements BoardService{
 				// 다음 번호 board 객체에 세팅
 				board.setQnaNo(qnaNo);
 				
-				board.setQnaContent(replaceParameter(board.getQnaContent()));
+				//board.setQnaContent(replaceParameter(board.getQnaContent()));
 				
 				// 2) 게시글(board) DB 삽입
 				result = boardDAO.insertBoard(board);
@@ -223,7 +223,6 @@ public class BoardServiceImpl implements BoardService{
 	public int updateBoard(Board upBoard, String savePath, List<MultipartFile> images, boolean[] deleteImages) {
   	// images : 수정된 파일 리스트
     	
-    	upBoard.setQnaContent(replaceParameter(upBoard.getQnaContent()));
 		int result = boardDAO.updateBoard(upBoard); // 게시글만 수정
 		
 	
@@ -330,7 +329,43 @@ public class BoardServiceImpl implements BoardService{
 			return boardDAO.reportBoard(qnaNo);
 		}
 
-
+		//-----------------------------------------Summernote-----------------------------------------
+				@Override
+				public Map<String, String> insertImage(MultipartFile uploadFile, String savePath) {
+					// 저장 폴더 선택
+					File folder = new File(savePath);
+					
+					// 만약 폴더가 없을 경우 자동 생성 시키기
+					if(!folder.exists())  folder.mkdir(); 
+					Map<String, String> result = new HashMap<String, String>();
+					
+					// rename 작업
+					String changeFileName = rename(uploadFile.getOriginalFilename());
+							
+					String filePath = "/resources/infoImages/";
+					result.put("filePath", filePath);
+					result.put("changeFileName", changeFileName);
+					
+					
+					// transferTo() : 지정한 경로에 업로드된 파일정보를 실제 파일로 변환하는 메소드 -> 정상 호출 시 파일이 저장됨.
+					try {
+						uploadFile.transferTo(new File(savePath + "/" + changeFileName));
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					return result;
+				}
+				
+				
+				
+				// DB에 저장된 파일 목록 조회 Service 구현
+				@Override
+				public List<String> selectDbFileList() {
+					return boardDAO.selectDbFileList();
+				}
+				
+				//--------------------------------------------------------------------------------------------
+				
 
 
 }

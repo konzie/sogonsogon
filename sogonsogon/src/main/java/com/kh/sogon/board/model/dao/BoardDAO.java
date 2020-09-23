@@ -270,4 +270,15 @@ public List<Attachment> selectFiles(int qnaNo) {
 
 
 
+//-----------------------------------------Summernote-----------------------------------------
+		/**  DAO
+		 * @return dbFileList
+		 */
+		public List<String> selectDbFileList() {
+			return sqlSession.selectList("boardMapper.selectDbFileList");
+		} 
+		//---------------------------------------------------------------------------------------------
+		
+
+
 }
