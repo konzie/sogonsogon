@@ -10,7 +10,10 @@
 <meta charset="UTF-8">
 <link rel="stylesheet" href="${contextPath}/resources/css/roomList.css">
 <style>
-
+	#flag img{
+		margin-top: 4px;
+		width: 20px;
+	}
 </style>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 </head>
@@ -50,17 +53,17 @@
 	<%--네모 박스 --%>
    <c:set var="roomList" value="${roomList}"/>
     <div class="room-box">
-    <c:forEach var="roomList" items="${roomList}">
+    <c:forEach var="roomList"  items="${roomList}">
         <div class="roomlist-box">
         
-          	 <div id="flag" style="top:-19px">
+          	 <div id="flag" style="top:-19px"> 
+          	 	<!--  N == 아스키코드 78 (char타입이여서 string인식이 안됨)-->
+				  <c:if test="${roomList.roomOpen == 78}" >
+						<c:set var="src"  value="${contextPath}/resources/images/whitelock.png" />
+							<img src="${src}" >
+					</c:if> 			
           	 </div>
-			
-			<%-- 		<c:if test="${roomList.roomOpen }== 'Y'" >
-					<c:set var="src" value="${contextPath}/resources/images/lock.png" />
-						<img src="${src}">
-				</c:if>  --%>
-	
+		
           	 
           	<c:choose>
            		<c:when test="${roomList.roomType ==1}">

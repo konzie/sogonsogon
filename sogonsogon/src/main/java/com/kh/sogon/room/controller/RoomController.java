@@ -43,8 +43,7 @@ public class RoomController {
 			PageInfo pInfo = roomService.pagination(cp);
 			
 			 List<Room> roomList = roomService.selectList(pInfo);
-			 for(Room r : roomList) { System.out.println(r); }
-			 //System.out.println(pInfo);
+			 //for(Room r : roomList) { System.out.println(r); }
 			 
 			 model.addAttribute("roomList", roomList);
 			 model.addAttribute("pInfo", pInfo);
@@ -81,7 +80,7 @@ public class RoomController {
 					model.addAttribute("writeBoardReplyCount", writeBoardReplyCount);
 					model.addAttribute("writeBoardReplyAdoptionCount", writeBoardReplyAdoptionCount);
 				}
-				System.out.println("룸 디테일 " + roomDetail);
+
 				model.addAttribute("roomDetail", roomDetail);
 				returnPath = "room/roomDetail";
 			} else {
@@ -181,7 +180,6 @@ public class RoomController {
 		 public String mainRoomList() {
 			 List<Room> roomList = roomService.mainRoomList();
 
-			 // for(Room r : roomList) { System.out.println(r); };
 			Gson gson = new Gson();
 			gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 			
@@ -230,7 +228,7 @@ public class RoomController {
 			 
 			 Member loginMember = (Member)model.getAttribute("loginMember");
 			 
-			Room roomDetail = roomService.roomDetailInfo(roomNo, loginMember);
+			 Room roomDetail = roomService.roomDetailInfo(roomNo, loginMember);
 			
 			 model.addAttribute("updateList", updateList);
 			 model.addAttribute("roomDetail", roomDetail);
