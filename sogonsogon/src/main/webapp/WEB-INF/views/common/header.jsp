@@ -16,8 +16,8 @@
 header.masthead {
 	padding-top: 10rem;
 	padding-bottom: calc(10rem - 8.5rem);
-	background: linear-gradient(to bottom, rgba(192, 155, 155, 0.8) 0%,
-		rgba(179, 118, 72, 0.8) 100%), url("${contextPath}/resources/images/bg-masthead.jpg");
+	background:  linear-gradient(to bottom, rgba(244,164, 096, 0.6) 50%,
+		rgba(255, 204, 102, 0.5) 100%),  url("${contextPath}/resources/images/header_3.jpg");
 	background-position: center;
 	background-repeat: no-repeat;
 	background-attachment: scroll;
@@ -107,11 +107,31 @@ header.masthead h1 {
  #loginModalHeader {
  	padding : 50px;
  }
+ 
+ 
+ #navbarResponsive{
+ 		font-family: 'GmarketSansMedium'; 
+ }
+ 
+ #mainText{
+		font-family: 'yg-jalnan'; 
+ }
+ 
+ #mainContent{
+ 		font-family: 'GmarketSansMedium';
+ }
 	
-/* #modal-container-1{
-	width:700px;
+@font-face {
+		font-family: 'GmarketSansMedium';
+		src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+		font-weight: normal;
+		font-style: normal;
+	}
 	
-	} */
+@font-face { font-family: 'yg-jalnan'; 
+	src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_four@1.2/JalnanOTF00.woff') format('woff'); 
+	font-weight: normal; font-style: normal; }
+     
 
 
 
@@ -165,11 +185,11 @@ header.masthead h1 {
         <header class="masthead">
             <div class="container h-100">
                 <div class="row h-100 align-items-center justify-content-center text-center">
-                    <div class="col-lg-10 align-self-end">
+                    <div class="col-lg-10 align-self-end" id="mainText">
                         <h1 class="text-uppercase text-white font-weight-bold">오프라인 그룹 스터디 소곤소곤</h1>
                         <hr class="divider my-4" />
                     </div>
-                    <div class="col-lg-8 align-self-baseline">
+                    <div class="col-lg-8 align-self-baseline" id="mainContent">
                         <p class="text-white-75 font-weight-light mb-5">원하는 구성원 또는 익명의 다수가 모여 공부를 진행할 수 있는 스터디 사이트 입니다<br>모르는 내용에 대해 서로 묻고 풀어보세요</p>
                         <form action="#" method="POST">
 
