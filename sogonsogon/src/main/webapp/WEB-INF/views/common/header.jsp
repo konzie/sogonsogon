@@ -142,7 +142,7 @@ header.masthead h1 {
 	            		<c:when test="${empty loginMember}">
 	                        <li class="nav-item"><a class="nav-link js-scroll-trigger" data-toggle="modal" href="#modal-container-1">로그인</a></li>
 	                        <li class="nav-item"><a class="nav-link js-scroll-trigger">|</a></li>
-	                  		<li class="nav-item"><a class="nav-link js-scroll-trigger" href="${contextPath}/member/signUpView">회원가입</a></li>
+	                  		<li class="nav-item"><a class="nav-link js-scroll-trigger" href="${contextPath}/member/termsForm">회원가입</a></li>
 	                    </c:when>
 	            		<c:otherwise>
 	            		    <c:choose>
@@ -242,7 +242,7 @@ header.masthead h1 {
                 &nbsp;
                 <a href="${contextPath}/member/findPwdForm" class="forgot-password-link">비밀번호 찾기</a>
                 <p class="login-card-footer-text">
-                <a href="${contextPath}/member/signUpView" class="text-reset">회원가입</a></p>
+                <a href="${contextPath}/member/termsForm" class="text-reset">회원가입</a></p>
         
             </div>
           </div>
