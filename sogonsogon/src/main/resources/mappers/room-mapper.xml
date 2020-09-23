@@ -32,7 +32,7 @@
     <!-- room 상세 정보 조회 쿼리 -->
    <select id="roomdetailInfo" parameterType="_int" resultMap="roomResultSet">
       SELECT ROOM_NO, ROOM_TITLE, ROOM_CONTENT, ROOM_CREATE_DATE, ROOM_STATUS, 
-      MEMBER_NO, MEMBER_ID, ROOM_TYPE_NAME, ROOM_OPEN
+      MEMBER_NO, MEMBER_ID, ROOM_TYPE_NAME, ROOM_OPEN,ROOM_MEMBER_NO
       FROM STUDY_ROOM 
       JOIN MEMBER ON (ROOM_MEMBER_NO = MEMBER_NO)
       JOIN STUDY_ROOM_CATEGORY ON (ROOM_TYPE = ROOM_CATEGORY_NO)
@@ -94,7 +94,7 @@
    
    <insert id="createRoom"  parameterType="Room" >
       INSERT INTO STUDY_ROOM VALUES (SEQ_ROOM.NEXTVAL, #{memberNo}, #{roomTitle}, #{roomContent}, #{roomPassword}
-      ,#{roomType}, DEFAULT,DEFAULT, #{roomOpen},#{roomOpen}, #{roomTag}, #{roomMaxNumber},DEFAULT)
+      ,#{roomType}, DEFAULT,DEFAULT, DEFAULT,#{roomOpen}, #{roomTag}, #{roomMaxNumber},DEFAULT)
    </insert>
    
    <select id="roomMList" parameterType="_int"  resultType="Room" resultMap="roomResultSet">
@@ -130,7 +130,6 @@
       FROM STUDY_ROOM
       <bind name="sv" value="'%' + search + '%'"/> 
       WHERE ROOM_TITLE LIKE '${sv}'
-      OR ROOM_CONTENT LIKE '${sv}'
       OR ROOM_TAG LIKE '${sv}'
    </select>
    
@@ -141,7 +140,6 @@
       JOIN MEMBER ON(ROOM_MEMBER_NO=MEMBER_NO)
       <bind name="sv" value="'%' + search + '%'"/> 
       WHERE ROOM_TITLE LIKE '${sv}'
-      OR ROOM_CONTENT LIKE '${sv}'
       OR ROOM_TAG LIKE '${sv}'
    </select>
    
@@ -181,6 +179,7 @@
                 FROM ROOM_BOARD_LIKE
                 JOIN ROOMBOARD ON(ROOM_BOARD_NO = LIKE_ROOM_BOARD_NO)
                 JOIN MEMBER ON(ROOM_BOARD_WRITER = MEMBER_NO)
+                WHERE NOT ROOM_BOARD_WRITER = 1
                 GROUP BY ROOM_BOARD_WRITER, MEMBER_NICK, LIKE_ROOM_BOARD_NO)
             GROUP BY ROOM_BOARD_WRITER, MEMBER_NICK
             ORDER BY SUM_LIKE_COUNT DESC)
@@ -229,6 +228,10 @@
 		ROOM_CONTENT=#{roomContent}, ROOM_TAG=#{roomTag}, ROOM_MODIFY_DATE=SYSDATE
 		WHERE ROOM_NO=#{roomNo}
 	</update>
+	
+	<!-- <insert id="insertMember" parameterType="map">
+		INSERT INTO ROOM_MEMBER VALUES(#{roomNo}, #{memberNo})
+	</insert> -->
 	
 </mapper>
 
