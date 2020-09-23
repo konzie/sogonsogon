@@ -186,10 +186,6 @@ function selectReplyList(){
 				// 댓글 영역을 화면에 배치
 				$replyListArea.append($li).append($hr);
 				
-				
-				
-				
-				
 			});
 			chkAdoption();
 		}, error : function(request, status, error){
@@ -271,7 +267,7 @@ function addAdoption(el, replyNo) {
 function chkAdoption() {
 	var qnaNo = "${board.qnaNo}";
 	$.ajax({
-		url : "${contextPath}/board/reply/adoptionReplyChk/" + qnaNo,
+		url : "${contextPath}/reply/adoptionReplyChk/" + qnaNo,
 		type : "post",
 		success : function(result) {
 			if(result > 0) {
