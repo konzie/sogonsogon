@@ -255,7 +255,7 @@ function addAdoption(el, replyNo) {
 			success : function(result) {
 				alert(result);
 				console.log("채택 !!");
-				$p = $("<span>").text(" 채택되었습니다 (채택 시 수정, 삭제가 불가능합니다)");
+				$p = $("<span>").text(" **********채택된 댓글입니다.*************").css("color", "#1010c4");
 				$(el).parent().parent().css("background-color", "#F2F2F2").append($p);
 				$(el).parent().parent().children(".btnArea").remove();
 				$(".adoption").remove();

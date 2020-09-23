@@ -10,7 +10,6 @@
         <result property="replyModifyDate" column="REPLY_MODIFY_DATE"/>
         <result property="replyStatus" column="REPLY_STATUS"/>
         <result property="replySelect" column="REPLY_SELECT"/>
-        <result property="qnaNo" column="QNA_NO"/>
         <result property="replyWriter" column="REPLY_WRITER"/>
        	<result property="writerNick" column="MEMBER_NICK"/>
         <result property="memberId" column="MEMBER_ID"/>  
@@ -50,11 +49,13 @@
 	
 	</update>
 	
-	<insert id="adoptionReply" parameterType="map">
-		INSERT INTO QNA_REPLY_ADOPTION
-		VALUES(#{replyNo}, SYSDATE, #{qnaNo}, #{memberNo})
-	</insert>
-	
+
+   <!-- 게시글 채택 -->
+   <update id="adoptionReply" parameterType="_int">
+         UPDATE REPLY SET REPLY_SELECT = 'Y' 
+         WHERE REPLY_NO = #{replyNo}
+   </update>
+
 	<select id="adoptionReplyChk" parameterType="_int" resultType="_int">
 		SELECT ADOPTION_REPLY_NO
 		FROM QNA_REPLY_ADOPTION
