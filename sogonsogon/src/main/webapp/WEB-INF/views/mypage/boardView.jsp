@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -41,11 +42,18 @@
       	font-size: 15px;
       }
 </style>
+<!------------------ Summernote ------------------>
+<link rel="stylesheet" href="${contextPath}/resources/summernote/css/summernote-lite.css">
+<!------------------------------------------------>
 <title>자유게시글 상세조회</title>
 </head>
 <body>
   <jsp:include page="../common/header.jsp"/>
-  
+	<!------------------ Summernote ------------------>
+	<script src="${contextPath}/resources/summernote/js/summernote-lite.js"></script>
+	<script src="${contextPath}/resources/summernote/js/summernote-ko-KR.js"></script>
+	<script src="${contextPath}/resources/summernote/js/summernote.js"></script>
+	<!------------------------------------------------>  
   <div>
   <jsp:include page="mypage.jsp" />
   </div>
@@ -61,11 +69,17 @@
       <div>
 		<p id="writer"> 작성자 : ${board.writerNick} </p><p id="date">${board.qnaModifyDate}</p>
 	  </div>
-		<div id="board-content">${board.qnaContent}</div>
+		<div id="board-content">${board.qnaContent}
+		<c:if test="${board.qnaStatus=='D'}">
+			<span style="color:red"> <br>---------------------------------------------- <br> 신고된 게시글 입니다. </span>
+		</c:if>
+		</div>
 		<hr>
 		<div class="float-right">
-		<button type="button" class="btn btn-warning" onclick="location.href ='../updateNotice/${board.qnaNo}'">수정</button>
-		<button type="button" class="btn btn-warning" onclick="location.href ='../deleteNotice/${board.qnaNo}'">삭제</button>
+		<c:if test="${board.qnaStatus!='D'}">
+			<button type="button" class="btn btn-warning" onclick="location.href ='../updateNotice/${board.qnaNo}'">수정</button>
+			<button type="button" class="btn btn-warning" onclick="location.href ='../deleteNotice/${board.qnaNo}'">삭제</button>
+		</c:if>
 		<button type="button" class="btn btn-warning" onclick="location.href ='${contextPath}/mypage/myboard'">목록으로</button>
 		</div>
 		</div>

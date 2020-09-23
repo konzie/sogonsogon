@@ -12,6 +12,8 @@ public class RoomBoardReply {
 	private Timestamp replyCreateDate; // 댓글 작성일
 	private Timestamp replyModifyDate; // 댓글 수정일
 	private String replyStatus; // 댓글 상태
+	private int replyWriter; // 멤버No
+	private int roomNo;
 
 	public RoomBoardReply() {
 		// TODO Auto-generated constructor stub
@@ -89,12 +91,28 @@ public class RoomBoardReply {
 		this.replyStatus = replyStatus;
 	}
 
+	public int getReplyWriter() {
+		return replyWriter;
+	}
+
+	public void setReplyWriter(int replyWriter) {
+		this.replyWriter = replyWriter;
+	}
+
+	public int getRoomNo() {
+		return roomNo;
+	}
+
+	public void setRoomNo(int roomNo) {
+		this.roomNo = roomNo;
+	}
+
 	@Override
 	public String toString() {
 		return "RoomBoardReply [replyNo=" + replyNo + ", replyContent=" + replyContent + ", parentBoardNo="
 				+ parentBoardNo + ", parentReplyNo=" + parentReplyNo + ", replyDepth=" + replyDepth + ", memberId="
 				+ memberId + ", replyCreateDate=" + replyCreateDate + ", replyModifyDate=" + replyModifyDate
-				+ ", replyStatus=" + replyStatus + "]";
+				+ ", replyStatus=" + replyStatus + ", replyWriter=" + replyWriter + ", roomNo=" + roomNo + "]";
 	}
 
 }

@@ -2,23 +2,33 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>마이페이지</title>
 <style>
+        @font-face {
+            font-family: 'GmarketSansMedium';
+            src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
+        @font-face { font-family: 'TmoneyRoundWindExtraBold'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-07@1.0/TmoneyRoundWindExtraBold.woff') format('woff'); font-weight: normal; font-style: normal; }
+
       .content{
-      float:left;
-      width:100%;
-      height:100%;
+	     float:left;
+	     width:100%;
+	     height:100%;
       }
       
       .content2{
-      float:left; 
-      width:75%;
-      height:100%;
-      padding : 10px 10px;
+         font-family: 'GmarketSansMedium';
+      	 float:left; 
+      	 width:75%;
+      	 height:100%;
+      	 padding : 10px 10px;
       }
       
       *{
@@ -103,7 +113,9 @@
 	<h2 align="center" id="greeting">${loginMember.memberNick} 님 환영합니다! </h2>
 	<img src="${contextPath}/resources/images/party2.png" id="party2"  height="20%" width="20%">
 	</div>
-	<h5>신고된 게시글</h5>  
+	<div style="border: 1px solid #FAE0D4; clear:both; margin:3px; padding:3px;">
+	<h5>※ 신고된 게시글 ※ </h5> 
+	<hr> 
 		<c:choose>
           	<c:when test="${empty report}">
           		<p>신고된 사항이 없습니다.</p>
@@ -138,7 +150,11 @@
 			</div>
         </c:otherwise>
         </c:choose>	
-	   	
+	 </div>
+	 
+	 <div>
+	 	
+	 </div>  	
 	</div>
  </div>    
    <jsp:include page="../common/footer.jsp" />

@@ -77,7 +77,7 @@
 			<button type="button" class="btn btn-warning" onclick="location.href ='../reportBoard'">목록으로</button>
 		</c:when>
 		<c:otherwise>
-			<button type="button" class="btn btn-warning" onclick="location.href ='../mypage'">돌아가기</button>
+			<button type="button" class="btn btn-warning" onclick="location.href ='../reportBoard'">목록으로</button>
 		</c:otherwise>
 		</c:choose>
 		</div>
