@@ -98,7 +98,8 @@ public class BoardController {
 			
 			int result = boardService.insertBoard(board,images,savePath);
 			
-			String url = null;
+			
+		      String url = null;
 			
 			if(result > 0) {
 				rdAttr.addFlashAttribute("status", "success");

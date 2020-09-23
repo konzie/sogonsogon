@@ -10,7 +10,6 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.sogon.board.model.dao.BoardDAO;
@@ -18,8 +17,6 @@ import com.kh.sogon.board.model.vo.Attachment;
 import com.kh.sogon.board.model.vo.Board;
 import com.kh.sogon.board.model.vo.PageInfo;
 import com.kh.sogon.board.model.vo.Search;
-import com.kh.sogon.roomboard.model.vo.RoomBoard;
-import com.kh.sogon.roomboard.model.vo.RoomBoardAttachment;
 
 
 @Service
@@ -177,8 +174,18 @@ public class BoardServiceImpl implements BoardService{
 
 
 		private String rename(String originalFilename) {
-			// TODO Auto-generated method stub
-			return null;
+			 SimpleDateFormat sdf = new SimpleDateFormat("yyMMddHHmmss");
+		        String date = sdf.format(new java.util.Date(System.currentTimeMillis()));
+
+		        int ranNum = (int)(Math.random()*100000); // 5자리 랜덤 숫자 생성
+
+		        String str = "" + String.format("%05d", ranNum);
+		        //String.format : 문자열을 지정된 패턴의 형식으로 변경하는 메소드
+		        // %05d : 오른쪽 정렬된 십진 정수(d) 5자리(5)형태로 변경. 빈자리는 0으로 채움(0)
+
+		        String ext = originalFilename.substring(originalFilename.lastIndexOf("."));
+
+		        return date + "" + str + ext;
 		}
 
 
