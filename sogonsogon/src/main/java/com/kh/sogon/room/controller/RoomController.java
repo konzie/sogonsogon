@@ -43,7 +43,7 @@ public class RoomController {
 			PageInfo pInfo = roomService.pagination(cp);
 			
 			 List<Room> roomList = roomService.selectList(pInfo);
-			 //for(Room r : roomList) { System.out.println(r); }
+			 for(Room r : roomList) { System.out.println(r); }
 			 //System.out.println(pInfo);
 			 
 			 model.addAttribute("roomList", roomList);
@@ -81,6 +81,7 @@ public class RoomController {
 					model.addAttribute("writeBoardReplyCount", writeBoardReplyCount);
 					model.addAttribute("writeBoardReplyAdoptionCount", writeBoardReplyAdoptionCount);
 				}
+				System.out.println("룸 디테일 " + roomDetail);
 				model.addAttribute("roomDetail", roomDetail);
 				returnPath = "room/roomDetail";
 			} else {
@@ -101,6 +102,7 @@ public class RoomController {
 			return "redirect:/room/roomList/1";
 		}
 
+		// 방 만들기
 		@RequestMapping("createRoom")
 		public String createRoom(Room room, RedirectAttributes rdAttr, Model model) {
 			
@@ -112,10 +114,12 @@ public class RoomController {
 			
 			String path = null;
 			if(result>0) {
-				path = "/room/roomList?cp=1";
+				// 방장은 방을 만들자마자 가입시키기
+				//int result2 = roomService.insertMember(memberNo, room.getRoomNo());
+				path = "roomList/1";
 				 rdAttr.addFlashAttribute("msg", "방 만들기 완료!");
 			}else {
-				path = "/room/createRoom";
+				path = "createRoom";
 				 rdAttr.addFlashAttribute("msg", "방 만들기 실패!");
 			}
 			return  "redirect:"+ path;
@@ -130,7 +134,7 @@ public class RoomController {
 			 Member loginMember = (Member)model.getAttribute("loginMember");
 			 int MemberNo = loginMember.getMemberNo();
 			 List<RoomMember> roomMember = roomService.selectRoomMember(MemberNo);
-			for(RoomMember no : roomMember) { System.out.println(no); }
+			//for(RoomMember no : roomMember) { System.out.println(no); }
 	 	
 			Map<String, Object> map = new HashMap<>();
 			map.put("room", room);
@@ -179,7 +183,7 @@ public class RoomController {
 
 			 // for(Room r : roomList) { System.out.println(r); };
 			Gson gson = new Gson();
-			 gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+			gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 			
 			return gson.toJson(roomList);
 		 }
@@ -223,14 +227,14 @@ public class RoomController {
 		@RequestMapping("updateRoom/{roomNo}")
 		 public String updateRoom(@PathVariable int roomNo, Model model) {
 			 Room updateList = roomService.updateRoomList(roomNo);
+			 
 			 Member loginMember = (Member)model.getAttribute("loginMember");
 			 
 			Room roomDetail = roomService.roomDetailInfo(roomNo, loginMember);
 			
-			//System.out.println("룸디테일" +roomDetail);	
 			 model.addAttribute("updateList", updateList);
 			 model.addAttribute("roomDetail", roomDetail);
-			 //System.out.println(updateList);
+
 			 return "room/updateRoom";
 		 }
 		
@@ -239,8 +243,6 @@ public class RoomController {
 		 public String updateRoomInsert(@PathVariable int roomNo, Room room, @RequestParam String newPassword,
 				 											  RedirectAttributes rdAttr, HttpServletRequest request, Model model) {
 			 
-			 
-			 System.out.println("뉴패쓰" + newPassword);
 			 room.setRoomPassword(newPassword);
 			 int result = roomService.updateRoomInsert(room);
 			 
