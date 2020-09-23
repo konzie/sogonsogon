@@ -1,6 +1,7 @@
 package com.kh.sogon.board.model.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.multipart.MultipartFile;
@@ -83,6 +84,24 @@ public interface BoardService {
 
 	//신고기능
 	public abstract int reportBoard(int qnaNo);
+
+
+	//-----------------------------------------Summernote-----------------------------------------
+		/** Summernote 이미지 업로드 Service
+		 * @param uploadFile
+		 * @param savePath
+		 * @return map
+		 */
+		public abstract Map<String, String> insertImage(MultipartFile uploadFile, String savePath);
+
+		
+		
+		
+		/** DB에 저장된 파일 목록 조회 Service
+		 * @return dbFileList
+		 */
+		public abstract List<String> selectDbFileList();
+		//---------------------------------------------------------------------------------------------
 	
 	
 }
