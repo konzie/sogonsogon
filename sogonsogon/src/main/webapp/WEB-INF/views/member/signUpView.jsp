@@ -254,7 +254,8 @@
 		"pwd2":false,
 		"name":false,
 		"nick":false,
-		"phone":false
+		"phone":false,
+		"age":false
 	};
     
 	//********** 실시간 유효성 검사  ************/
@@ -422,44 +423,49 @@
 		});
 	
 	//----------------------------------------------------------------------
+
+	$("#signUpBtn").on("click", function(){
+		// 라디오 버튼
+		if(!$(':input:radio[name=memberAge]:checked').val()) {   
+			signUpCheck.age = false;   
+		}  else {
+			signUpCheck.age = true;   
+		}
+
+	}) ;
+	
 	
 	//submit 동작
 	
 	function validate(){
 		
-				
-			console.log(signUpCheck.id1);
-			console.log(signUpCheck.id2);
-			console.log(signUpCheck.id);
-			console.log(signUpCheck.pwd1);
-			console.log(signUpCheck.pwd2);
-			console.log(signUpCheck.pwd);
-			console.log(signUpCheck.name);
-			console.log(signUpCheck.nick);
-			console.log(signUpCheck.phone);
-			
 			for(var key in signUpCheck){
 				
 				
 				if(!signUpCheck[key]){
 					var msg;
 					switch(key){
-					case "id1" : case "id2" : msg="아이디가"; break;
-					case "pwd1" : case "pwd2" : msg="비밀번호가"; break;
-					case "name" : msg="이름이"; break;
-					case "phone" : msg="전화번호가"; break;
-					case "nick" : msg="닉네임이"; break;
+					case "id1" : case "id2" : msg="아이디가  유효하지 않습니다."; break;
+					case "pwd1" : case "pwd2" : msg="비밀번호가  유효하지 않습니다."; break;
+					case "name" : msg="이름이  유효하지 않습니다."; break;
+					case "phone" : msg="전화번호가  유효하지 않습니다."; break;
+					case "nick" : msg="닉네임이 유효하지 않습니다."; break;
+					case "age" : msg="연령을 선택해주세요."; break;
 					
 					}
 					
-					alert(msg + "유효하지 않습니다.");
+					alert(msg) ;
 					var el = "#"+key;
 					$(el).focus();
 					return false;
 					
 				}
 				
+		
+
 			}
+			
+		
 			
 	};
 	
