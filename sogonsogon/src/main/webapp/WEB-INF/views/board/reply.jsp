@@ -148,7 +148,14 @@ function selectReplyList(){
 				var $rDate = $("<p>").addClass("rDate")
 								.html("작성일 : " + rList[i].replyCreateDate + "<br>"
 											+ "마지막 수정 날짜 : " + rList[i].replyModifyDate);
-				$div.append($rWriter).append($rDate)
+				var $rButton = null;
+				
+				console.log("${board.qnaWriter}")
+				console.log("${loginMember.memberId}")
+				<c:if test="${fn:trim(board.qnaWriter) eq fn:trim(loginMember.memberNo)}">
+					$rButton = $("<button>").addClass("btn btn-sm btn-primary ml-1 adoption").text("채택").attr("onclick", "addAdoption(this, "+rList[i].replyNo+")");
+				</c:if>
+				$div.append($rWriter).append($rDate).append($rButton);
 				
 				
 				// 댓글 내용
@@ -184,7 +191,7 @@ function selectReplyList(){
 				
 				
 			});
-		
+			chkAdoption();
 		}, error : function(request, status, error){
 			 	console.log("ajax 통신 오류");
 				console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
@@ -234,8 +241,54 @@ $("#addReply").on("click", function(){
 	} 
 });
 
+//댓글 채택
+function addAdoption(el, replyNo) {
+	var cancleConfirm = confirm("채택하시겠습니까?");
+	var memberNo = "${loginMember.memberNo}";
+	var qnaNo = "${board.qnaNo}";
+	
+	if(cancleConfirm) {
+		$.ajax({
+			url : "${contextPath}/reply/adoptionReply/" + replyNo,
+			type : "post",
+			data : {"memberNo" : memberNo, "qnaNo" : qnaNo},
+			success : function(result) {
+				alert(result);
+				console.log("채택 !!");
+				$p = $("<span>").text(" 채택되었습니다 (채택 시 수정, 삭제가 불가능합니다)");
+				$(el).parent().parent().css("background-color", "#F2F2F2").append($p);
+				$(el).parent().parent().children(".btnArea").remove();
+				$(".adoption").remove();
+				
+			},error : function() {
+				console.log("통신 실패");
+			}
+		});
+	}
+}
+
+// 댓글 채택 있는지 확인
+function chkAdoption() {
+	var qnaNo = "${board.qnaNo}";
+	$.ajax({
+		url : "${contextPath}/board/reply/adoptionReplyChk/" + qnaNo,
+		type : "post",
+		success : function(result) {
+			if(result > 0) {
+				$p = $("<span>").addClass("fas fa-check-circle").text(" 채택되었습니다 (채택 시 수정, 삭제가 불가능합니다)");
+				$("#" + parseInt(result)).css("background-color", "#F2F2F2").append($p);
+				$("#" + parseInt(result)).children(".btnArea").remove();
+				$(".adoption").remove();
+			}
+		},error : function() {
+			console.log("통신 실패");
+		}
+	});
+}
 
 
+
+// 삭제
 function deleteReply(el, replyNo) {
 	var cancleConfirm = confirm("정말 댓글 삭제하시겠습니까?");
 	

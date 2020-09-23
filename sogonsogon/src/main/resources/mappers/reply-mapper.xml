@@ -50,6 +50,26 @@
 	
 	</update>
 	
+	<insert id="adoptionReply" parameterType="map">
+		INSERT INTO QNA_REPLY_ADOPTION
+		VALUES(#{replyNo}, SYSDATE, #{qnaNo}, #{memberNo})
+	</insert>
+	
+	<select id="adoptionReplyChk" parameterType="_int" resultType="_int">
+		SELECT ADOPTION_REPLY_NO
+		FROM QNA_REPLY_ADOPTION
+		WHERE ADOPTION_BOARD_NO = #{qnaNo}
+		
+		UNION ALL
+		
+		SELECT -1 AS ADOPTION_REPLY_NO
+		FROM DUAL
+		WHERE NOT EXISTS (
+			SELECT NVL(ADOPTION_REPLY_NO,-1)
+			FROM QNA_REPLY_ADOPTION
+			WHERE ADOPTION_BOARD_NO = #{qnaNo}
+		)
+	</select>
 
  	
 </mapper>

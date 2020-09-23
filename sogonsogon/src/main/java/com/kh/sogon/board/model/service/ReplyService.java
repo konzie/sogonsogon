@@ -32,6 +32,10 @@ public interface ReplyService {
 	 * @return
 	 */
 	int deleteReply(int replyNo);
+
+	int adoptionReply(int replyNo, int memberNo, int qnaNo);
+
+	int adoptionReplyChk(int qnaNo);
 	
 
 

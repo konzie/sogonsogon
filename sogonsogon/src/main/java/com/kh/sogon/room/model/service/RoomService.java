@@ -142,6 +142,13 @@ public interface RoomService {
 	 */
 	int updateRoomInsert(Room room);
 
+	/** 방장 room member 추가 Service
+	 * @param memberNo
+	 * @param roomNo
+	 * @return
+	 */
+	//int insertMember(int memberNo, int roomNo);
+
 
 
 }

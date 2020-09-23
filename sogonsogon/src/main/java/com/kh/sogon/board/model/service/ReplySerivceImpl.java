@@ -63,4 +63,16 @@ public class ReplySerivceImpl implements ReplyService {
 			return replyDAO.deleteReply(replyNo);
 		}
 
+		
+		// 댓글 채택 구현 Service
+		@Override
+		public int adoptionReply(int replyNo, int memberNo, int qnaNo) {
+			return replyDAO.adoptionReply(replyNo, memberNo, qnaNo);
+		}
+		
+		@Override
+		public int adoptionReplyChk(int qnaNo) {
+			return replyDAO.adoptionReplyChk(qnaNo);
+		}
+
 }

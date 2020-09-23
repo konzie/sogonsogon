@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.kh.sogon.board.model.service.BoardService;
 import com.kh.sogon.board.model.service.ReplyService;
 import com.kh.sogon.board.model.vo.Reply;
 import com.kh.sogon.member.model.vo.Member;
@@ -89,6 +90,33 @@ public class ReplyController {
 		
 		return str;
 	}
+	
+	// 댓글 채택
+		@ResponseBody
+		@RequestMapping(value="adoptionReply/{replyNo}",
+						produces = "application/text; charset=utf-8;")
+		public String adoptionReply(@PathVariable int replyNo, int memberNo, int qnaNo) {
+			
+			int result = replyService.adoptionReply(replyNo, memberNo, qnaNo);
+			
+			String str = "댓글  채택 ";
+			
+			if(result > 0) str += "성공";
+			else           str += "실패";
+			
+			return str;
+		}
+		
+		// 댓글 채택된거 있는지 체크
+		@ResponseBody
+		@RequestMapping(value="adoptionReplyChk/{qnaNo}",
+						produces = "application/text; charset=utf-8;")
+		public String adoptionReplyChk(@PathVariable int qnaNo) {
+			
+			int result = replyService.adoptionReplyChk(qnaNo);
+			
+			return result + "";
+		}
 
 
 }
