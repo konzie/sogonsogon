@@ -181,11 +181,13 @@ public class RoomServiceImpl implements RoomService{
 
 	}
 
+	// 메인화면 좋아요순 조회 Service 구현
 	@Override
 	public List<RoomMember> mainLikeList() {
 		return roomDAO.mainLikeList();
 	}
-
+	
+	// 추방시키기 Service 구현
 	@Override
 	public int withDraw(int roomNo, int memberNo) {
 		return roomDAO.withDraw(roomNo, memberNo);
@@ -214,7 +216,8 @@ public class RoomServiceImpl implements RoomService{
 	public Room updateRoomList(int roomNo) {
 		return roomDAO.updateRoomList(roomNo);
 	}
-
+	
+	
 	@Override
 	public int updateRoomInsert(Room room) {
 		return roomDAO.updateRoomInsert(room);
@@ -225,7 +228,7 @@ public class RoomServiceImpl implements RoomService{
 	public int insertMember(int memberNo) {
 		// 번호 얻기 
 		 int nextNo = roomDAO.selectNextNo();
-		 System.out.println("next 시퀀스" + nextNo);
+		 //System.out.println("next 시퀀스" + nextNo);
 		 
 		 // 방 가입시키기
 		 return roomDAO.insertMember(memberNo, nextNo); 

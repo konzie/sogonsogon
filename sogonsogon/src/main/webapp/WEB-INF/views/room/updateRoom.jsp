@@ -214,7 +214,7 @@
 								<input type="password"  class="form-control oldPassword" name="roomPassword" id="roomPassword2" style="width: 300px;" placeholder="기존 비밀번호를 입력해주세요.">
 								<span class="checkPassword"></span><br>
 								<label for="exampleFormControlInput1" class="bold" style="margin-top: 2px;">변경 비밀번호</label>
-								<input type="password"  class="form-control" name="newPassword"  style="width: 300px;" placeholder="변경 비밀번호를 입력해주세요.">
+								<input type="password"  class="form-control"  id="newPassword"  name="newPassword"  style="width: 300px;" placeholder="변경 비밀번호를 입력해주세요.">
 							</div>
 		
 							
@@ -308,20 +308,23 @@ function validate() {
 	      return false;
 	   }
 	 
+	  // 기존 비밀번호 검사
+	  var oldPassword = "${updateList.roomPassword}";
+	  if($("#roomPassword2").val() !=  oldPassword ){
+		  alert("기존 비밀번호를 입력해주세요");
+		  $("#roomPassword2").focus();
+		  return false;
+	  }
+	  
 	  // 비밀번호
 	  if($("#c").prop("checked")){
-		  if($(".roomPassword").val().trim() == ""){
-			  alert("비밀번호를 입력해주세요");
+		  if($("#newPassword").val().trim() == ""){
+			  alert("변경 비밀번호를 입력해주세요");
+			  $("#newPassword").focus();
 			  return false;
 		  }
 	  }
 
-	  // 기존 비밀번호 검사
-	  var oldPassword = "${updateList.roomPassword}";
-	  if($("#roomPassword2").val() !=  oldPassword ){
-		  $("#roomPassword2").focus();
-		  return false;
-	  }
 	  
 }
 

@@ -266,7 +266,7 @@
 	    height: 250px;
 	    text-align: center;
 	    position: fixed;
-	    bottom: 200px;
+	    bottom: 100px;
 	    right: 100px;
 	    padding: 10px;
 	    border-radius: 5px;
