@@ -396,7 +396,7 @@
          <div class="col-lg-12" align="center">
             <h2>
             <span class="bordTitle">방 리스트 최신순</span>
-            <span class="more"><a style="text-decoration: none; color: grey;"  href="${contextPath}/room/roomList/1">더보기</a></span>
+            <span class="more"><a style="text-decoration: none; color: #5D5D5D;"  href="${contextPath}/room/roomList/1">더보기</a></span>
             </h2>
             <p></p>
          </div>

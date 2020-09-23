@@ -12,7 +12,7 @@
 <style>
 	#flag img{
 		margin-top: 4px;
-		width: 20px;
+		width: 18px;
 	}
 </style>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -32,7 +32,7 @@
         </div>
         
         <div style="width: 23%; height: 100%; float: left;">
-        	<img src="${contextPath}/resources/images/roomList-chat.png"  width="110px;" style="float: right; margin-top: 10px;">
+        	<img src="${contextPath}/resources/images/roomList-chat.png"  width="100px;" style="float: right; margin-top: 10px;">
         </div>
    </div>
 

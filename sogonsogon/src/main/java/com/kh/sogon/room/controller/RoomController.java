@@ -112,14 +112,16 @@ public class RoomController {
 			int result = roomService.createRoom(room);
 			
 			String path = null;
+			
 			if(result>0) {
 				// 방장은 방을 만들자마자 가입시키기
-				//int result2 = roomService.insertMember(memberNo, room.getRoomNo());
+				int result2 = roomService.insertMember(memberNo);
+				
 				path = "roomList/1";
-				 rdAttr.addFlashAttribute("msg", "방 만들기 완료!");
+				rdAttr.addFlashAttribute("msg", "방 만들기 완료!");
 			}else {
 				path = "createRoom";
-				 rdAttr.addFlashAttribute("msg", "방 만들기 실패!");
+				rdAttr.addFlashAttribute("msg", "방 만들기 실패!");
 			}
 			return  "redirect:"+ path;
 		}

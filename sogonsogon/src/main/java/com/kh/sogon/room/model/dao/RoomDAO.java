@@ -294,17 +294,33 @@ public class RoomDAO {
 	public int updateRoomInsert(Room room) {
 		return sqlSession.update("roomMapper.updateRoomInsert", room);
 	}
+	
+	/** 방 만들자 마자 방장 가입시키기 위해 번호 얻기
+	 * @return result
+	 */
+	public int selectNextNo() {
+		return sqlSession.selectOne("roomMapper.selectNextNo", null);
+	}
 
 
-	public int insertMember(int memberNo, int roomNo) {
+
+	/** 방 만들자 마자 방장 가입시키기 
+	 * @param memberNo
+	 * @param roomNo
+	 * @param nextNo
+	 * @return
+	 */
+	public int insertMember(int memberNo, int nextNo) {
 		Map<String, Integer> map = new HashMap<String, Integer>();
 		
+		int roomNo = nextNo-1;
 		map.put("memberNo", memberNo);
-		map.put("roomNo", roomNo);
+		map.put("roomNo",roomNo);
 		
-		System.out.println(memberNo + "/" + roomNo);
 		return sqlSession.insert("roomMapper.insertMember", map);
 	}
+
+	
 
 
 	

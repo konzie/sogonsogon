@@ -229,9 +229,13 @@
 		WHERE ROOM_NO=#{roomNo}
 	</update>
 	
-	<!-- <insert id="insertMember" parameterType="map">
-		INSERT INTO ROOM_MEMBER VALUES(#{roomNo}, #{memberNo})
-	</insert> -->
+	<select id="selectNextNo" resultType="_int">
+		SELECT SEQ_ROOM.NEXTVAL FROM DUAL
+	</select>
+	
+	<insert id="insertMember" parameterType="map">
+		INSERT INTO ROOM_MEMBER VALUES(${roomNo}, ${memberNo}, 'G', SYSDATE)
+	</insert> 
 	
 </mapper>
 
