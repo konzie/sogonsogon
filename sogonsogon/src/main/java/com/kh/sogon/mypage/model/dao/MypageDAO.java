@@ -222,8 +222,8 @@ public class MypageDAO {
 		return sqlSession.update("mypageMapper.restoreReport", boardNo);
 	}
 
-	public List<ReportMember> findMember(String memberNick) {
-		return sqlSession.selectList("mypageMapper.findMember", memberNick);
+	public List<ReportMember> findMember(int memberNo) {
+		return sqlSession.selectList("mypageMapper.findMember", memberNo);
 	}
 
 	public int insertMember(ReportMember member) {
@@ -317,6 +317,18 @@ public class MypageDAO {
 
 	public int updateHelp(int parentHelpNo) {
 		return sqlSession.update("mypageMapper.updateHelp", parentHelpNo);
+	}
+
+	public int reportCount2() {
+		return sqlSession.selectOne("mypageMapper.reportCount2");
+	}
+
+	public RoomBoard roomBoard(RoomBoard board) {
+		return sqlSession.selectOne("mypageMapper.roomBoard", board);
+	}
+
+	public int reportInfo(int memberNo) {
+		return sqlSession.update("mypageMapper.reportInfo", memberNo);
 	}
 	
 	

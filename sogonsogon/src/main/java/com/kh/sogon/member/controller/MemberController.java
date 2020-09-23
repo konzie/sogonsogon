@@ -55,13 +55,12 @@ public class MemberController {
 			rdAttr.addFlashAttribute("status","error");
 			rdAttr.addFlashAttribute("msg","아이디 또는 비밀번호를 확인해주세요");
 
+		}else if(loginMember.getMemberStatus().equals("R")){
+			rdAttr.addFlashAttribute("status","error");
+			rdAttr.addFlashAttribute("msg","신고된 회원입니다. 해당 사이트를 이용하실 수 없습니다.");
 		}else {
 			model.addAttribute("loginMember",loginMember);
-
 		}
-		model.addAttribute("loginMember", loginMember);
-		// request scope로 "loginMember"라는 key를 추가하고
-		// value로 loginMember 객체를 지정
 		
 		 String referer = request.getHeader("Referer");
 		 return "redirect:"+ referer;

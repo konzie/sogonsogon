@@ -16,7 +16,7 @@
       
       .content2{
       float:left; 
-      width:72%;
+      width:75%;
       height:100%;
       padding : 10px 10px;
       }
@@ -61,7 +61,29 @@
       }
       
       #greeting{
-      	
+      	display: inline-block;
+      	float:left;
+      	position: absolute;
+      	text-align: justify;
+      	line-height: 100px;
+		margin: 0 250px;
+		padding: 10px;
+		text-shadow: 1px 1px 1px 1px blue; 
+      }
+      
+      #party1{
+      	display:inline-block;
+      	float:left;
+      	position: relative;
+      }    
+        
+      #party2{
+      	display:inline-block;
+      	float:right;
+      }
+      
+      h5{
+      	clear: both;
       }
 </style>
 </head>
@@ -76,7 +98,11 @@
   <div class="content">
   <jsp:include page="mypage2.jsp"/>
 	<div class="content2">   
+	<div>
+	<img src="${contextPath}/resources/images/party1.png" id="party1" height="20%" width="20%">
 	<h2 align="center" id="greeting">${loginMember.memberNick} 님 환영합니다! </h2>
+	<img src="${contextPath}/resources/images/party2.png" id="party2"  height="20%" width="20%">
+	</div>
 	<h5>신고된 게시글</h5>  
 		<c:choose>
           	<c:when test="${empty report}">
