@@ -14,11 +14,28 @@ public class AnswerDAO {
 
 	/** 문의글 조회 DAO
 	 * @param helpNo
-	 * @return answer
+	 * @return Answer
 	 */
 	public Answer selectAnswer(int helpNo) {
-		return sqlSession.selectOne("answerMapper.selectAnswer");
+		return sqlSession.selectOne("answerMapper.selectAnswer", helpNo);
 	}
+
+	/** 답변 여부 업데이트
+	 * @param parentHelpNo
+	 * @return upResult
+	 */
+	public int updateHelp(int helpNo) {
+		return sqlSession.update("answerMapper.updateHelp", helpNo);
+	}
+	
+	/** 답변 삽입
+	 * @param answer
+	 * @return result
+	 */
+	public int insertAnswer(Answer answer) {
+		return sqlSession.insert("answerMapper.insertAnswer", answer);
+	}
+
 
 	
 	

@@ -20,4 +20,19 @@ public class AnswerServiceImpl implements AnswerService{
 		return answerDAO.selectAnswer(helpNo);
 	}
 
+	//문의글 삽입 Service 구현
+	@Override
+	@Transactional(rollbackFor = Exception.class)
+	public int insertAnswer(Answer answer) {
+		
+		int result = answerDAO.updateHelp(answer.getParentHelpNo());
+		
+		int upResult = 0;
+		
+		if(result>0) {
+			upResult = answerDAO.insertAnswer(answer);
+		}
+		return upResult;
+	}
+
 }

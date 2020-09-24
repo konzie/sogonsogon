@@ -13,6 +13,7 @@ import com.kh.sogon.mypage.model.vo.ReportMember;
 import com.kh.sogon.room.model.vo.Room;
 import com.kh.sogon.room.model.vo.RoomMember;
 import com.kh.sogon.roomboard.model.vo.RoomBoard;
+import com.kh.sogon.roomboard.model.vo.RoomBoardReply;
 import com.kh.sogon.board.model.vo.Board;
 import com.kh.sogon.help.model.vo.Help;
 import com.kh.sogon.board.model.vo.PageInfo;
@@ -222,8 +223,8 @@ public class MypageDAO {
 		return sqlSession.update("mypageMapper.restoreReport", boardNo);
 	}
 
-	public List<ReportMember> findMember(String memberNick) {
-		return sqlSession.selectList("mypageMapper.findMember", memberNick);
+	public List<ReportMember> findMember(int memberNo) {
+		return sqlSession.selectList("mypageMapper.findMember", memberNo);
 	}
 
 	public int insertMember(ReportMember member) {
@@ -311,12 +312,41 @@ public class MypageDAO {
 		return sqlSession.selectList("mypageMapper.selectRoomBoardList", memberNo, rowBounds);
 	}
 
-	public int selectBoard(RoomBoard board) {
+	public RoomBoard selectBoard(RoomBoard board) {
 		return sqlSession.selectOne("mypageMapper.selectBoard", board);
 	}
 
 	public int updateHelp(int parentHelpNo) {
 		return sqlSession.update("mypageMapper.updateHelp", parentHelpNo);
+	}
+
+	public int reportCount2() {
+		return sqlSession.selectOne("mypageMapper.reportCount2");
+	}
+
+	public RoomBoard roomBoard(RoomBoard board) {
+		return sqlSession.selectOne("mypageMapper.roomBoard", board);
+	}
+
+	public int reportInfo(int memberNo) {
+		return sqlSession.update("mypageMapper.reportInfo", memberNo);
+	}
+
+	public int getListRoomReplyRoomCount(int memberNo) {
+		return sqlSession.selectOne("mypageMapper.getListRoomReplyRoomCount", memberNo);
+	}
+
+	public List<RoomBoardReply> selectRoomReplyList(PageInfo pInfo, int memberNo) {
+		
+		int offset = (pInfo.getCurrentPage() - 1) * pInfo.getLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, pInfo.getLimit());
+		
+		return sqlSession.selectList("mypageMapper.selectRoomReplyList", memberNo, rowBounds);
+	}
+
+	public int findRoomNo(PageInfo pInfo, int i) {
+		return sqlSession.selectOne("mypageMapper.findRoomNo", i);
 	}
 	
 	

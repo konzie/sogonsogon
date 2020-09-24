@@ -10,7 +10,6 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.sogon.board.model.dao.BoardDAO;
@@ -18,8 +17,6 @@ import com.kh.sogon.board.model.vo.Attachment;
 import com.kh.sogon.board.model.vo.Board;
 import com.kh.sogon.board.model.vo.PageInfo;
 import com.kh.sogon.board.model.vo.Search;
-import com.kh.sogon.roomboard.model.vo.RoomBoard;
-import com.kh.sogon.roomboard.model.vo.RoomBoardAttachment;
 
 
 @Service
@@ -97,7 +94,7 @@ public class BoardServiceImpl implements BoardService{
 				// 다음 번호 board 객체에 세팅
 				board.setQnaNo(qnaNo);
 				
-				board.setQnaContent(replaceParameter(board.getQnaContent()));
+				//board.setQnaContent(replaceParameter(board.getQnaContent()));
 				
 				// 2) 게시글(board) DB 삽입
 				result = boardDAO.insertBoard(board);
@@ -177,8 +174,18 @@ public class BoardServiceImpl implements BoardService{
 
 
 		private String rename(String originalFilename) {
-			// TODO Auto-generated method stub
-			return null;
+			 SimpleDateFormat sdf = new SimpleDateFormat("yyMMddHHmmss");
+		        String date = sdf.format(new java.util.Date(System.currentTimeMillis()));
+
+		        int ranNum = (int)(Math.random()*100000); // 5자리 랜덤 숫자 생성
+
+		        String str = "" + String.format("%05d", ranNum);
+		        //String.format : 문자열을 지정된 패턴의 형식으로 변경하는 메소드
+		        // %05d : 오른쪽 정렬된 십진 정수(d) 5자리(5)형태로 변경. 빈자리는 0으로 채움(0)
+
+		        String ext = originalFilename.substring(originalFilename.lastIndexOf("."));
+
+		        return date + "" + str + ext;
 		}
 
 
@@ -196,6 +203,7 @@ public class BoardServiceImpl implements BoardService{
 	        return result;
 	    }
 
+		
 
 
 
@@ -216,7 +224,6 @@ public class BoardServiceImpl implements BoardService{
 	public int updateBoard(Board upBoard, String savePath, List<MultipartFile> images, boolean[] deleteImages) {
   	// images : 수정된 파일 리스트
     	
-    	upBoard.setQnaContent(replaceParameter(upBoard.getQnaContent()));
 		int result = boardDAO.updateBoard(upBoard); // 게시글만 수정
 		
 	
@@ -228,28 +235,10 @@ public class BoardServiceImpl implements BoardService{
 
 
 	@Override
-	public List<Attachment> selectFiles(int boardNo) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Attachment> selectFiles(int qnaNo) {
+		return boardDAO.selectFiles(qnaNo);
 	}
 
-
-
-
-	@Override
-	public List<Attachment> selectThumbnailList(List<Board> boardList) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-
-
-	@Override
-	public List<Board> selectTopViews() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 
 
@@ -341,7 +330,43 @@ public class BoardServiceImpl implements BoardService{
 			return boardDAO.reportBoard(qnaNo);
 		}
 
-
+		//-----------------------------------------Summernote-----------------------------------------
+				@Override
+				public Map<String, String> insertImage(MultipartFile uploadFile, String savePath) {
+					// 저장 폴더 선택
+					File folder = new File(savePath);
+					
+					// 만약 폴더가 없을 경우 자동 생성 시키기
+					if(!folder.exists())  folder.mkdir(); 
+					Map<String, String> result = new HashMap<String, String>();
+					
+					// rename 작업
+					String changeFileName = rename(uploadFile.getOriginalFilename());
+							
+					String filePath = "/resources/infoImages/";
+					result.put("filePath", filePath);
+					result.put("changeFileName", changeFileName);
+					
+					
+					// transferTo() : 지정한 경로에 업로드된 파일정보를 실제 파일로 변환하는 메소드 -> 정상 호출 시 파일이 저장됨.
+					try {
+						uploadFile.transferTo(new File(savePath + "/" + changeFileName));
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					return result;
+				}
+				
+				
+				
+				// DB에 저장된 파일 목록 조회 Service 구현
+				@Override
+				public List<String> selectDbFileList() {
+					return boardDAO.selectDbFileList();
+				}
+				
+				//--------------------------------------------------------------------------------------------
+				
 
 
 }

@@ -10,7 +10,10 @@
 <meta charset="UTF-8">
 <link rel="stylesheet" href="${contextPath}/resources/css/roomList.css">
 <style>
-
+	#flag img{
+		margin-top: 4px;
+		width: 18px;
+	}
 </style>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 </head>
@@ -29,7 +32,7 @@
         </div>
         
         <div style="width: 23%; height: 100%; float: left;">
-        	<img src="${contextPath}/resources/images/roomList-chat.png"  width="110px;" style="float: right; margin-top: 10px;">
+        	<img src="${contextPath}/resources/images/roomList-chat.png"  width="100px;" style="float: right; margin-top: 10px;">
         </div>
    </div>
 
@@ -50,22 +53,17 @@
 	<%--네모 박스 --%>
    <c:set var="roomList" value="${roomList}"/>
     <div class="room-box">
-    <c:forEach var="roomList" items="${roomList}">
+    <c:forEach var="roomList"  items="${roomList}">
         <div class="roomlist-box">
         
-          	 <div id="flag" style="top:-19px"></div>
-          	 
-          	 
-       		 <%-- <c:choose>
-				<c:when test="${roomList.roomOpen ==Y}">
-          		 	<div id="flag" style="top:-20px"><img class="check-lock"></div>
-				</c:when>
-				<c:otherwise>
-					<div id="flag" style="top:-20px"><img class="check-lock"><img src="${contextPath}/resources/images/roomList-flag.png"  style="width: 20px; margin-top: 8px;"></div>
-				</c:otherwise>
-        	</c:choose> --%>
-          	 
-          	 
+          	 <div id="flag" style="top:-19px"> 
+          	 	<!--  N == 아스키코드 78 (char타입이여서 string인식이 안됨)-->
+				  <c:if test="${roomList.roomOpen == 78}" >
+						<c:set var="src"  value="${contextPath}/resources/images/whitelock.png" />
+							<img src="${src}" >
+					</c:if> 			
+          	 </div>
+		
           	 
           	<c:choose>
            		<c:when test="${roomList.roomType ==1}">
@@ -91,6 +89,8 @@
             <fmt:formatDate var="createDate" value="${roomList.roomCreateDate}" pattern="yyyy-MM-dd"/> 
             
             <p class="room-content">
+          
+				
                 <div class="category" id="${tag}">${tag}.</div>
                 <p class="room-title">${roomList.roomTitle}</p>
                 <hr>
@@ -298,10 +298,10 @@ $(".clear-btn").on("click",function(){
 						for(var i=0; i<map.roomMember.length; i++){
 							if(roomNo == map.roomMember[i].roomMemberRoomNo){
 								$(".pass-area").css("display","none");
-								$(".m-content").append("<br>+이미 가입한 방입니다.");
+								$(".m-content").append("<br>이미 가입한 방입니다.<br>바로 입장이 가능합니다.").css("font-size","18px;");
 							}
 						} 
-			
+						
 					},error : function(){
 						 console.log("ajax 통신 실패");
 					}

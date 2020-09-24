@@ -4,10 +4,7 @@
  	
  	<!-- 멤버 -->
  	<resultMap id="memberResultSet" type="Member" >
-		<!-- id에는 DB 기본키에 해당하는 필드와 컬럼을 작성 -->
 		<id property="memberNo" column="MEMBER_NO"/>
-	
-		<!-- result에는 DB 일반 컬럼에 해당하는 필드와 컬럼을 작성 -->
 		<result property="memberId" column="MEMBER_ID"/>
 		<result property="memberPwd" column="MEMBER_PWD"/>
 		<result property="memberName" column="MEMBER_NM"/>
@@ -48,12 +45,13 @@
         <result property="qnaModifyDate" column="QNA_MODIFY_DATE"/>
         <result property="writerNick" column="MEMBER_NICK"/>
         <result property="likeCount" column="LIKE_CNT"/>
+        <result property="rCnt" column="RCNT"/>
     </resultMap>
     
     <!-- 자유질문방 댓글 -->
 	<resultMap id="ReplyResultSet" type="Reply" >
         <id property="replyNo" column="REPLY_NO"/>
-        <result property="qnaNo" column="QNA_NO"/>
+        <result property="qnaNo" column="PARENT_BOARD_NO"/>
         <result property="content" column="REPLY_CONTENT"/>
         <result property="replyWriter" column="REPLY_WRITER"/>
         <result property="replySelect" column="REPLY_SELECT"/>
@@ -97,8 +95,23 @@
         <result property="roomBoardModifyDate" column="ROOM_BOARD_MODIFY_DATE"/>
         <result property="roomBoardReadCount" column="ROOM_BOARD_READ_COUNT"/>
         <result property="roomBoardWriter" column="MEMBER_NICK"/>
+        <result property="roomBoardStatus" column="ROOM_BOARD_STATUS"/>
     </resultMap>
     
+    <!-- 스터디방 댓글 -->
+	<resultMap type="RoomBoardReply" id="roomBoardReplyResultSet">
+		<id property="replyNo" column="ROOM_BOARD_REPLY_NO"/>
+        <result property="replyContent" column="ROOM_BOARD_REPLY_CONTENT"/>
+        <result property="parentBoardNo" column="ROOM_BOARD_PARENT_BOARD_NO"/>
+        <result property="parentReplyNo" column="ROOM_BOARD_PARENT_REPLY_NO"/>
+        <result property="replyDepth" column="ROOM_BOARD_REPLY_DEPTH"/>
+        <result property="replyWriter" column="ROOM_BOARD_REPLY_WRITER"/>
+        <result property="replyCreateDate" column="ROOM_BOARD_REPLY_CREATE_DT"/>
+        <result property="replyModifyDate" column="ROOM_BOARD_REPLY_MODIFY_DT"/>
+        <result property="replyStatus" column="ROOM_BOARD_REPLY_STATUS"/>
+        <result property="memberId" column="MEMBER_NICK"/>
+	</resultMap>
+	
     <!-- 방 멤버 -->
 	<resultMap id="RoomMemberResultSet" type="RoomMember" >
         <id property="roomMemberRoomNo" column="ROOM_MEMBER_ROOM_NO"/>
@@ -216,7 +229,7 @@
 
 	<!-- 총 replyList 조회 -->
 	<select id="selectRList" parameterType="_int" resultMap="ReplyResultSet">
-		SELECT * FROM REPLY JOIN MEMBER ON(REPLY_WRITER=MEMBER_NO) JOIN QNABOARD USING(QNA_NO) WHERE REPLY_WRITER = #{replyWriter} AND REPLY_SELECT='Y' ORDER BY REPLY_CREATE_DATE DESC
+		SELECT * FROM REPLY JOIN MEMBER ON(REPLY_WRITER=MEMBER_NO) JOIN QNABOARD ON(PARENT_BOARD_NO = QNA_NO) WHERE REPLY_WRITER = #{replyWriter} AND REPLY_SELECT='Y' ORDER BY REPLY_CREATE_DATE DESC
 	</select>
 	
 	<select id="reportCount" resultType="_int">
@@ -266,19 +279,19 @@
 	</select>
 	
 	<insert id="noticeWrite" parameterType="Board">
-		INSERT INTO QNABOARD VALUES(#{qnaNo}, #{qnaTitle}, DEFAULT, DEFAULT, SYSDATE, SYSDATE, #{qnaContent}, #{writer}, (SELECT CATEGORY_NO FROM QNA_CATEGORY WHERE CATEGORY_NM = #{qnaCategory}), DEFAULT)
+		INSERT INTO QNABOARD VALUES(#{qnaNo}, #{qnaTitle}, DEFAULT, DEFAULT, SYSDATE, SYSDATE, #{qnaContent}, #{writer}, (SELECT CATEGORY_NO FROM QNA_CATEGORY WHERE CATEGORY_NM = #{qnaCategory}), DEFAULT, 0)
 	</insert>
 	
 	<update id="restoreReport" parameterType="_int">
 		UPDATE QNABOARD SET QNA_STATUS='Y' WHERE QNA_NO = #{qnaNo}
 	</update>
 	
-	<select id="findMember" parameterType="string" resultMap="ReportMemberResultSet">
-		SELECT * FROM REPORT_MEMBER WHERE MEMBER_NO = (SELECT MEMBER_NO FROM MEMBER WHERE MEMBER_NICK=#{memberNick})
+	<select id="findMember" parameterType="_int" resultMap="ReportMemberResultSet">
+		SELECT * FROM REPORT_MEMBER WHERE MEMBER_NO = #{memberNo}
 	</select>
 	
 	<insert id="insertMember" parameterType="ReportMember">
-		INSERT INTO REPORT_MEMBER VALUES((SELECT MEMBER_NO FROM MEMBER WHERE MEMBER_NICK=#{memberNick}),DEFAULT,DEFAULT,DEFAULT,#{boardNo},#{roomBoardNo},#{roomNo})
+		INSERT INTO REPORT_MEMBER VALUES(#{memberNo},DEFAULT,DEFAULT,DEFAULT,#{boardNo},#{roomBoardNo},#{roomNo})
 	</insert>
 	
 	<update id="updateReport" parameterType="ReportMember">
@@ -351,11 +364,39 @@
 		SELECT *  FROM ROOMBOARD JOIN MEMBER ON(ROOM_BOARD_WRITER = MEMBER_NO) WHERE ROOM_BOARD_WRITER=#{roomBoardWriterNo} AND ROOM_BOARD_STATUS !='N' ORDER BY ROOM_BOARD_CREATE_DATE DESC, ROOM_NO DESC
 	</select>
 	
-	<select id="selectBoard" parameterType="RoomBoard" resultType="_int">
+	<select id="selectBoard" parameterType="RoomBoard" resultMap="roomBoardResultSet">
 		SELECT * FROM ROOMBOARD WHERE ROOM_BOARD_NO = #{roomBoardNo} AND ROOM_NO = #{roomNo}
 	</select>
 	
 	<update id="updateHelp" parameterType="_int">
 		UPDATE HELPBOARD SET ANSWER_CHK='Y' WHERE HELP_NO=#{helpNo}
 	</update>
+	
+	<select id="reportCount2" resultType="_int">
+		SELECT COUNT(*) FROM ROOMBOARD WHERE ROOM_BOARD_STATUS='R' AND ROOM_BOARD_CREATE_DATE=(TO_CHAR(SYSDATE,'YY/MM/DD'))
+	</select>
+	
+	<select id="roomBoard" parameterType="RoomBoard" resultMap="roomBoardResultSet">
+		SELECT * FROM ROOMBOARD JOIN MEMBER ON(ROOM_BOARD_WRITER=MEMBER_NO) WHERE ROOM_BOARD_NO=#{roomBoardNo} AND ROOM_NO = #{roomNo}
+	</select>
+	
+	<update id="reportInfo" parameterType="_int">
+		UPDATE MEMBER SET MEMBER_STATUS='R' WHERE MEMBER_NO = #{memberNo}	
+	</update>
+	
+	<select id="getListRoomReplyRoomCount" parameterType="_int" resultType="_int">
+		SELECT COUNT(*) FROM ROOM_BOARD_REPLY JOIN MEMBER ON(ROOM_BOARD_REPLY_WRITER=MEMBER_NO) JOIN ROOM_BOARD_REPLY_ADOPTION ON(ROOM_BOARD_REPLY_NO=ADOPTION_REPLY_NO) WHERE ROOM_BOARD_REPLY_WRITER=#{replyWriter}
+	</select>
+	
+	<select id="selectRoomReplyList" parameterType="_int" resultMap="roomBoardReplyResultSet">
+		SELECT * FROM ROOM_BOARD_REPLY
+		JOIN MEMBER ON(ROOM_BOARD_REPLY_WRITER=MEMBER_NO)
+		JOIN ROOM_BOARD_REPLY_ADOPTION ON(ROOM_BOARD_REPLY_NO=ADOPTION_REPLY_NO)
+		JOIN ROOMBOARD ON(ROOM_BOARD_PARENT_BOARD_NO=ROOM_BOARD_NO)
+		WHERE ROOM_BOARD_REPLY_WRITER=#{replyWriter} ORDER BY ROOM_BOARD_REPLY_CREATE_DT DESC
+	</select>
+		
+	<select id="findRoomNo" parameterType="_int" resultType="_int">
+		SELECT ROOM_NO FROM ROOMBOARD JOIN MEMBER ON(ROOM_BOARD_WRITER=MEMBER_NO) WHERE ROOM_BOARD_NO=#{roomBoardNo}
+	</select>
 </mapper>

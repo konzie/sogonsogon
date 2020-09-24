@@ -1,7 +1,9 @@
 package com.kh.sogon.board.controller;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -45,14 +47,28 @@ public class BoardController {
 			
 			List<Board> boardList = boardService.selectList(pInfo);
 			
-			if(!boardList.isEmpty()) { 
-				List<Attachment> thList = boardService.selectThumbnailList(boardList);
+			Board board = null;
+			
+			for(int i = 0; i<boardList.size(); i++) {
 				
-			/*for(Attachment at : thList) {
-					System.out.println(at);
-				}*/
-				model.addAttribute("thList", thList);
+				
+				if(boardList.get(i).getWriterNick()== "김관리") {
+					
+				board = 	boardList.get(i);
+				
+				boardList.set(i, boardList.get(0));
+				
+				boardList.set(0, board);
+				
 				}
+				
+				
+				
+				
+			}
+			
+			
+			
 			model.addAttribute("boardList" ,boardList);
 			model.addAttribute("pInfo", pInfo);
 		
@@ -66,11 +82,11 @@ public class BoardController {
 			
 			String url = null;
 			if(board != null) { 
-		/*		List<Attachment> files = boardService.selectFiles(qnaNo);
+			List<Attachment> files = boardService.selectFiles(qnaNo);
 				
 				if(!files.isEmpty()) {
 					model.addAttribute("files",files);
-				}*/
+				}
 				
 				model.addAttribute("board", board);
 				url = "board/boardView";
@@ -98,6 +114,15 @@ public class BoardController {
 										
 			Member loginMember = (Member)model.getAttribute("loginMember");
 			
+			 //-----------------------------------------Summernote-----------------------------------------
+    		// name속성 값이 "images"인 파라미터 자체가 전달되지 않아 images 리스트가 생성되지 않아
+    				// images.add(0, thumbnail); 코드 진행 시 NullPointerException이 발생함.
+    		if(images.isEmpty()) { 
+    			images = new ArrayList<>();
+    		}
+    		//--------------------------------------------------------------------------------------------
+			
+			
 			board.setQnaWriter(loginMember.getMemberNo() + "");
 			
 		
@@ -105,7 +130,8 @@ public class BoardController {
 			
 			int result = boardService.insertBoard(board,images,savePath);
 			
-			String url = null;
+			
+		      String url = null;
 			
 			if(result > 0) {
 				rdAttr.addFlashAttribute("status", "success");
@@ -192,9 +218,7 @@ public class BoardController {
 										 @RequestParam(value="thumbnail", required = false) MultipartFile thumbnail,
 										 @RequestParam(value="images", required =false) List<MultipartFile> images) {
 			
-			System.out.println("deleteImages : " + Arrays.toString(deleteImages));
-			System.out.println("tt");
-			System.out.println(upBoard +"yyy");
+			
 			upBoard.setQnaNo(qnaNo);
 			
 			
@@ -329,7 +353,20 @@ public class BoardController {
 			return "redirect:" + url;
 		}
 
-	
+		//-----------------------------------------Summernote-----------------------------------------
+		// Summernote 이미지 업로드
+		@ResponseBody
+		@RequestMapping("{type}/insertImage")
+		public String insertImage(@PathVariable int type,  HttpServletRequest request,
+				@RequestParam(value="uploadFile", required=false) MultipartFile uploadFile) {
+			
+			String savePath =  request.getSession().getServletContext().getRealPath("resources/infoImages/");
+			
+			Map<String, String> result = boardService.insertImage(uploadFile, savePath);
+			return new Gson().toJson(result);
+		}
+		//--------------------------------------------------------------------------------------------
+		
 		
 		  
 }

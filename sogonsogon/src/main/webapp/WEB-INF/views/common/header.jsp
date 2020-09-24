@@ -16,8 +16,8 @@
 header.masthead {
 	padding-top: 10rem;
 	padding-bottom: calc(10rem - 8.5rem);
-	background: linear-gradient(to bottom, rgba(192, 155, 155, 0.8) 0%,
-		rgba(179, 118, 72, 0.8) 100%), url("${contextPath}/resources/images/bg-masthead.jpg");
+	background:  linear-gradient(to bottom, rgba(244,164, 096, 0.6) 50%,
+		rgba(255, 204, 102, 0.5) 100%),  url("${contextPath}/resources/images/header_3.jpg");
 	background-position: center;
 	background-repeat: no-repeat;
 	background-attachment: scroll;
@@ -25,93 +25,129 @@ header.masthead {
 }
 
 header.masthead h1 {
-	font-size: 2.25rem;
+   font-size: 2.25rem;
 }
 
 @media ( min-width : 1200px) {
-	header.masthead h1 {
-		font-size: 3.5rem;
-	}
+   header.masthead h1 {
+      font-size: 3.5rem;
+   }
 }
 
 .searchbar {
-	margin-bottom: auto;
-	margin-top: auto;
-	height: 60px;
-	background-color: #353b48;
-	border-radius: 30px;
-	padding: 10px;
+   margin-bottom: auto;
+   margin-top: auto;
+   height: 60px;
+   background-color: #353b48;
+   border-radius: 30px;
+   padding: 10px;
 }
 
 .search_input {
-	color: white;
-	border: 0;
-	outline: 0;
-	background: none;
-	width: 0;
-	caret-color: transparent;
-	line-height: 40px;
-	transition: width 0.4s linear;
+   color: white;
+   border: 0;
+   outline: 0;
+   background: none;
+   width: 0;
+   caret-color: transparent;
+   line-height: 40px;
+   transition: width 0.4s linear;
 }
 
 .searchbar:hover>.search_input {
-	padding: 0 10px;
-	width: 450px;
-	caret-color: red;
-	transition: width 0.4s linear;
+   padding: 0 10px;
+   width: 450px;
+   caret-color: red;
+   transition: width 0.4s linear;
 }
 
 .searchbar:hover>.search_icon {
-	background: white;
-	color: #e74c3c;
+   background: white;
+   color: #e74c3c;
 }
 
 .search_icon {
-	height: 40px;
-	width: 40px;
-	float: right;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	border-radius: 50%;
-	color: white;
-	text-decoration: none;
+   height: 40px;
+   width: 40px;
+   float: right;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   border-radius: 50%;
+   color: white;
+   text-decoration: none;
 }
 
 #groupName {
-	background-color: #353b48;
-	color: white;
+   background-color: #353b48;
+   color: white;
 }
 
 .nav-up {
-	top: -50px;
+   top: -50px;
 }
 
 
 #loginModal{
-	display:inline-block;
-	display:inline;
-	margin:auto;
+   display:inline-block;
+   display:inline;
+   margin:auto;
 
 }
 
 #loginModalContent{
-	display:inline-block;
-	display:inline;
-	margin:auto;
-	}
-	
-#loginModalFooter, #loginModalHeader,#modalBody{
-	margin:auto;
+   display:inline-block;
+   display:inline;
+   margin:auto;
+   }
+   
+#loginModalHeader,#modalBody{
+   margin:auto;
 }
- #loginModalHeader {
- 	padding : 50px;
+#loginModalFooter{
+float: left;
+margin-left: 265px;
+margin-bottom: 30px;
+}
+   
+
+.modal-header{
+/*    background-color: white !important; */
+   height: 10px !important;
+   border-bottom: 0px;
+}
+.modal-body{
+/*    background-color: white !important; */
+}
+.modal-footer{
+/*    background-color: white !important; */
+   border-top: 0px;
+}
+ 
+ 
+ #navbarResponsive{
+ 		font-family: 'GmarketSansMedium'; 
+ }
+ 
+ #mainText{
+		font-family: 'yg-jalnan'; 
+ }
+ 
+ #mainContent{
+ 		font-family: 'GmarketSansMedium';
  }
 	
-/* #modal-container-1{
-	width:700px;
+@font-face {
+		font-family: 'GmarketSansMedium';
+		src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+		font-weight: normal;
+		font-style: normal;
+	}
 	
-	} */
+@font-face { font-family: 'yg-jalnan'; 
+	src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_four@1.2/JalnanOTF00.woff') format('woff'); 
+	font-weight: normal; font-style: normal; }
+     
 
 
 
@@ -134,7 +170,6 @@ header.masthead h1 {
                     <ul class="navbar-nav ml-auto my-2 my-lg-0">
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="${contextPath}/board/boardList">자유게시판</a></li>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="${contextPath}/room/roomList/1">방 리스트</a></li>
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#">즐겨찾기</a></li>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="${contextPath}/help/list/1">고객센터</a></li>
                         <li class="nav-item">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
              
@@ -142,7 +177,7 @@ header.masthead h1 {
 	            		<c:when test="${empty loginMember}">
 	                        <li class="nav-item"><a class="nav-link js-scroll-trigger" data-toggle="modal" href="#modal-container-1">로그인</a></li>
 	                        <li class="nav-item"><a class="nav-link js-scroll-trigger">|</a></li>
-	                  		<li class="nav-item"><a class="nav-link js-scroll-trigger" href="${contextPath}/member/signUpView">회원가입</a></li>
+	                  		<li class="nav-item"><a class="nav-link js-scroll-trigger" href="${contextPath}/member/termsForm">회원가입</a></li>
 	                    </c:when>
 	            		<c:otherwise>
 	            		    <c:choose>
@@ -166,13 +201,13 @@ header.masthead h1 {
         <header class="masthead">
             <div class="container h-100">
                 <div class="row h-100 align-items-center justify-content-center text-center">
-                    <div class="col-lg-10 align-self-end">
+                    <div class="col-lg-10 align-self-end" id="mainText">
                         <h1 class="text-uppercase text-white font-weight-bold">오프라인 그룹 스터디 소곤소곤</h1>
                         <hr class="divider my-4" />
                     </div>
-                    <div class="col-lg-8 align-self-baseline">
+                    <div class="col-lg-8 align-self-baseline" id="mainContent">
                         <p class="text-white-75 font-weight-light mb-5">원하는 구성원 또는 익명의 다수가 모여 공부를 진행할 수 있는 스터디 사이트 입니다<br>모르는 내용에 대해 서로 묻고 풀어보세요</p>
-                        <form action="#" method="POST">
+                        <form action="${contextPath}/board/search" method="POST">
 
                             <div class="d-flex justify-content-center h-100">
                                 <div class="searchbar">
@@ -181,8 +216,8 @@ header.masthead h1 {
                                         <option value="2">Q&A게시판</option>
                                         <option value="3">방</option>
                                     </select>
-                                  <input class="search_input" type="text" name="" placeholder="제목검색">
-                                  <a href="#" class="search_icon"><i class="fas fa-search"></i></a>
+                                  <input class="search_input" type="text" name="sVal" placeholder="제목검색">
+                                  <a  class="search_icon" id="searchBtn"><i class="fas fa-search"></i></a>
                                 </div>
                               </div>
                         </form>
@@ -242,7 +277,12 @@ header.masthead h1 {
                 &nbsp;
                 <a href="${contextPath}/member/findPwdForm" class="forgot-password-link">비밀번호 찾기</a>
                 <p class="login-card-footer-text">
-                <a href="${contextPath}/member/signUpView" class="text-reset">회원가입</a></p>
+                <a href="${contextPath}/member/termsForm" class="text-reset">회원가입</a></p>
+				
+				<div  style="width: 767px;" id="loginModalFooter">
+					<button type="button" class="btn btn-secondary"
+						data-dismiss="modal">Close</button>
+				</div>
         
             </div>
           </div>
@@ -252,11 +292,6 @@ header.masthead h1 {
       </div>
 
    
-				</div>
-				
-				<div class="modal-footer" style="width: 767px;" id="loginModalFooter">
-					<button type="button" class="btn btn-secondary"
-						data-dismiss="modal">Close</button>
 				</div>
 			</div>
 		</div>
@@ -373,6 +408,39 @@ header.masthead h1 {
 		    }
 		    return unescape(cookieValue);
 		}
+		
+		
+		   // --------------------검색 버튼 동작 
+  	$("#searchBtn").on("click", function(){
+  		
+  		
+  		var $sVal = $("input[name='sVal']");
+  		
+  		if($sVal.val().trim().length == 0){
+  			  			
+  		}
+  		else{
+  			searchUrl = "board/search?cp=1&"; 
+  			
+  			// 검색어가 입력된 경우
+  			if($sVal.val().trim().length != 0){
+  				searchUrl += "sVal=" + $sVal.val();
+  			}
+  		}
+  	  		location.href = searchUrl;
+  	});
+  	
+
+  	// -------- 검색창 엔터 이벤트 -----------
+  	$("input[name='sVal']").on("keyup", function(event){
+
+  	 if(event.keyCode == 13){ 
+  	  $("#searchBtn").click();	 
+  	 }
+  	 
+  	});
+  	
+  	//---
 			
 		
 	</script>

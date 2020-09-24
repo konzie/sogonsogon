@@ -18,6 +18,7 @@ import com.kh.sogon.mypage.model.vo.ReportMember;
 import com.kh.sogon.room.model.vo.Room;
 import com.kh.sogon.room.model.vo.RoomMember;
 import com.kh.sogon.roomboard.model.vo.RoomBoard;
+import com.kh.sogon.roomboard.model.vo.RoomBoardReply;
 
 @Service
 public class MypageServiceImpl implements MypageService{
@@ -271,8 +272,8 @@ public class MypageServiceImpl implements MypageService{
 	// 신고받은 게시글 작성자 찾기 Service 구현
 	@Transactional(rollbackFor = Exception.class)
 	@Override
-	public List<ReportMember> findMember(String memberNick) {
-		return mypageDAO.findMember(memberNick);
+	public List<ReportMember> findMember(int memberNo) {
+		return mypageDAO.findMember(memberNo);
 	}
 
 	@Transactional(rollbackFor = Exception.class)
@@ -331,6 +332,7 @@ public class MypageServiceImpl implements MypageService{
 		return  mypageDAO.mainNoticeList();
 	}
 
+	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public PageInfo roomReportPage(int cp) {
 		int listRoomBoardCount = mypageDAO.getListReportRoomCount();
@@ -340,31 +342,37 @@ public class MypageServiceImpl implements MypageService{
 		return pInfo;
 	}
 
+	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public List<RoomBoard> selectRoomReportList(PageInfo roomPInfo) {
 		return mypageDAO.selectRoomReportList(roomPInfo);
 	}
 
+	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public int deleteRoomReport(RoomBoard board) {
 		return mypageDAO.deleteRoomReport(board);
 	}
 
+	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public int restorReportRoom(RoomBoard board) {
 		return mypageDAO.restorReportRoom(board);
 	}
 
+	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public Board boardView(int boardNo) {
 		return mypageDAO.boardView(boardNo);
 	}
 
+	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public List<Board> myReportBoard(String writer) {
 		return mypageDAO.myReportBoard(writer);
 	}
 
+	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public PageInfo roomBoardPage(int cp, int memberNo) {
 		int roomBoardCount = mypageDAO.getListroomBoardCount(memberNo);
@@ -374,13 +382,55 @@ public class MypageServiceImpl implements MypageService{
 		return pInfo;
 	}
 
+	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public List<RoomBoard> selectRoomBoardList(PageInfo roomPInfo, int memberNo) {
 		return mypageDAO.selectRoomBoardList(roomPInfo, memberNo);
 	}
 
+	@Transactional(rollbackFor = Exception.class)
 	@Override
-	public int selectBoard(RoomBoard board) {
+	public RoomBoard selectBoard(RoomBoard board) {
 		return mypageDAO.selectBoard(board);
+	}
+
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public int reportCount2() {
+		return mypageDAO.reportCount2();
+	}
+
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public RoomBoard roomBoard(RoomBoard board) {
+		return mypageDAO.roomBoard(board);
+	}
+
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public int reportInfo(int memberNo) {
+		return mypageDAO.reportInfo(memberNo);
+	}
+
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public PageInfo myRoomReplyPage(int cp, int memberNo) {
+		int listRoomReplyCount = mypageDAO.getListRoomReplyRoomCount(memberNo);
+		
+		pInfo.setPageInfo(cp, listRoomReplyCount);
+
+		return pInfo;
+	}
+
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public List<RoomBoardReply> selectRoomReplyList(PageInfo pInfo, int memberNo) {
+		return mypageDAO.selectRoomReplyList(pInfo, memberNo);
+	}
+
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public int findRoomNo(int i) {
+		return mypageDAO.findRoomNo(pInfo, i);
 	}
 }

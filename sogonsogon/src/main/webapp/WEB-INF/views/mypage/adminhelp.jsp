@@ -162,7 +162,7 @@
     	}
     	location.href = "${contextPath}/mypage/helpView/"+boardNo;
     }).on("mouseenter", function(){
-    	$(this).parent().css("cursor", "pointer");
+    	$(this).css("cursor", "pointer");
     });
     </script>
     </body>

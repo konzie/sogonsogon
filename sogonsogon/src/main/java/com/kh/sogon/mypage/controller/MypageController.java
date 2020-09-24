@@ -1,5 +1,6 @@
 package com.kh.sogon.mypage.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -9,7 +10,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -18,7 +18,6 @@ import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.kh.sogon.board.model.vo.Board;
 import com.kh.sogon.help.model.vo.Help;
 import com.kh.sogon.member.model.vo.Member;
@@ -29,9 +28,8 @@ import com.kh.sogon.mypage.model.vo.HelpAnswer;
 import com.kh.sogon.mypage.model.vo.ReportMember;
 import com.kh.sogon.room.model.vo.Room;
 import com.kh.sogon.room.model.vo.RoomMember;
-import com.kh.sogon.roomboard.model.service.RoomBoardService;
 import com.kh.sogon.roomboard.model.vo.RoomBoard;
-import com.sun.org.glassfish.gmbal.ParameterNames;
+import com.kh.sogon.roomboard.model.vo.RoomBoardReply;
 
 @SessionAttributes({"loginMember"})
 @Controller
@@ -49,24 +47,23 @@ public class MypageController {
 	public String mypage(Model model) {	
 		Member loginMember = (Member)model.getAttribute("loginMember");
 		
-		List<ReportMember> reportList = mypageService.findMember(loginMember.getMemberNick());
+		List<ReportMember> reportList = mypageService.findMember(loginMember.getMemberNo());
 		
 		if(reportList.size()>0) {
 			if(reportList.get(0).getRoomNo()>0) {
 				RoomBoard board = new RoomBoard();
 				board.setRoomBoardNo(reportList.get(0).getRoomBoardNo());
 				board.setRoomNo(reportList.get(0).getRoomNo());
-				int result = mypageService.selectBoard(board);
+				board = mypageService.selectBoard(board);
 				
-				if(result>0) {
 					model.addAttribute("board", board);		
-				}
 			}else {
 	            Board reportView = mypageService.noticeView(reportList.get(0).getBoardNo());
 				model.addAttribute("reportView", reportView);
 			}
+
+			model.addAttribute("report", reportList.get(0));
 		}
-		model.addAttribute("report", reportList.get(0));
 		model.addAttribute("loginMember", loginMember);
 		
 		return "mypage/mypagemain";
@@ -90,6 +87,22 @@ public class MypageController {
 		
 		model.addAttribute("reportList", reportList);
 		
+		
+		PageInfo roomPInfo = new PageInfo();
+
+		roomPInfo.setCurrentPage(1);
+		roomPInfo.setLimit(3);
+		
+		List<RoomBoard> roomReportList = mypageService.selectRoomReportList(roomPInfo);
+		
+		for(int i=0;i<roomReportList.size();i++) {
+			if(roomReportList.get(i).getRoomBoardContent().length()>20) {
+				roomReportList.get(i).setRoomBoardContent(roomReportList.get(i).getRoomBoardContent().substring(0,20)+"...");
+			}
+		}
+		
+		model.addAttribute("roomReportList", roomReportList);
+
 		List<Help> helpList = mypageService.selectQList(pInfo);
 
 		for(int i=0;i<helpList.size();i++) {
@@ -128,6 +141,30 @@ public class MypageController {
 		return "mypage/myreply";
 		}
 	
+	@RequestMapping("myRoomReply")
+	public String myRoomReply(@RequestParam(value="cp", required=false, defaultValue = "1") int cp, Model model) {
+		
+		Member loginMember = (Member)model.getAttribute("loginMember");
+		
+		PageInfo pInfo = mypageService.myRoomReplyPage(cp, loginMember.getMemberNo());
+
+		pInfo.setLimit(10);
+		
+		List<RoomBoardReply> myRoomReply = mypageService.selectRoomReplyList(pInfo, loginMember.getMemberNo());
+
+		int[] boardNoList = new int[myRoomReply.size()];
+		
+		for(int i=0;i<myRoomReply.size();i++) {
+			boardNoList[i] = myRoomReply.get(i).getParentBoardNo(); 
+			myRoomReply.get(i).setRoomNo(mypageService.findRoomNo(boardNoList[i]));
+		}
+
+		model.addAttribute("myRoomReply", myRoomReply);
+		model.addAttribute("pInfo", pInfo);
+		
+		return "mypage/myRoomReply";
+		}
+		
 	@RequestMapping("myroom")
 	public String myroom(@RequestParam(value="cp", required=false, defaultValue = "1") int cp, Model model) {
 		
@@ -142,11 +179,11 @@ public class MypageController {
 			pInfo = mypageService.roomPage(cp, roomMemberList);
 			pInfo.setLimit(6);
 			roomList = mypageService.selectRoomList(pInfo, roomMemberList);
+			model.addAttribute("pInfo", pInfo);
 		}
 
 		model.addAttribute("loginMember", loginMember);
 		model.addAttribute("roomList", roomList);
-		model.addAttribute("pInfo", pInfo);
 		
 		return "mypage/myroom";
 		
@@ -158,22 +195,30 @@ public class MypageController {
 		Member loginMember = (Member)model.getAttribute("loginMember");
 		
 		PageInfo pInfo = mypageService.boardPage(cp, loginMember.getMemberNo());
-		pInfo.setLimit(5);
+		pInfo.setLimit(10);
 		List<Board> boardList = mypageService.selectBList(pInfo, loginMember.getMemberNo());
 		                                                                   
 		model.addAttribute("boardList", boardList);
 		model.addAttribute("pInfo", pInfo);	
 		
-		PageInfo roomPInfo = mypageService.roomBoardPage(cp, loginMember.getMemberNo());
-		roomPInfo.setLimit(5);
-		List<RoomBoard> roomBoard = mypageService.selectRoomBoardList(roomPInfo, loginMember.getMemberNo());
-		                                                                   
-		model.addAttribute("roomBoard", roomBoard);
-		model.addAttribute("roomPInfo", roomPInfo);	
-		
 		return "mypage/myboard";
 	}
 		
+	@RequestMapping("myRoomboard")
+	public String myRoomboard(Member member, Model model, @RequestParam(value="cp", required=false, defaultValue = "1") int cp) {
+		
+		Member loginMember = (Member)model.getAttribute("loginMember");
+		
+		PageInfo roomPInfo = mypageService.roomBoardPage(cp, loginMember.getMemberNo());
+		roomPInfo.setLimit(10);
+		List<RoomBoard> roomBoard = mypageService.selectRoomBoardList(roomPInfo, loginMember.getMemberNo());
+		                           
+		model.addAttribute("roomBoard", roomBoard);
+		model.addAttribute("roomPInfo", roomPInfo);	
+		
+		return "mypage/myRoomboard";
+	}
+	
 	@RequestMapping("boardView/{boardNo}")
 	public String boardView(@PathVariable int boardNo, Model model) {
 		
@@ -182,6 +227,21 @@ public class MypageController {
 		model.addAttribute("board", board);
 
 		return "mypage/boardView";
+	}
+	
+	@RequestMapping("roomBoardView/{boardNo}/{roomNo}")
+	public String roomBoardView(@PathVariable int boardNo, @PathVariable int roomNo, Model model) {
+		
+		RoomBoard roomBoard = new RoomBoard();
+		
+		roomBoard.setRoomBoardNo(boardNo);
+		roomBoard.setRoomNo(roomNo);
+		
+		roomBoard = mypageService.roomBoard(roomBoard);
+
+		model.addAttribute("roomBoard", roomBoard);
+
+		return "mypage/roomBoardView";
 	}
 	
 	// 회원 정보 수정 메뉴 클릭 시
@@ -258,12 +318,12 @@ public class MypageController {
 	}
 	
 	// 신고사항 조회
-	@RequestMapping("adminreport")
-	public String adminreport(Model model, @RequestParam(value="cp", required=false, defaultValue="1") int cp) {
+	@RequestMapping("reportBoard")
+	public String reportBoard(Model model, @RequestParam(value="cp", required=false, defaultValue="1") int cp) {
 		
 		PageInfo pInfo = mypageService.reportPage(cp);
 
-		pInfo.setLimit(5);
+		pInfo.setLimit(10);
 		
 		List<Board> reportList = mypageService.selectDList(pInfo);
 		
@@ -275,11 +335,15 @@ public class MypageController {
 
 		model.addAttribute("reportList", reportList);
 		model.addAttribute("pInfo", pInfo);
-		
+		return "mypage/reportBoard";
+		}	
+	
+	@RequestMapping("reportRoom")
+	public String reportRoom(Model model, @RequestParam(value="cp", required=false, defaultValue="1") int cp) {
 		
 		PageInfo roomPInfo = mypageService.roomReportPage(cp);
 
-		roomPInfo.setLimit(5);
+		roomPInfo.setLimit(10);
 		
 		List<RoomBoard> roomReportList = mypageService.selectRoomReportList(roomPInfo);
 		
@@ -292,7 +356,7 @@ public class MypageController {
 		model.addAttribute("roomReportList", roomReportList);
 		model.addAttribute("roomPInfo", roomPInfo);
 
-		return "mypage/adminreport";
+		return "mypage/reportRoom";
 		}
 	
 	// 고객센터 조회
@@ -367,8 +431,8 @@ public class MypageController {
 	public int reportCount() {
 		
 		int count = mypageService.reportCount();
-		
-		return count;
+		int count2 = mypageService.reportCount2();
+		return count+count2;
 	}
 	
 	@ResponseBody
@@ -581,32 +645,40 @@ public class MypageController {
 		return url;
 	}	
 
-	@RequestMapping("updateReport/{memberNick}/{boardNo}/{roomNo}")
-	public String updateReport(@PathVariable String memberNick, @PathVariable int boardNo, @PathVariable int roomNo, Model model, RedirectAttributes rdAttr, SessionStatus sessionstatus){
+	@RequestMapping("updateReport/{memberNo}/{boardNo}/{roomNo}")
+	public String updateReport(@PathVariable int memberNo, @PathVariable int boardNo, @PathVariable int roomNo, Model model, RedirectAttributes rdAttr, SessionStatus sessionstatus){
 
-		List<ReportMember> memberList = mypageService.findMember(memberNick);
+		List<ReportMember> memberList = mypageService.findMember(memberNo);
 
 		ReportMember member = new ReportMember();
 		if(memberList.size()>0){
 			member = memberList.get(0);
-		}else {
-			
-			member.setMemberNick(memberNick);
-			member.setRoomBoardNo(roomNo);
+			member.setRoomNo(roomNo);
 			if(roomNo>0) { // roomNo 있을 때
 				member.setRoomBoardNo(boardNo);
+				member.setBoardNo(0);
 			}else { // roomNo 없을 때
+				member.setRoomBoardNo(0);
+				member.setBoardNo(boardNo);
+			}
+		}else {
+			member.setMemberNo(memberNo);
+			member.setRoomNo(roomNo);
+
+			if(roomNo>0) { // roomNo 있을 때
+				member.setRoomBoardNo(boardNo);
+				member.setBoardNo(0);
+			}else { // roomNo 없을 때
+				member.setRoomBoardNo(0);
 				member.setBoardNo(boardNo);
 			}
 			
 			int result = mypageService.insertMember(member);
 
 			if(result>0) {
-				memberList = mypageService.findMember(member.getMemberNick());
+				memberList = mypageService.findMember(memberNo);
 			}
 		}
-		
-		int memberNo = memberList.get(0).getMemberNo();
 		
 		member.setMemberNo(memberNo);
 		int result= mypageService.updateReport(member);			
@@ -629,9 +701,8 @@ public class MypageController {
 				status = "success";
 				msg = "신고 처리 완료";
 				
-				
 				if(member.getReportCount()>=3) {
-					mypageService.deleteInfo(memberNo);
+					mypageService.reportInfo(memberNo);
 				}
 				
 				PageInfo pInfo = mypageService.reportPage(1);
@@ -673,21 +744,27 @@ public class MypageController {
 		rdAttr.addFlashAttribute("status",status);
 		rdAttr.addFlashAttribute("msg",msg);
 		
-		return "redirect:/mypage/adminreport";
+		String url = null;
+		if(roomNo>0) {
+			url = "redirect:/mypage/reportRoom";
+		}else {
+			url = "redirect:/mypage/reportBoard";
+		}
+		return url;
 	}
 	
-	@RequestMapping("restoreReport/{writerNick}/{boardNo}")
-	public String restoreReport(@PathVariable int boardNo, @PathVariable String writerNick, Model model, RedirectAttributes rdAttr){
+	@RequestMapping("restoreReport/{writerNo}/{boardNo}")
+	public String restoreReport(@PathVariable int boardNo, @PathVariable int writerNo, Model model, RedirectAttributes rdAttr){
 		
 		int result = mypageService.restoreReport(boardNo);
 		
 		ReportMember member = new ReportMember();
 		
-		member.setMemberNick(writerNick);
+		member.setMemberNo(writerNo);
 
 		int result2=0;
 		if(result > 0) {
-			List<ReportMember> reportList = mypageService.findMember(writerNick);
+			List<ReportMember> reportList = mypageService.findMember(writerNo);
 			result2 = mypageService.restoreMember(reportList.get(0).getMemberNo());
 		}
 		
@@ -698,7 +775,7 @@ public class MypageController {
 		if(result2 > 0) {
 			status = "success";
 			msg = "게시글 복원 성공";
-			url = "mypage/adminreport";
+			url = "mypage/reportBoard";
 					
 			PageInfo pInfo = mypageService.reportPage(1);
 			
@@ -726,8 +803,8 @@ public class MypageController {
 		return url;
 	}
 	
-	@RequestMapping("restoreReportRoom/{memberNick}/{roomBoardNo}/{roomNo}")
-	public String restorReportRoom(@PathVariable String memberNick, @PathVariable int roomBoardNo, @PathVariable int roomNo, Model model, RedirectAttributes rdAttr) {
+	@RequestMapping("restoreReportRoom/{memberNo}/{roomBoardNo}/{roomNo}")
+	public String restorReportRoom(@PathVariable int memberNo, @PathVariable int roomBoardNo, @PathVariable int roomNo, Model model, RedirectAttributes rdAttr) {
 		
 		RoomBoard board = new RoomBoard();
 		board.setRoomBoardNo(roomBoardNo);
@@ -736,11 +813,11 @@ public class MypageController {
 		
 		ReportMember member = new ReportMember();
 		
-		member.setMemberNick(memberNick);
+		member.setMemberNo(memberNo);
 
 		int result2=0;
 		if(result > 0) {
-			List<ReportMember> reportList = mypageService.findMember(memberNick);
+			List<ReportMember> reportList = mypageService.findMember(memberNo);
 			result2 = mypageService.restoreMember(reportList.get(0).getMemberNo());
 		}
 		
@@ -775,7 +852,7 @@ public class MypageController {
 		rdAttr.addFlashAttribute("status", status);
 		rdAttr.addFlashAttribute("msg", msg);
 		
-		return "redirect:/mypage/adminreport";
+		return "redirect:/mypage/reportRoom";
 	}
 	
 	@RequestMapping("answerView/{helpNo}")
@@ -829,5 +906,18 @@ public class MypageController {
 		String writer = request.getParameter("writer");
 		
 		return mypageService.myReportBoard(writer);
+	}
+	
+	@RequestMapping("reportView2/{boardNo}/{roomNo}")
+	public String reportView2(@PathVariable int boardNo, @PathVariable int roomNo, Model model) {
+		
+		RoomBoard board = new RoomBoard();
+		
+		board.setRoomBoardNo(boardNo);
+		board.setRoomNo(roomNo);
+		board = mypageService.roomBoard(board);
+		model.addAttribute("board",board);
+		
+		return "mypage/reportView2";
 	}
 }

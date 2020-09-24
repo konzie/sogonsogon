@@ -42,7 +42,7 @@
       	font-size: 15px;
       }
 </style>
-<title>공지사항 상세조회</title>
+<title>신고게시글 상세조회</title>
 </head>
 <body>
   <jsp:include page="../common/header.jsp"/>
@@ -72,12 +72,12 @@
 		
 		<c:choose>
 		<c:when test="${loginMember.memberNo==1}">
-			<button type="button" class="btn btn-danger" onclick="location.href ='../updateReport/${report.writerNick}/${report.qnaNo}/0'">삭제</button>
-			<button type="button" class="btn btn-dark" onclick="location.href ='../restoreReport/${report.writerNick}/${report.qnaNo}'">복원</button>
-			<button type="button" class="btn btn-warning" onclick="location.href ='../adminreport'">목록으로</button>
+			<button type="button" class="btn btn-danger" onclick="location.href ='../updateReport/${report.writer}/${report.qnaNo}/0'">삭제</button>
+			<button type="button" class="btn btn-dark" onclick="location.href ='../restoreReport/${report.writer}/${report.qnaNo}'">복원</button>
+			<button type="button" class="btn btn-warning" onclick="location.href ='../reportBoard'">목록으로</button>
 		</c:when>
 		<c:otherwise>
-			<button type="button" class="btn btn-warning" onclick="location.href ='../mypage'">돌아가기</button>
+			<button type="button" class="btn btn-warning" onclick="location.href ='../reportBoard'">목록으로</button>
 		</c:otherwise>
 		</c:choose>
 		</div>

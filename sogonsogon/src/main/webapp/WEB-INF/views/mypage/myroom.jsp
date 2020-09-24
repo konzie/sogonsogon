@@ -15,13 +15,15 @@
             font-weight: normal;
             font-style: normal;
         }
+        @font-face { font-family: 'TmoneyRoundWindExtraBold'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-07@1.0/TmoneyRoundWindExtraBold.woff') format('woff'); font-weight: normal; font-style: normal; }
 
         .room-box {
          width: 1200px;
-            height: 35%;
-            justify-content: center;
-            flex-wrap: unset;
-            font-family: 'GmarketSansMedium';
+         height: 35%;
+         justify-content: center;
+         flex-wrap: unset;
+         font-family: 'GmarketSansMedium';
+         margin: 0px;
         }
         .roomlist-box {
             width: 320px;
@@ -147,91 +149,15 @@
          text-align: center;
       }
 
-      *, *:before, *:after {
-          -webkit-box-sizing: border-box;
-          box-sizing: border-box;
-       } 
-
-   .search-box {
-     position: relative;
-     width: 100%;
-     max-width: 360px;
-     height: 60px;
-     border-radius: 120px;
-     margin: 0 auto;
-   }
-   
-   .search-border {
-     display: block;
-     width: 100%;
-     max-width: 360px;
-     height: 60px;
-   }
-   
    .border {
      fill: none;
      stroke: #ff8c1a;
      stroke-width: 5;
      stroke-miterlimit: 10;
    }
+
    
-   #search {
-     font-family: 'Montserrat Alternates', sans-serif;
-     position: absolute;
-     top: 0;
-     left: 0;
-     width: 100%;
-     height: 100%;
-     border-radius: 120px;
-     border: none;
-     background: rgba(255,255,255,0);
-     padding: 0 68px 0 68px;
-     color: black;
-     font-size: 1.32em;
-     font-weight: 400;
-     letter-spacing: -0.015em;
-     outline: none;
-   }
-   
-   #search::-webkit-input-placeholder {color: rgb(112, 112, 112);}
-   .search-icon,
-   .go-icon {
-      position: absolute;
-      top: 0;
-      height: 60px;
-      width: 86px;
-      line-height: 61px;
-      text-align: center;
-   }
-   .search-icon {
-      left: 0;
-      pointer-events: none;
-      font-size: 1.22em;
-      will-change: transform;
-      top: 9px;
-   }
-   .go-icon {
-      right: 0;
-      pointer-events: none;
-      font-size: 1.38em;
-      will-change: opacity;
-      cursor: default;
-      opacity: 0;
-   }
-   
-    .modal-button2{
-       width: 100px;
-       height: 35px;
-       border-radius: 18px;
-       background-color: cornflowerblue;
-       line-height: 200%;
-       float: left;
-       color: white;
-       text-decoration: none;
-     }
-     .modal-body{
-        text-align: center;
-     }
+
      
       .content{
       float:left;
@@ -249,6 +175,43 @@
       .pagination {
          justify-content: center;
       }
+      .my-4{
+         margin-right: 300px !important;
+      }
+      
+      button {
+       width:100px;
+       background-color: #ffc107;
+       border: none;
+       color:#fff;
+       padding: 8px 0;
+       text-align: center;
+       text-decoration: none;
+       display: inline-block;
+       font-size: 15px;
+       margin: 5px !important;
+       cursor: pointer;
+       border-radius: 16px !important;
+       font-size: 14px !important;
+       font-weight: bold;
+}
+
+ button:hover{
+    background-color: #e86c00;
+ }
+   .nonspace{
+      font-family: 'NEXON Lv1 Gothic OTF Light'; 
+      font-size: 18px;
+      text-align: center;
+   }
+   h3{
+      font-family: 'NEXON Lv1 Gothic OTF Bold'; 
+      text-align: center;
+      
+   }
+   
+   @font-face { font-family: 'NEXON Lv1 Gothic OTF Light'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv1 Gothic OTF Light.woff') format('woff'); font-weight: normal; font-style: normal; }
+   @font-face { font-family: 'NEXON Lv1 Gothic OTF Bold'; src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv1 Gothic OTF Bold.woff') format('woff'); font-weight: normal; font-style: normal; }
 </style>
 </head>
 <body>   
@@ -262,13 +225,16 @@
   <div class="content">
   <jsp:include page="mypage2.jsp"/>
   <div class="content2">       
-      <h4 class="mb-5">참여한 스터디방</h4>
+      <h3 class="mb-5"><div>참여한 스터디방</div></h3>
      <c:choose>
      <c:when test="${empty roomList}">
-        <div> 가입한 방이 없습니다</div>
-        <div>
-           <button onclick="location.href='../room/roomList/1'">방 리스트 보기</button>
-           <button onclick="location.href='${contextPath}/room/insertRoom'">방 만들기</button>
+        <div class="nonspace">
+           <div> 가입한 방이 없습니다 <br> 새로운 방을 만들어주세요!</div>
+              <br>
+              <div>
+                 <button onclick="location.href='../room/roomList/1'">방 리스트 보기</button>
+                 <button onclick="location.href='${contextPath}/room/insertRoom'" style="width: 80px;">방 만들기</button>
+              </div>
         </div>
      </c:when>
      <c:otherwise>
@@ -338,12 +304,12 @@
      </c:otherwise>
      </c:choose>
      
-      
-   <div class="my-4">
+   
+     <div class="my-4">
             <ul class="pagination">
                <c:if test="${pInfo.currentPage  > pInfo.pagingBarSize}">   
                    <li>
-                      <a class="page-link text-primary" href="?cp=1">&lt;&lt;</a>
+                   	<a class="page-link text-primary" href="?cp=1">&lt;&lt;</a>
                    </li>
                    <li>
                       <fmt:parseNumber var="operand1" value="${(pInfo.currentPage-1)/pInfo.pagingBarSize}" integerOnly="true" />
@@ -386,69 +352,20 @@
             </ul>
         </div> 
       
-     <!-- Modal -->
-     <div class="modal fade" id="myModal" role="dialog">
-       <div class="modal-dialog modal-lg">
-         <div class="modal-content">
-           <div class="modal-header">
-             <button type="button" class="close" data-dismiss="modal">&times;</button>
-             <h4 class="modal-title"></h4>
-           </div>
-           <div class="modal-body">
-
-                <p>초보 자바 개발자들 모임</p>
-               <p>방소개</p>
-               <input type="password"> 
-            
-                <a data-dismiss="modal"><div class="modal-button2">뒤로가기</div></a>
-                <a href="roomDetail"><div class="modal-button2">참여하기</div></a>
-           </div>
-         </div>
-       </div>
-     </div> <!-- modal end -->
-     
      
      </div>
  </div>    
+      
    <jsp:include page="../common/footer.jsp" />
 
 <script>
 $(".join-button").on("click",function(){
-
-      $(".pass-area").css("display","block");   
          var roomNo = $(this).attr("id");
-         // console.log(roomNo);
+
          $(".hiddenNo").val(roomNo);
+
+      location.href="${contextPath}/room/roomDetail/"+ roomNo;
       
-         $(".transPage").prop("action", "${contextPath}/room/roomDetail/"+ roomNo);
-         
-         $.ajax({
-            url : "${contextPath}/room/roomMList/"+roomNo,
-            type : "POST",
-            dataType : "JSON",
-            success : function(map){
-               $(".m-title").html("\""+map.room.roomTitle+"\''");
-               $(".m-content").html(map.room.roomContent);
-               
-               // 비공개 방인경우 비밀번호 입력창 사라짐
-               if(map.room.roomOpen == 'Y' ){
-                  $(".pass-area").css("display","none");
-                  
-               }
-               
-               // 로그인한 멤버가 이미 가입한 방일때 
-               for(var i=0; i<map.roomMember.length; i++){
-                  if(roomNo == map.roomMember[i].roomMemberRoomNo){
-                     $(".pass-area").css("display","none");
-                     $(".m-content").append("<br>+이미 가입한 방입니다.");
-                  }
-               } 
-      
-            },error : function(){
-                console.log("ajax 통신 실패");
-            }
-         });
-    // else end
 });
 
 </script>

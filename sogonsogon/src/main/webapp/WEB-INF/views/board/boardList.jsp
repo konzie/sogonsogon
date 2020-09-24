@@ -351,8 +351,14 @@
                                    <tr>      
                                    <td>${board.qnaNo}</td>
                                    <td>${board.qnaCategory}</td>
-                                   <td>${board.qnaTitle}
-                                   <c:if test="${board.rCnt >0 }">[${board.rCnt}]</c:if></td>
+                                   <td> 
+                                 <c:if test="${board.qnaWriter  == 1}">
+                                 <h3></h3><b> ${board.qnaTitle}</b></h3>
+                                 </c:if> 
+                                 <c:if test="${board.qnaWriter  != 1}">
+                                  ${board.qnaTitle}
+                                 </c:if> 
+                                 <c:if test="${board.rCnt >0 }">[${board.rCnt}]</c:if></td>
                                    <c:set var="flag" value="false"/>
                                    <td>${board.writerNick}</td>
                                    
@@ -371,7 +377,7 @@
                                  </c:otherwise>
                               </c:choose>
                            </td>
-                                   <td>${board.likeCount}</td>
+                                   <td class="likeCnt">${board.likeCount}</td>
                                    </tr>   
                              </c:forEach>
                        </c:otherwise>
@@ -510,6 +516,24 @@
   	 }
   	 
   	});
+  	
+  	//---
+  	
+  	// 게시글 추천수
+	    function recCount() {
+			$.ajax({
+				url: "${contextPath}/board/qnaLikeCount",
+	            type: "POST",
+	            data: {
+	            	qnaNo: '${board.qnaNo}'
+	            },
+	            success: function (count) {
+	            	$(".likeCnt").html(count);
+	            }, error : function() {
+	            	console.log("AJAX 통신 에러");
+	            }
+			});
+	    };
       
       </script>
     </body>

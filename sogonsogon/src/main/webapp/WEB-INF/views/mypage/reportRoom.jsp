@@ -39,102 +39,7 @@
   <div class="content">
   <jsp:include page="adminpage2.jsp"/>
 	<div class="content2">       
-      <h4 class="mb-5">자유질문게시판 신고 목록</h4>
-       <table class="table table-striped table-hover reportBoard">
-                <thead>
-                    <tr>
-                        <th>글번호</th>
-                        <th>분류</th>
-                        <th>제목</th>
-                        <th>내용</th>
-                        <th>작성자</th>						
-                        <th>작성일</th>		
-                        <th>처리 </th>
-                    </tr>
-                </thead>
-                <tbody>
-                <c:choose>
-          			<c:when test="${empty reportList}">
-		         		<tr>		
-		         			<td colspan="7" align="center">존재하는 게시글이 없습니다.</td>
-		         		</tr>
-          			</c:when>	
-          			<c:otherwise>
-          				<c:forEach var="board" items="${reportList}">
-	              		<tr>		
-	              			<jsp:useBean id="now" class="java.util.Date"></jsp:useBean>
-	              			<fmt:formatDate var="today" value="${now}" pattern="yyyy-MM-dd"/>
-	              			<fmt:formatDate var="createDate" value="${board.qnaCreateDate}" pattern="yyyy-MM-dd"/>
-	              			<fmt:formatDate var="createTime" value="${board.qnaCreateDate}" pattern="hh:mm:ss"/>
-	              			<td>
-		              			<c:if test="${today == createDate}">
-	              			<span class="badge badge-primary new">new</span>
-		              			</c:if>
-		              		<span>${board.qnaNo}</span>
-		              		</td>
-		              		<td>${board.qnaCategory}</td>
-		              		<td>${board.qnaTitle}</td>
-		              		<td>${board.qnaContent}</td>
-		              		<td>${board.writerNick}</td>
-		              		<td>
-		              			<c:choose>
-		              				<c:when test="${today == createDate }">${createTime}</c:when>
-		              				<c:otherwise>${createDate}</c:otherwise>
-		              			</c:choose>
-		              		</td>
-		              		<td><button type="button" class="btn btn-danger btn-sm" onclick="location.href ='updateReport/${board.writerNick}/${board.qnaNo}/0'">경고</button>          <button type="button" class="btn btn-dark btn-sm" onclick="location.href ='restoreReport/${board.writerNick}/${board.qnaNo}'">X</button></td>
-	              		</tr>	
-          				</c:forEach>
-          			</c:otherwise>
-          		</c:choose>
-                </tbody>
-            </table>
-            
-            <div class="my-4">
-            <ul class="pagination">
-               <c:if test="${pInfo.currentPage  > pInfo.pagingBarSize}">   
-                   <li>
-                   	<a class="page-link text-primary" href="?cp=1">&lt;&lt;</a>
-                   </li>
-                   <li>
-                      <fmt:parseNumber var="operand1" value="${(pInfo.currentPage-1)/pInfo.pagingBarSize}" integerOnly="true" />
-                      <c:set var="prev" value="${operand1 * 10 }" />
-                      <a class="page-link text-primary" href="?cp=${prev}">&lt;</a>
-                   </li>
-                </c:if>
-                
-                <!-- 10개의 페이지 목록 -->
-                <c:forEach var="p" begin="${pInfo.startPage}" end="${pInfo.endPage}">
-                   <c:choose>
-                      <c:when test="${p==pInfo.currentPage}">
-                         <li><a class="page-link">${p}</a></li>
-                      </c:when>
-                      <c:otherwise>
-                         <li>
-                            <a class="page-link text-primary" href="?cp=${p}">${p}</a>
-                         </li>
-                      </c:otherwise>
-                   </c:choose>
-                </c:forEach>
-                
-                
-                 <!-- 다음 페이지로(>) -->
-                <c:if test="${pInfo.maxPage>pInfo.endPage}">
-                <!-- 다음페이지(>) -->
-                   <li>
-                   <fmt:parseNumber var="operand2" value="${(pInfo.currentPage+9)/10}" integerOnly="true"/>
-                   <c:set var="next" value="${operand2*10+1}"/>
-                     <a class="page-link text-primary" href="?cp=${next}">&gt;</a>
-                   </li>
-                   
-                   <!-- 맨 끝으로(>>) -->
-                   <li>
-                       <a class="page-link text-primary" href="?cp=${pInfo.maxPage}">&gt;&gt;</a>
-                   </li>
-                </c:if>
-            </ul>
-        </div> 
-   
+ 
          <h4 class="mb-5">스터디룸 게시판 신고 목록</h4>
        <table class="table table-striped table-hover reportRoomBoard">
                 <thead>
@@ -166,7 +71,7 @@
 		              			<c:if test="${today1 == createDate1}">
 	              			<span class="badge badge-primary new">new</span>
 		              			</c:if>
-		              		<span>${roomBoard.roomBoardNo}</span><span display="none">${roomBoard.roomNo}</span><span>(ROOM : ${roomBoard.roomNo})</span>
+		              		<span>${roomBoard.roomBoardNo}</span><span style="display:none;">${roomBoard.roomNo}</span><span>(ROOM : ${roomBoard.roomNo})</span>
 		              		</td>
 		              		<td>${roomBoard.roomBoardType}</td>
 		              		<td>${roomBoard.roomBoardTitle}</td>
@@ -178,7 +83,7 @@
 		              				<c:otherwise>${createDate1}</c:otherwise>
 		              			</c:choose>
 		              		</td>
-		              		<td><button type="button" class="btn btn-danger btn-sm" onclick="location.href ='updateReport/${roomBoard.roomBoardWriter}/${roomBoard.roomBoardNo}/${roomBoard.roomNo}'">경고</button>          <button type="button" class="btn btn-dark btn-sm" onclick="location.href ='restoreReportRoom/${roomBoard.roomBoardWriter}/${roomBoard.roomBoardNo}/${roomBoard.roomNo}'">X</button></td>
+		              		<td><button type="button" class="btn btn-danger btn-sm" onclick="location.href ='updateReport/${roomBoard.roomBoardWriterNo}/${roomBoard.roomBoardNo}/${roomBoard.roomNo}'">경고</button>          <button type="button" class="btn btn-dark btn-sm" onclick="location.href ='restoreReportRoom/${roomBoard.roomBoardWriterNo}/${roomBoard.roomBoardNo}/${roomBoard.roomNo}'">X</button></td>
 	              		</tr>	
           				</c:forEach>
           			</c:otherwise>
@@ -236,18 +141,7 @@
     
     $(".new").parent().parent().css("background-color","bisque");
 
-    $(".reportBoard td:not(:last-child)").on("click",function(){
-    	if($(this).parent().children().children().eq(0).text()=="new"){
-    		var boardNo = $(this).parent().children().children().eq(1).text(); 				
-    	}else{
-    		var boardNo = $(this).parent().children().children().eq(0).text(); 	
-    	}
-    	location.href = "${contextPath}/mypage/reportView/"+boardNo;
-    }).on("mouseenter", function(){
-    	$(this).parent().css("cursor", "pointer");
-    });
-    
-    $(".reportRoomBoard td:not(:last-child)").on("click",function(){
+    $("td:not(td:last-of-type)").on("click",function(){
     	if($(this).parent().children().children().eq(0).text()=="new"){
     		var boardNo = $(this).parent().children().children().eq(1).text();
     		var roomNo = $(this).parent().children().children().eq(2).text(); 
@@ -255,9 +149,9 @@
     		var boardNo = $(this).parent().children().children().eq(0).text(); 
     		var roomNo = $(this).parent().children().children().eq(1).text(); 
     	}
-    	location.href = "${contextPath}/roomBoard/"+roomNo+"/"+boardNo;
+    	location.href = "${contextPath}/mypage/reportView2/"+boardNo+"/"+roomNo;
     }).on("mouseenter", function(){
-    	$(this).parent().css("cursor", "pointer");
+    	$(this).css("cursor", "pointer");
     });
     </script>    
     </body>

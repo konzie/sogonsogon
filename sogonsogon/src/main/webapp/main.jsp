@@ -266,7 +266,7 @@
 	    height: 250px;
 	    text-align: center;
 	    position: fixed;
-	    bottom: 200px;
+	    bottom: 100px;
 	    right: 100px;
 	    padding: 10px;
 	    border-radius: 5px;
@@ -277,6 +277,7 @@
 		color: black;
 		text-decoration: none;
 	}
+
 
 </style>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -395,7 +396,7 @@
          <div class="col-lg-12" align="center">
             <h2>
             <span class="bordTitle">방 리스트 최신순</span>
-            <span class="more"><a style="text-decoration: none; color: grey;"  href="${contextPath}/room/roomList/1">더보기</a></span>
+            <span class="more"><a style="text-decoration: none; color: #5D5D5D;"  href="${contextPath}/room/roomList/1">더보기</a></span>
             </h2>
             <p></p>
          </div>
@@ -605,7 +606,9 @@
 			success: function(roomList){
 				
 				for(var i=0; i<roomList.length; i++){
-					var tags =(roomList[i].roomTag).split(',');
+					var tags =(roomList[i].roomTag).split(",");
+					
+					console.log(tags);
 					
 					if(roomList[i].roomType == "1"){
 						var caregoryName = "IT";
@@ -664,7 +667,7 @@
 						for(var i=0; i<map.roomMember.length; i++){
 							if(roomNo == map.roomMember[i].roomMemberRoomNo){
 								$(".pass-area").css("display","none");
-								$(".m-content").append("<br>+이미 가입한 방입니다.");
+								$(".m-content").append("<br><br>이미 가입한 방입니다.<br>바로 입장이 가능합니다.");
 							}
 						} 
 			
@@ -699,10 +702,12 @@
 					$("#freeBoard").html(""); // 리스트 갱신을 위해 이전 내용 삭제
 					
 					$.each(boardList, function(index, item){
+						var splitTitle = (item.qnaTitle).substring(0,22);
+						
 						var $tr = $("<tr>"); // 행
 						var $td1 = $("<td>").text(" "+item.qnaNo);
 						var $td2 = $("<td>").text(item.qnaCategory);
-						var $td3 = $("<td>").text(item.qnaTitle);
+						var $td3 = $("<td>").text(splitTitle);
 						var $td4 = $("<td>").text(item.writerNick);		
 						
 						$tr.append($td1, $td2, $td3, $td4);
@@ -725,10 +730,11 @@
 					$(".noticeBoard").html(""); // 리스트 갱신을 위해 이전 내용 삭제
 					
 					$.each(noticeList, function(index, item){
+						var splitTitle = (item.qnaTitle).substring(0,22);
 						var $tr = $("<tr>"); // 행
 						var $td1 = $("<td>").text(item.qnaNo);
 						var $td2 = $("<td>").text(item.qnaCategory);
-						var $td3 = $("<td>").text(item.qnaTitle);
+						var $td3 = $("<td>").text(splitTitle);
 						var $td4 = $("<td>").text(item.writerNick);		
 						
 						$tr.append($td1, $td2, $td3, $td4);

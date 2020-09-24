@@ -263,4 +263,22 @@ public int reportBoard(int qnaNo) {
 
 
 
+
+public List<Attachment> selectFiles(int qnaNo) {
+	return sqlSession.selectList("boardMapper.selectFiles", qnaNo);
+}
+
+
+
+//-----------------------------------------Summernote-----------------------------------------
+		/**  DAO
+		 * @return dbFileList
+		 */
+		public List<String> selectDbFileList() {
+			return sqlSession.selectList("boardMapper.selectDbFileList");
+		} 
+		//---------------------------------------------------------------------------------------------
+		
+
+
 }

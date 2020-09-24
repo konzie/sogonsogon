@@ -35,16 +35,23 @@
     
     
 </style>
+<!------------------ Summernote ------------------>
+<link rel="stylesheet" href="${contextPath}/resources/summernote/css/summernote-lite.css">
+<!------------------------------------------------>
 
 </head>
 <body>
  
  <%@ include file="../common/header.jsp" %>
-
+	<!------------------ Summernote ------------------>
+	<script src="${contextPath}/resources/summernote/js/summernote-lite.js"></script>
+	<script src="${contextPath}/resources/summernote/js/summernote-ko-KR.js"></script>
+	<script src="${contextPath}/resources/summernote/js/summernote.js"></script>
+	<!------------------------------------------------>
 <div class="row">
     <div class="col-md-2"></div>
     <div class="col-md-8">
-        <h2 class="text-center">질문하기</h2>
+        <h2 class="text-center">자유게시판</h2>
         <form action="insertAction" method="post" role="form" enctype="multipart/form-data" onsubmit="return validate();">
         
           
@@ -54,6 +61,7 @@
 						<option value="10">코딩</option>
 						<option value="20">외국어</option>
 						<option value="30">기타</option>
+						<option value="40">공지글</option>
 					</select>
 			
           <table class="table table-striped">
@@ -65,9 +73,18 @@
             
             <tr>
                 <td>글내용</td>
-                <td><textarea rows="10" cols="50" id="content" name="qnaContent" class="form-control"></textarea></td>
+                <td><!--  <textarea rows="10" cols="50" id="content" name="qnaContent" class="form-control"></textarea>-->
+                <!------------------ Summernote ------------------>
+	
+						<textarea class="form-control" id="summernote" name="qnaContent"></textarea>
+			
+					<!------------------------------------------------>	
+                
+                </td>
             </tr>
              <tr>
+             
+             
             	<td>이미지 삽입</td>
             	<td>
             	<div id="fileArea">
@@ -123,6 +140,19 @@ function validate(){
 		$("#link").focus();
 		return false;
 	}  */
+	
+    var content = $("#content").val();
+    var ban = ["관리자","개" , "미친놈" , "ㅅㅂ" ];
+    
+    for (var i=0; i<ban.length; i++){
+       if(content.indexOf(ban[i]) != -1){
+          alert("욕설을 포함한 게시글은 등록되지 않습니다.");
+          $("#content").val("");
+          return false;
+       }
+    } 
+
+	
 }
 
 $(function(){
@@ -142,4 +172,9 @@ $(function(){
 	});
 	
 });
+
+
+
+
+
 	</script>

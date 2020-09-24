@@ -47,8 +47,8 @@
                         <th id="category">분류</th>
                         <th id="title">제목</th>
                         <th id="title">내용</th>
-                        <th id="writer">작성자</th>						
                         <th id="create_dt">작성일</th>	
+                        <th id="writer">좋아요 수</th>						
 
                     </tr>
                 </thead>
@@ -75,13 +75,13 @@
 		              		<td>${board.qnaCategory}</td>
 		              		<td>${board.qnaTitle}</td>
 		              		<td>${board.qnaContent}</td>
-		              		<td>${board.writerNick}</td>
 		              		<td>
 		              			<c:choose>
 		              				<c:when test="${today == createDate }">${createTime}</c:when>
 		              				<c:otherwise>${createDate}</c:otherwise>
 		              			</c:choose>
 		              		</td>
+		              		<td>${board.likeCount}</td>
 	              		</tr>	
           				</c:forEach>
           			</c:otherwise>

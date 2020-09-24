@@ -27,7 +27,7 @@
 	<select id="loginMember" parameterType="Member" resultMap="memberResultSet">
 		SELECT * FROM MEMBER 
 		WHERE MEMBER_ID= #{memberId}
-		AND MEMBER_STATUS = 'Y' AND EMAIL_VERIFY='Y'
+		AND MEMBER_STATUS != 'N' 
 	</select>
 	
 	<!-- 회원가입(아이디 중복검사) -->
