@@ -58,10 +58,11 @@
 
 					<label class="input-group-addon mr-3 insert-label">카테고리</label> 
 					<select	class="custom-select" id="category" name="qnaCategory" style="width: 150px;">
-						<option value="00" >선택</option>
+					
 						<option value="10">코딩</option>
 						<option value="20">외국어</option>
 						<option value="30">기타</option>
+						<option value="40">공지글</option>
 					</select>
 
 			

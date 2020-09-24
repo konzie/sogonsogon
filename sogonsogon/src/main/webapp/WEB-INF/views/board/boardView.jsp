@@ -130,7 +130,7 @@
 
                         <div class="carousel-inner boardImgArea">
 
-
+		
                             <c:forEach var="at" items="${files}" varStatus="vs">
                                 <c:set var="src" value="${contextPath}${at.filePath}/${at.fileChangeName}"/>
 
