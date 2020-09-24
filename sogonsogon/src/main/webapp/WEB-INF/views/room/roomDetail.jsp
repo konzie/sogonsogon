@@ -257,7 +257,7 @@
 		         });
 		         
 	          	  
-	          	if("${param.sVal}" != "") {
+	          	if("${param.sVal}" != "") { 
 	          		var url = "${contextPath}/roomBoard/boardList/${roomDetail.roomNo}?cp=${param.cp}&sKey=${param.sKey}&sVal=${param.sVal}";
 	          	} else {
 	          		var url = "${contextPath}/roomBoard/boardList/${roomDetail.roomNo}?cp=${param.cp}";
