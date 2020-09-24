@@ -139,7 +139,7 @@
           	</c:when>
         <c:otherwise>
          
-        <div class="brown"></div><h5>! 새로 신고된 게시글이 있습니다 !</h5> 
+        <div class="brown"></div><h5>! 새로 신고된 게시글이 있습니다.</h5> 
         <c:choose>
         <c:when test="${report.roomNo>0}"> 
 		<div id="reportContent">
