@@ -147,7 +147,7 @@
             </table>
             </div>
             <div id="reportRoom">
-       <h4 class="mb-1 tableTitle"><a href="reportRoom">스터디방 신고글</a></h4><button class="btn btn-outline-secondary btn-sm tableButton" onclick="location.href ='reportRoom'">메뉴로 이동</button>
+       <h4 class="mb-1 tableTitle"><a href="reportRoom">스터디방 신고글</a></h4><button class="btn btn-outline-secondary btn-sm tableButton" onclick="location.href ='reportRoom'">목록으로</button>
               <table class="table table-striped table-hover reportRoomBoard">
                 <thead>
                     <tr>
@@ -201,7 +201,7 @@
 	   	</div>
 	   	
 	   	<div id="help" class="board">
-	   		<h4 class="mb-1 tableTitle"><a href="adminhelp">고객센터</a></h4><button class="btn btn-outline-secondary btn-sm tableButton" onclick="location.href ='adminhelp'">메뉴로 이동</button>
+	   		<h4 class="mb-1 tableTitle"><a href="adminhelp">고객센터</a></h4><button class="btn btn-outline-secondary btn-sm tableButton" onclick="location.href ='adminhelp'">목록으로</button>
        <table class="table table-striped table-hover">
                 <thead>
                     <tr>
@@ -251,7 +251,7 @@
 		              		<td>
 		              			<c:choose>
 		              				<c:when test="${help.answerChk=='N'}"><button type="button" class="btn btn-warning btn-sm" onclick="location.href='answerView/${help.helpNo}'">답변하기</button></c:when>
-		              				<c:otherwise><button type="button" class="btn btn-secondary btn-sm">답변완료</button></c:otherwise>
+		              				<c:otherwise><button type="button" class="btn btn-secondary btn-sm answerEnd">답변완료</button></c:otherwise>
 		              			</c:choose>
 		              		</td>
 	              		</tr>	
@@ -262,53 +262,72 @@
             </table>
 	   	</div>
 	   	
-	   	<div id="notice" class="board">
-	   		<h4 class="mb-1 tableTitle"><a href="adminnotice">공지 사항</a></h4><button class="btn btn-outline-warning btn-sm tableButton" onclick="location.href ='noticeWrite'">글쓰기</button>
+	   	<div id="member" class="board">
+	   	<h4 class="mb-1 tableTitle"><a href="adminmember">회원 관리</a></h4><button class="btn btn-outline-secondary btn-sm tableButton" onclick="location.href ='adminmember'">목록으로</button>
        <table class="table table-striped table-hover">
                 <thead>
                     <tr>
-                        <th>글번호</th>
-                        <th>분류</th>
-                        <th>제목</th>
-                        <th>내용</th>						
-                        <th>작성일</th>						
-                        <th>좋아요 수</th>
-
+                        <th>no.</th>
+                        <th>아이디</th>
+                        <th>이름</th>
+                        <th>닉네임</th>						
+                        <th>연락처</th>						
+                        <th>이메일</th>						
+                        <th>관심사</th>
+                        <th>가입일</th>
+                        <th>회원 상태</th>
+                        <th>회원 등급</th>
                     </tr>
                 </thead>
                 <tbody>
                 <c:choose>
-          			<c:when test="${empty noticeList}">
+          			<c:when test="${empty memberList}">
 		         		<tr>		
-		         			<td colspan="6" align="center">존재하는 공지사항이 없습니다.</td>
+		         			<td colspan="10" align="center">오늘 가입한 회원이 없습니다.</td>
 		         		</tr>
           			</c:when>	
           			<c:otherwise>
-          				<c:forEach var="notice" items="${noticeList}">
-	              		<tr>		
+                         <c:forEach var="member" items="${memberList}">
+                               <tr>		
 	              			<jsp:useBean id="now" class="java.util.Date"></jsp:useBean>
 	              			<fmt:formatDate var="today" value="${now}" pattern="yyyy-MM-dd"/>
-	              			<fmt:formatDate var="createDate" value="${notice.qnaCreateDate}" pattern="yyyy-MM-dd"/>
-	              			<fmt:formatDate var="createTime" value="${notice.qnaCreateDate}" pattern="hh:mm:ss"/>
+	              			<fmt:formatDate var="createDate" value="${member.memberEnrollDate}" pattern="yyyy-MM-dd"/>
+	              			<fmt:formatDate var="createTime" value="${member.memberEnrollDate}" pattern="hh:mm:ss"/>
 	              			<td>
 		              			<c:if test="${today == createDate}">
-	              			<span class="badge badge-primary new">new</span>
+	              					<span class="badge badge-primary new">new</span>
 		              			</c:if>
-		              		<span>${notice.qnaNo}</span>
-		              		</td>
-		              		<td>${notice.qnaCategory}</td>
-		              		<td>${notice.qnaTitle}</td>
-		              		<td>${notice.qnaContent}</td>
-		              		<td>
-		              			<c:choose>
-			              			<c:when test="${today == createDate}">${createTime}</c:when>
-			              			<c:otherwise>${createDate}</c:otherwise>
-		              			</c:choose>
-		              		</td>
-		              		<td>${notice.likeCount}</td>
-	              		</tr>	
-          				</c:forEach>
-          			</c:otherwise>
+                                  <span>${member.memberNo}</span></td>
+                                  <td>${member.memberId}</td>
+                                  <td>${member.memberName}</td>
+                                  <td>${member.memberNick}</td>
+                                  <td>${member.memberPhone}</td>
+                                  <td>${member.memberEmail}</td>
+                                  <td>${member.memberInterest}</td>
+                                  <td>${member.memberEnrollDate}</td>
+                                  
+                                  <c:choose>
+	                                 <c:when test="${member.memberStatus.equals('Y')}">
+	                                 	<td>정상</td>
+	                                 </c:when>
+	                                 <c:when test="${member.memberStatus.equals('R')}">
+	                                 	<td>신고</td>
+	                                 </c:when>
+	                                 <c:otherwise>
+	                                 	<td>탈퇴</td>
+	                                 </c:otherwise>
+                                  </c:choose>
+                                  <c:choose>
+                                  <c:when test="${member.memberGrade.equals('G')}">
+                                  	<td>일반 회원</td>
+                                  </c:when>
+                                  <c:otherwise>
+                                  	<td>관리자</td>
+                                  </c:otherwise>
+                                  </c:choose>
+                               </tr>
+                         </c:forEach>
+                      </c:otherwise>
           		</c:choose>
                 </tbody>
             </table>
@@ -379,7 +398,7 @@ $(function(){
 				$("#memberCount").css("color","darkgreen");
 			}else if(count>0){
 				$("#memberCount").text(" ▲ "+count);
-				$("#memberCount").css("color","green");
+				$("#memberCount").css("color","yellowgreen");
 			}else{
 				$("#memberCount").text(" - "+count);
 			}
@@ -427,18 +446,7 @@ $("#help td:not(:last-child)").on("click",function(){
 	$(this).parent().css("cursor", "pointer");
 });  
 
-
-$("#notice td:not(:last-child)").on("click",function(){
-
-	if($(this).parent().children().children().eq(0).text()=="new"){
-		var boardNo = $(this).parent().children().children().eq(1).text(); 				
-	}else{
-		var boardNo = $(this).parent().children().children().eq(0).text(); 	
-	}
-	location.href = "${contextPath}/mypage/noticeView/"+boardNo;
-}).on("mouseenter", function(){
-	$(this).parent().css("cursor", "pointer");
-});  
+$(".answerEnd").attr("disabled",true);
 </script>
 </body>
 </html>

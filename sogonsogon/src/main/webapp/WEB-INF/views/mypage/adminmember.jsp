@@ -64,8 +64,16 @@
           			</c:when>	
           			<c:otherwise>
                          <c:forEach var="member" items="${memberList}">
-                               <tr>
-                                  <td>${member.memberNo}</td>
+                            <tr>		
+	              			<jsp:useBean id="now" class="java.util.Date"></jsp:useBean>
+	              			<fmt:formatDate var="today" value="${now}" pattern="yyyy-MM-dd"/>
+	              			<fmt:formatDate var="createDate" value="${member.memberEnrollDate}" pattern="yyyy-MM-dd"/>
+	              			<fmt:formatDate var="createTime" value="${member.memberEnrollDate}" pattern="hh:mm:ss"/>
+		              			<td>
+			              			<c:if test="${today == createDate}">
+		              					<span class="badge badge-primary new">new</span>
+			              			</c:if>
+                                  <span>${member.memberNo}</span></td>
                                   <td>${member.memberId}</td>
                                   <td>${member.memberName}</td>
                                   <td>${member.memberNick}</td>
@@ -77,6 +85,9 @@
                                   <c:choose>
 	                                 <c:when test="${member.memberStatus.equals('Y')}">
 	                                 	<td>정상</td>
+	                                 </c:when>
+	                                 <c:when test="${member.memberStatus.equals('R')}">
+	                                 	<td>신고</td>
 	                                 </c:when>
 	                                 <c:otherwise>
 	                                 	<td>탈퇴</td>
@@ -148,6 +159,9 @@
     </div>    
    
    <jsp:include page="../common/footer.jsp" />
-    
+   
+<script>
+$(".new").parent().parent().css("background-color","bisque");
+</script>    
     </body>
 </html>

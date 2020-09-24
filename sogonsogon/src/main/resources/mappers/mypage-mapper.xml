@@ -180,7 +180,7 @@
 			
 	<!-- 공지사항 수 조회 -->
 	<select id="getListNCount" resultType="_int">
-		SELECT COUNT(*) FROM QNABOARD WHERE QNA_WRITER = 1
+		SELECT COUNT(*) FROM QNABOARD WHERE QNA_WRITER = 1 AND QNA_STATUS='Y'
 	</select>
 	
 	<!-- 총 NoticeList 조회 -->
@@ -195,7 +195,7 @@
 	
 	<!-- 총 MemberList 조회 -->
 	<select id="selectMList" resultMap="memberResultSet">
-		SELECT * FROM MEMBER ORDER BY MEMBER_NO DESC
+		SELECT * FROM MEMBER ORDER BY MEMBER_ENROLL_DATE DESC
 	</select>
 	
 	<!-- 내가 쓴 글 수 조회 -->
@@ -232,20 +232,29 @@
 		SELECT * FROM REPLY JOIN MEMBER ON(REPLY_WRITER=MEMBER_NO) JOIN QNABOARD ON(PARENT_BOARD_NO = QNA_NO) WHERE REPLY_WRITER = #{replyWriter} AND REPLY_SELECT='Y' ORDER BY REPLY_CREATE_DATE DESC
 	</select>
 	
+	<!-- 오늘 신고된 게시글 수 COUNT (AJAX) -->
 	<select id="reportCount" resultType="_int">
-		SELECT COUNT(*) FROM QNABOARD WHERE QNA_STATUS='D' AND QNA_CREATE_DATE=(TO_CHAR(SYSDATE,'YY/MM/DD'))
+		SELECT COUNT(*) FROM QNABOARD WHERE QNA_STATUS='D' AND TO_CHAR(QNA_CREATE_DATE,'YY/MM/DD')=(TO_CHAR(SYSDATE,'YY/MM/DD'))
 	</select>	
-	
+
+	<!-- 오늘 신고된 방게시글 수 COUNT (AJAX) -->
+	<select id="reportCount2" resultType="_int">
+		SELECT COUNT(*) FROM ROOMBOARD WHERE ROOM_BOARD_STATUS='R' AND TO_CHAR(ROOM_BOARD_CREATE_DATE,'YY/MM/DD')=(TO_CHAR(SYSDATE,'YY/MM/DD'))
+	</select>
+
+	<!-- 오늘 고객게시판 수 COUNT (AJAX) -->		
 	<select id="qnaCount" resultType="_int">
-		SELECT COUNT(*) FROM HELPBOARD WHERE HELP_CREATE_DATE=(TO_CHAR(SYSDATE,'YY/MM/DD'))
+		SELECT COUNT(*) FROM HELPBOARD WHERE TO_CHAR(HELP_CREATE_DATE,'YY/MM/DD')=(TO_CHAR(SYSDATE,'YY/MM/DD'))
 	</select>	
 	
+	<!-- 오늘 새 방 수 COUNT (AJAX) -->	
 	<select id="roomCount" resultType="_int">
-		SELECT COUNT(*) FROM STUDY_ROOM WHERE ROOM_CREATE_DATE=(TO_CHAR(SYSDATE,'YY/MM/DD'))
+		SELECT COUNT(*) FROM STUDY_ROOM WHERE TO_CHAR(ROOM_CREATE_DATE,'YY/MM/DD')=(TO_CHAR(SYSDATE,'YY/MM/DD'))
 	</select>	
 	
+	<!-- 오늘 새로 가입한 멤버 수 COUNT (AJAX) -->	
 	<select id="memberCount" resultType="_int">
-		SELECT COUNT(*) FROM MEMBER WHERE MEMBER_ENROLL_DATE=(TO_CHAR(SYSDATE,'YY/MM/DD'))
+		SELECT COUNT(*) FROM MEMBER WHERE TO_CHAR(MEMBER_ENROLL_DATE,'YY/MM/DD')=(TO_CHAR(SYSDATE,'YY/MM/DD'))
 	</select>
 	
 	<select id="selectReport" resultMap="qnaResultSet">
@@ -365,17 +374,13 @@
 	</select>
 	
 	<select id="selectBoard" parameterType="RoomBoard" resultMap="roomBoardResultSet">
-		SELECT * FROM ROOMBOARD WHERE ROOM_BOARD_NO = #{roomBoardNo} AND ROOM_NO = #{roomNo}
+		SELECT * FROM ROOMBOARD JOIN MEMBER ON(ROOM_BOARD_WRITER=MEMBER_NO) WHERE ROOM_BOARD_NO = #{roomBoardNo} AND ROOM_NO = #{roomNo}
 	</select>
 	
 	<update id="updateHelp" parameterType="_int">
 		UPDATE HELPBOARD SET ANSWER_CHK='Y' WHERE HELP_NO=#{helpNo}
 	</update>
-	
-	<select id="reportCount2" resultType="_int">
-		SELECT COUNT(*) FROM ROOMBOARD WHERE ROOM_BOARD_STATUS='R' AND ROOM_BOARD_CREATE_DATE=(TO_CHAR(SYSDATE,'YY/MM/DD'))
-	</select>
-	
+
 	<select id="roomBoard" parameterType="RoomBoard" resultMap="roomBoardResultSet">
 		SELECT * FROM ROOMBOARD JOIN MEMBER ON(ROOM_BOARD_WRITER=MEMBER_NO) WHERE ROOM_BOARD_NO=#{roomBoardNo} AND ROOM_NO = #{roomNo}
 	</select>

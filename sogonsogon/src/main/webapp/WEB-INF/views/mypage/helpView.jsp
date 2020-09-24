@@ -46,6 +46,11 @@
       	font-size: 17px;
       	font-weight: bold;
       }
+      
+      #answerDiv{
+      	height:80%;
+      	background-color: #FAECC5;
+      }
 </style>
 <title>고객센터 상세조회</title>
 </head>
@@ -74,7 +79,9 @@
 		<div id="board-content">${help.helpContent}
 		<hr>
 		<c:if test="${!empty answer}">
-			<p id="answer">${answer.answerContent}</p>
+		<div id="answerDiv">
+			<p id="answer">답변 : ${answer.answerContent}</p>
+		</div>
 		</c:if>
 		</div>
 		<hr>
