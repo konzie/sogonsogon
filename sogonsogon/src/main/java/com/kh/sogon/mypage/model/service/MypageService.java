@@ -10,6 +10,7 @@ import com.kh.sogon.mypage.model.vo.ReportMember;
 import com.kh.sogon.room.model.vo.Room;
 import com.kh.sogon.room.model.vo.RoomMember;
 import com.kh.sogon.roomboard.model.vo.RoomBoard;
+import com.kh.sogon.roomboard.model.vo.RoomBoardReply;
 import com.kh.sogon.board.model.vo.PageInfo;
 import com.kh.sogon.board.model.vo.Reply;
 
@@ -226,7 +227,7 @@ public interface MypageService {
 
 	public abstract List<RoomBoard> selectRoomBoardList(PageInfo roomPInfo, int memberNo);
 
-	public abstract int selectBoard(RoomBoard board);
+	public abstract RoomBoard selectBoard(RoomBoard board);
 
 	public abstract int reportCount2();
 
@@ -234,4 +235,9 @@ public interface MypageService {
 
 	public abstract int reportInfo(int memberNo);
 
+	public abstract PageInfo myRoomReplyPage(int cp, int memberNo);
+
+	public abstract List<RoomBoardReply> selectRoomReplyList(PageInfo pInfo, int memberNo);
+
+	public abstract int findRoomNo(int i);
 }

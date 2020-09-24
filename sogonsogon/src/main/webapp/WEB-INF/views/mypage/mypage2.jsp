@@ -45,18 +45,42 @@
           display:block;
       }
       
-      .mypageNav>ul li:hover{
+      #reportNav{
+          display:inline-block;
+          width:100%;
+          height:50%;
+          background-color:rgba(241, 158, 48,0.7);
+          margin:0;
+      }
+      
+      .mypageNav li:not(#firstNav):hover, #reportBoardNav:hover, #reportRoomNav:hover{
           background-color: crimson;
       }
+      
+	#reportBoardNav, #reportRoomNav, #split{
+      	display: inline-block;
+      	padding:5px;
+      }
+     
 </style>
 </head>
 <body>
 	<div class="mypageNav">
             <ul>
-                <li><a href="${contextPath}/mypage/myroom"> <img src="${contextPath}/resources/images/meeting.png" width="50px" height="50px">&nbsp;&nbsp;참여 스터디 방</a></li>
-                <li><a href="${contextPath}/mypage/myboard"> <img src="${contextPath}/resources/images/classroom.png" width="50px" height="50px">&nbsp;&nbsp;내가 작성한 글</a></li>
-                <li><a href="${contextPath}/mypage/myreply"> <img src="${contextPath}/resources/images/answer.png" width="50px" height="50px">&nbsp;&nbsp;채택된 댓글</a></li>
-                <li><a href="${contextPath}/mypage/myInfo"> <img src="${contextPath}/resources/images/personal-information.png" width="50px" height="50px">&nbsp;&nbsp;내정보</a></li>
+                <li><a href="${contextPath}/mypage/myroom"> <img src="${contextPath}/resources/images/meeting.png" width="35px" height="35px">&nbsp;&nbsp;참여 스터디 방</a></li>
+                <li style="padding:0" id="firstNav">
+                	<div id="reportNav"><img src="${contextPath}/resources/images/classroom.png" width="35px" height="35px">&nbsp;&nbsp;내가 작성한 글</div>
+               		<div id="reportBoardNav"><a href="${contextPath}/mypage/myboard"> &nbsp;&nbsp;자유질문방</a></div>
+               		<div id="split">/</div>
+               		<div id="reportRoomNav"><a href="${contextPath}/mypage/myRoomboard"> &nbsp;&nbsp;스터디방</a></div>
+                </li>
+                <li style="padding:0" id="firstNav">
+                	<div id="reportNav"><img src="${contextPath}/resources/images/classroom.png" width="35px" height="35px">&nbsp;&nbsp;채택된 답변</div>
+               		<div id="reportBoardNav"><a href="${contextPath}/mypage/myreply"> &nbsp;&nbsp;자유질문방</a></div>
+               		<div id="split">/</div>
+               		<div id="reportRoomNav"><a href="${contextPath}/mypage/myRoomReply"> &nbsp;&nbsp;스터디방</a></div>
+                </li>
+                <li><a href="${contextPath}/mypage/myInfo"> <img src="${contextPath}/resources/images/personal-information.png" width="35px" height="35px">&nbsp;&nbsp;내정보</a></li>
             </ul>
      </div>
 </body>

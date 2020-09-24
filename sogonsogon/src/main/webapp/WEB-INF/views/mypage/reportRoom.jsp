@@ -141,7 +141,7 @@
     
     $(".new").parent().parent().css("background-color","bisque");
 
-    $("td:not(:last-child)").on("click",function(){
+    $("td:not(td:last-of-type)").on("click",function(){
     	if($(this).parent().children().children().eq(0).text()=="new"){
     		var boardNo = $(this).parent().children().children().eq(1).text();
     		var roomNo = $(this).parent().children().children().eq(2).text(); 
@@ -151,7 +151,7 @@
     	}
     	location.href = "${contextPath}/mypage/reportView2/"+boardNo+"/"+roomNo;
     }).on("mouseenter", function(){
-    	$(this).parent().css("cursor", "pointer");
+    	$(this).css("cursor", "pointer");
     });
     </script>    
     </body>

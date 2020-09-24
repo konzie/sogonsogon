@@ -73,8 +73,6 @@
                		<div id="split">/</div>
                		<div id="reportRoomNav"><a href="${contextPath}/mypage/reportRoom"> &nbsp;&nbsp;스터디방</a></div>
                 </li>
-                              
-
                 <li><a href="${contextPath}/mypage/adminhelp"> <img src="${contextPath}/resources/images/question.png" width="35px" height="35px">&nbsp;&nbsp;고객 센터</a></li>
                 <li><a href="${contextPath}/mypage/adminnotice"> <img src="${contextPath}/resources/images/noticeboard.png" width="35px" height="35px">&nbsp;&nbsp;공지 사항</a></li>
                 <li><a href="${contextPath}/mypage/adminmember"> <img src="${contextPath}/resources/images/group.png" width="35px" height="35px">&nbsp;&nbsp;회원 관리</a></li>

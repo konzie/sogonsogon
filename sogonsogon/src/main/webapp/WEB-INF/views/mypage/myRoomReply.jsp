@@ -7,7 +7,7 @@
     <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>신고(자유게시글)</title>
+    <title>채택된 댓글</title>
         
 <style>
       .content{
@@ -26,6 +26,10 @@
       .pagination {
       	justify-content: center;
       }
+      
+      .tr:nth-child(2) {
+      	color:gray;
+      }
 </style>
 </head>
 <body>
@@ -33,56 +37,50 @@
   <jsp:include page="../common/header.jsp" />
   
   <div>
-  <jsp:include page="adminpage.jsp" />
+  <jsp:include page="mypage.jsp" />
   </div>
   
   <div class="content">
-  <jsp:include page="adminpage2.jsp"/>
-	<div class="content2">       
-      <h4 class="mb-5">자유질문게시판 신고 목록</h4>
-       <table class="table table-striped table-hover reportBoard">
+  <jsp:include page="mypage2.jsp"/>
+  <div class="content2">              
+       <h4 class="mb-5">채택된 댓글</h4>
+       <table class="table table-striped table-hover">
                 <thead>
                     <tr>
-                        <th>글번호</th>
-                        <th>분류</th>
-                        <th>제목</th>
-                        <th>내용</th>
+                        <th>댓글번호</th>
+                        <th>내용</th>					
                         <th>작성자</th>						
-                        <th>작성일</th>		
-                        <th>처리 </th>
+                        <th>작성일</th>	
                     </tr>
                 </thead>
                 <tbody>
                 <c:choose>
-          			<c:when test="${empty reportList}">
+          			<c:when test="${empty myRoomReply}">
 		         		<tr>		
-		         			<td colspan="7" align="center">존재하는 게시글이 없습니다.</td>
+		         			<td colspan="4" align="center">채택된 댓글이 없습니다.</td>
 		         		</tr>
           			</c:when>	
           			<c:otherwise>
-          				<c:forEach var="board" items="${reportList}">
-	              		<tr>		
+          				<c:forEach var="reply" items="${myRoomReply}">
+	              		<tr>	
 	              			<jsp:useBean id="now" class="java.util.Date"></jsp:useBean>
 	              			<fmt:formatDate var="today" value="${now}" pattern="yyyy-MM-dd"/>
-	              			<fmt:formatDate var="createDate" value="${board.qnaCreateDate}" pattern="yyyy-MM-dd"/>
-	              			<fmt:formatDate var="createTime" value="${board.qnaCreateDate}" pattern="hh:mm:ss"/>
+		              			<fmt:formatDate var="createDate" value="${reply.replyCreateDate}" pattern="yyyy-MM-dd"/>
+		              			<fmt:formatDate var="createTime" value="${reply.replyCreateDate}" pattern="hh:mm:ss"/>
 	              			<td>
 		              			<c:if test="${today == createDate}">
-	              			<span class="badge badge-primary new">new</span>
+	              					<span class="badge badge-primary new">new</span>
 		              			</c:if>
-		              		<span>${board.qnaNo}</span>
+		              		${reply.replyNo}<span style="display: none;">${reply.parentBoardNo}</span><span style="display: none;">${reply.roomNo}</span>
 		              		</td>
-		              		<td>${board.qnaCategory}</td>
-		              		<td>${board.qnaTitle}</td>
-		              		<td>${board.qnaContent}</td>
-		              		<td>${board.writerNick}</td>
+		              		<td>${reply.replyContent}</td>
+		              		<td>${reply.memberId}</td>
 		              		<td>
 		              			<c:choose>
 		              				<c:when test="${today == createDate }">${createTime}</c:when>
 		              				<c:otherwise>${createDate}</c:otherwise>
 		              			</c:choose>
 		              		</td>
-		              		<td><button type="button" class="btn btn-danger btn-sm" onclick="location.href ='updateReport/${board.writer}/${board.qnaNo}/0'">경고</button>          <button type="button" class="btn btn-dark btn-sm" onclick="location.href ='restoreReport/${board.writer}/${board.qnaNo}'">X</button></td>
 	              		</tr>	
           				</c:forEach>
           			</c:otherwise>
@@ -119,11 +117,12 @@
                 
                 
                  <!-- 다음 페이지로(>) -->
+                <!-- next 생성 식:(현재페이지+9)/10*10+1 -->
                 <c:if test="${pInfo.maxPage>pInfo.endPage}">
                 <!-- 다음페이지(>) -->
                    <li>
-                   <fmt:parseNumber var="operand2" value="${(pInfo.currentPage+9)/10}" integerOnly="true"/>
-                   <c:set var="next" value="${operand2*10+1}"/>
+                   <fmt:parseNumber var="operand" value="${(pInfo.currentPage+9)/10}" integerOnly="true"/>
+                   <c:set var="next" value="${operand*10+1}"/>
                      <a class="page-link text-primary" href="?cp=${next}">&gt;</a>
                    </li>
                    
@@ -135,23 +134,24 @@
             </ul>
         </div> 
         </div>
-        </div>
-   <jsp:include page="../common/footer.jsp" />
-    <script>
-    
-    $(".new").parent().parent().css("background-color","bisque");
-
-    $("td:not(td:last-of-type)").on("click",function(){
-    	if($(this).parent().children().children().eq(0).text()=="new"){
-    		var boardNo = $(this).parent().children().children().eq(1).text(); 				
-    	}else{
-    		var boardNo = $(this).parent().children().children().eq(0).text(); 	
-    	}
-    	location.href = "${contextPath}/mypage/reportView/"+boardNo;
-    }).on("mouseenter", function(){
-    	$(this).css("cursor", "pointer");
-    });
-
-    </script>    
+    </div>    
+    <jsp:include page="../common/footer.jsp"/>
     </body>
+<script>
+
+$(".new").parent().parent().css("background-color","bisque");
+
+$("td").on("click",function(){
+	if($(this).parent().children().children().eq(0).text()=="new"){
+		var boardNo = $(this).parent().children().children().eq(1).text(); 				
+		var roomNo = $(this).parent().children().children().eq(2).text(); 				
+	}else{
+		var boardNo = $(this).parent().children().children().eq(0).text(); 	
+		var roomNo = $(this).parent().children().children().eq(1).text(); 	
+	}
+	location.href = "${contextPath}/roomBoard/"+roomNo+"/"+boardNo;
+}).on("mouseenter", function(){
+	$(this).css("cursor", "pointer");
+});
+</script>
 </html>

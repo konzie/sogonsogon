@@ -7,7 +7,7 @@
     <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>채택된 댓글</title>
+    <title>채택된 답변</title>
         
 <style>
       .content{
@@ -26,8 +26,8 @@
       .pagination {
       	justify-content: center;
       }
-      
-      .tr:nth-child(2) {
+    
+      tr:nth-child(even){
       	color:gray;
       }
 </style>
@@ -43,8 +43,8 @@
   <div class="content">
   <jsp:include page="mypage2.jsp"/>
   <div class="content2">              
-       <h4 class="mb-5">채택된 댓글</h4>
-       <table class="table table-striped table-hover">
+       <h4 class="mb-5">채택된 답변</h4>
+       <table class="table table-striped table-hover replyTable">
                 <thead>
                     <tr>
                         <th id="boardNo">번호</th>
@@ -62,28 +62,27 @@
           			</c:when>	
           			<c:otherwise>
           				<c:forEach var="reply" items="${replyList}">
-	              		<tr>		
-		              		<td>${reply.replyNo}</td>
+	              		<tr>	
+	              			<td>
+	              			<jsp:useBean id="now" class="java.util.Date"></jsp:useBean>
+	              			<fmt:formatDate var="today" value="${now}" pattern="yyyy-MM-dd"/>
+		              			<fmt:formatDate var="createDate" value="${reply.replyCreateDate}" pattern="yyyy-MM-dd"/>
+		              			<fmt:formatDate var="createTime" value="${reply.replyCreateDate}" pattern="hh:mm:ss"/>
+		              			<c:if test="${today == createDate}">
+	              					<span class="badge badge-primary new">new</span>
+		              			</c:if>
+							<span style="display: none;">${reply.qnaNo}</span><span>${reply.replyNo}</span></td>
 		              		<td colspan="2">${reply.content}</td>
 		              		<td>${reply.writerNick}</td>
 		              		<td>
-		              			<jsp:useBean id="now" class="java.util.Date"></jsp:useBean>
-		              			<fmt:formatDate var="today" value="${now}" pattern="yyyy-MM-dd"/>
-		              			<fmt:formatDate var="createDate" value="${reply.replyCreateDate}" pattern="yyyy-MM-dd"/>
-		              			<fmt:formatDate var="createTime" value="${reply.replyCreateDate}" pattern="hh:mm:ss"/>
-		              			
 		              			<c:choose>
-		              				<c:when test="${today == createDate }">
-		              					${createTime}
-		              				</c:when>
-		              				<c:otherwise>
-		              				${createDate}
-		              				</c:otherwise>
+		              				<c:when test="${today == createDate }">${createTime}</c:when>
+		              				<c:otherwise>${createDate}</c:otherwise>
 		              			</c:choose>
 		              		</td>
 	              		</tr>	
 	              		<tr>
-		              		<td>└  ${reply.qnaNo}</td>
+		              		<td>└게시글 : ${reply.qnaNo}</td>
 		              		<td>${reply.qnaTitle}</td>
 		              		<td>${reply.qnaContent}</td>
 		              		<td>${reply.qnaWriter}</td>
@@ -142,4 +141,19 @@
     </div>    
     <jsp:include page="../common/footer.jsp"/>
     </body>
+<script>
+
+$(".new").parent().parent().css("background-color","bisque");
+
+$("tr:nth-child(odd)").on("click",function(){
+	if($(this).children().children().eq(0).text()=="new"){
+		var boardNo = $(this).children().children().eq(1).text(); 				
+	}else{
+		var boardNo = $(this).children().children().eq(0).text(); 
+	}
+	location.href = "${contextPath}/mypage/boardView/"+boardNo;
+}).on("mouseenter", function(){
+	$(this).css("cursor", "pointer");
+});
+</script>
 </html>

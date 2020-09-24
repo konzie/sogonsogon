@@ -1,5 +1,6 @@
 package com.kh.sogon.mypage.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,6 +29,7 @@ import com.kh.sogon.mypage.model.vo.ReportMember;
 import com.kh.sogon.room.model.vo.Room;
 import com.kh.sogon.room.model.vo.RoomMember;
 import com.kh.sogon.roomboard.model.vo.RoomBoard;
+import com.kh.sogon.roomboard.model.vo.RoomBoardReply;
 
 @SessionAttributes({"loginMember"})
 @Controller
@@ -52,11 +54,9 @@ public class MypageController {
 				RoomBoard board = new RoomBoard();
 				board.setRoomBoardNo(reportList.get(0).getRoomBoardNo());
 				board.setRoomNo(reportList.get(0).getRoomNo());
-				int result = mypageService.selectBoard(board);
+				board = mypageService.selectBoard(board);
 				
-				if(result>0) {
 					model.addAttribute("board", board);		
-				}
 			}else {
 				Board reportView = mypageService.noticeView(reportList.get(0).getBoardNo());
 				model.addAttribute("reportView", reportView);
@@ -141,6 +141,30 @@ public class MypageController {
 		return "mypage/myreply";
 		}
 	
+	@RequestMapping("myRoomReply")
+	public String myRoomReply(@RequestParam(value="cp", required=false, defaultValue = "1") int cp, Model model) {
+		
+		Member loginMember = (Member)model.getAttribute("loginMember");
+		
+		PageInfo pInfo = mypageService.myRoomReplyPage(cp, loginMember.getMemberNo());
+
+		pInfo.setLimit(10);
+		
+		List<RoomBoardReply> myRoomReply = mypageService.selectRoomReplyList(pInfo, loginMember.getMemberNo());
+
+		int[] boardNoList = new int[myRoomReply.size()];
+		
+		for(int i=0;i<myRoomReply.size();i++) {
+			boardNoList[i] = myRoomReply.get(i).getParentBoardNo(); 
+			myRoomReply.get(i).setRoomNo(mypageService.findRoomNo(boardNoList[i]));
+		}
+
+		model.addAttribute("myRoomReply", myRoomReply);
+		model.addAttribute("pInfo", pInfo);
+		
+		return "mypage/myRoomReply";
+		}
+		
 	@RequestMapping("myroom")
 	public String myroom(@RequestParam(value="cp", required=false, defaultValue = "1") int cp, Model model) {
 		
@@ -171,22 +195,30 @@ public class MypageController {
 		Member loginMember = (Member)model.getAttribute("loginMember");
 		
 		PageInfo pInfo = mypageService.boardPage(cp, loginMember.getMemberNo());
-		pInfo.setLimit(5);
+		pInfo.setLimit(10);
 		List<Board> boardList = mypageService.selectBList(pInfo, loginMember.getMemberNo());
 		                                                                   
 		model.addAttribute("boardList", boardList);
 		model.addAttribute("pInfo", pInfo);	
 		
-		PageInfo roomPInfo = mypageService.roomBoardPage(cp, loginMember.getMemberNo());
-		roomPInfo.setLimit(5);
-		List<RoomBoard> roomBoard = mypageService.selectRoomBoardList(roomPInfo, loginMember.getMemberNo());
-		                                                                   
-		model.addAttribute("roomBoard", roomBoard);
-		model.addAttribute("roomPInfo", roomPInfo);	
-		
 		return "mypage/myboard";
 	}
 		
+	@RequestMapping("myRoomboard")
+	public String myRoomboard(Member member, Model model, @RequestParam(value="cp", required=false, defaultValue = "1") int cp) {
+		
+		Member loginMember = (Member)model.getAttribute("loginMember");
+		
+		PageInfo roomPInfo = mypageService.roomBoardPage(cp, loginMember.getMemberNo());
+		roomPInfo.setLimit(10);
+		List<RoomBoard> roomBoard = mypageService.selectRoomBoardList(roomPInfo, loginMember.getMemberNo());
+		                           
+		model.addAttribute("roomBoard", roomBoard);
+		model.addAttribute("roomPInfo", roomPInfo);	
+		
+		return "mypage/myRoomboard";
+	}
+	
 	@RequestMapping("boardView/{boardNo}")
 	public String boardView(@PathVariable int boardNo, Model model) {
 		
@@ -195,6 +227,21 @@ public class MypageController {
 		model.addAttribute("board", board);
 
 		return "mypage/boardView";
+	}
+	
+	@RequestMapping("roomBoardView/{boardNo}/{roomNo}")
+	public String roomBoardView(@PathVariable int boardNo, @PathVariable int roomNo, Model model) {
+		
+		RoomBoard roomBoard = new RoomBoard();
+		
+		roomBoard.setRoomBoardNo(boardNo);
+		roomBoard.setRoomNo(roomNo);
+		
+		roomBoard = mypageService.roomBoard(roomBoard);
+
+		model.addAttribute("roomBoard", roomBoard);
+
+		return "mypage/roomBoardView";
 	}
 	
 	// 회원 정보 수정 메뉴 클릭 시
@@ -276,7 +323,7 @@ public class MypageController {
 		
 		PageInfo pInfo = mypageService.reportPage(cp);
 
-		pInfo.setLimit(5);
+		pInfo.setLimit(10);
 		
 		List<Board> reportList = mypageService.selectDList(pInfo);
 		
@@ -296,7 +343,7 @@ public class MypageController {
 		
 		PageInfo roomPInfo = mypageService.roomReportPage(cp);
 
-		roomPInfo.setLimit(5);
+		roomPInfo.setLimit(10);
 		
 		List<RoomBoard> roomReportList = mypageService.selectRoomReportList(roomPInfo);
 		
@@ -606,12 +653,23 @@ public class MypageController {
 		ReportMember member = new ReportMember();
 		if(memberList.size()>0){
 			member = memberList.get(0);
-		}else {
-			member.setMemberNo(memberNo);
-			member.setRoomBoardNo(roomNo);
+			member.setRoomNo(roomNo);
 			if(roomNo>0) { // roomNo 있을 때
 				member.setRoomBoardNo(boardNo);
+				member.setBoardNo(0);
 			}else { // roomNo 없을 때
+				member.setRoomBoardNo(0);
+				member.setBoardNo(boardNo);
+			}
+		}else {
+			member.setMemberNo(memberNo);
+			member.setRoomNo(roomNo);
+
+			if(roomNo>0) { // roomNo 있을 때
+				member.setRoomBoardNo(boardNo);
+				member.setBoardNo(0);
+			}else { // roomNo 없을 때
+				member.setRoomBoardNo(0);
 				member.setBoardNo(boardNo);
 			}
 			
