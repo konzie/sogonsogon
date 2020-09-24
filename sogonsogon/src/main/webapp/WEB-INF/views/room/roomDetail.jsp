@@ -102,13 +102,13 @@
 								<a class="btn btn-primary float-right" href="${contextPath}/roomBoard/${roomDetail.roomNo}/boardInsertView">글쓰기</a>
 						</c:if>
 						
-							<select name="sKey" class="form-control"
+							<select name="sKey2" class="form-control"
 								style="width: 100px; display: inline-block;">
 								<option value="title">글제목</option>
 								<option value="boardGroup">말머리</option>
 								<option value="writer">작성자</option>
-							</select> <input type="text" name="sVal" class="form-control" style="width: 25%; display: inline-block;">
-							<button class="form-control btn btn-primary" id="searchBtn"
+							</select> <input type="text" name="sVal2" class="form-control" style="width: 25%; display: inline-block;">
+							<button class="form-control btn btn-primary" id="searchBtn2"
 								style="width: 100px; display: inline-block;">검색</button>
 					</div>
 				</div>
@@ -190,13 +190,13 @@
 	          	  });
 	          	  
 	          	// ---------------------- 검색 버튼 동작 ---------------------------------
-		            $("#searchBtn").on("click", function() {
+		            $("#searchBtn2").on("click", function() {
 		          	  // 검색 값에 따라 url을 조합하여 저장할 변수
-		          	  var searchUrl = "";
+		          	  var searchUrl2 = "";
 		          	  
 		          	  // 검색에 필요한 요소(카테고리, 검색 조건, 검색어) 읽어오기
-		          	  var $sKey = $("select[name='sKey']");
-		          	  var $sVal = $("input[name='sVal']");
+		          	  var $sKey = $("select[name='sKey2']");
+		          	  var $sVal = $("input[name='sVal2']");
 		          	  
 		          	  // 1) 검색에 필요한 카테고리 또는 검색어가 입력 되었는지 확인
 		          	  // - 입력이 되지 않은 경우 -> 해당 게시판 첫 페이지로 돌아가는 url 생성
@@ -206,23 +206,23 @@
 		          	  // 선택된 카테고리의 개수가 0 이고, 입력도니 검색어의 길이가 0인 경우
 		          	  // == 카테고리 체크 X, 검색어 입력 X 상태로 검색버튼을 클릭한 경우
 		          	  if($sVal.val().trim().length == 0) {
-		          		  searchUrl = "${roomDetail.roomNo}";
+		          		  searchUrl2 = "${roomDetail.roomNo}";
 		          	  }
 		          	  
 		          	  // 카테고리가 체크 되었거나, 검색어가 입력된 경우 또는 둘다
 		          	  else {
-		          		  /* searchUrl = "search/${roomDetail.roomNo}?"; // 검색 요청 url */
-		          		  searchUrl = "${roomDetail.roomNo}?";
+		          		  /* searchUrl2 = "search/${roomDetail.roomNo}?"; // 검색 요청 url */
+		          		  searchUrl2 = "${roomDetail.roomNo}?";
 		          		
 		          		  // 검색어가 입력된 경우
 		          		  if($sVal.val().trim().length != 0) {
-		          			  searchUrl += "sKey=" + $sKey.val() + "&sVal=" + $sVal.val();
+		          			  searchUrl2 += "sKey=" + $sKey.val() + "&sVal=" + $sVal.val();
 		          		  }
 		          		  
 		          	  }
 		          	  
 		          	  // 2) location.href를 통해 검색 요청 전달
-		          	  location.href = searchUrl;
+		          	  location.href = searchUrl2;
 		            });
 		            
 		            // --------------- 검색 값 유지 --------------------------------
@@ -247,11 +247,11 @@
 		            });
 		            
 		         // --------------- 검색창 엔터 이벤트 --------------------------------
-		         $("input[name='sVal']").on("keyup", function(event){
+		         $("input[name='sVal2']").on("keyup", function(event){
 		      	   // console.log(event.keyCode); // 키업 이벤트가 발생할 경우 입력한 키 값이 출력 됨.
 		      	   
 		      	   if(event.keyCode == 13) { // 엔터키가 눌러졌을 경우
-		      		   $("#searchBtn").click(); // 검색 버튼 클릭
+		      		   $("#searchBtn2").click(); // 검색 버튼 클릭
 		      	   }
 		      	   
 		         });
