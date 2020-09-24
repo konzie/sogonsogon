@@ -351,8 +351,14 @@
                                    <tr>      
                                    <td>${board.qnaNo}</td>
                                    <td>${board.qnaCategory}</td>
-                                   <td>${board.qnaTitle}
-                                   <c:if test="${board.rCnt >0 }">[${board.rCnt}]</c:if></td>
+                                   <td> 
+                                 <c:if test="${board.qnaWriter  == 1}">
+                                 <h3></h3><b> ${board.qnaTitle}</b></h3>
+                                 </c:if> 
+                                 <c:if test="${board.qnaWriter  != 1}">
+                                  ${board.qnaTitle}
+                                 </c:if> 
+                                 <c:if test="${board.rCnt >0 }">[${board.rCnt}]</c:if></td>
                                    <c:set var="flag" value="false"/>
                                    <td>${board.writerNick}</td>
                                    

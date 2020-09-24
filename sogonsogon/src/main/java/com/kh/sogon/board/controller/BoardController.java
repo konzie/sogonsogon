@@ -47,6 +47,27 @@ public class BoardController {
 			
 			List<Board> boardList = boardService.selectList(pInfo);
 			
+			Board board = null;
+			
+			for(int i = 0; i<boardList.size(); i++) {
+				
+				
+				if(boardList.get(i).getWriterNick()== "김관리") {
+					
+				board = 	boardList.get(i);
+				
+				boardList.set(i, boardList.get(0));
+				
+				boardList.set(0, board);
+				
+				}
+				
+				
+				
+				
+			}
+			
+			
 			
 			model.addAttribute("boardList" ,boardList);
 			model.addAttribute("pInfo", pInfo);
@@ -197,9 +218,7 @@ public class BoardController {
 										 @RequestParam(value="thumbnail", required = false) MultipartFile thumbnail,
 										 @RequestParam(value="images", required =false) List<MultipartFile> images) {
 			
-			System.out.println("deleteImages : " + Arrays.toString(deleteImages));
-			System.out.println("tt");
-			System.out.println(upBoard +"yyy");
+			
 			upBoard.setQnaNo(qnaNo);
 			
 			

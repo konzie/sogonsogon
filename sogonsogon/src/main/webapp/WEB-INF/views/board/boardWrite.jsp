@@ -51,7 +51,7 @@
 <div class="row">
     <div class="col-md-2"></div>
     <div class="col-md-8">
-        <h2 class="text-center">질문하기</h2>
+        <h2 class="text-center">자유게시판</h2>
         <form action="insertAction" method="post" role="form" enctype="multipart/form-data" onsubmit="return validate();">
         
           
@@ -61,6 +61,7 @@
 						<option value="10">코딩</option>
 						<option value="20">외국어</option>
 						<option value="30">기타</option>
+						<option value="40">공지글</option>
 					</select>
 			
           <table class="table table-striped">

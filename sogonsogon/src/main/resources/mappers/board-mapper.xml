@@ -54,7 +54,6 @@
 			JOIN MEMBER ON(QNA_WRITER = MEMBER_NO)
 			WHERE QNA_STATUS = 'Y'
 			ORDER BY QNA_NO DESC
-		
 		</select>	
 
 
