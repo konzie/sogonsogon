@@ -251,7 +251,7 @@
 		              		<td>
 		              			<c:choose>
 		              				<c:when test="${help.answerChk=='N'}"><button type="button" class="btn btn-warning btn-sm" onclick="location.href='answerView/${help.helpNo}'">답변하기</button></c:when>
-		              				<c:otherwise><button type="button" class="btn btn-secondary btn-sm">답변완료</button></c:otherwise>
+		              				<c:otherwise><button type="button" class="btn btn-secondary btn-sm answerEnd">답변완료</button></c:otherwise>
 		              			</c:choose>
 		              		</td>
 	              		</tr>	
@@ -445,6 +445,8 @@ $("#help td:not(:last-child)").on("click",function(){
 }).on("mouseenter", function(){
 	$(this).parent().css("cursor", "pointer");
 });  
+
+$(".answerEnd").attr("disabled",true);
 </script>
 </body>
 </html>
