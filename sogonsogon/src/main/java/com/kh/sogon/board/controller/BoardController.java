@@ -47,27 +47,6 @@ public class BoardController {
 			
 			List<Board> boardList = boardService.selectList(pInfo);
 			
-			Board board = null;
-			
-			for(int i = 0; i<boardList.size(); i++) {
-				
-				
-				if(boardList.get(i).getWriterNick()== "김관리") {
-					
-				board = 	boardList.get(i);
-				
-				boardList.set(i, boardList.get(0));
-				
-				boardList.set(0, board);
-				
-				}
-				
-				
-				
-				
-			}
-			
-			
 			
 			model.addAttribute("boardList" ,boardList);
 			model.addAttribute("pInfo", pInfo);
