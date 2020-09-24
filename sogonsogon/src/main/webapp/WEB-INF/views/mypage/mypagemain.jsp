@@ -40,18 +40,19 @@
       	padding:10px;
       	display: inline-block;
       	height:300px;
-      	width:50%;
+      	width:100%;
+      	align-content: center;
       }
       
       #reportNotice{
-      	display: inline-block;
       	padding: 10px;
-      	height:300px;
-      	font-size: 18px;
+      	height:100px;
+      	width:100%;
+      	font-size: 15px;
       }
       
       #writer{
-      	float:left;
+      	float:right;
       	font-size: 15px;
       }
             
@@ -92,8 +93,19 @@
       	float:right;
       }
       
-      h5{
+      h4, h5{
       	clear: both;
+      	color:black;
+      	margin : 5px 5px;
+      }
+      
+      #roomBoardNo{
+      	float:left;
+      	width:11%;
+      }
+      
+      #roomNo{
+      	float:left;
       }
 </style>
 </head>
@@ -114,38 +126,37 @@
 	<img src="${contextPath}/resources/images/party2.png" id="party2"  height="20%" width="20%">
 	</div>
 	<div style="border: 1px solid #FAE0D4; clear:both; margin:3px; padding:3px;">
-	<h5>※ 신고된 게시글 ※ </h5> 
-	<hr> 
 		<c:choose>
           	<c:when test="${empty report}">
           		<p>신고된 사항이 없습니다.</p>
           	</c:when>
         <c:otherwise>
          
+        <h5>! 새로 신고된 게시글이 있습니다 !</h5> 
         <c:choose>
         <c:when test="${report.roomNo>0}"> 
 		<div id="reportContent">
-        	<h3>제목 : ${board.roomBoardTitle}</h3><hr>
-        	<div>방 번호 : ${board.roomNo}</div><div> [ 게시글 번호 : ${board.roomBoardNo} ] </div>
-        	<div id="writer">작성자 : ${board.roomBoardWriter}</div><div id="writeday">작성일 : ${board.roomBoardCreateDate}</div>
-        	<br>
-        	<hr>
+         	<jsp:useBean id="now" class="java.util.Date"></jsp:useBean>
+  			<fmt:formatDate var="today" value="${now}" pattern="yyyy-MM-dd"/>
+   			<fmt:formatDate var="createDate" value="${board.roomBoardCreateDate}" pattern="yyyy-MM-dd"/>
+        	&nbsp;&nbsp;<div id="roomBoardNo">게시글 번호 : ${board.roomBoardNo}</div><div id="roomNo">(방 번호 : ${board.roomNo})</div>
+        	<div id="writeday">작성일 : ${createDate}</div><br><div id="writer">작성자 : ${board.roomBoardWriter}</div>
+        	<br><hr><h4>제목 | ${board.roomBoardTitle}</h4><hr>
 			<div id="board-content">${board.roomBoardContent}</div>
 		</div>
 		</c:when>
 		<c:otherwise>
 		<div id="reportContent">
-        	<h3>제목 : ${reportView.qnaTitle}</h3><hr>
-        	<div id="writer">작성자 : ${reportView.writerNick}</div><div id="writeday">작성일 : ${reportView.qnaCreateDate}</div>
-        	<br>
-        	<hr>
+        	<div id="roomBoardNo">게시글 번호 : ${reportView.qnaNo}</div>
+        	<div id="writeday">작성일 : ${reportView.qnaCreateDate}</div><br><div id="writer">작성자 : ${reportView.writerNick}</div>
+        	<br><hr><h4>제목 | ${reportView.qnaTitle}</h4><hr>
 			<div id="board-content">${reportView.qnaContent}</div>
 		</div>
 		</c:otherwise>
 		</c:choose>
 			<div id="reportNotice">
-					해당 게시글이 신고되었습니다. 
-					<br>현재 신고된 수는 ${report.reportCount} 입니다. 
+					위 게시글이 신고되었습니다. 
+					<br>현재 신고된 수는 <span style="color:crimson">${report.reportCount}번</span> 입니다. 
 					앞으로 ${3-report.reportCount}번 더 신고 받으면 사이트 이용이 불가합니다.
 			</div>
         </c:otherwise>
