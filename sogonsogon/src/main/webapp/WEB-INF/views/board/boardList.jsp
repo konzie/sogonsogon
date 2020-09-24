@@ -492,7 +492,8 @@
   		
   		
   		if($sVal.val().trim().length == 0){
-  			searchUrl = "${pInfo}";
+  			alert("검색어를 입력해주세요.");
+  			searchUrl = "${contextPath}/board/boardList";
   			
   		}
   		else{
