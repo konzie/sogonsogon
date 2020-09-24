@@ -6,6 +6,7 @@
 <html lang="ko">
     <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="${contextPath}/resources/css/roomList.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>자유게시판</title>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
@@ -63,30 +64,7 @@
 	.table-wrapper .btn.btn-primary:hover {
 		background: #03a3e7;
 	}
-	.table-title .btn {		
-		font-size: 13px;
-		border: none;
-	}
-	.table-title .btn i {
-		float: left;
-		font-size: 21px;
-		margin-right: 5px;
-	}
-	.table-title .btn span {
-		float: left;
-		margin-top: 2px;
-	}
-	.table-title {
-		color: #fff;
-		background: #ff9d38;		
-		padding: 16px 25px;
-		margin: -20px -25px 10px;
-		border-radius: 3px 3px 0 0;
-    }
-    .table-title h2 {
-		margin: 5px 0 0;
-		font-size: 24px;
-	}
+	
 	.show-entries select.form-control {        
         width: 60px;
 		margin: 0 5px;
@@ -311,15 +289,23 @@
     
     <jsp:include page="../common/header.jsp"/>
         <div class="container">
-            <div class="table-wrapper" id="wrapper">
+        
                 <div class="table-title">
-                    <div class="row">
-                        <div class="col-sm-4" id="colsm">
-                            <h2><b>자유 게시판</b></h2><hr><h5>자유롭게 질문을 주고 받으세요 ! </h5>
-                        </div>
-
-                    </div>
-                </div>
+			       <div style="width: 75%; height: 100%; float: left;">
+			            <h1>자유게시판</h1>
+			            <br>
+			            <p>자유롭게 질문을 주고 받는 공간 - <br>
+			                                  자기의 주장, 하고싶은 이야기, 기타 의견등 누구나 자유롭게 의견을 게시 할 수 있는 곳입니다.                
+			            </p>         
+			       </div>
+			       
+			       <div style="width: 25%; height: 100%; float: left;">
+			        	<img src="${contextPath}/resources/images/chat.png" style="float: right; margin-top: -16px; width : 100px; height : 100px;">
+			       </div>
+			        
+			   </div>
+            <div class="table-wrapper" id="wrapper">
+                
                
                 <table class="table table-striped table-hover" id="table">
                     <thead>
