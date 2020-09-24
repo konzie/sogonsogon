@@ -29,9 +29,12 @@
 						<c:if test="${roomMemberNo eq loginMember.memberNo}">
 							<option value="공지">공지사항</option>
 						</c:if>
-						<option value="IT">IT</option>
-						<option value="요리">요리</option>
-						<option value="PC">PC</option>
+		                 	<option value="IT">IT</option>
+		                  	<option value="공모전">공모전</option>
+		                 	<option value="면접">면접</option>
+		                 	<option value="전공">전공</option>
+		                 	<option value="외국어">외국어</option>
+		                  	<option value="기타">기타</option>
 					</select>
 				</div>
 				<div class="form-inline mb-2">

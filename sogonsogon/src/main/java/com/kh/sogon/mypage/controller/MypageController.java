@@ -64,6 +64,10 @@ public class MypageController {
 
 			model.addAttribute("report", reportList.get(0));
 		}
+		
+		List<Help> helpList = mypageService.selectMyHelp(loginMember.getMemberNo()); 
+
+		model.addAttribute("helpList", helpList);
 		model.addAttribute("loginMember", loginMember);
 		
 		return "mypage/mypagemain";
@@ -268,14 +272,6 @@ public class MypageController {
 	// 비밀번호 확인 후 넘어가기
 	@RequestMapping("myInfoView")
 	public String myInfoView(Member member, Model model, RedirectAttributes rdAttr) {
-		
-		Member loginMember = (Member)model.getAttribute("loginMember");
-		
-		String tel2 = loginMember.getMemberPhone().substring(3,7);
-		String tel3 = loginMember.getMemberPhone().substring(7,11);	
-	
-		model.addAttribute("tel2", tel2);
-		model.addAttribute("tel3", tel3);
 		
 		return "mypage/myInfoView";
 	}

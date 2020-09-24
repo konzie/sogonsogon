@@ -433,4 +433,9 @@ public class MypageServiceImpl implements MypageService{
 	public int findRoomNo(int i) {
 		return mypageDAO.findRoomNo(pInfo, i);
 	}
+
+	@Override
+	public List<Help> selectMyHelp(int memberNo) {
+		return mypageDAO.selectMyHelp(memberNo);
+	}
 }

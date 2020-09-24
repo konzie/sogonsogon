@@ -32,10 +32,18 @@
       	float: right;
       }
 </style>
+<!------------------ Summernote ------------------>
+<link rel="stylesheet" href="${contextPath}/resources/summernote/css/summernote-lite.css">
+<!------------------------------------------------>
 </head>
 <body>
 
   <jsp:include page="../common/header.jsp" />
+	<!------------------ Summernote ------------------>
+	<script src="${contextPath}/resources/summernote/js/summernote-lite.js"></script>
+	<script src="${contextPath}/resources/summernote/js/summernote-ko-KR.js"></script>
+	<script src="${contextPath}/resources/summernote/js/summernote.js"></script>
+	<!------------------------------------------------>
   <c:choose>
   <c:when test="${member.memberGrade=='G'}">
 	     <div>
@@ -81,8 +89,7 @@
 				</div>
 
 				<div class="form-inline mb-2">
-					<label>내용</label>
-					<textarea class="form-control" id="content" name="content" rows="10" cols="200" style="resize: none;"></textarea>
+					<textarea class="form-control" id="content summernote" name="content" rows="10" cols="200" style="resize: none;"></textarea>
 				</div>
 				
 				<hr class="mb-4">

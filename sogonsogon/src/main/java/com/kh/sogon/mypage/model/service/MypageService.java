@@ -240,4 +240,6 @@ public interface MypageService {
 	public abstract List<RoomBoardReply> selectRoomReplyList(PageInfo pInfo, int memberNo);
 
 	public abstract int findRoomNo(int i);
+
+	public abstract List<Help> selectMyHelp(int memberNo);
 }

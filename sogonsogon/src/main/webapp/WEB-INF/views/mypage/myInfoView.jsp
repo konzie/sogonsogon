@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -72,17 +73,14 @@
 	        <tr>
 	            <td>닉네임</td>
 	            <td><input type="text" id="nick" name="memberNick" value="${loginMember.memberNick}" size="25px">
-	            <div  class="checkSpan" > <span id="nickCheckArea"> </span> </div></td>
-	            
+	            <div  class="checkSpan" > <span id="nickCheckArea"> </span> </div> 
 	            </td>
 	        </tr>
 	        <tr>
 	            <td>전화번호</td>                               
 	            <td>
-	                
 	                <input type="number" id="phone" name="memberPhone" value="${loginMember.memberPhone}" required>
-	                <div  class="checkSpan" > <span id="phoneCheckArea"> </span> </div></td>
-	                
+	                <div  class="checkSpan" > <span id="phoneCheckArea"> </span> </div>
 	            </td>
 	        </tr>
 	        <tr>
@@ -159,8 +157,6 @@
 		infoCheck.nick=false;
 		
 		var regExp =  /^[가-힣a-zA-Z\d]{2,}$/; // 한글 두 글자 이상
-		console.log('되는감?');
-		console.log($nick.val());
 		// 유효성 검사
 		if(!regExp.test($nick.val())){
 			$("#nickCheckArea").text("닉네임은 2글자 이상 한글, 영문, 숫자만 사용 가능합니다.").css("color","red");
@@ -194,38 +190,27 @@
 	});
 
 //----------------------------------------------------------------------
+// 기존 DB관심사 불러와서 반영
+	
+	var interest = "${loginMember.memberInterest}";
+	if(interest!=null){
+		var memberInterest = "${loginMember.memberInterest}".split(",");
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	// 기존 DB관심사 불러와서 반영
-	
-	var memberInterest = "${loginMember.memberInterest}".split(",");
-
-	console.log(memberInterest);
-	
-	$.each($("input[name='memberInterest']"), function(index, item){
+		console.log(memberInterest);
 		
-		for(var i=0 ; i< memberInterest.length ; i++){
-			if($(item).val() == memberInterest[i]){
-				$(item).prop("checked",true);
-				break;
+		$.each($("input[name='memberInterest']"), function(index, item){
+			for(var i=0 ; i< memberInterest.length ; i++){
+				if($(item).val() == memberInterest[i]){
+					$(item).prop("checked",true);
+					break;
+				}
 			}
-		}
+		});		
+	}
+
+   $("#deleteInfo").click(function(){
+   	confirm("정말 탈퇴하시겠습니까?");
 	});
-	
-    $("#deleteInfo").click(function(){
-    	confirm("정말 탈퇴하시겠습니까?");
-		});
 	</script>
 </body>
 </html>

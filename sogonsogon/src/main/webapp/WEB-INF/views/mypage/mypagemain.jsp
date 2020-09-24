@@ -66,11 +66,6 @@
       	position: absolute;
       }
       
-      h4{
-      	margin:5px;
-      	color:#E04848;
-      }
-      
       #greeting{
       	display: inline-block;
       	float:left;
@@ -107,6 +102,18 @@
       #roomNo{
       	float:left;
       }
+      
+      .mypageList{
+      	margin : 20px 20px;
+      }
+      
+      .brown{
+      	width:100%;
+      	height:5px;
+      	background-color: #F29661;
+      	padding:0;
+      	margin:0px 0px 3px 0px;
+      }
 </style>
 </head>
 <body>   
@@ -125,14 +132,14 @@
 	<h2 align="center" id="greeting">${loginMember.memberNick} 님 환영합니다! </h2>
 	<img src="${contextPath}/resources/images/party2.png" id="party2"  height="20%" width="20%">
 	</div>
-	<div style="border: 1px solid #FAE0D4; clear:both; margin:3px; padding:3px;">
+	<div style="border: 5px solid #FAE0D4; clear:both; margin:10px 0; padding:0px;" class="mypageList">
 		<c:choose>
           	<c:when test="${empty report}">
-          		<p>신고된 사항이 없습니다.</p>
+          		<div class="brown"></div><h5 style="padding: 5px;"> ! 신고된 사항이 없습니다.</h5>
           	</c:when>
         <c:otherwise>
          
-        <h5>! 새로 신고된 게시글이 있습니다 !</h5> 
+        <div class="brown"></div><h5>! 새로 신고된 게시글이 있습니다 !</h5> 
         <c:choose>
         <c:when test="${report.roomNo>0}"> 
 		<div id="reportContent">
@@ -163,6 +170,63 @@
         </c:choose>	
 	 </div>
 	 
+	<div style="border: 5px solid #FAE0D4; clear:both; margin:10px 0; padding:0px;"  class="mypageList">
+		<table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>글번호</th>
+                        <th>분류</th>
+                        <th>제목</th>
+                        <th>내용</th>
+                        <th>작성자</th>						
+                        <th>작성일</th>						
+                        <th>답변여부</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <c:choose>
+          			<c:when test="${empty helpList}">
+		         		<tr>		
+		         			<td colspan="7" align="center"><div class="brown"></div>내가 보낸 문의사항이 없습니다.</td>
+		         		</tr>
+          			</c:when>	
+          			<c:otherwise>
+          			        <div class="brown"></div><h5>? 내가 보낸 문의사항입니다. </h5> 
+          				<c:forEach var="board" items="${helpList}">
+	              		<tr>		
+	              			<jsp:useBean id="now1" class="java.util.Date"></jsp:useBean>
+	              			<fmt:formatDate var="today1" value="${now1}" pattern="yyyy-MM-dd"/>
+	              			<fmt:formatDate var="createDate1" value="${board.helpCreateDate}" pattern="yyyy-MM-dd"/>
+	              			<fmt:formatDate var="createTime1" value="${board.helpCreateDate}" pattern="hh:mm:ss"/>
+	              			<td>${board.helpNo}</td>
+		              		<td>${board.helpCategory}</td>
+		              		<td>${board.helpTitle}</td>
+		              		<td>${board.helpContent}</td>
+		              		<td>${board.writerNick}</td>
+		              		<td>
+		              			<c:choose>
+		              				<c:when test="${today1 == createDate1 }">${createTime1}</c:when>
+		              				<c:otherwise>${createDate1}</c:otherwise>
+		              			</c:choose>
+		              		</td>
+		              		<td>
+                           	<c:choose>
+                           		<c:when test="${help.answerChk == 'Y'}">
+                           			<span class="status text-success" style="margin: -8px 2px 0 0;">&bull;</span> 답변   	
+		                  		</c:when>
+		                  		<c:otherwise>
+		                  			<span class="status text-wait" style="margin: -8px 2px 0 0;">&bull;</span> 미답변  
+		                  		</c:otherwise>                                            		
+                           	</c:choose>
+		              		</td>
+	              		</tr>	
+          				</c:forEach>
+          			</c:otherwise>
+          		</c:choose>
+                </tbody>
+            </table>
+	 </div>
+	 	 
 	 <div>
 	 	
 	 </div>  	
@@ -171,7 +235,13 @@
    <jsp:include page="../common/footer.jsp" />
 
 <script>
+$("td:not(:last-child)").on("click",function(){
+	var boardNo = $(this).parent().children().eq(0).text(); 				
 
+	location.href = "${contextPath}/help/no=" + boardNo;
+}).on("mouseenter", function(){
+	$(this).css("cursor", "pointer");
+});
 </script>
 </body>
 </html>
