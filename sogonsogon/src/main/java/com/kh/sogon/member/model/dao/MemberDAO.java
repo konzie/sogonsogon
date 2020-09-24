@@ -31,6 +31,14 @@ public class MemberDAO {
 	public int idDupCheck(String memberId) {
 		return sqlSession.selectOne("memberMapper.idDupCheck", memberId);
 	}
+	
+	/** 회원가입 (연락처 중복검사 DAO)
+	 * @param memberPhone
+	 * @return result
+	 */
+	public int phoneDupCheck(int memberPhone) {
+		return sqlSession.selectOne("memberMapper.phoneDupCheck", memberPhone);
+	}
 
 	/** 회원가입 DAO
 	 * @param signUpMember
@@ -76,6 +84,8 @@ public class MemberDAO {
 		return sqlSession.update("memberMapper.findPwd", paramMap);
 
 	}
+
+
 	
 	
 	

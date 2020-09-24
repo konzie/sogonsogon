@@ -84,6 +84,16 @@ public class MemberController {
 		return result+""; // int를 string으로
 	}
 	
+	// 회원가입 (연락처 중복체크)
+	
+	@ResponseBody
+	@RequestMapping("phoneDupCheck")
+	public String phoneDupCheck(int memberPhone) {
+		int result = memberService.phoneDupCheck(memberPhone);
+		
+		return result+""; // int를 string으로
+	}
+	
 	
 	// 회원가입
 										

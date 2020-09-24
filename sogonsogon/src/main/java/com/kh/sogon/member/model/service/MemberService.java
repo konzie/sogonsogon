@@ -11,8 +11,11 @@ public interface MemberService {
 	// 로그인 
 	Member login(Member member);
 
-	//회원가입(중복체크)
+	//회원가입(아이디 중복체크)
 	int idDupCheck(String memberId);
+	
+	// 회원가입 (연락처 중복체크)
+	int phoneDupCheck(int memberPhone);
 
 	//회원가입
 	void signUp(Member signUpMember) throws Exception ;
@@ -28,6 +31,7 @@ public interface MemberService {
 
 	// 비밀번호 찾기 (메일인증 보내기)
 	void sendPwd(Map<String, Object> paramMap) throws MessagingException;
+
 
 
 

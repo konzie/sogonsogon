@@ -35,6 +35,11 @@
 		SELECT COUNT(*) FROM MEMBER WHERE MEMBER_ID = #{memberId} AND MEMBER_STATUS = 'Y' 
 	</select>
 	
+	<!-- 회원가입(아이디 중복검사) -->
+	<select id="phoneDupCheck" parameterType="_int" resultType = "_int">
+		SELECT COUNT(*) FROM MEMBER WHERE MEMBER_PHONE = #{memberPhone} AND MEMBER_STATUS = 'Y' 
+	</select>
+	
 	
 	<!-- 회원가입 -->
 	<insert id="signUp" parameterType="Member">

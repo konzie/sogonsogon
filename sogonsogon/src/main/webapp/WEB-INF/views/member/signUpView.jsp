@@ -416,7 +416,31 @@
 				$("#phoneCheckArea").text("숫자만 입력해주세요.").css("color","red");
 				signUpCheck.phone = false;
 			}else{
-				$("#phoneCheckArea").text("사용가능한 연락처입니다.").css("color","green");
+				
+				
+				// ajax 이용해 비동기로 아이디 중복검사
+				signUpCheck.phone = true;
+
+					$.ajax({
+						url : "phoneDupCheck",
+						data : {"memberPhone" : $phone.val()},
+						type : "post",
+						success : function(result){
+							if(result== 0){
+								// 중복되는 아이디가 없을 경우 
+								$("#phoneCheckArea").text("사용가능한 연락처입니다.").css("color","green");
+								signUpCheck.phone = true;
+							}else{
+								$("#phoneCheckArea").text("이미 사용중인 연락처 입니다.").css("color","red");
+								signUpCheck.phone = false;
+								
+							}
+						},
+						error : function(){
+							console.log("연락처 중복 검사 실패");
+						}
+					})
+				
 				signUpCheck.phone = true;
 			}
 		
