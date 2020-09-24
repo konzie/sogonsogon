@@ -55,11 +55,18 @@ public class MemberServiceImpl implements MemberService {
 	      return loginMember;
 	}
 
-	// id 중복검사
+	// 회원가입 (id 중복검사)
 	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public int idDupCheck(String memberId) {
 		return memberDAO.idDupCheck(memberId);
+	}
+	
+	// 회원가입 (연락처 중복검사)
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public int phoneDupCheck(int memberPhone) {
+		return memberDAO.phoneDupCheck(memberPhone);
 	}
 
 	// 회원가입
