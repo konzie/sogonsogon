@@ -47,17 +47,17 @@
        <table class="table table-striped table-hover replyTable">
                 <thead>
                     <tr>
-                        <th id="boardNo">번호</th>
-                        <th colspan="2">내용</th>					
-                        <th id="create_dt">작성자</th>						
-                        <th id="create_dt">작성일</th>	
+                        <th>번호</th>
+                        <th>내용</th>					
+                        <th>작성자</th>						
+                        <th>작성일</th>	
                     </tr>
                 </thead>
                 <tbody>
                 <c:choose>
           			<c:when test="${empty replyList}">
 		         		<tr>		
-		         			<td colspan="5" align="center">채택된 댓글이 없습니다.</td>
+		         			<td colspan="4" align="center">채택된 댓글이 없습니다.</td>
 		         		</tr>
           			</c:when>	
           			<c:otherwise>
@@ -72,7 +72,7 @@
 	              					<span class="badge badge-primary new">new</span>
 		              			</c:if>
 							<span style="display: none;">${reply.qnaNo}</span><span>${reply.replyNo}</span></td>
-		              		<td colspan="2">${reply.content}</td>
+		              		<td>${reply.content}</td>
 		              		<td>${reply.writerNick}</td>
 		              		<td>
 		              			<c:choose>
@@ -84,7 +84,6 @@
 	              		<tr>
 		              		<td>└게시글 : ${reply.qnaNo}</td>
 		              		<td>${reply.qnaTitle}</td>
-		              		<td>${reply.qnaContent}</td>
 		              		<td>${reply.qnaWriter}</td>
           				</c:forEach>
           			</c:otherwise>
@@ -151,7 +150,7 @@ $("tr:nth-child(odd)").on("click",function(){
 	}else{
 		var boardNo = $(this).children().children().eq(0).text(); 
 	}
-	location.href = "${contextPath}/mypage/boardView/"+boardNo;
+	location.href = "${contextPath}/board/"+boardNo;
 }).on("mouseenter", function(){
 	$(this).css("cursor", "pointer");
 });

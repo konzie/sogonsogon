@@ -87,7 +87,6 @@ public class MypageController {
 		
 		model.addAttribute("reportList", reportList);
 		
-		
 		PageInfo roomPInfo = new PageInfo();
 
 		roomPInfo.setCurrentPage(1);
@@ -113,14 +112,15 @@ public class MypageController {
 		
 		model.addAttribute("helpList", helpList);
 		
-		List<Board> noticeList = mypageService.selectNList(pInfo);
-		for(int i=0;i<noticeList.size();i++) {
-			if(noticeList.get(i).getQnaContent().length()>20){
-				noticeList.get(i).setQnaContent(noticeList.get(i).getQnaContent().substring(0,20)+"...");
-			}
-		}
+		PageInfo memberpInfo = new PageInfo();
 		
-		model.addAttribute("noticeList", noticeList);
+		memberpInfo.setCurrentPage(1);
+		memberpInfo.setLimit(3);
+		
+		List<Member> memberList = mypageService.selectMList(memberpInfo);
+		
+		model.addAttribute("memberList", memberList);
+
 		return "mypage/adminmain";
 	}
 	
@@ -134,7 +134,7 @@ public class MypageController {
 		pInfo.setLimit(10);
 		
 		List<Reply> replyList = mypageService.selectRList(pInfo, loginMember.getMemberNo());
-		                                                                   
+		
 		model.addAttribute("replyList", replyList);
 		model.addAttribute("pInfo", pInfo);
 		
