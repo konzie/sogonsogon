@@ -58,7 +58,7 @@ public class MypageController {
 				
 					model.addAttribute("board", board);		
 			}else {
-				Board reportView = mypageService.noticeView(reportList.get(0).getBoardNo());
+	            Board reportView = mypageService.noticeView(reportList.get(0).getBoardNo());
 				model.addAttribute("reportView", reportView);
 			}
 
