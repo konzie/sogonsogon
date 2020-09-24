@@ -43,8 +43,8 @@
     .detail-info dt{float:left; display:inline-block; padding-right:10px;}			
     .detail-info dd{padding-right:30px; float:left;}	
     		
-    .content{height : 15%; border-bottom: 1px solid #c2c2c2; padding:20px;}
-    .detail-footer{height:10%; padding:13px;}
+    .content{height : 79%; border-bottom: 1px solid #c2c2c2; padding:20px;}
+   
     
     #updateBtn{	text-decoration:none;
     			border:1px solid #e4e4e4;
@@ -151,8 +151,8 @@
              
             	
             	
-            	<div class="content">${board.qnaContent}</div>
-            	<div class="detail-footer">
+            	<div class="content">${board.qnaContent}
+            	<hr>
             		<c:if test="${loginMember.memberNo == board.qnaWriter}">
 	            		<div class="update-Btn"><a id="updateBtn" type="button" href="${contextPath}/board/${board.qnaNo}/update">수정</a></div>
 	            		<div class="delete-Btn"><a id="deleteBtn" type="button" href="${contextPath}/board/${board.qnaNo}/delete">삭제</a></div>
@@ -179,7 +179,9 @@
 					
                 	</c:if>
                 	
+            
             	</div>
+            	
             </div>
 			<div class="list-Btn"><a id="listBtn" type="button" href="${contextPath}/board/boardList">목록</a></div>
         </div>
