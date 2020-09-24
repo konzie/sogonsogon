@@ -92,23 +92,27 @@
       AND ROOM_STATUS = 'Y'
    </select>
    
+   <!-- 방 만들기 쿼리 -->
    <insert id="createRoom"  parameterType="Room" >
       INSERT INTO STUDY_ROOM VALUES (SEQ_ROOM.NEXTVAL, #{memberNo}, #{roomTitle}, #{roomContent}, #{roomPassword}
       ,#{roomType}, DEFAULT,DEFAULT, DEFAULT,#{roomOpen}, #{roomTag}, #{roomMaxNumber},DEFAULT)
    </insert>
    
+   <!-- 모달 영역 데이터 조회 쿼리 -->
    <select id="roomMList" parameterType="_int"  resultType="Room" resultMap="roomResultSet">
          SELECT ROOM_TITLE,ROOM_CONTENT,ROOM_PWD,ROOM_OPEN
          FROM STUDY_ROOM
          WHERE ROOM_NO=#{roomNo}
    </select>
    
+   <!-- 방 가입 멤버 조회 쿼리 -->
    <select id="selectRoomMember" parameterType="_int" resultType="list"   resultMap="roomMemberResultSet">
       SELECT ROOM_MEMBER_ROOM_NO 
       FROM ROOM_MEMBER
       WHERE  ROOM_MEMBER_MEMBER_NO = #{roomMemberRoomNo}
    </select>
    
+   <!-- 카테고리별 조회 쿼리 -->
    <select id="selectOption" parameterType="_int" resultType="list" resultMap="roomResultSet">
       SELECT ROOM_NO,ROOM_TYPE,ROOM_TITLE,MEMBER_NICK,ROOM_CREATE_DATE,ROOM_TAG,ROOM_OPEN,ROOM_MAX_NUMBER
         FROM STUDY_ROOM
@@ -143,6 +147,7 @@
       OR ROOM_TAG LIKE '${sv}'
    </select>
    
+   <!-- 메인화면 최신순 룸 리스트 조회 -->
    <select id="mainRoomList"  resultType="list"  resultMap="roomResultSet">
       SELECT * FROM (SELECT ROOM_NO,ROOM_TYPE,ROOM_TITLE,MEMBER_NICK,ROOM_CREATE_DATE,ROOM_TAG,ROOM_OPEN,ROOM_MAX_NUMBER,ROOM_CONTENT,
       (SELECT COUNT(*) FROM ROOM_MEMBER WHERE ROOM_MEMBER_ROOM_NO = STUDY_ROOM.ROOM_NO GROUP BY ROOM_MEMBER_ROOM_NO) ROOM_ENTER_NUMBER
@@ -151,7 +156,6 @@
       <![CDATA[ WHERE ROWNUM <=4 ]]>
    </select>
    
-
    <!-- 게시글 작성  갯수 조회 쿼리-->
    <select id="writeBoardCount" parameterType="map" resultType="_int">
       SELECT COUNT(*)
@@ -186,7 +190,6 @@
        <![CDATA[ WHERE ROWNUM <=3 ]]>
    </select>
    
-
    <!-- 댓글 채택 갯수 조회 쿼리 -->
    <select id="writeBoardReplyAdoptionCount" parameterType="map" resultType="_int">
       SELECT COUNT(*) FROM ROOM_BOARD_REPLY_ADOPTION
@@ -211,6 +214,7 @@
 		AND ROOM_MEMBER_ROOM_NO = #{roomNo}
    </select>
 
+	<!-- 방나가기 쿼리  -->
 	<delete id="memberInfoDelete" parameterType="map">
 		DELETE FROM ROOM_MEMBER WHERE ROOM_MEMBER_ROOM_NO = #{roomNo} AND ROOM_MEMBER_MEMBER_NO = #{memberNo}
 	</delete>
@@ -229,9 +233,15 @@
 		WHERE ROOM_NO=#{roomNo}
 	</update>
 	
-	<!-- <insert id="insertMember" parameterType="map">
-		INSERT INTO ROOM_MEMBER VALUES(#{roomNo}, #{memberNo})
-	</insert> -->
+	<!-- 방 만든 후 방장 가입 위한 번호 얻는 쿼리 -->
+	<select id="selectNextNo" resultType="_int">
+		SELECT SEQ_ROOM.NEXTVAL FROM DUAL
+	</select>
+	
+	<!-- 방 만든 후 방장 가입 쿼리 -->
+	<insert id="insertMember" parameterType="map">
+		INSERT INTO ROOM_MEMBER VALUES(${roomNo}, ${memberNo}, 'G', SYSDATE)
+	</insert> 
 	
 </mapper>
 

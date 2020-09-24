@@ -144,10 +144,9 @@ public interface RoomService {
 
 	/** 방장 room member 추가 Service
 	 * @param memberNo
-	 * @param roomNo
-	 * @return
+	 * @return result
 	 */
-	//int insertMember(int memberNo, int roomNo);
+	int insertMember(int memberNo);
 
 
 

@@ -107,7 +107,6 @@ public class RoomDAO {
 
 
 
-
 	/** 방 생성 DAO
 	 * @param room
 	 * @return result
@@ -126,7 +125,7 @@ public class RoomDAO {
 	}
 
 
-	/** 입장
+	/** 입장용 DAO
 	 * @param memberNo 
 	 * @param loginMemberNo
 	 * @return
@@ -192,7 +191,6 @@ public class RoomDAO {
 	}
 
 
-
 	
 	/** 작성게시글 갯수 확인을 위한 DAO
 	 * @param roomNo
@@ -222,7 +220,6 @@ public class RoomDAO {
 
 	}
 
-
 	/** 메인 좋아요 top3 조회하기
 	 * @return list
 	 */
@@ -233,7 +230,7 @@ public class RoomDAO {
 
 	/** 방 회원 탈퇴 DAO
 	 * @param roomNo, memberNo
-	 * @return
+	 * @return result
 	 */
 	public int withDraw(int roomNo, int memberNo) {
 		Map<String, Integer> map = new HashMap<String, Integer>();
@@ -294,17 +291,32 @@ public class RoomDAO {
 	public int updateRoomInsert(Room room) {
 		return sqlSession.update("roomMapper.updateRoomInsert", room);
 	}
+	
+	/** 방 만들자 마자 방장 가입시키기 위해 번호 얻기
+	 * @return result
+	 */
+	public int selectNextNo() {
+		return sqlSession.selectOne("roomMapper.selectNextNo", null);
+	}
 
 
-	public int insertMember(int memberNo, int roomNo) {
+	/** 방 만들자 마자 방장 가입시키기 
+	 * @param memberNo
+	 * @param roomNo
+	 * @param nextNo
+	 * @return result
+	 */
+	public int insertMember(int memberNo, int nextNo) {
 		Map<String, Integer> map = new HashMap<String, Integer>();
 		
+		int roomNo = nextNo-1;
 		map.put("memberNo", memberNo);
-		map.put("roomNo", roomNo);
+		map.put("roomNo",roomNo);
 		
-		System.out.println(memberNo + "/" + roomNo);
 		return sqlSession.insert("roomMapper.insertMember", map);
 	}
+
+	
 
 
 	
