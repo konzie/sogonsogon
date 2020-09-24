@@ -335,8 +335,8 @@ public class BoardController {
 		//-----------------------------------------Summernote-----------------------------------------
 		// Summernote 이미지 업로드
 		@ResponseBody
-		@RequestMapping("{type}/insertImage")
-		public String insertImage(@PathVariable int type,  HttpServletRequest request,
+		@RequestMapping("insertImage")
+		public String insertImage(HttpServletRequest request,
 				@RequestParam(value="uploadFile", required=false) MultipartFile uploadFile) {
 			
 			String savePath =  request.getSession().getServletContext().getRealPath("resources/infoImages/");

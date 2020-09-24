@@ -22,6 +22,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.kh.sogon.board.model.vo.Board;
+import com.kh.sogon.board.model.vo.PageInfo;
+import com.kh.sogon.board.model.vo.Search;
 import com.kh.sogon.member.model.vo.Member;
 import com.kh.sogon.roomboard.model.service.RoomBoardService;
 import com.kh.sogon.roomboard.model.vo.RoomBoard;
@@ -321,4 +324,5 @@ public class RoomBoardController {
 		return mv;
 
 	}
+	
 }

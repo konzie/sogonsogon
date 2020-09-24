@@ -15,7 +15,7 @@
                 width: 880px;}          
     .detailView{
         width: 880px;
-        height: 610px;
+        height: 100%;
         border-radius: 8px;
         box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.1);
         background-color: white;
@@ -37,7 +37,7 @@
     .detail-info{
     			height : 8%; 
     			border-bottom: 1px solid #c2c2c2;
-    			padding:12px 20px;
+    			padding:12px 20px 30px 20px;
     			}
     .detail-info dl{float:left;}			
     .detail-info dt{float:left; display:inline-block; padding-right:10px;}			
@@ -54,6 +54,15 @@
     			margin-right:10px;
     			}
     #updateBtn:hover{border:1px solid #007bff;}
+    
+    .update-Btn, .delete-Btn {  
+    
+    height: 30px;
+    /* float: left; */
+    display: inline-block;
+    
+    }
+    
     
     #deleteBtn{	text-decoration:none;
     			border:1px solid #e4e4e4;
@@ -179,14 +188,14 @@
 					
                 	</c:if>
                 	
-            
+             <!-- 댓글영역  -->
+	 <jsp:include page="reply.jsp"/>
             	</div>
             	
             </div>
 			<div class="list-Btn"><a id="listBtn" type="button" href="${contextPath}/board/boardList">목록</a></div>
         </div>
-               <!-- 댓글영역  -->
-	 <jsp:include page="reply.jsp"/>
+              
         
 	<jsp:include page="../common/footer.jsp"/>
 	
