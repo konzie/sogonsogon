@@ -43,7 +43,7 @@
     .detail-info dt{float:left; display:inline-block; padding-right:10px;}			
     .detail-info dd{padding-right:30px; float:left;}	
     		
-    .content{height : 69%; border-bottom: 1px solid #c2c2c2; padding:20px;}
+    .content{height : 15%; border-bottom: 1px solid #c2c2c2; padding:20px;}
     .detail-footer{height:10%; padding:13px;}
     
     #updateBtn{	text-decoration:none;
