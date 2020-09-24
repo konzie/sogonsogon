@@ -132,6 +132,8 @@ function selectReplyList(){
 		success:function(rList){
 			
 			
+			
+			
 			var $replyListArea = $("#replyListArea");
 			
 			$replyListArea.html(""); 
@@ -139,6 +141,8 @@ function selectReplyList(){
 			var loginMemberNo = "${loginMember.memberNo}";
 		
 			$.each(rList, function(i){
+				
+				
 				
 				var $li = $("<li>").addClass("reply-row").attr("id", rList[i].replyNo);
 				
@@ -182,6 +186,17 @@ function selectReplyList(){
 				
 				// 댓글 하나로 합치기
 				$li.append($div).append($rContent).append($btnArea);
+				//console.log(rList[i].replySelect);
+				
+				var $p;
+				if(rList[i].replySelect == 'Y') {
+					$p = $("<span>").addClass("fas fa-check-circle").text(" 채택되었습니다 (채택 시 수정, 삭제가 불가능합니다)").css("background-color", "#db6b6b");
+					$("#" + parseInt(rList[i].replyNo)).css("background-color", "#db6b6b").append($p);
+					$("#" + parseInt(rList[i].replyNo)).children(".btnArea").remove();
+					$(".adoption").remove();
+				}
+				
+				$li.append($p);
 				
 				// 댓글 영역을 화면에 배치
 				$replyListArea.append($li).append($hr);
@@ -255,13 +270,14 @@ function addAdoption(el, replyNo) {
 				$(el).parent().parent().css("background-color", "#db6b6b").append($p);
 				$(el).parent().parent().children(".btnArea").remove();
 				$(".adoption").remove();
-				
+				// 유지가 안됨...
 			},error : function() {
 				console.log("통신 실패");
 			}
 		});
 	}
 }
+
 
 // 댓글 채택 있는지 확인
 function chkAdoption() {

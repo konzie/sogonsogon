@@ -40,7 +40,7 @@
 
 	.table-wrapper {
         background: #fff;
-        padding: 20px 25px;
+       padding-left: 100px;
 		border-radius: 3px;
         box-shadow: 0 1px 1px rgba(0,0,0,.05);
     }
