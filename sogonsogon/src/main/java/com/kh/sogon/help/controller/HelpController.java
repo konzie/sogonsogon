@@ -21,6 +21,7 @@ import com.kh.sogon.help.model.service.HelpService;
 import com.kh.sogon.help.model.vo.Help;
 import com.kh.sogon.help.model.vo.HelpPageInfo;
 import com.kh.sogon.member.model.vo.Member;
+import com.sun.org.apache.xalan.internal.xsltc.runtime.Parameter;
 
 @SessionAttributes({"loginMember"})
 @Controller
@@ -32,10 +33,11 @@ public class HelpController {
 	   
 		//게시글 목록
 	   @RequestMapping("list/1")
-	   public String helpList(@RequestParam(value="cp", required = false, defaultValue = "1") int cp, Model model) {
-		   //cp -> 현재 페이지						
+	   public String helpList(@RequestParam(value="cp", required = false, defaultValue = "1") int cp, Model model,
+			   				  @RequestParam(value="limit", required = false, defaultValue = "10") int limit) {
+		   //cp -> 현재 페이지	
 		   
-		   HelpPageInfo hInfo = helpService.pagination(cp);
+		   HelpPageInfo hInfo = helpService.pagination(cp,limit);
 		   
 		   List<Help> helpList = helpService.selectList(hInfo);
 		   
