@@ -29,7 +29,7 @@ import com.kh.sogon.room.model.vo.RoomMember;
 @SessionAttributes({"loginMember"})
 @Controller
 @RequestMapping("/room/*")
-public class RoomController {
+public class RoomController { 
 	
 		@Autowired
 		private RoomService roomService;
