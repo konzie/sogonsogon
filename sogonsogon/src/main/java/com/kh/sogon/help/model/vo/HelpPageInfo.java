@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 public class HelpPageInfo {
 	private int currentPage;	//현재 페이지 번호
 	private int allCount;		//전체 게시글 수
-	private int limit = 10;			//한 페이지 보여질 게시글 수
+	private int limit;			//한 페이지 보여질 게시글 수
 	private int pagingBarSize = 7;	// 보여질 페이징바의 페이지 수
 	
 	private int maxPage;	//전체 페이지 수(== 가장 마지막 페이지)
@@ -137,11 +137,13 @@ public class HelpPageInfo {
         }
     }
     
-    public void setPageInfo(int currentPage, int allCount) {
+    public void setPageInfo(int currentPage, int allCount, int limit) {
     	this.currentPage = currentPage;
     	this.allCount = allCount;
+    	this.limit = limit;
     	
     	makePageInfo();
     }
+
 	
 }

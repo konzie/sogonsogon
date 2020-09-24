@@ -22,14 +22,14 @@ public class HelpServiceImpl implements HelpService{
 	
 	//페이징 처리 Service 구현
 	@Override
-	public HelpPageInfo pagination(int cp) {
+	public HelpPageInfo pagination(int cp,int limit) {
 		
 		//고객센터 전체 게시글 수 조회
 		int allCount = helpDAO.getAllCount();
 		System.out.println("전체 문의글 수 : "+allCount);
 		
 		//vo.PageInfo 맨아래 setPageInfo 호출
-		hInfo.setPageInfo(cp, allCount);
+		hInfo.setPageInfo(cp, allCount, limit);
 		
 		return hInfo;
 	}

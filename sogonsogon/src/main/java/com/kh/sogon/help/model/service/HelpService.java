@@ -10,9 +10,10 @@ public interface HelpService {
 	/** 페이징 처리 Service -> 현재페이지(1)가져옴
 	 * @param type
 	 * @param cp
+	 * @param limit 
 	 * @return hInfo
 	 */
-	public abstract HelpPageInfo pagination(int cp);
+	public abstract HelpPageInfo pagination(int cp, int limit);
 
 	/** 문의글 목록 Service
 	 * @param hInfo
