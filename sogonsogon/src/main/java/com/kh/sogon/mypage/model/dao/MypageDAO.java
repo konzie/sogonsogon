@@ -348,6 +348,10 @@ public class MypageDAO {
 	public int findRoomNo(PageInfo pInfo, int i) {
 		return sqlSession.selectOne("mypageMapper.findRoomNo", i);
 	}
+
+	public List<Help> selectMyHelp(int memberNo) {
+		return sqlSession.selectList("mypageMapper.selectMyHelp", memberNo);
+	}
 	
 	
 }

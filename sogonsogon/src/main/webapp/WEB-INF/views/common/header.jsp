@@ -181,11 +181,11 @@ margin-bottom: 30px;
 	                    </c:when>
 	            		<c:otherwise>
 	            		    <c:choose>
-	            			<c:when test="${loginMember.getMemberGrade().equals('G')}">
-                         		<li class="nav-item"><a class="nav-link js-scroll-trigger" href="${contextPath}/mypage/mypage">${loginMember.memberName}</a></li>
+	            			<c:when test="${loginMember.getMemberGrade().equals('A')}">
+                         		<li class="nav-item"><a class="nav-link js-scroll-trigger" href="${contextPath}/mypage/adminpage">${loginMember.memberNick}</a></li>
                          	</c:when>
                          	<c:otherwise>
-                         		<li class="nav-item"><a class="nav-link js-scroll-trigger" href="${contextPath}/mypage/adminpage">${loginMember.memberName}</a></li>
+                         		<li class="nav-item"><a class="nav-link js-scroll-trigger" href="${contextPath}/mypage/mypage">${loginMember.memberNick}</a></li>
                          	</c:otherwise>
                          	</c:choose>
                           <li class="nav-item"><a class="nav-link js-scroll-trigger">|</a></li>

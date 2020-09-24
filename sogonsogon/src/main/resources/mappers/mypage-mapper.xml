@@ -404,4 +404,8 @@
 	<select id="findRoomNo" parameterType="_int" resultType="_int">
 		SELECT ROOM_NO FROM ROOMBOARD JOIN MEMBER ON(ROOM_BOARD_WRITER=MEMBER_NO) WHERE ROOM_BOARD_NO=#{roomBoardNo}
 	</select>
+	
+	<select id="selectMyHelp" parameterType="_int" resultMap="helpResultSet">
+		SELECT * FROM HELPBOARD JOIN MEMBER ON(HELP_WRITER=MEMBER_NO) WHERE HELP_WRITER = #{helpWriter}
+	</select>
 </mapper>
