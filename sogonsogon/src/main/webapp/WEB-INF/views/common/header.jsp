@@ -207,20 +207,18 @@ margin-bottom: 30px;
                     </div>
                     <div class="col-lg-8 align-self-baseline" id="mainContent">
                         <p class="text-white-75 font-weight-light mb-5">원하는 구성원 또는 익명의 다수가 모여 공부를 진행할 수 있는 스터디 사이트 입니다<br>모르는 내용에 대해 서로 묻고 풀어보세요</p>
-                        <form action="${contextPath}/board/search" method="POST">
 
                             <div class="d-flex justify-content-center h-100">
                                 <div class="searchbar">
                                     <select id="groupName" name="groupName" class="selectpicker" data-style="btn-primary">
                                         <option value="1">자유게시판</option>
                                         <option value="2">Q&A게시판</option>
-                                        <option value="3">방</option>
                                     </select>
-                                  <input class="search_input" type="text" name="sVal" placeholder="제목검색">
-                                  <a  class="search_icon" id="searchBtn"><i class="fas fa-search"></i></a>
+                                  <input class="search_input" type="text" name="msVal" placeholder="제목검색">
+                                  <a  class="search_icon" id="mainSearchBtn"><i class="fas fa-search"></i></a>
                                 </div>
                               </div>
-                        </form>
+                       
                         
                         
                     </div>
@@ -411,31 +409,34 @@ margin-bottom: 30px;
 		
 		
 		   // --------------------검색 버튼 동작 
-  	$("#searchBtn").on("click", function(){
+  	$("#mainSearchBtn").on("click", function(){
   		
   		
-  		var $sVal = $("input[name='sVal']");
+  		var $sVal = $("input[name='msVal']");
+  		var $sKey = "tit-con"
   		
   		if($sVal.val().trim().length == 0){
-  			  			
+			alert("검색어를 입력해주세요.");
+			
+			
   		}
   		else{
-  			searchUrl = "board/search?cp=1&"; 
+  			searchUrl = "${contextPath}/board/search?cp=1&";
   			
   			// 검색어가 입력된 경우
   			if($sVal.val().trim().length != 0){
-  				searchUrl += "sVal=" + $sVal.val();
+  				searchUrl += "sKey"+$sKey+"&sVal=" + $sVal.val();
   			}
-  		}
   	  		location.href = searchUrl;
+  		}
   	});
   	
 
   	// -------- 검색창 엔터 이벤트 -----------
-  	$("input[name='sVal']").on("keyup", function(event){
+  	$("input[name='msVal']").on("keyup", function(event){
 
   	 if(event.keyCode == 13){ 
-  	  $("#searchBtn").click();	 
+  	  $("#mainSearchBtn").click();	 
   	 }
   	 
   	});
