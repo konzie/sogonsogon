@@ -313,9 +313,9 @@ public class MypageServiceImpl implements MypageService{
 		
 		int result2=0;
 		if(result > 0) {
+			helpAnswer.setAnswerContent(replaceParameter(helpAnswer.getAnswerContent()));
 			result2 = mypageDAO.insertAnswer(helpAnswer);			
 		}
-		
 		return result2;
 	}
 
