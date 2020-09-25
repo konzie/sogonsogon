@@ -287,6 +287,10 @@ public class MypageController {
 
 		String encPwd = bcPwd.encode(memberPwd);
 		
+		upMember.setMemberName(loginMember.getMemberName());
+	    upMember.setMemberId(loginMember.getMemberId());
+	    upMember.setMemberNo(loginMember.getMemberNo());	      
+		
 		upMember.setMemberNo(loginMember.getMemberNo());
 		upMember.setMemberPwd(encPwd);
 		upMember.setMemberNick(memberNick);
