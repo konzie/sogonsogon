@@ -132,7 +132,7 @@
 
     <jsp:include page="../common/header.jsp"/>
     <div class="registration-form">
-         <form method="POST" action="findIdAction" onclick="return validate();">
+         <form method="POST" action="findIdAction" onsubmit="return validate();">
          
             <div class="form-icon">
                 <span><i class="icon icon-user"></i></span>
@@ -204,11 +204,8 @@
 	
 	});
 	
-	function validate(){
-		
-		
+	<%-- function validate(){
 		$("#findIdBtn").on("click", function(){
-			
 			for(var key in findIdCheck){
 				
 				if(!findIdCheck[key]){
@@ -225,11 +222,26 @@
 					return false;
 				}
 			}
-			
 		});
 			
-			
-	};
+	}; --%>
+	
+	function validate(){
+		if (!findIdCheck.name){
+			alert("이름을 정확히 입력해 주세요.");
+			$("#name").focus();
+			return false;
+		}
+		
+		if (!findIdCheck.phone){
+			alert("연락처를 정확히 입력해 주세요.");
+			$("#phone").focus();
+			return false;
+		}
+		
+	}
+	
+	
 	
 	</script>
 

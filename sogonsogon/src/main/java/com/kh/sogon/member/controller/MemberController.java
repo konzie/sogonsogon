@@ -235,7 +235,7 @@ public class MemberController {
 		            
 		        }else {
 		        	rdAttr.addFlashAttribute("status","error");
-					rdAttr.addFlashAttribute("msg","아이디, 이름, 휴대폰번호를 확인해주세요.");	
+					rdAttr.addFlashAttribute("msg","해당하는 회원을 찾지 못했습니다. 다시 확인해주세요.");	
 					url="redirect:/member/findPwdForm";
 		        }
 		        
