@@ -154,11 +154,14 @@ function selectReplyList(){
 											+ "마지막 수정 날짜 : " + rList[i].replyModifyDate);
 				var $rButton = null;
 				
+				
+				
 				console.log("${board.qnaWriter}")
 				console.log("${loginMember.memberId}")
 				<c:if test="${fn:trim(board.qnaWriter) eq fn:trim(loginMember.memberNo)}">
-					$rButton = $("<button>").addClass("btn btn-sm btn-primary ml-1 adoption").text("채택").attr("onclick", "addAdoption(this, "+rList[i].replyNo+")");
+				$rButton = $("<button>").addClass("btn btn-sm btn-primary ml-1 adoption").text("채택").attr("onclick", "addAdoption(this, "+rList[i].replyNo+")");
 				</c:if>
+			
 				$div.append($rWriter).append($rDate).append($rButton);
 				
 				

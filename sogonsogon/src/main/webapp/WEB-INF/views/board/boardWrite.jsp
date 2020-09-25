@@ -57,7 +57,7 @@
           
 					<label class="input-group-addon mr-3 insert-label">말머리</label> 
 					<select	class="custom-select" id="category" name="qnaCategory" style="width: 150px;">
-						<option>선택</option>
+						<option value="00">선택</option>
 						<option value="10">코딩</option>
 						<option value="20">외국어</option>
 						<option value="30">기타</option>
@@ -125,6 +125,10 @@
 
 // 유효성검사
 function validate(){
+	if($("#category").val() == "00"){
+		alert("카테고리를 입력해주세요.");
+		return false;
+	
 	if($("#title").val().trim().length == 0){
 		alert("제목을 입력해 주세요.");
 		$("#title").focus();
@@ -135,12 +139,7 @@ function validate(){
 		$("#content").focus();
 		return false;
 	}
-	 /* if($("#link").val().trim().length == 0){
-		alert("링크를 입력해 주세요");
-		$("#link").focus();
-		return false;
-	}  */
-	
+
     var content = $("#content").val();
     var ban = ["관리자","개" , "미친놈" , "ㅅㅂ" ];
     
