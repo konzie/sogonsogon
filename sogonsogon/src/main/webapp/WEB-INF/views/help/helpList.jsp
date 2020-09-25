@@ -48,13 +48,13 @@
                     <div class="row">
                         <div class="col-sm-3">
                             <div class="show-entries">
-                                <span>목록</span>
+                                <!-- <span>목록</span>
                                 <select class="form-control" id="limit" onchange="location.href=this.value">
                                     <option value="${contextPath}/help/list/1?cp=1?10">10</option>
                                     <option value="${contextPath}/help/list/1?cp=1">15</option>
                                     <option value="${contextPath}/help/list/1?cp=1?limit=20">20</option>
                                 </select>
-                                <span>개씩 보기</span>
+                                <span>개씩 보기</span> -->
                             </div>
                         </div>
                         <div class="col-sm-9">
@@ -258,8 +258,7 @@
         			
 
         			var helpNo = $(this).parent().parent().children().eq(0).text();
-        			var help
-        			Url = "${contextPath}/help/no=" + helpNo + "?cp=${hInfo.currentPage}";
+        			var helpUrl = "${contextPath}/help/no=" + helpNo + "?cp=${hInfo.currentPage}";
         			
         			location.href = helpUrl;      			
         		});	

@@ -30,9 +30,25 @@ public class AnswerServiceImpl implements AnswerService{
 		int upResult = 0;
 		
 		if(result>0) {
+			//크로스사이트스크립트 방지 처리
+			answer.setAnswerContent(replaceParameter(answer.getAnswerContent()));
+			
 			upResult = answerDAO.insertAnswer(answer);
 		}
 		return upResult;
 	}
+	
+	// 크로스 사이트 스크립트 방지 메소드
+    private String replaceParameter(String param) {
+        String result = param;
+        if(param != null) {
+            result = result.replaceAll("&", "&amp;");
+            result = result.replaceAll("<", "&lt;");
+            result = result.replaceAll(">", "&gt;");
+            result = result.replaceAll("\"", "&quot;");
+        }
+
+        return result;
+    }
 
 }

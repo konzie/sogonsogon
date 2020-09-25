@@ -83,14 +83,14 @@
                 <td>글내용</td>
                 <td><textarea rows="10" cols="50" id="content" name="helpContent" class="form-control"></textarea></td>
             </tr>
-             <tr>
+             <!--  <tr>
             	<td>이미지 삽입</td>
             	<td>
             	<div id="fileArea">
 					<!--  multiple 속성
 						- input 요소 하나에 둘 이상의 값을 입력할 수 있음을 명시 (파일 여러개 선택 가능)
 					 -->
-					<input type="file" id="img1" name="img1" onchange="LoadImg(this,1)"> 
+					<!-- <input type="file" id="img1" name="img1" onchange="LoadImg(this,1)"> 
 					<input type="file" id="img2" name="img2" onchange="LoadImg(this,2)"> 
 					<input type="file" id="img3" name="img3" onchange="LoadImg(this,3)"> 
 					<input type="file" id="img4" name="img4" onchange="LoadImg(this,4)">
@@ -98,7 +98,7 @@
             	
             	</td>
 
-            </tr>
+            </tr>-->
 
             <tr>
                  
