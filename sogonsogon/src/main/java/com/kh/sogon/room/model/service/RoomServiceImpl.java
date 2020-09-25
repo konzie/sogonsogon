@@ -122,6 +122,8 @@ public class RoomServiceImpl implements RoomService{
 	//  방 생성 Service 구현
 	@Override
 	public int createRoom(Room room) {	
+		room.setRoomContent(replaceParameter(room.getRoomContent()));
+		
 		return roomDAO.createRoom(room);
 	}
 
@@ -220,6 +222,7 @@ public class RoomServiceImpl implements RoomService{
 	
 	@Override
 	public int updateRoomInsert(Room room) {
+		room.setRoomContent(replaceParameter(room.getRoomContent()));
 		return roomDAO.updateRoomInsert(room);
 	}
 
@@ -234,6 +237,20 @@ public class RoomServiceImpl implements RoomService{
 		 return roomDAO.insertMember(memberNo, nextNo); 
 	}
 	
+	
+    // 크로스 사이트 스크립트 방지 메소드
+    private String replaceParameter(String param) {
+    	String result = param;
+    	if(param != null) {
+    		result = result.replaceAll("&", "&amp;");
+    		result = result.replaceAll("<", "&lt;");
+    		result = result.replaceAll(">", "&gt;");
+    		result = result.replaceAll("\"", "&quot;");
+    	}
+    	
+    	return result;
+    }
+    
 	
 	 
 	

@@ -46,7 +46,7 @@ public class BoardController {
 			
 			
 			List<Board> boardList = boardService.selectList(pInfo);
-			
+			 
 			
 			model.addAttribute("boardList" ,boardList);
 			model.addAttribute("pInfo", pInfo);

@@ -225,7 +225,7 @@
            <div class="modal-body">
 
                <p class="m-title" style="font-weight: bold;"></p>
-               <p class="m-content" style="margin-bottom: 6px; font-size: 14px;"></p>
+               <p class="m-content" style="margin-bottom: 6px; font-size: 16px; width: 400px;"></p>
               
               <div class="pass-area">[
              	    <img src="${contextPath}/resources/images/lock.png"  style="width: 40px;">
