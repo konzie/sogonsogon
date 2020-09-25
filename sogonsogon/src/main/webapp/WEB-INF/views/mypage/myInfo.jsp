@@ -53,7 +53,7 @@
 				<h6>비밀번호</h6>
 			</div>
 			<div class="col-md-6">
-				<input type="password" class="form-control" id="memberPass" name="memberPass">
+				<input type="password" class="form-control" id="memberPass" name="memberPass" required  onkeyup="trimAction(this);" >
 			</div>
 			 <div class="col-md-6 offset-md-3">
                  <span id="checkPass">&nbsp;</span>
@@ -103,7 +103,14 @@
  	
 		
 		//----------------------------------------------------------------------
-	
+		// 비밀번호 입력시 공백 제거
+		
+		function trimAction(obj){
+			 var a = $('#memberPass').val().replace(/ /gi, '');
+		     $('#memberPass').val(a);
+		}
+		
+		
 	//submit 동작
 	
 	function validate(){

@@ -257,7 +257,7 @@ margin-bottom: 30px;
                   </div>
                   <div class="form-group mb-4">
                     <label for="password" class="sr-only">비밀번호</label>
-                    <input type="password" name="memberPwd" id="memberPwd" class="form-control" placeholder="비밀번호" required>
+                    <input type="password" name="memberPwd" id="memberPwd" class="form-control" placeholder="비밀번호" onkeyup="trimAction(this);" required>
                   </div>
                   <button class="btn btn-block login-btn mb-4" type="submit">로그인</button>
             
@@ -350,6 +350,13 @@ margin-bottom: 30px;
 			
 			return true;
 			
+		}
+		
+		// 비밀번호 입력시 공백 제거
+		
+		function trimAction(obj){
+			 var a = $('#memberPwd').val().replace(/ /gi, '');
+		     $('#memberPwd').val(a);
 		}
 		
 		

@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>아이디찾기</title>
+    <title>비밀번호 찾기</title>
    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/css/simple-line-icons.min.css">
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 
@@ -132,19 +132,19 @@
 
     <jsp:include page="../common/header.jsp"/>
     <div class="registration-form">
-         <form method="POST" action="sendPwd" onclick="validate();">
+         <form method="POST" action="sendPwd" onclick="return validate(); ">
          
             <div class="form-icon">
                 <span><i class="icon icon-user"></i></span>
             </div>
             <div class="form-group">
-           		<input type="email" class="form-control item itemspan" id="id" name="memberId" placeholder="아이디(E-mail)">
+           		<input type="email" class="form-control item itemspan" id="id" name="memberId" placeholder="아이디(E-mail)" required>
                 <div  class="checkSpan" > <span id="idCheckArea">  </span> </div>
                 
-                <input type="text" class="form-control item itemspan" id="name" name="memberName" placeholder="이름">
+                <input type="text" class="form-control item itemspan" id="name" name="memberName" placeholder="이름" required>
                 <div  class="checkSpan" > <span id="nameCheckArea">  </span> </div>
                 
-                <input type="number" class="form-control item itemspan" id="phone" name="memberPhone" placeholder="휴대폰번호">
+                <input type="number" class="form-control item itemspan" id="phone" name="memberPhone" placeholder="휴대폰번호" required>
                 <div  class="checkSpan" > <span id="phoneCheckArea">  </span> </div>
 
 
@@ -153,7 +153,7 @@
             
            
             <div class="form-group">
-				<input type="submit" class="btn btn-block create-account" value="비밀번호찾기" id="findPwdBtn">
+				<button class="btn btn-block create-account" id="findPwdBtn">비밀번호찾기</button>
 			</div>        
         </form>
         
@@ -180,8 +180,10 @@
 	// 이름 유효성 검사
 	$name.on("input", function(){
 		
+		findPwdCheck.name=false;
 		
 		var regExp =  /^[가-힣]{2,}$/; // 한글 두 글자 이상
+		
 		
 		// 유효성 검사
 		if(!regExp.test($name.val())){
@@ -196,13 +198,13 @@
 	
 	// 연락처 유효성 검사
 	$phone.on("input", function(){
-		
+		findPwdCheck.phone=false;
 		
 		var regExp =  /^[\d]{9,11}$/; // 11자리 이하
 		
 		// 유효성 검사
 		if(!regExp.test($phone.val())){
-			$("#phoneCheckArea").text("숫자만 입력해주세요.").css("color","red");
+			$("#phoneCheckArea").text("11자리 이하 숫자만 입력해주세요.").css("color","red");
 			findPwdCheck.phone = false;
 		}else{
 			$("#phoneCheckArea").text("올바른 연락처 형식입니다.").css("color","green");
@@ -217,7 +219,6 @@
 
 		var regExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
 		
-		// 아이디1 유효성 검사
 		if(!regExp.test($("#id").val())){
 			$("#idCheckArea").text("아이디(email) 형식이 유효하지 않습니다.").css("color", "red");
 			findPwdCheck.id = false;
@@ -234,6 +235,7 @@
 	
 	function validate(){
 		
+		var flag = false;
 		
 		$("#findPwdBtn").on("click", function(){
 			
@@ -251,11 +253,11 @@
 					alert(msg + " 유효하지 않습니다.");
 					var el = "#"+key;
 					$(el).focus();
-					return false;
-				}
+					flag=false;
+				} 
 			}
 			
-			return true;
+			return flag;
 			
 		});
 			
