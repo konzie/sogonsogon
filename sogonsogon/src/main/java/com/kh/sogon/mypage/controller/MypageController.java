@@ -287,6 +287,10 @@ public class MypageController {
 
 		String encPwd = bcPwd.encode(memberPwd);
 		
+		upMember.setMemberName(loginMember.getMemberName());
+	    upMember.setMemberId(loginMember.getMemberId());
+	    upMember.setMemberNo(loginMember.getMemberNo());	      
+		
 		upMember.setMemberNo(loginMember.getMemberNo());
 		upMember.setMemberPwd(encPwd);
 		upMember.setMemberNick(memberNick);
@@ -758,17 +762,19 @@ public class MypageController {
 		
 		member.setMemberNo(writerNo);
 
-		int result2=0;
 		if(result > 0) {
 			List<ReportMember> reportList = mypageService.findMember(writerNo);
-			result2 = mypageService.restoreMember(reportList.get(0).getMemberNo());
+			
+			if(reportList.size()>0) {
+				result = mypageService.restoreMember(reportList.get(0).getMemberNo());				
+			}
 		}
 		
 		String status = null;
 		String msg = null;
 		String url =null;
 		
-		if(result2 > 0) {
+		if(result > 0) {
 			status = "success";
 			msg = "게시글 복원 성공";
 			url = "mypage/reportBoard";
@@ -790,7 +796,7 @@ public class MypageController {
 			}else {
 			status = "error";
 			msg = "게시글 복원 실패";
-			url = "mypage/noticeView/"+boardNo;
+			url = "mypage/reportView/"+boardNo;
 		}
 		
 		rdAttr.addFlashAttribute("status", status);

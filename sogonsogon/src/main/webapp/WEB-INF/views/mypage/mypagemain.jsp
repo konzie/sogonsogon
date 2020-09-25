@@ -114,6 +114,14 @@
       	padding:0;
       	margin:0px 0px 3px 0px;
       }
+      
+.text-wait {
+    color: #ff5b5b;
+}
+
+.text-success{
+    color: green;
+}
 </style>
 </head>
 <body>   
@@ -134,11 +142,10 @@
 	</div>
 	<div style="border: 5px solid #FAE0D4; clear:both; margin:10px 0; padding:0px;" class="mypageList">
 		<c:choose>
-          	<c:when test="${empty report}">
+          	<c:when test="${empty report||report.reportStatus=='N'}">
           		<div class="brown"></div><h5 style="padding: 5px;"> ! 신고된 사항이 없습니다.</h5>
           	</c:when>
         <c:otherwise>
-         
         <div class="brown"></div><h5>! 새로 신고된 게시글이 있습니다.</h5> 
         <c:choose>
         <c:when test="${report.roomNo>0}"> 
@@ -211,12 +218,12 @@
 		              		</td>
 		              		<td>
                            	<c:choose>
-                           		<c:when test="${help.answerChk == 'Y'}">
+                           		<c:when test="${board.answerChk == 'Y'}">
                            			<span class="status text-success" style="margin: -8px 2px 0 0;">&bull;</span> 답변   	
 		                  		</c:when>
 		                  		<c:otherwise>
 		                  			<span class="status text-wait" style="margin: -8px 2px 0 0;">&bull;</span> 미답변  
-		                  		</c:otherwise>                                            		
+		                  		</c:otherwise>                                           		
                            	</c:choose>
 		              		</td>
 	              		</tr>	

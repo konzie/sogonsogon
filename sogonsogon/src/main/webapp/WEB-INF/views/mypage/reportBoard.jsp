@@ -82,7 +82,7 @@
 		              				<c:otherwise>${createDate}</c:otherwise>
 		              			</c:choose>
 		              		</td>
-		              		<td><button type="button" class="btn btn-danger btn-sm" onclick="location.href ='updateReport/${board.writer}/${board.qnaNo}/0'">경고</button>          <button type="button" class="btn btn-dark btn-sm" onclick="location.href ='restoreReport/${board.writer}/${board.qnaNo}'">X</button></td>
+		              		<td><button type="button" class="btn btn-danger btn-sm" onclick="location.href ='${contextPath}/mypage/updateReport/${board.writer}/${board.qnaNo}/0'">경고</button>          <button type="button" class="btn btn-dark btn-sm" onclick="location.href ='${contextPath}/mypage/restoreReport/${board.writer}/${board.qnaNo}'">X</button></td>
 	              		</tr>	
           				</c:forEach>
           			</c:otherwise>

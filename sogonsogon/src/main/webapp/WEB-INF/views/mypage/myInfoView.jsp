@@ -188,6 +188,40 @@
 		}
 	
 	});
+	
+function validate(){
+		
+		var flag = false;
+		
+		
+			for(var key in infoCheck){
+				
+				if(!infoCheck[key]){
+					var msg;
+					switch(key){
+					case "pwd1" : case "pwd2" : msg="비밀번호가"; break;
+					case "nick" : msg="닉네임이"; break;
+					case "phone" : msg="전화번호가"; break;
+					
+					}
+					
+					alert(msg + " 유효하지 않습니다.");
+					var el = "#"+key;
+					$(el).focus();
+					flag=false;
+				} else {
+					flag = true;
+				}
+			}
+			
+			return flag;
+			
+					
+			
+	};
+	
+	
+	
 
 //----------------------------------------------------------------------
 // 기존 DB관심사 불러와서 반영

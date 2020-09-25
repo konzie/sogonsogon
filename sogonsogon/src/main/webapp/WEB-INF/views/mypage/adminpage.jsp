@@ -13,10 +13,10 @@
 
       .table-title {
       color: #fff;
-      background: rgba(241, 158, 48,0.7);      
+      background-color: rgba(241, 158, 48,0.7);      
       padding: 16px 25px;
       margin: -20px 100px 10px;
-      border-radius: 3px 3px 0 0;
+      border-radius: 14px;
       }
 </style>
 </head>

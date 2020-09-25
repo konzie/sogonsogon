@@ -132,16 +132,16 @@
 
     <jsp:include page="../common/header.jsp"/>
     <div class="registration-form">
-         <form method="POST" action="findIdAction" onclick="validate();">
+         <form method="POST" action="findIdAction" onclick="return validate();">
          
             <div class="form-icon">
                 <span><i class="icon icon-user"></i></span>
             </div>
             <div class="form-group">
-                <input type="text" class="form-control item itemspan" id="name" name="memberName" placeholder="이름">
+                <input type="text" class="form-control item itemspan" id="name" name="memberName" placeholder="이름" required>
                 <div  class="checkSpan" > <span id="nameCheckArea">  </span> </div>
                 
-                <input type="number" class="form-control item itemspan" id="phone" name="memberPhone" placeholder="휴대폰번호">
+                <input type="number" class="form-control item itemspan" id="phone" name="memberPhone" placeholder="휴대폰번호" required>
                 <div  class="checkSpan" > <span id="phoneCheckArea">  </span> </div>
 
             </div>
@@ -161,8 +161,8 @@
     // 각 유효성 검사 결과를 저장할 객체
 
 	 var findIdCheck = { 
-				"name":false,
-				"phone":false
+			"name":false,
+			"phone":false
 			};
 	
 	 //********** 실시간 유효성 검사  ************/
@@ -172,7 +172,7 @@
 
 	// 이름 유효성 검사
 	$name.on("input", function(){
-		
+		findIdCheck.name = false;
 		
 		var regExp =  /^[가-힣]{2,}$/; // 한글 두 글자 이상
 		
@@ -189,7 +189,7 @@
 	
 	// 연락처 유효성 검사
 	$phone.on("input", function(){
-		
+		findIdCheck.phone = false;
 		
 		var regExp =  /^[\d]{9,11}$/; // 11자리 이하
 		
@@ -225,8 +225,6 @@
 					return false;
 				}
 			}
-			
-			return true;
 			
 		});
 			

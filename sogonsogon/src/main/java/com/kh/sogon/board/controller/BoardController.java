@@ -93,15 +93,9 @@ public class BoardController {
 										
 			Member loginMember = (Member)model.getAttribute("loginMember");
 			
-			 //-----------------------------------------Summernote-----------------------------------------
-    		// name속성 값이 "images"인 파라미터 자체가 전달되지 않아 images 리스트가 생성되지 않아
-    				// images.add(0, thumbnail); 코드 진행 시 NullPointerException이 발생함.
     		if(images.isEmpty()) { 
     			images = new ArrayList<>();
     		}
-    		//--------------------------------------------------------------------------------------------
-			
-			
 			board.setQnaWriter(loginMember.getMemberNo() + "");
 			
 		
@@ -135,11 +129,9 @@ public class BoardController {
 		public ModelAndView updateView(@PathVariable int qnaNo, ModelAndView mv) {
 			
 			
-			// 기존 게시글 정보를 얻어와 update화면에 출력해 이전 작성 내용을 보여주어야 함.
-			
+		
 			Board board = boardService.selectBoard(qnaNo);
-			
-			// -------------------------------------------------------------
+	
 			// 기존 게시글 이미지 조회 및 전달
 			if(board != null) {
 				List<Attachment> files = boardService.selectFiles(qnaNo);
@@ -321,7 +313,7 @@ public class BoardController {
 				msg = "게시글 신고 완료";
 				url = "/board/boardList/";
 			} else {
-				// 삭제 실패 시 이전 요청 주소(상세조회 페이지)
+			
 				status = "error";
 				msg = "게시글 신고 실패";
 				url = request.getHeader("referer");

@@ -70,11 +70,10 @@
 		              			<c:if test="${today == createDate}">
 	              			<span class="badge badge-primary new">new</span>
 		              			</c:if>
-		              		<span>${board.helpNo}
+		              		<span>${board.helpNo}</span>
 	              			<c:if test="${board.lockStatus=='Y'}">
 	              				<img src="${contextPath}/resources/images/lock2.png" width="30px" height="30px">
 	              			</c:if>
-		              		</span>
 		              		</td>
 		              		<td>${board.helpCategory}</td>
 		              		<td>${board.helpTitle}</td>
@@ -88,7 +87,7 @@
 		              		</td>
 		              		<td>
 		              			<c:choose>
-		              				<c:when test="${help.answerChk=='N'}"><button type="button" class="btn btn-warning btn-sm" onclick="location.href='answerView/${help.helpNo}'">답변하기</button></c:when>
+		              				<c:when test="${board.answerChk=='N'}"><button type="button" class="btn btn-warning btn-sm" onclick="location.href='answerView/${board.helpNo}'">답변하기</button></c:when>
 		              				<c:otherwise><button type="button" class="btn btn-secondary btn-sm answerEnd">답변완료</button></c:otherwise>
 		              			</c:choose>
 		              		</td>
