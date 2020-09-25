@@ -12,7 +12,7 @@
           width: 15%;
           height:100%;
           color: #fff;
-          background: rgba(241, 158, 48,0.7);  
+          background-color: rgba(241, 158, 48,0.7);  
           font-size: 100%;
           text-align: center;
   		  margin: 10px 0 10px 100px;
@@ -75,7 +75,7 @@
                 </li>
                 <li><a href="${contextPath}/mypage/adminhelp"> <img src="${contextPath}/resources/images/question.png" width="35px" height="35px">&nbsp;&nbsp;고객 센터</a></li>
                 <li><a href="${contextPath}/mypage/adminnotice"> <img src="${contextPath}/resources/images/noticeboard.png" width="35px" height="35px">&nbsp;&nbsp;공지 사항</a></li>
-                <li><a href="${contextPath}/mypage/adminmember"> <img src="${contextPath}/resources/images/group.png" width="35px" height="35px">&nbsp;&nbsp;회원 관리</a></li>
+                <li><a href="${contextPath}/mypage/adminmember"> <img src="${contextPath}/resources/images/group.png" width="35px" height="35px">&nbsp;&nbsp;회원 목록</a></li>
             </ul>
      </div>
 </body>

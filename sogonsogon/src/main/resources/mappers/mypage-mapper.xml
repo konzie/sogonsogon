@@ -160,7 +160,7 @@
 	
 	<!-- 신고 게시글 수 조회 -->
 	<select id="getListDCount" resultType="_int">
-		SELECT COUNT(*) FROM QNABOARD WHERE QNA_STATUS='D'
+		SELECT COUNT(*) FROM QNABOARD WHERE QNA_STATUS='D' AND QNA_WRITER !=1 
 	</select>
 	
 	<!-- 총 신고 게시글 조회 -->

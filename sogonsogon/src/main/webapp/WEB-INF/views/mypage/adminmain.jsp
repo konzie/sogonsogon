@@ -95,7 +95,7 @@
 	   	
 	   	<div class="board">
 	   	<div id="report">
-	   		<h4 class="mb-1 tableTitle"><a href="reportBoard">자유질문방 신고글</a></h4><button class="btn btn-outline-secondary btn-sm tableButton" onclick="location.href ='reportBoard'">메뉴로 이동</button>
+	   		<h4 class="mb-1 tableTitle"><a href="reportBoard">자유질문방 신고글</a></h4><button class="btn btn-outline-secondary btn-sm tableButton" onclick="location.href ='reportBoard'">목록으로</button>
        <table class="table table-striped table-hover">
                 <thead>
                     <tr>

@@ -7,7 +7,7 @@
     <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>회원 관리</title>
+    <title>회원 목록</title>
         
 <style>
       .content{
@@ -39,7 +39,7 @@
   <div class="content">
   <jsp:include page="adminpage2.jsp"/>
 	<div class="content2">       
-      <h4 class="mb-5">회원 관리</h4>
+      <h4 class="mb-5">회원 목록</h4>
        <table class="table table-striped table-hover">
                 <thead>
                     <tr>
