@@ -212,7 +212,6 @@ margin-bottom: 30px;
                                 <div class="searchbar">
                                     <select id="groupName" name="groupName" class="selectpicker" data-style="btn-primary">
                                         <option value="1">자유게시판</option>
-                                        <option value="2">Q&A게시판</option>
                                     </select>
                                   <input class="search_input" type="text" name="msVal" placeholder="제목검색">
                                   <a  class="search_icon" id="mainSearchBtn"><i class="fas fa-search"></i></a>
