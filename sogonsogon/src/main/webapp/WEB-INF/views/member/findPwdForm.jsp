@@ -132,7 +132,7 @@
 
     <jsp:include page="../common/header.jsp"/>
     <div class="registration-form">
-         <form method="POST" action="sendPwd" onclick="return validate(); ">
+         <form method="POST" action="sendPwd" onsubmit="return validate(); ">
          
             <div class="form-icon">
                 <span><i class="icon icon-user"></i></span>
@@ -153,7 +153,7 @@
             
            
             <div class="form-group">
-				<button class="btn btn-block create-account" id="findPwdBtn">비밀번호찾기</button>
+				<input type="submit" class="btn btn-block create-account" value="비밀번호찾기" id="findPwdBtn"></button>
 			</div>        
         </form>
         
@@ -233,8 +233,7 @@
 	
 	
 	
-	function validate(){
-		
+<%--	function validate(){
 		var flag = false;
 		
 		$("#findPwdBtn").on("click", function(){
@@ -254,15 +253,34 @@
 					var el = "#"+key;
 					$(el).focus();
 					flag=false;
-				} 
+				}
 			}
 			
 			return flag;
-			
 		});
 			
-			
-	};
+	}; --%>
+	
+	function validate(){
+		if (!findPwdCheck.id){
+			alert("아이디를 정확히 입력해 주세요.");
+			$("#id").focus();
+			return false;
+		}
+		
+		if (!findPwdCheck.phone){
+			alert("연락처를 정확히 입력해 주세요.");
+			$("#phone").focus();
+			return false;
+		}
+		
+		if (!findPwdCheck.name){
+			alert("이름을 정확히 입력해 주세요.");
+			$("#name").focus();
+			return false;
+		}
+	}
+	
 	
 	</script>
 
