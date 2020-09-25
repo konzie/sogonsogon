@@ -166,11 +166,17 @@
                             
                     
                     $("#infoList").append($p1);
-                    <c:if test="${!empty loginMember}">
+                    <c:choose>
+                    <c:when test="${!empty loginMember && loginMember.getMemberId() ne roomDetail.memberId}">
 	                    var $p2 = $("<p>").html("현재 방 내에서 채택된 답변 수 : ${writeBoardReplyAdoptionCount} <br> 작성한 글 수  : ${writeBoardCount}<br> 작성한 댓글 수 : ${writeBoardReplyCount}<br>");
 	                    var $button = $("<button>", {type : "button" , id : "outRoom", class : "btn-primary"}).attr("onclick","${contextPath}/room/roomDetail/withDraw/${roomDetail.roomNo}?memberNo=${loginMember.memberNo}").text("방 탈퇴");
 	                    $("#infoList").append($p2, $button);
-                    </c:if>
+                    </c:when>
+                    <c:when test="${!empty loginMember && loginMember.getMemberId() eq roomDetail.memberId }">
+                    var $p2 = $("<p>").html("현재 방 내에서 채택된 답변 수 : ${writeBoardReplyAdoptionCount} <br> 내가 작성한 글  : ${writeBoardCount}<br> 내가 작성한 댓글 수 : ${writeBoardReplyCount}<br>");
+                    $("#infoList").append($p2);
+                    </c:when>
+                    </c:choose>
                     $("#moreInfo").hide();
                     enterChk = true;
                 }
