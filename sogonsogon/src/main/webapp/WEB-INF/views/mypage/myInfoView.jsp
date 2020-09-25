@@ -188,37 +188,36 @@
 		}
 	
 	});
+
 	
-function validate(){
+	// 유효성 검사
+	function validate(){
+		if (!infoCheck.pwd1){
+			alert("비밀번호를 정확히 입력해 주세요.");
+			$("#pwd1").focus();
+			return false;
+		}
+		if (!infoCheck.pwd2){
+			alert("비밀번호를 정확히 입력해 주세요.");
+			$("#pwd2").focus();
+			return false;
+		}
+
+		if (!infoCheck.nick){
+			alert("닉네임을 정확히 입력해 주세요.");
+			$("#nick").focus();
+			return false;
+		}
 		
-		var flag = false;
+		if (!infoCheck.phone){
+			alert("연락처를 정확히 입력해 주세요.");
+			$("#phone").focus();
+			return false;
+		}
 		
-		
-			for(var key in infoCheck){
-				
-				if(!infoCheck[key]){
-					var msg;
-					switch(key){
-					case "pwd1" : case "pwd2" : msg="비밀번호가"; break;
-					case "nick" : msg="닉네임이"; break;
-					case "phone" : msg="전화번호가"; break;
-					
-					}
-					
-					alert(msg + " 유효하지 않습니다.");
-					var el = "#"+key;
-					$(el).focus();
-					flag=false;
-				} else {
-					flag = true;
-				}
-			}
-			
-			return flag;
-			
-					
-			
-	};
+	}
+	
+	
 	
 	
 	
