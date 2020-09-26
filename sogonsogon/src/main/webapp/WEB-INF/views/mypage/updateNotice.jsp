@@ -28,13 +28,12 @@
       style:none;
       }
       
-      #content{
-      	width : 100%;
-      	height : 300px;
-      }
-      
       .btn{
       	margin:10px 0;
+      }
+      
+      label{
+      	margin:10px;
       }
 </style>
 </head>
@@ -71,12 +70,8 @@
   </c:choose>
 	    <form action="${contextPath}/mypage/updateNotice2/${notice.qnaNo}" method="post" role="form" onsubmit="return validate();">
 				<div class="form-inline mb-2">
-					<label class="input-group-addon mr-3 insert-label">제목</label> 
-					<select name="category">
-						<option>코딩</option>
-						<option>외국어</option>
-						<option>기타</option>
-					</select>
+					<label class="input-group-addon mr-3 insert-label">카테고리</label> 
+					<h5 class="my-2" id="category">공지글</h5><input style="display: none;" name="category" value="공지글">
 				</div>
 
 				<div class="form-inline mb-2">
@@ -86,21 +81,19 @@
 
 				<div class="form-inline mb-2">
 					<label class="input-group-addon mr-3 insert-label">작성자</label>
-					<h5 class="my-0" id="writer">${loginMember.memberNick}</h5>
+					<h5 class="my-2" id="writer">${loginMember.memberNick}</h5>
 				</div>
 
 				<div class="form-inline mb-2">
 					<label class="input-group-addon mr-3 insert-label">작성일</label>
-					<h5 class="my-0" id="today"></h5>
+					<h5 class="my-2" id="today"></h5>
 				</div>
 
 				<div>
-					<label for="content">내용</label>
-					<input id="content" name="content" value="${notice.qnaContent}"></input>
+					<label for="content">내용</label><br>
+					<textarea rows="10px" cols="150px" style="resize: none; padding: 10px; border : 1px solid brown;" name="content">${notice.qnaContent}</textarea>
 				</div>
-				
-				<hr class="mb-4">
-
+	
 				<div class="text-center">
 					<button type="submit" class="btn btn-warning">등록</button>
 					<c:choose>
@@ -122,8 +115,8 @@
 		var today = new Date();
 		var month = (today.getMonth()+1);
 
-		var str = today.getFullYear() + "-"
-				+ (month < 10 ? "0"+month : month) + "-"
+		var str = today.getFullYear() + "/"
+				+ (month < 10 ? "0"+month : month) + "/"
 				+ today.getDate();
 		$("#today").html(str);
 

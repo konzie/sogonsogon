@@ -352,6 +352,10 @@ public class MypageDAO {
 	public List<Help> selectMyHelp(int memberNo) {
 		return sqlSession.selectList("mypageMapper.selectMyHelp", memberNo);
 	}
+
+	public int deleteHelp(int boardNo) {
+		return sqlSession.update("mypageMapper.deleteHelp", boardNo);
+	}
 	
 	
 }

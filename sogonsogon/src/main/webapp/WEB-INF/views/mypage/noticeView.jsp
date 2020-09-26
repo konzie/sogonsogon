@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -59,7 +60,8 @@
       <h3 id="title">${notice.qnaTitle}</h3><h6 id="category"> [카테고리 : ${notice.qnaCategory}]</h6>
       <hr>
       <div>
-		<p id="writer"> 작성자 : ${notice.writerNick} </p><p id="date">${notice.qnaModifyDate}</p>
+      <fmt:formatDate var="createDate" value="${notice.qnaCreateDate}" pattern="yyyy-MM-dd"/>
+		<p id="writer"> 작성자 : ${notice.writerNick} </p><p id="date">${createDate}</p>
 	  </div>
 		<div id="board-content">${notice.qnaContent}</div>
 		<hr>

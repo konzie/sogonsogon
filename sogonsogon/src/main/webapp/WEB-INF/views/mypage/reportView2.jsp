@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,8 +22,6 @@
       
       #board-content{
       	border : 1px solid brown;
-      	width : 100%;
-      	height : 300px;
       }
       
       .btn{
@@ -40,6 +39,7 @@
       #board-content{
       	padding: 10px;
       	font-size: 15px;
+      	overflow: scroll;
       }
 </style>
 <title>신고게시글 상세조회</title>
@@ -62,19 +62,23 @@
       <h3 id="title">${board.roomBoardTitle}</h3>
       <hr>
       <div>
-		<p id="writer"> 작성자 : ${board.roomBoardWriter} </p><p id="date">${board.roomBoardCreateDate}</p>
+      <fmt:formatDate var="createDate" value="${board.roomBoardCreateDate}" pattern="yyyy-MM-dd"/>
+		<p id="writer"> 작성자 : ${board.roomBoardWriter} </p><p id="date">${createDate}</p>
 	  </div>
 		<div id="board-content">${board.roomBoardContent}
-		<p style="color:red;">
-			<br><br>-------------------------------<br>신고된 게시글 입니다
-		</p>
+		<div style="color:crimson; font-size: 20px; letter-spacing: 15px; text-align:center;">
+		<b>
+			<br>■-----------------------------------------■<br>해당 게시글은 신고되었습니다.
+			<br>■-----------------------------------------■
+		</b>
+		</div>
 		</div>
 		<hr>
 		<div class="float-right">
 		
 			<button type="button" class="btn btn-danger" onclick="location.href ='${contextPath}/mypage/updateReport/${board.roomBoardWriterNo}/${board.roomBoardNo}/${board.roomNo}'">삭제</button>
 			<button type="button" class="btn btn-dark" onclick="location.href ='${contextPath}/mypage/restoreReportRoom/${board.roomBoardWriterNo}/${board.roomBoardNo}/${board.roomNo}'">복원</button>
-			<button type="button" class="btn btn-warning" onclick="location.href ='${contextPath}/mypage/reportRoom'">목록으로</button>
+			<button type="button" class="btn btn-outline-secondary" onclick="location.href ='${contextPath}/mypage/reportRoom'">목록으로</button>
 		</div>
 		</div>
 	</div>    

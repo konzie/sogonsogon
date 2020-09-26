@@ -97,7 +97,7 @@
 	    </table>
 	    <div align="right">
 			<button type="submit" class="btn btn-outline-primary">회원 정보 수정</button>
-			<button class="btn btn-outline-primary" id="deleteInfo" onclick="location.href='${contextPath}/mypage/deleteInfo'">회원탈퇴</button>
+			<button class="btn btn-outline-primary" id="deleteInfo">회원탈퇴</button>
 	    </div>
 	    </form>
 	</div>
@@ -216,12 +216,6 @@
 		}
 		
 	}
-	
-	
-	
-	
-	
-
 //----------------------------------------------------------------------
 // 기존 DB관심사 불러와서 반영
 	
@@ -242,7 +236,11 @@
 	}
 
    $("#deleteInfo").click(function(){
-   	confirm("정말 탈퇴하시겠습니까?");
+   	var result = confirm("정말 탈퇴하시겠습니까?");
+   	
+   	if(result){
+   		location.href="${contextPath}/mypage/deleteInfo";
+   	}
 	});
 	</script>
 </body>

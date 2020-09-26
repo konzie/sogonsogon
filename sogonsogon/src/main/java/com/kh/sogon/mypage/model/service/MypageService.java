@@ -242,4 +242,6 @@ public interface MypageService {
 	public abstract int findRoomNo(int i);
 
 	public abstract List<Help> selectMyHelp(int memberNo);
+
+	public abstract int deleteHelp(int boardNo);
 }

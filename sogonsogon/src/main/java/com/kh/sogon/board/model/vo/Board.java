@@ -1,6 +1,6 @@
 package com.kh.sogon.board.model.vo;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 public class Board {
 
@@ -9,8 +9,8 @@ public class Board {
 	private String qnaTitle;
 	private String qnaStatus;
 	private String qnaAnswer;
-	private Date qnaModifyDate;
-	private Date qnaCreateDate;
+	private Timestamp qnaModifyDate;
+	private Timestamp qnaCreateDate;
 	private String qnaWriter;
 	private String writerName;
 	private String qnaContent;
@@ -28,8 +28,8 @@ public class Board {
 	}
 
 
-	public Board(int qnaNo, String qnaCategory, String qnaTitle, String qnaStatus, String qnaAnswer, Date qnaModifyDate,
-			Date qnaCreateDate, String qnaWriter, String writerName, String qnaContent, String writerNick, int writer,
+	public Board(int qnaNo, String qnaCategory, String qnaTitle, String qnaStatus, String qnaAnswer, Timestamp qnaModifyDate,
+			Timestamp qnaCreateDate, String qnaWriter, String writerName, String qnaContent, String writerNick, int writer,
 			int likeCount, int replyWriter, int rCnt, int parentBoardNo, String replyStatus) {
 		super();
 		this.qnaNo = qnaNo;
@@ -102,22 +102,22 @@ public class Board {
 	}
 
 
-	public Date getQnaModifyDate() {
+	public Timestamp getQnaModifyDate() {
 		return qnaModifyDate;
 	}
 
 
-	public void setQnaModifyDate(Date qnaModifyDate) {
+	public void setQnaModifyDate(Timestamp qnaModifyDate) {
 		this.qnaModifyDate = qnaModifyDate;
 	}
 
 
-	public Date getQnaCreateDate() {
+	public Timestamp getQnaCreateDate() {
 		return qnaCreateDate;
 	}
 
 
-	public void setQnaCreateDate(Date qnaCreateDate) {
+	public void setQnaCreateDate(Timestamp qnaCreateDate) {
 		this.qnaCreateDate = qnaCreateDate;
 	}
 

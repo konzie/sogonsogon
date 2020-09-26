@@ -60,7 +60,7 @@
              </div>
 			<hr>
 	    	<div align="right">
-	    	<button type="submit" id="myInfoBtn" >확인</button>
+	    	<button type="submit" id="myInfoBtn"  class="btn btn-outline-primary">확인</button>
 	    	</div>
 	    </div>
 	   </form>

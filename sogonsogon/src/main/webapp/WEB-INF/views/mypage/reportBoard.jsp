@@ -56,7 +56,7 @@
                 <c:choose>
           			<c:when test="${empty reportList}">
 		         		<tr>		
-		         			<td colspan="7" align="center">존재하는 게시글이 없습니다.</td>
+		         			<td colspan="7" align="center" onclick="event.cancelBubble=true" style="cursor: auto;">존재하는 게시글이 없습니다.</td>
 		         		</tr>
           			</c:when>	
           			<c:otherwise>
@@ -74,7 +74,7 @@
 		              		</td>
 		              		<td>${board.qnaCategory}</td>
 		              		<td>${board.qnaTitle}</td>
-		              		<td>${board.qnaContent}</td>
+		              		<td style="overflow:">${board.qnaContent}</td>
 		              		<td>${board.writerNick}</td>
 		              		<td>
 		              			<c:choose>
@@ -152,6 +152,6 @@
     	$(this).css("cursor", "pointer");
     });
 
-    </script>    
+    </script>  
     </body>
 </html>

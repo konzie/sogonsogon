@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -40,6 +41,7 @@
       #board-content{
       	padding: 10px;
       	font-size: 15px;
+      	overflow: auto;
       }
 </style>
 <!------------------ Summernote ------------------>
@@ -67,16 +69,22 @@
       <h3 id="title">${board.qnaTitle}</h3><h6 id="category"> [카테고리 : ${board.qnaCategory}]</h6>
       <hr>
       <div>
-		<p id="writer"> 작성자 : ${board.writerNick} </p><p id="date">${board.qnaModifyDate}</p>
+      <fmt:formatDate var="createDate" value="${board.qnaCreateDate}" pattern="yyyy-MM-dd"/>
+		<p id="writer"> 작성자 : ${board.writerNick} </p><p id="date">${createDate}</p>
 	  </div>
 		<div id="board-content">${board.qnaContent}
-		<c:if test="${board.qnaStatus=='D'}">
-			<span style="color:red"> <br>---------------------------------------------- <br> 신고된 게시글 입니다. </span>
+		<c:if test="${board.qnaStatus=='R'}">
+			<p style="color:crimson; font-size: 20px; letter-spacing: 15px; text-align:center;">
+			<b>
+				<br>■-----------------------------------------■<br>해당 게시글은 신고되었습니다.
+				<br>■-----------------------------------------■
+			</b>
+			</p>
 		</c:if>
 		</div>
 		<hr>
 		<div class="float-right">
-		<c:if test="${board.qnaStatus!='D'}">
+		<c:if test="${board.qnaStatus!='R'}">
 			<button type="button" class="btn btn-warning" onclick="location.href ='../updateNotice/${board.qnaNo}'">수정</button>
 			<button type="button" class="btn btn-warning" onclick="location.href ='../deleteNotice/${board.qnaNo}'">삭제</button>
 		</c:if>
