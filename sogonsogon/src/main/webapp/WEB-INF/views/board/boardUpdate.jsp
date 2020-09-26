@@ -82,29 +82,11 @@
 					<!------------------------------------------------>	
                </td>
             </tr>
-             <tr>
-            	<td>이미지 삽입</td>
-            	<td>
-            	<div id="fileArea">
-					<!--  multiple 속성
-						- input 요소 하나에 둘 이상의 값을 입력할 수 있음을 명시 (파일 여러개 선택 가능)
-					 -->
-					<input type="file" id="img1" name="img1" onchange="LoadImg(this,1)"> 
-					<input type="file" id="img2" name="img2" onchange="LoadImg(this,2)"> 
-					<input type="file" id="img3" name="img3" onchange="LoadImg(this,3)"> 
-					<input type="file" id="img4" name="img4" onchange="LoadImg(this,4)">
-				</div>
-            	
-            	</td>
-
-            </tr>
-
             <tr>
                  
                 <td colspan="2"  class="text-center">
                     <button type="submit" class="btn btn-success">수정</button>
-                    <input type="reset" value="초기화" class="btn btn-warning">
-                    <a href="${contextPath}/board/list/1" class="btn btn-primary">돌아가기</a>
+                     <a href="${header.referer}" class="btn btn-primary">돌아가기</a>
                 </td>
             </tr>
              
