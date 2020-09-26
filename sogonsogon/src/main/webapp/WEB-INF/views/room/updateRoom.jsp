@@ -140,51 +140,17 @@
 <body>
 
 	<jsp:include page="../common/header.jsp" />
-	<div class="container">
-
-		<div class="row">
-
-			<div class="col-lg-3">
-				<h1 class="my-4 card-header">방 정보</h1>
-				<div class="list-group">
-					<p>카테고리 : ${roomDetail.roomTypeName}</p>
-					<p>방장 : ${roomDetail.memberId}</p>
-					<p>회원 수 : ${roomDetail.roomMemberCount}명</p>
-					<p>공개 여부 :
-					<c:set var="roomOpenValue" value="${roomDetail.roomOpen}"/> 
-						<c:choose>
-							<c:when test="${fn:contains(roomDetail.roomOpen, 'Y')}">
-								공개
-							</c:when>
-							<c:otherwise>
-								비공개
-							</c:otherwise>
-						</c:choose>
-					</p>
-					<p class="list-group-item fas fa-angle-down" id="moreInfo" style="cursor: pointer; color: blue;">&nbsp;더 보기</p>
-					<div id="infoList"></div>
-					
-					<!-- 방장 회원 전용 메뉴-->
-					<c:if test="${loginMember.getMemberId() eq roomDetail.memberId}">
-					<a href="#modalMemberInfo" class="list-group-item modalLink" id="roomMemberInfo">방 회원 조회</a>
-					<a href="${contextPath}/room/updateRoom/${roomDetail.roomNo}" class="list-group-item">방 정보 수정</a>
-					</c:if>
-
-				</div>
-				<div>
-					<button id="prevAtag" class="btn-secondary" style="margin-top: 10px;" onclick="location.href='../roomList/1'">방 나가기</button>
-				</div>
-			</div>
-			<!-- /.col-lg-3 -->
-			
 
 
 
 
 
-			<div class="container2">
+
+
+
+			<div class="container2" style="margin: auto; margin-top: 50px; border-radius: 30px;">
 				<div class="empty"></div>
-				<div class="title">
+				<div class="title" style="text-align: center;">
 					<img src="${contextPath}/resources/images/roomInsert-check.png"
 						width="40px;" style="margin-right: 10px;">방 정보 수정
 				</div>
@@ -272,8 +238,7 @@
 					</form>
 				</div>
 			</div>
-	</div>
-</div> 
+
 			<jsp:include page="../common/footer.jsp" />
 <script type="text/javascript">
 
@@ -357,7 +322,8 @@ $(function(){
 	
 	// 목록으로 돌아가기
 	 $("#return-btn").on("click",function(){
-		 location.href = "${header.referer}";
+		 location.href = "${contextPath}/room/updateRoom/${roomDetail.roomNo}";
+		 
 	  });
 	
 	// 이전 비밀번호 일치 검사

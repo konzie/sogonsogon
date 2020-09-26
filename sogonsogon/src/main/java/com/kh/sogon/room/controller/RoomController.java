@@ -246,7 +246,8 @@ public class RoomController {
 			 room.setRoomPassword(newPassword);
 			 int result = roomService.updateRoomInsert(room);
 			 
-		
+			 Member loginMember = (Member)model.getAttribute("loginMember");
+			 
 			 String url = null;
 			 String status = null;
 			 String msg = null;
@@ -261,6 +262,16 @@ public class RoomController {
 				}
 				rdAttr.addFlashAttribute("status", status);
 				rdAttr.addFlashAttribute("msg", msg);
+				
+				if(loginMember != null) {
+					int writeBoardCount = roomService.writeBoardCount(roomNo, loginMember.getMemberNo());
+					int writeBoardReplyCount = roomService.writeBoardReplyCount(roomNo, loginMember.getMemberNo());
+					int writeBoardReplyAdoptionCount = roomService.writeBoardReplyAdoptionCount(roomNo, loginMember.getMemberNo());
+					
+					model.addAttribute("writeBoardCount", writeBoardCount);
+					model.addAttribute("writeBoardReplyCount", writeBoardReplyCount);
+					model.addAttribute("writeBoardReplyAdoptionCount", writeBoardReplyAdoptionCount);
+				}
 				
 			return "redirect:" + url;
 		 }

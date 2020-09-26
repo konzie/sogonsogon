@@ -206,6 +206,11 @@
 	th{
 		background: rgba(252, 163, 17,0.9);
 	}
+	td{
+		font-size: 13px;
+		font-family: 'FontAwesome';
+		
+	}
 	.boardTable > thead > tr > th:nth-child(1), 
 	.notieTable > thead > tr > th:nth-child(1) {
 		background: rgba(252, 163, 17,0.9);
@@ -533,7 +538,7 @@
    
       <!-- Modal -->
       <c:if test="${!empty loginMember}">
-     <form class="transPage" method="post">
+     <form class="transPage" method="post" style="font-family: 'GmarketSansMedium';">
      <div class="modal fade" id="myModal" role="dialog" style="text-align: center;">
        <div class="modal-dialog ">
          <div class="modal-content">
