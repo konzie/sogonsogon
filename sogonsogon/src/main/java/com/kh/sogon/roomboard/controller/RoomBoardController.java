@@ -149,7 +149,6 @@ public class RoomBoardController {
 			HttpServletRequest request) {
 
 		RoomBoard board = roomBoardService.selectBoard(boardNo);
-
 		String url = null;
 		if (board != null) { // 게시글 조회 성공 시
 			// DB에서 해당 글에 작성된 이미지 파일 모두 조회하기
