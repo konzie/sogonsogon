@@ -109,7 +109,7 @@ public class BoardController {
 			if(result > 0) {
 				rdAttr.addFlashAttribute("status", "success");
 				rdAttr.addFlashAttribute("msg", "게시물이 등록되었습니다.");
-			url = "../board/boardList" +  "/"  + "?cp=1";
+			url = "../board/boardList" + "?cp=1";
 				
 			}else {
 				rdAttr.addFlashAttribute("status", "error");

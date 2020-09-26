@@ -51,7 +51,7 @@
 <div class="row">
     <div class="col-md-2"></div>
     <div class="col-md-8">
-        <h2 class="text-center">자유게시판</h2>
+       
         <form action="insertAction" method="post" role="form" enctype="multipart/form-data" onsubmit="return validate();">
         
           
@@ -82,7 +82,7 @@
                 
                 </td>
             </tr>
-             <tr>
+          <!--   <tr>
              
              
             	<td>이미지 삽입</td>
@@ -98,13 +98,13 @@
             	</td>
 
             </tr>
-
+ --> 
             <tr>
                  
                 <td colspan="2"  class="text-center">
                 
 				<div class="text-center">
-					<button type="submit" >등록</button>
+					<button type="submit"  class="btn btn-success">등록</button>
                     <a href="${header.referer}" class="btn btn-primary">돌아가기</a>
                     </div>
                 </td>
@@ -128,7 +128,7 @@ function validate(){
 	if($("#category").val() == "00"){
 		alert("카테고리를 입력해주세요.");
 		return false;
-	
+	}
 	if($("#title").val().trim().length == 0){
 		alert("제목을 입력해 주세요.");
 		$("#title").focus();
@@ -141,7 +141,7 @@ function validate(){
 	}
 
     var content = $("#content").val();
-    var ban = ["관리자","개" , "미친놈" , "ㅅㅂ" ];
+    var ban = ["개" , "미친놈" , "ㅅㅂ" ];
     
     for (var i=0; i<ban.length; i++){
        if(content.indexOf(ban[i]) != -1){

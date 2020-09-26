@@ -182,7 +182,9 @@
 									<i class="fa fa-heart" id="rec_update" style="font-size:16px;cursor: pointer;"></i>
 									&nbsp;<span class="rec_count"></span>
 								</c:if>
+								<c:if test="${loginMember != null }">
 								<button id="reportBtn" class="btn btn-outline-danger">신고</button>
+								</c:if>
 							</div>
 						</div>
 					

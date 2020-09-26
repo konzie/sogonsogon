@@ -429,7 +429,7 @@
     
                             
 <c:if test="${!empty loginMember }">   
-      <a class="btn btn-primary float-right" href="../board/boardWrite">글쓰기</a>
+      <a class="btn btn-primary float-right" href="${contextPath}/board/boardWrite">글쓰기</a>
 </c:if>
                 </div>
             </div>

@@ -218,23 +218,23 @@ function selectReplyList(){
 // 댓글 등록
 $("#addReply").on("click", function(){
 	
-	// 댓글 내용을 얻어와 변수에 저장
+	
 	var replyContent = $("#replyContent").val();
 	
-	// 로그인이 되어있지 않은 경우
+	
 	if(${empty loginMember} == true){
 		alert("로그인 후 이용해 주세요.");	
 		
 	}else{
-		// 댓글이 작성되었는지 유효성 검사
+		
 		if(replyContent.trim().length == 0){
 			alert("댓글 작성 후 클릭해주세요.");
 			$("#replyContent").focus();
 			
-		// 로그인이 되어있고, 댓글이 작성이 된 상태로 댓글 등록 버튼이 클릭된 경우
+		
 		}else{
 			var url = "${contextPath}/reply/insertReply/${board.qnaNo}";
-			var memberId = "${loginMember.memberNo}"; // 회원 아이디에 회원 번호를 저장해서 전달
+			var memberId = "${loginMember.memberNo}"; 
 				$.ajax({
 					url : url,
 					type : "POST",
@@ -243,9 +243,9 @@ $("#addReply").on("click", function(){
 					dataType : "text",
 					success : function(result){
 						
-						// 서버측에 출력할 내용을 가공하여 전달받아 출력 
+						
 						alert(result);
-						$("#replyContent").val(""); // 기존 댓글 삭제
+						$("#replyContent").val("");
 						selectReplyList();
 					},error : function(){
 						console.log("통신 실패");
@@ -329,9 +329,6 @@ function deleteReply(el, replyNo) {
  	
  	
  	
- 	
- 	// 이미 화면에 존재하는 답글 작성 영역이 삭제 되어야지만
- 	// 새로운 답글 영역을 생성, 추가함
  	if(true){
  	
  	var replyOldContent = $(el).parent().prev().text();
