@@ -176,16 +176,14 @@
         </c:otherwise>
         </c:choose>	
 	 </div>
-	 
-	<div style="border: 5px solid #FAE0D4; clear:both; margin:10px 0; padding:0px;"  class="mypageList">
+ 
 		<table class="table table-striped table-hover">
                 <thead>
                     <tr>
                         <th>글번호</th>
                         <th>분류</th>
                         <th>제목</th>
-                        <th>내용</th>
-                        <th>작성자</th>						
+                        <th>내용</th>						
                         <th>작성일</th>						
                         <th>답변여부</th>
                     </tr>
@@ -194,7 +192,7 @@
                 <c:choose>
           			<c:when test="${empty helpList}">
 		         		<tr>		
-		         			<td colspan="7" align="center"><div class="brown"></div>내가 보낸 문의사항이 없습니다.</td>
+		         			<td colspan="6" align="center"><div class="brown"></div>내가 보낸 문의사항이 없습니다.</td>
 		         		</tr>
           			</c:when>	
           			<c:otherwise>
@@ -208,30 +206,40 @@
 	              			<td>${board.helpNo}</td>
 		              		<td>${board.helpCategory}</td>
 		              		<td>${board.helpTitle}</td>
-		              		<td>${board.helpContent}</td>
-		              		<td>${board.writerNick}</td>
-		              		<td>
-		              			<c:choose>
-		              				<c:when test="${today1 == createDate1 }">${createTime1}</c:when>
-		              				<c:otherwise>${createDate1}</c:otherwise>
+		              		<c:choose>
+		              		<c:when test="${board.helpStatus!='R'}">
+			              		<td>${board.helpContent}</td>
+			              		<td>
+			              			<c:choose>
+			              				<c:when test="${today1 == createDate1 }">${createTime1}</c:when>
+			              				<c:otherwise>${createDate1}</c:otherwise>
+			              			</c:choose>
+			              		</td>
+			              		<td>
+	                           	<c:choose>
+	                           		<c:when test="${board.answerChk == 'Y'}">
+	                           			<span class="status text-success" style="margin: -8px 2px 0 0;">&bull;</span> 답변   	
+			                  		</c:when>
+			                  		<c:otherwise>
+			                  			<span class="status text-wait" style="margin: -8px 2px 0 0;">&bull;</span> 미답변  
+			                  		</c:otherwise>                                           		
+	                           	</c:choose>
+		              			</td>
+		              			</c:when>
+		              			<c:otherwise>
+		              			<td colspan="2">관리자가 조치한 문의사항 입니다.</td>
+		              			<td>
+	                           		<button class="btn btn-outline-danger" onclick="location.href ='${contextPath}/help/no='+${board.helpNo}+'/delete'">삭제</button>   	
+		              			</td>
+		              			</c:otherwise>
 		              			</c:choose>
-		              		</td>
-		              		<td>
-                           	<c:choose>
-                           		<c:when test="${board.answerChk == 'Y'}">
-                           			<span class="status text-success" style="margin: -8px 2px 0 0;">&bull;</span> 답변   	
-		                  		</c:when>
-		                  		<c:otherwise>
-		                  			<span class="status text-wait" style="margin: -8px 2px 0 0;">&bull;</span> 미답변  
-		                  		</c:otherwise>                                           		
-                           	</c:choose>
-		              		</td>
 	              		</tr>	
           				</c:forEach>
           			</c:otherwise>
           		</c:choose>
                 </tbody>
             </table>
+			<p align="right" style="font-size: 13px; color:gray;">▶ 관리자에 의해 조치된 문의글을 마이페이지에서 보지 않으려면 '삭제' 버튼을 누르시오</p>
 	 </div>
 	 	 
 	 <div>

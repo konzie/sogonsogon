@@ -56,7 +56,7 @@
                 <c:choose>
           			<c:when test="${empty helpList}">
 		         		<tr>		
-		         			<td colspan="7" align="center">존재하는 게시글이 없습니다.</td>
+		         			<td colspan="7" align="center"  onclick="event.cancelBubble=true" style="cursor: auto;">존재하는 게시글이 없습니다.</td>
 		         		</tr>
           			</c:when>	
           			<c:otherwise>

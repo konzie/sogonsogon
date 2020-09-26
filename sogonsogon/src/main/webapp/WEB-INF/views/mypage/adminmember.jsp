@@ -59,7 +59,7 @@
                 <c:choose>
           			<c:when test="${empty memberList}">
 		         		<tr>		
-		         			<td colspan="10" align="center">존재하는 회원이 없습니다.</td>
+		         			<td colspan="10" align="center" onclick="event.cancelBubble=true" style="cursor: auto;">존재하는 회원이 없습니다.</td>
 		         		</tr>
           			</c:when>	
           			<c:otherwise>

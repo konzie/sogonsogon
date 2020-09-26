@@ -59,6 +59,7 @@ public class MypageController {
 					model.addAttribute("board", board);		
 			}else {
 	            Board reportView = mypageService.noticeView(reportList.get(0).getBoardNo());
+	            reportView.setQnaContent(reportView.getQnaContent().replaceAll("\r\n", "<br>"));           
 				model.addAttribute("reportView", reportView);
 			}
 
@@ -201,7 +202,15 @@ public class MypageController {
 		PageInfo pInfo = mypageService.boardPage(cp, loginMember.getMemberNo());
 		pInfo.setLimit(10);
 		List<Board> boardList = mypageService.selectBList(pInfo, loginMember.getMemberNo());
-		                                                                   
+		
+		for(int i=0;i<boardList.size();i++) {
+			
+			boardList.get(i).setQnaContent(boardList.get(i).getQnaContent().replaceAll("\r\n", " "));
+			if(boardList.get(i).getQnaContent().length()>20) {
+				boardList.get(i).setQnaContent(boardList.get(i).getQnaContent().substring(0,20)+"...");
+			}
+		} 
+		
 		model.addAttribute("boardList", boardList);
 		model.addAttribute("pInfo", pInfo);	
 		
@@ -216,7 +225,12 @@ public class MypageController {
 		PageInfo roomPInfo = mypageService.roomBoardPage(cp, loginMember.getMemberNo());
 		roomPInfo.setLimit(10);
 		List<RoomBoard> roomBoard = mypageService.selectRoomBoardList(roomPInfo, loginMember.getMemberNo());
-		                           
+		
+		for(int i=0;i<roomBoard.size();i++) {
+			if(roomBoard.get(i).getRoomBoardContent().length()>20) {
+				roomBoard.get(i).setRoomBoardContent(roomBoard.get(i).getRoomBoardContent().substring(0,20)+"...");
+			}
+		}                            
 		model.addAttribute("roomBoard", roomBoard);
 		model.addAttribute("roomPInfo", roomPInfo);	
 		
@@ -227,7 +241,8 @@ public class MypageController {
 	public String boardView(@PathVariable int boardNo, Model model) {
 		
 		Board board = mypageService.boardView(boardNo);
-		
+
+		board.setQnaContent(board.getQnaContent().replaceAll("\r\n","<br>"));
 		model.addAttribute("board", board);
 
 		return "mypage/boardView";
@@ -243,6 +258,7 @@ public class MypageController {
 		
 		roomBoard = mypageService.roomBoard(roomBoard);
 
+		roomBoard.setRoomBoardContent(roomBoard.getRoomBoardContent().replaceAll("\r\n","<br>"));
 		model.addAttribute("roomBoard", roomBoard);
 
 		return "mypage/roomBoardView";
@@ -328,6 +344,8 @@ public class MypageController {
 		List<Board> reportList = mypageService.selectDList(pInfo);
 		
 		for(int i=0;i<reportList.size();i++) {
+
+			reportList.get(i).setQnaContent(reportList.get(i).getQnaContent().replaceAll("\r\n", " "));
 			if(reportList.get(i).getQnaContent().length()>20) {
 				reportList.get(i).setQnaContent(reportList.get(i).getQnaContent().substring(0,20)+"...");
 			}
@@ -361,7 +379,7 @@ public class MypageController {
 	
 	// 고객센터 조회
 	@RequestMapping("adminhelp")
-	public String adminqna(@RequestParam(value="cp", required=false, defaultValue = "1") int cp, Model model) {
+	public String adminhelp(@RequestParam(value="cp", required=false, defaultValue = "1") int cp, Model model) {
 		
 		PageInfo pInfo = mypageService.qnaPage(cp);
 		
@@ -491,6 +509,9 @@ public class MypageController {
 		Member loginMember = (Member)model.getAttribute("loginMember");
 		
 		Board report = mypageService.noticeView(boardNo);
+
+
+		report.setQnaContent(report.getQnaContent().replaceAll("\r\n","<br>"));
 		
 		model.addAttribute("report", report);
 		model.addAttribute("loginMember", loginMember);
@@ -501,7 +522,9 @@ public class MypageController {
 	public String helpView(@PathVariable int boardNo, Model model) {
 		
 		Help help = mypageService.helpView(boardNo);
-		
+
+		help.setHelpContent(help.getHelpContent().replaceAll("\r\n", "<br>"));
+
 		model.addAttribute("help", help);
 
 		HelpAnswer answer = mypageService.selectAnswer(boardNo);
@@ -522,7 +545,8 @@ public class MypageController {
 	public String noticeView(@PathVariable int boardNo, Model model) {
 		
 		Board notice = mypageService.noticeView(boardNo);
-		
+
+		notice.setQnaContent(notice.getQnaContent().replaceAll("\r\n", "<br>"));
 		model.addAttribute("notice",notice);
 		
 		return "mypage/noticeView";
@@ -549,8 +573,7 @@ public class MypageController {
 		notice.setQnaCategory(category);
 		notice.setQnaNo(boardNo);
 		notice.setQnaTitle(title);
-		notice.setQnaContent(content);
-
+		notice.setQnaContent(content.replaceAll("<br>", "\r\n"));
 		int result = mypageService.updateNotice(notice);
 		
 		String status=null;
@@ -861,6 +884,7 @@ public class MypageController {
 	public String answerView(@PathVariable int helpNo, Model model, RedirectAttributes rdAttr){
 		
 		Help help = mypageService.helpView(helpNo);
+		help.setHelpContent(help.getHelpContent().replaceAll("\r\n", "<br>"));
 		
 		model.addAttribute("help", help);
 		return "mypage/answerView";
@@ -918,8 +942,34 @@ public class MypageController {
 		board.setRoomBoardNo(boardNo);
 		board.setRoomNo(roomNo);
 		board = mypageService.roomBoard(board);
+		
+		board.setRoomBoardContent(board.getRoomBoardContent().replaceAll("\r\n","<br>"));
 		model.addAttribute("board",board);
 		
 		return "mypage/reportView2";
+	}
+	
+	@RequestMapping("deleteHelp/{boardNo}")
+	public String deleteHelp(@PathVariable int boardNo, Model model) {
+		
+		int result = mypageService.deleteHelp(boardNo);
+		
+		PageInfo pInfo = mypageService.qnaPage(1);
+		
+		pInfo.setLimit(10);
+		
+		List<Help> helpList = mypageService.selectQList(pInfo);
+		
+		for(int i=0;i<helpList.size();i++) {
+			helpList.get(i).setHelpContent(helpList.get(i).getHelpContent().replace("<br>", ""));
+			
+			if(helpList.get(i).getHelpContent().length()>20) {
+				helpList.get(i).setHelpContent(helpList.get(i).getHelpContent().substring(0,20)+"...");
+			}
+		}                                    
+		model.addAttribute("helpList", helpList);
+		model.addAttribute("pInfo", pInfo);
+
+		return "mypage/adminhelp";
 	}
 }

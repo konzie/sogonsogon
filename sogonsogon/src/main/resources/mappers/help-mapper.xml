@@ -33,7 +33,6 @@
 	<select id="selectView" parameterType="_int" resultMap="helpResultSet">
 		SELECT * FROM All_HELP
 		WHERE HELP_NO = #{boardNo}
-		AND HELP_STATUS = 'Y'
 	</select>
 	
 	<!-- 문의글 다음 넘버 가져오기 -->

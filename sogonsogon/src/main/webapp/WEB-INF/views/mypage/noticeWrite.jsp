@@ -67,11 +67,7 @@
 	    <form action="${contextPath}/mypage/noticeInsert" method="post" role="form" onsubmit="return validate();">
 				<div class="form-inline mb-2">
 					<label class="input-group-addon mr-3 insert-label">카테고리</label> 
-					<select name="category">
-						<option>코딩</option>
-						<option>외국어</option>
-						<option>기타</option>
-					</select>
+					<h5 class="my-0" id="category">공지글</h5><input style="display: none;" name="category" value="공지글">
 				</div>
 				
 				<div class="form-inline mb-2">
@@ -89,7 +85,7 @@
 				</div>
 
 				<div class="form-inline mb-2">
-					<textarea class="form-control" id="content summernote" name="content" rows="10" cols="200" style="resize: none;"></textarea>
+					<textarea class="form-control" id="content" name="content" rows="10" cols="200" style="resize: none;"></textarea>
 				</div>
 				
 				<hr class="mb-4">
@@ -107,8 +103,8 @@
 		var today = new Date();
 		var month = (today.getMonth()+1);
 
-		var str = today.getFullYear() + "-"
-				+ (month < 10 ? "0"+month : month) + "-"
+		var str = today.getFullYear() + "/"
+				+ (month < 10 ? "0"+month : month) + "/"
 				+ today.getDate();
 		$("#today").html(str);
 

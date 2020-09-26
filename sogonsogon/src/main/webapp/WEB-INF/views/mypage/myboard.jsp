@@ -57,7 +57,7 @@
                 <c:choose>
           			<c:when test="${empty boardList}">
 		         		<tr>		
-		         			<td colspan="7" align="center">존재하는 게시글이 없습니다.</td>
+		         			<td colspan="7" align="center" onclick="event.cancelBubble=true" style="cursor: auto;">존재하는 게시글이 없습니다.</td>
 		         		</tr>
           			</c:when>	
           			<c:otherwise>
@@ -68,7 +68,7 @@
 	              			<fmt:formatDate var="createDate" value="${board.qnaCreateDate}" pattern="yyyy-MM-dd"/>
 	              			<fmt:formatDate var="createTime" value="${board.qnaCreateDate}" pattern="hh:mm:ss"/>
 	              		<c:choose>		
-	              		<c:when test="${board.qnaStatus=='D'}">
+	              		<c:when test="${board.qnaStatus=='R'}">
 	              			<td>
 	              			<span style="display:none;" class="status">${board.qnaStatus}</span>
 		              		<c:if test="${today == createDate}">
@@ -161,12 +161,11 @@
        <jsp:include page="../common/footer.jsp" />
        
     <script>
-	$(".status").parent().parent().css("background-color","#FF3636");
-    
     $(".new").parent().parent().css("background-color","bisque");
+	$(".status").parent().parent().css("background-color","#FF3636");    
 
     $("td").on("click",function(){
-    	if($(this).parent().children().children().eq(0).text()=="D"){
+    	if($(this).parent().children().children().eq(0).text()=="R"){
         	if($(this).parent().children().children().eq(1).text()=="new"){
         		var boardNo = $(this).parent().children().children().eq(2).text(); 				
         	}else{

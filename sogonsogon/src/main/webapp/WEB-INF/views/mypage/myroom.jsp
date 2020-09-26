@@ -282,20 +282,9 @@
                 <div class="tags">#${tag}</div> 
              </c:forEach>
            </div>
-  
-      <c:choose>
-            <%-- test는 el만 적을 수 있음 (비교, 계산 같은걸 하나 EL 안에 작성가능) --%>
-         <c:when test="${roomList.roomMemberCount != roomList.roomMaxNumber}">
                <a data-toggle="modal"  data-target="#myModal">
-                  <div class="join-button" id="${roomList.roomNo}" onclick="return validate();"><span>참여하기</span></div>
+                  <div class="join-button" id="${roomList.roomNo}" onclick="return validate();"><span>입장하기</span></div>
                </a>
-         </c:when>
-         <c:otherwise>
-               <a data-toggle="modal" >
-                  <div class="join-button noPart" id="${roomList.roomNo}" onclick="return validate();">참여불가</div>
-               </a>
-         </c:otherwise>
-      </c:choose>
            
       </div> <!-- roomlist end-->
       </c:forEach>
