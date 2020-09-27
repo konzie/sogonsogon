@@ -1,6 +1,5 @@
 package com.kh.sogon.mypage.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,6 +25,7 @@ import com.kh.sogon.board.model.vo.Reply;
 import com.kh.sogon.mypage.model.service.MypageService;
 import com.kh.sogon.mypage.model.vo.HelpAnswer;
 import com.kh.sogon.mypage.model.vo.ReportMember;
+import com.kh.sogon.mypage.model.vo.memberSearch;
 import com.kh.sogon.room.model.vo.Room;
 import com.kh.sogon.room.model.vo.RoomMember;
 import com.kh.sogon.roomboard.model.vo.RoomBoard;
@@ -66,8 +66,17 @@ public class MypageController {
 			model.addAttribute("report", reportList.get(0));
 		}
 		
-		List<Help> helpList = mypageService.selectMyHelp(loginMember.getMemberNo()); 
-
+		PageInfo pInfo = new PageInfo();
+		
+		pInfo.setCurrentPage(1);
+		pInfo.setLimit(3);
+		
+		List<Help> helpList = mypageService.selectMyHelp(pInfo, loginMember.getMemberNo()); 
+		
+		for(int i=0;i<helpList.size();i++) {
+			helpList.get(i).setHelpContent(helpList.get(i).getHelpContent().replaceAll("\r\n", " ")); 
+		}
+		
 		model.addAttribute("helpList", helpList);
 		model.addAttribute("loginMember", loginMember);
 		
@@ -559,6 +568,7 @@ public class MypageController {
 
 		Board notice = mypageService.noticeView(boardNo);
 
+		notice.setQnaContent(notice.getQnaContent().replaceAll("<br>", "\r\n"));
 		model.addAttribute("notice", notice);
 		model.addAttribute("member", member);
 		return "mypage/updateNotice";
@@ -971,5 +981,26 @@ public class MypageController {
 		model.addAttribute("pInfo", pInfo);
 
 		return "mypage/adminhelp";
+	}
+	
+	@RequestMapping("searchMember")
+	public String searchMember(@RequestParam(value="cp", required=false, defaultValue = "1") int cp, 
+  							@RequestParam(value="searchKey") String sKey, @RequestParam(value="searchValue") String sVal,
+							Model model) {
+		
+		memberSearch memberSearch = new memberSearch();
+		memberSearch.setsKey(sKey);
+		memberSearch.setsVal(sVal);
+		
+		PageInfo pInfo = mypageService.memberPage(cp, memberSearch);
+		
+		List<Member> memberList = mypageService.memberSearch(pInfo, memberSearch);
+		
+		pInfo.setLimit(10);
+		
+		model.addAttribute("pInfo", pInfo);
+		model.addAttribute("memberList", memberList);
+
+		return "mypage/adminmember";
 	}
 }

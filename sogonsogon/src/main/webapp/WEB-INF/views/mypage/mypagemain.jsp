@@ -177,13 +177,12 @@
         </c:choose>	
 	 </div>
  
-		<table class="table table-striped table-hover">
+		<table class="table table-striped table-hover" id="psTable">
                 <thead>
                     <tr>
                         <th>글번호</th>
                         <th>분류</th>
-                        <th>제목</th>
-                        <th>내용</th>						
+                        <th>제목</th>				
                         <th>작성일</th>						
                         <th>답변여부</th>
                     </tr>
@@ -192,13 +191,14 @@
                 <c:choose>
           			<c:when test="${empty helpList}">
 		         		<tr>		
-		         			<td colspan="6" align="center"><div class="brown"></div>내가 보낸 문의사항이 없습니다.</td>
+		         			<td colspan="5" align="center"><div class="brown"></div>내가 보낸 문의사항이 없습니다.</td>
 		         		</tr>
           			</c:when>	
           			<c:otherwise>
           			        <div class="brown"></div><h5>? 내가 보낸 문의사항입니다. </h5> 
           				<c:forEach var="board" items="${helpList}">
-	              		<tr>		
+	              		<tr>
+	              		<td style="display:none;">${board.helpContent}</td>		
 	              			<jsp:useBean id="now1" class="java.util.Date"></jsp:useBean>
 	              			<fmt:formatDate var="today1" value="${now1}" pattern="yyyy-MM-dd"/>
 	              			<fmt:formatDate var="createDate1" value="${board.helpCreateDate}" pattern="yyyy-MM-dd"/>
@@ -206,34 +206,35 @@
 	              			<td>${board.helpNo}</td>
 		              		<td>${board.helpCategory}</td>
 		              		<td>${board.helpTitle}</td>
-		              		<c:choose>
-		              		<c:when test="${board.helpStatus!='R'}">
-			              		<td>${board.helpContent}</td>
-			              		<td>
-			              			<c:choose>
-			              				<c:when test="${today1 == createDate1 }">${createTime1}</c:when>
-			              				<c:otherwise>${createDate1}</c:otherwise>
-			              			</c:choose>
-			              		</td>
-			              		<td>
-	                           	<c:choose>
-	                           		<c:when test="${board.answerChk == 'Y'}">
-	                           			<span class="status text-success" style="margin: -8px 2px 0 0;">&bull;</span> 답변   	
-			                  		</c:when>
-			                  		<c:otherwise>
-			                  			<span class="status text-wait" style="margin: -8px 2px 0 0;">&bull;</span> 미답변  
-			                  		</c:otherwise>                                           		
-	                           	</c:choose>
-		              			</td>
-		              			</c:when>
-		              			<c:otherwise>
-		              			<td colspan="2">관리자가 조치한 문의사항 입니다.</td>
-		              			<td>
-	                           		<button class="btn btn-outline-danger" onclick="location.href ='${contextPath}/help/no='+${board.helpNo}+'/delete'">삭제</button>   	
-		              			</td>
-		              			</c:otherwise>
+		              		<td>
+		              			<c:choose>
+		              				<c:when test="${today1 == createDate1 }">${createTime1}</c:when>
+		              				<c:otherwise>${createDate1}</c:otherwise>
 		              			</c:choose>
+		              		</td>
+		              		<td>
+		              		<c:choose>
+		              		<c:when test="${board.helpStatus == 'R'}">     
+	                           		<button class="btn btn-secondary btn-sm" onclick="location.href ='${contextPath}/help/no='+${board.helpNo}+'/delete'">삭제</button>   	
+	                        </c:when>
+	                        <c:otherwise>
+                           		<c:if test="${board.answerChk == 'Y'}">
+                           			<span class="status text-success" style="margin: -8px 2px 0 0;">&bull;</span> 답변   	
+		                  		</c:if>
+		                  		<c:if test="${board.answerChk == 'N'}">
+		                  			<span class="status text-wait" style="margin: -8px 2px 0 0;">&bull;</span> 미답변  
+		                  		</c:if> 
+		                  	</c:otherwise>
+		                  	</c:choose>
+		              		</td>
 	              		</tr>	
+		              	<tr>
+		              		<td></td><td>본문</td><td colspan="3" id="extra"><span>${board.helpContent}</span>
+		              		<c:if test="${board.helpStatus == 'R'}">
+		              			<span class="test"> <br>--- 관리자에 의해 조치된 게시글입니다. --- </span>
+		              		</c:if>    
+		              		</td>
+		              	</tr>
           				</c:forEach>
           			</c:otherwise>
           		</c:choose>
@@ -245,18 +246,8 @@
 	 <div>
 	 	
 	 </div>  	
-	</div>
- </div>    
+	</div> 
+	
    <jsp:include page="../common/footer.jsp" />
-
-<script>
-$("td:not(:last-child)").on("click",function(){
-	var boardNo = $(this).parent().children().eq(0).text(); 				
-
-	location.href = "${contextPath}/help/no=" + boardNo;
-}).on("mouseenter", function(){
-	$(this).css("cursor", "pointer");
-});
-</script>
 </body>
 </html>

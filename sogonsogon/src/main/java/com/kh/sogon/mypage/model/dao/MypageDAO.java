@@ -1,6 +1,7 @@
 package com.kh.sogon.mypage.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -349,12 +350,30 @@ public class MypageDAO {
 		return sqlSession.selectOne("mypageMapper.findRoomNo", i);
 	}
 
-	public List<Help> selectMyHelp(int memberNo) {
-		return sqlSession.selectList("mypageMapper.selectMyHelp", memberNo);
+	public List<Help> selectMyHelp(PageInfo pInfo, int memberNo) {
+		
+		int offset = (pInfo.getCurrentPage() - 1) * pInfo.getLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, pInfo.getLimit());
+		
+		return sqlSession.selectList("mypageMapper.selectMyHelp", memberNo, rowBounds);
 	}
 
 	public int deleteHelp(int boardNo) {
 		return sqlSession.update("mypageMapper.deleteHelp", boardNo);
+	}
+
+	public int getSearchCount(Map<String, Object> map) {
+		return sqlSession.selectOne("mypageMapper.getSearchCount", map);
+	}
+
+	public List<Member> selectSearchList(PageInfo pInfo, Map<String, Object> map) {
+		
+		int offset = (pInfo.getCurrentPage() - 1) * pInfo.getLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, pInfo.getLimit());
+		
+		return sqlSession.selectList("mypageMapper.selectSearchList", map, rowBounds);
 	}
 	
 	

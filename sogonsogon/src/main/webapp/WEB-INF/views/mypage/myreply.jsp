@@ -83,8 +83,7 @@
 	              		</tr>	
 	              		<tr>
 		              		<td>└게시글 : ${reply.qnaNo}</td>
-		              		<td>${reply.qnaTitle}</td>
-		              		<td>${reply.qnaWriter}</td>
+		              		<td colspan="3">${reply.qnaTitle}</td>
           				</c:forEach>
           			</c:otherwise>
           		</c:choose>

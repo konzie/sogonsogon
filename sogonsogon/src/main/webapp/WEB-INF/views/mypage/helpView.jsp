@@ -23,7 +23,7 @@
       #board-content{
       	border : 1px solid brown;
       	width : 100%;
-      	height : 300px;
+      	overflow: auto;
       }
       
       .btn{
@@ -41,6 +41,8 @@
       #board-content{
       	padding: 10px;
       	font-size: 15px;
+      	height: 350px;
+      	overflow: auto;
       }
       
       #answer{
@@ -51,6 +53,8 @@
       #answerDiv{
       	height:80%;
       	background-color: #FAECC5;
+      	padding-bottom: 20px;
+  		padding-left: 10px;
       }
 </style>
 <title>고객센터 상세조회</title>

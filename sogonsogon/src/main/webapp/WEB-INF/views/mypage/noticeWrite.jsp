@@ -67,7 +67,20 @@
 	    <form action="${contextPath}/mypage/noticeInsert" method="post" role="form" onsubmit="return validate();">
 				<div class="form-inline mb-2">
 					<label class="input-group-addon mr-3 insert-label">카테고리</label> 
+				  <c:choose>
+ 				  <c:when test="${member.memberGrade=='A'}">
 					<h5 class="my-0" id="category">공지글</h5><input style="display: none;" name="category" value="공지글">
+				  </c:when>
+				  <c:otherwise>
+				  <select name="category">
+						<option value="코딩">코딩</option>
+						<option value="외국어">외국어</option>
+						<option value="기타">기타</option>
+				  </select>
+				  </c:otherwise>
+				  </c:choose>
+				
+				
 				</div>
 				
 				<div class="form-inline mb-2">
