@@ -551,7 +551,7 @@
                <p class="m-title" style="font-weight: bold;"></p>
                <p class="m-content" style="margin-bottom: 6px; font-size: 14px;"></p>
               
-              <div class="pass-area">[
+              <div class="pass-area">
              	    <img src="${contextPath}/resources/images/lock.png"  style="width: 40px;">
 
                  <p style="margin: 0px;">참여 번호 입력</p>
