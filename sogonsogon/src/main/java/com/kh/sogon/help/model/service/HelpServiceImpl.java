@@ -26,7 +26,6 @@ public class HelpServiceImpl implements HelpService{
 		
 		//고객센터 전체 게시글 수 조회
 		int allCount = helpDAO.getAllCount();
-		System.out.println("전체 문의글 수 : "+allCount);
 		
 		//vo.PageInfo 맨아래 setPageInfo 호출
 		hInfo.setPageInfo(cp, allCount, limit);
@@ -59,15 +58,16 @@ public class HelpServiceImpl implements HelpService{
 		int result = 0;
 		
 		int helpNo = helpDAO.selectNextNo();
-		System.out.println("다음 넘버 : " + helpNo);
 		
 		if(helpNo>0) {
 			
 			help.setHelpNo(helpNo);
-			 System.out.println("글쓰기 :" + help);
 			
 			//크로스사이트스크립트 방지 처리
 			help.setHelpContent(replaceParameter(help.getHelpContent()));
+			
+			//개행문자 처리 \n-> <br>
+			help.setHelpContent(help.getHelpContent().replaceAll("\n", "<br>"));
 			
 			//삽입 
 			result = helpDAO.insertHelp(help);
@@ -79,20 +79,6 @@ public class HelpServiceImpl implements HelpService{
 		return result;
 	}
 
-	
-	// 크로스 사이트 스크립트 방지 메소드
-    private String replaceParameter(String param) {
-        String result = param;
-        if(param != null) {
-            result = result.replaceAll("&", "&amp;");
-            result = result.replaceAll("<", "&lt;");
-            result = result.replaceAll(">", "&gt;");
-            result = result.replaceAll("\"", "&quot;");
-        }
-
-        return result;
-    }
-    
     //문의글 삭제 Service 구현
 	@Override
 	@Transactional(rollbackFor = Exception.class)
@@ -114,8 +100,29 @@ public class HelpServiceImpl implements HelpService{
 		//크로스사이트스크립트 방지 처리
 		upHelp.setHelpContent(replaceParameter(upHelp.getHelpContent()));
 		
+		//개행문자 처리 \n-> <br>
+		upHelp.setHelpContent(upHelp.getHelpContent().replaceAll("\n", "<br>"));
+		
 		int result  = helpDAO.updateHelp(upHelp);
 		
 		return result;
 	}
+	
+	
+	
+	
+	
+	// 크로스 사이트 스크립트 방지 메소드
+	private String replaceParameter(String param) {
+		String result = param;
+		if(param != null) {
+			result = result.replaceAll("&", "&amp;");
+			result = result.replaceAll("<", "&lt;");
+			result = result.replaceAll(">", "&gt;");
+			result = result.replaceAll("\"", "&quot;");
+		}
+		
+		return result;
+	}
+	
 }

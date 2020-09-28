@@ -36,13 +36,41 @@
     .lock_status{float:right; padding:10px 0 0;}
     
     .text-center{margin-top:20px;}
+     .btncss {
+       width:80px;
+       background-color: #ffc107;
+       border: none;
+       color:#fff;
+       padding: 8px 0;
+       text-align: center;
+       text-decoration: none;
+       display: inline-block;
+       font-size: 15px;
+       margin: 5px !important;
+       cursor: pointer;
+       border-radius: 20px !important;
+       font-size: 18px !important;
+       font-weight: bold;
+}
+
+ .btncss:hover{
+    background-color: #e86c00;
+ }
     
 </style>
+<!------------------ Summernote ------------------>
+<link rel="stylesheet" href="${contextPath}/resources/summernote/css/summernote-lite.css">
+<!------------------------------------------------>
 
 </head>
 <body>
  
  <%@ include file="../common/header.jsp" %>
+ 	<!------------------ Summernote ------------------>
+	<script src="${contextPath}/resources/summernote/js/summernote-lite.js"></script>
+	<script src="${contextPath}/resources/summernote/js/summernote-ko-KR.js"></script>
+	<script src="${contextPath}/resources/summernote/js/summernote.js"></script>
+	<!------------------------------------------------>
 
 <div class="row">
     <div class="col-md-2"></div>
@@ -79,14 +107,14 @@
                 <td>글내용</td>
                 <td><textarea rows="10" cols="50" id="content" name="helpContent" class="form-control" >${help.helpContent}</textarea></td>
             </tr>
-             <tr>
+             <!--  <tr>
             	<td>이미지 삽입</td>
             	<td>
             	<div id="fileArea">
 					<!--  multiple 속성
 						- input 요소 하나에 둘 이상의 값을 입력할 수 있음을 명시 (파일 여러개 선택 가능)
 					 -->
-					<input type="file" id="img1" name="img1" onchange="LoadImg(this,1)"> 
+					<!--  <input type="file" id="img1" name="img1" onchange="LoadImg(this,1)"> 
 					<input type="file" id="img2" name="img2" onchange="LoadImg(this,2)"> 
 					<input type="file" id="img3" name="img3" onchange="LoadImg(this,3)"> 
 					<input type="file" id="img4" name="img4" onchange="LoadImg(this,4)">
@@ -94,14 +122,13 @@
             	
             	</td>
 
-            </tr>
+            </tr>-->
 
             <tr>
                  
                 <td colspan="2"  class="text-center">
-                    <button type="submit" class="btn btn-success">수정</button>
-                    <input type="reset" value="초기화" class="btn btn-warning">
-                    <a href="${contextPath}/help/list/1" class="btn btn-primary">돌아가기</a>
+                    <button type="submit" class="btncss">등록</button>
+                    <a href="${contextPath}/help/list/1" class="btncss" style="width: 100px; text-decoration: none; color: white;">돌아가기</a>
                 </td>
             </tr>
              

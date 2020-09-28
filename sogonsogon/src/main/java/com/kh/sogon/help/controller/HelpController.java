@@ -41,10 +41,6 @@ public class HelpController {
 		   
 		   List<Help> helpList = helpService.selectList(hInfo);
 		   
-		   for(Help b : helpList) {
-			   System.out.println(b);
-	      }
-		   
 		   //응답 페이지 전달
 		   model.addAttribute("helpList", helpList);
 		   model.addAttribute("hInfo", hInfo);
@@ -67,9 +63,7 @@ public class HelpController {
 		   
 		   String url = null;
 		   Help help = helpService.selectView(boardNo);
-		
-		   System.out.println(help);
-		   
+				   
 		   if(loginMember == null) {
 			   
 			   if(help.getLockStatus().equals("Y") ){
