@@ -111,7 +111,8 @@
    
 			<c:choose>
 					<%-- test는 el만 적을 수 있음 (비교, 계산 같은걸 하나 EL 안에 작성가능) --%>
-				<c:when test="${roomList.roomMemberCount != roomList.roomMaxNumber}">
+				<%-- <c:when test="${roomList.roomMemberCount != roomList.roomMaxNumber}"> --%>
+				<c:when test="${roomList.roomMemberCount <= roomList.roomMaxNumber}">
 		            <a data-toggle="modal"  data-target="#myModal">
 		            	<div class="join-button" id="${roomList.roomNo}"   onclick="return validate();"><span>참여하기</span></div>
 		            </a>
