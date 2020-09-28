@@ -26,6 +26,11 @@
       .pagination {
       	justify-content: center;
       }
+      
+      #search{
+      	align-items:center;
+      	margin:10px;
+      }
 </style>
 </head>
 <body>
@@ -107,7 +112,20 @@
           		</c:choose>
                 </tbody>
             </table>
-            
+ 
+	        <div id="search">
+		        <form action="${contextPath}/mypage/searchMember" method="GET" class="text-center" id="searchForm">
+	            <input type="hidden" name="cp" value="${pInfo.currentPage}">
+	                <select name="searchKey" class="form-control"style="width:100px; display: inline-block;">
+	                    <option value="id">아이디</option>
+	                    <option value="name">성함</option>
+	                    <option value="phone">연락처</option>
+	                </select>
+	                <input type="text" name="searchValue" id="searchValue" class="form-control" style="width:25%; display: inline-block;">
+	                <button class="form-control btn btn-primary" id="searchBtn" style="width:100px; display: inline-block;">검색</button>
+	            </form>
+	        </div>   
+	                  
             <div class="my-4">
             <ul class="pagination">
                <c:if test="${pInfo.currentPage  > pInfo.pagingBarSize}">   
@@ -154,7 +172,7 @@
                 </c:if>
             </ul>
         </div>  
-        
+
         </div>
     </div>    
    
@@ -162,6 +180,14 @@
    
 <script>
 $(".new").parent().parent().css("background-color","bisque");
+
+$("#searchBtn").on("click", function(){
+	if($("#searchValue").val()==""){
+		alert("검색어를 입력해주십시오");
+		return false;
+	}
+	
+});
 </script>    
     </body>
 </html>

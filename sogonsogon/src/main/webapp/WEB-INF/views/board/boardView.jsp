@@ -285,7 +285,7 @@
 		
 		$("#reportBtn").on("click", function() {
 			if(confirm("게시글 작성자를 정말 신고 하시겠습니까?")) {
-				location.href = "${board.qnaNo}/report";
+				location.href = "${contextPath}/board/${board.qnaNo}/report";
 			}
 		});
 		

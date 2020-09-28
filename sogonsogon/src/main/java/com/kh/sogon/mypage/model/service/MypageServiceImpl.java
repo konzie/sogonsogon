@@ -1,6 +1,8 @@
 package com.kh.sogon.mypage.model.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -15,6 +17,7 @@ import com.kh.sogon.board.model.vo.Reply;
 import com.kh.sogon.mypage.model.dao.MypageDAO;
 import com.kh.sogon.mypage.model.vo.HelpAnswer;
 import com.kh.sogon.mypage.model.vo.ReportMember;
+import com.kh.sogon.mypage.model.vo.memberSearch;
 import com.kh.sogon.room.model.vo.Room;
 import com.kh.sogon.room.model.vo.RoomMember;
 import com.kh.sogon.roomboard.model.vo.RoomBoard;
@@ -443,13 +446,34 @@ public class MypageServiceImpl implements MypageService{
 
 	@Transactional(rollbackFor = Exception.class)
 	@Override
-	public List<Help> selectMyHelp(int memberNo) {
-		return mypageDAO.selectMyHelp(memberNo);
+	public List<Help> selectMyHelp(PageInfo pInfo, int memberNo) {
+		return mypageDAO.selectMyHelp(pInfo, memberNo);
 	}
 
 	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public int deleteHelp(int boardNo) {
 		return mypageDAO.deleteHelp(boardNo);
+	}
+
+	@Override
+	public PageInfo memberPage(int cp, memberSearch memberSearch) {
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("search", memberSearch);
+		int searchListCount = mypageDAO.getSearchCount(map);
+
+		pInfo.setPageInfo(cp, searchListCount);
+		
+		return pInfo;
+	}
+	
+	@Override
+	public List<Member> memberSearch(PageInfo pInfo, memberSearch memberSearch) {
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("search", memberSearch);
+
+		return mypageDAO.selectSearchList(pInfo, map);
 	}
 }

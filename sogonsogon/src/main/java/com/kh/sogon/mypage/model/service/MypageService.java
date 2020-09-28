@@ -7,6 +7,7 @@ import com.kh.sogon.help.model.vo.Help;
 import com.kh.sogon.member.model.vo.Member;
 import com.kh.sogon.mypage.model.vo.HelpAnswer;
 import com.kh.sogon.mypage.model.vo.ReportMember;
+import com.kh.sogon.mypage.model.vo.memberSearch;
 import com.kh.sogon.room.model.vo.Room;
 import com.kh.sogon.room.model.vo.RoomMember;
 import com.kh.sogon.roomboard.model.vo.RoomBoard;
@@ -241,7 +242,11 @@ public interface MypageService {
 
 	public abstract int findRoomNo(int i);
 
-	public abstract List<Help> selectMyHelp(int memberNo);
+	public abstract List<Help> selectMyHelp(PageInfo pInfo, int memberNo);
 
 	public abstract int deleteHelp(int boardNo);
+
+	public abstract PageInfo memberPage(int cp, memberSearch memberSearch);
+
+	public abstract List<Member> memberSearch(PageInfo pInfo, memberSearch memberSearch);
 }

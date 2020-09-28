@@ -39,7 +39,7 @@
       #board-content{
       	padding: 10px;
       	font-size: 15px;
-      	overflow: scroll;
+      	overflow: auto;
       }
 </style>
 <title>신고게시글 상세조회</title>

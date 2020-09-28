@@ -406,10 +406,37 @@
 	</select>
 	
 	<select id="selectMyHelp" parameterType="_int" resultMap="helpResultSet">
-		SELECT * FROM HELPBOARD JOIN MEMBER ON(HELP_WRITER=MEMBER_NO) WHERE HELP_WRITER = #{helpWriter} AND HELP_STATUS != 'N' ORDER BY HELP_CREATE_DATE, HELP_STATUS
+		SELECT * FROM HELPBOARD JOIN MEMBER ON(HELP_WRITER=MEMBER_NO) JOIN HELP_CATEGORY ON(HELP_CATEGORY=CATEGORY_NO) WHERE HELP_WRITER = #{helpWriter} AND HELP_STATUS != 'N' ORDER BY HELP_CREATE_DATE DESC
 	</select>
 	
 	<update id="deleteHelp" parameterType="_int" >
 		UPDATE HELPBOARD SET HELP_STATUS='R' WHERE HELP_NO = #{helpNo}			
 	</update>
+	
+	<select id="getSearchCount" parameterType="map" resultType="_int">
+		SELECT COUNT(*) FROM MEMBER WHERE
+        <if test="search.sKey == 'id'">
+        	MEMBER_ID LIKE '%' || #{search.sVal} || '%'
+        </if>
+        <if test="search.sKey == 'name'">
+         	MEMBER_NM LIKE '%' || #{search.sVal} || '%'
+        </if>    
+        <if test="search.sKey == 'phone'">
+         	MEMBER_PHONE LIKE '%' || #{search.sVal} || '%'  	
+        </if>
+	</select>
+	
+	<select id="selectSearchList" parameterType="map" resultMap="memberResultSet">
+		SELECT * FROM MEMBER WHERE 
+        <if test="search.sKey == 'id'">
+        	MEMBER_ID LIKE '%' || #{search.sVal} || '%'
+        </if>
+        <if test="search.sKey == 'name'">
+         	MEMBER_NM LIKE '%' || #{search.sVal} || '%'
+        </if>    
+        <if test="search.sKey == 'phone'">
+         	MEMBER_PHONE LIKE '%' || #{search.sVal} || '%'  	
+        </if>	
+         ORDER BY MEMBER_ENROLL_DATE DESC	
+	</select>
 </mapper>

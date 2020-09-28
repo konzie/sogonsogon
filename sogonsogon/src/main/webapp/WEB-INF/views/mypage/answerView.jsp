@@ -41,6 +41,7 @@
       	font-size: 15px;
       	width : 100%; 
       	height : 120px; 
+      	overflow: auto;
       }
       
       #answer-content{
@@ -76,7 +77,7 @@
 		<div id="board-content">${help.helpContent}
 		</div>
 		<div><br><p>답글 작성</p>
-		<textarea id="answer-content" name="answer"></textarea>
+		<textarea id="answer-content" name="answer" resize: none;></textarea>
 		</div>
 		<div class="float-right">
 		<button type="submit" class="btn btn-warning">등록</button>

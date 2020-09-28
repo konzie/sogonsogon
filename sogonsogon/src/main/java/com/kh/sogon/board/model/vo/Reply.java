@@ -1,13 +1,13 @@
 package com.kh.sogon.board.model.vo;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 public class Reply {
 	
 	private int replyNo;
 	private String content;
-	private Date replyCreateDate;
-	private Date replyModifyDate;
+	private Timestamp replyCreateDate;
+	private Timestamp replyModifyDate;
 	private String replyStatus;
 	private String replySelect;
 	private int qnaNo;
@@ -22,7 +22,7 @@ public class Reply {
 	public Reply() {
 		
 	}
-	public Reply(int replyNo, String content, Date replyCreateDate, Date replyModifyDate, String replyStatus,
+	public Reply(int replyNo, String content, Timestamp replyCreateDate, Timestamp replyModifyDate, String replyStatus,
 			String replySelect, int qnaNo, int replyWriter, String writerNick, String qnaTitle, String qnaContent,
 			int qnaWriter, int parentBoardNo, int parentReplyNo, String memberId) {
 		super();
@@ -54,16 +54,16 @@ public class Reply {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public Date getReplyCreateDate() {
+	public Timestamp getReplyCreateDate() {
 		return replyCreateDate;
 	}
-	public void setReplyCreateDate(Date replyCreateDate) {
+	public void setReplyCreateDate(Timestamp replyCreateDate) {
 		this.replyCreateDate = replyCreateDate;
 	}
-	public Date getReplyModifyDate() {
+	public Timestamp getReplyModifyDate() {
 		return replyModifyDate;
 	}
-	public void setReplyModifyDate(Date replyModifyDate) {
+	public void setReplyModifyDate(Timestamp replyModifyDate) {
 		this.replyModifyDate = replyModifyDate;
 	}
 	public String getReplyStatus() {
