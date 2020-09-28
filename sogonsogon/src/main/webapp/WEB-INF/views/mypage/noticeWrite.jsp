@@ -68,7 +68,7 @@
 				<div class="form-inline mb-2">
 					<label class="input-group-addon mr-3 insert-label">카테고리</label> 
 				  <c:choose>
- 				  <c:when test="${member.memberGrade=='A'}">
+ 				  <c:when test="${loginMember.memberGrade=='A'}">
 					<h5 class="my-0" id="category">공지글</h5><input style="display: none;" name="category" value="공지글">
 				  </c:when>
 				  <c:otherwise>

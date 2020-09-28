@@ -116,12 +116,12 @@
 	        <div id="search">
 		        <form action="${contextPath}/mypage/searchMember" method="GET" class="text-center" id="searchForm">
 	            <input type="hidden" name="cp" value="${pInfo.currentPage}">
-	                <select name="searchKey" class="form-control"style="width:100px; display: inline-block;">
-	                    <option value="id">아이디</option>
+	                <select name="searchKey" class="form-control"style="width:100px; display: inline-block;" id="searchKey">
+	                    <option value="id" selected>아이디</option>
 	                    <option value="name">성함</option>
 	                    <option value="phone">연락처</option>
 	                </select>
-	                <input type="text" name="searchValue" id="searchValue" class="form-control" style="width:25%; display: inline-block;">
+	                <input type="text" name="searchValue" id="searchValue" class="form-control" style="width:25%; display: inline-block;" value="${searchValue}">
 	                <button class="form-control btn btn-primary" id="searchBtn" style="width:100px; display: inline-block;">검색</button>
 	            </form>
 	        </div>   
@@ -188,6 +188,7 @@ $("#searchBtn").on("click", function(){
 	}
 	
 });
+
 </script>    
     </body>
 </html>
