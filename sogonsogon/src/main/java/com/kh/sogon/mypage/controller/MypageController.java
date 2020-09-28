@@ -94,6 +94,7 @@ public class MypageController {
 		List<Board> reportList = mypageService.selectDList(pInfo);
 		
 		for(int i=0;i<reportList.size();i++) {
+			reportList.get(i).setQnaContent(reportList.get(i).getQnaContent().replaceAll("<br>", " "));
 			if(reportList.get(i).getQnaContent().length()>20){
 				reportList.get(i).setQnaContent(reportList.get(i).getQnaContent().substring(0,20)+"...");
 			}
@@ -109,6 +110,7 @@ public class MypageController {
 		List<RoomBoard> roomReportList = mypageService.selectRoomReportList(roomPInfo);
 		
 		for(int i=0;i<roomReportList.size();i++) {
+			roomReportList.get(i).setRoomBoardContent(roomReportList.get(i).getRoomBoardContent().replaceAll("<br>", " "));
 			if(roomReportList.get(i).getRoomBoardContent().length()>20) {
 				roomReportList.get(i).setRoomBoardContent(roomReportList.get(i).getRoomBoardContent().substring(0,20)+"...");
 			}
@@ -119,6 +121,7 @@ public class MypageController {
 		List<Help> helpList = mypageService.selectQList(pInfo);
 
 		for(int i=0;i<helpList.size();i++) {
+			helpList.get(i).setHelpContent(helpList.get(i).getHelpContent().replaceAll("<br>", " "));
 			if(helpList.get(i).getHelpContent().length()>20){
 				helpList.get(i).setHelpContent(helpList.get(i).getHelpContent().substring(0,20)+"...");
 			}
@@ -354,7 +357,7 @@ public class MypageController {
 		
 		for(int i=0;i<reportList.size();i++) {
 
-			reportList.get(i).setQnaContent(reportList.get(i).getQnaContent().replaceAll("\r\n", " "));
+			reportList.get(i).setQnaContent(reportList.get(i).getQnaContent().replaceAll("<br>", " "));
 			if(reportList.get(i).getQnaContent().length()>20) {
 				reportList.get(i).setQnaContent(reportList.get(i).getQnaContent().substring(0,20)+"...");
 			}
@@ -375,6 +378,7 @@ public class MypageController {
 		List<RoomBoard> roomReportList = mypageService.selectRoomReportList(roomPInfo);
 		
 		for(int i=0;i<roomReportList.size();i++) {
+			roomReportList.get(i).setRoomBoardContent(roomReportList.get(i).getRoomBoardContent().replaceAll("<br>", " "));
 			if(roomReportList.get(i).getRoomBoardContent().length()>20) {
 				roomReportList.get(i).setRoomBoardContent(roomReportList.get(i).getRoomBoardContent().substring(0,20)+"...");
 			}
@@ -397,6 +401,7 @@ public class MypageController {
 		List<Help> helpList = mypageService.selectQList(pInfo);
 		
 		for(int i=0;i<helpList.size();i++) {
+			helpList.get(i).setHelpContent(helpList.get(i).getHelpContent().replaceAll("<br>", " "));
 			if(helpList.get(i).getHelpContent().length()>20) {
 				helpList.get(i).setHelpContent(helpList.get(i).getHelpContent().substring(0,20)+"...");
 			}
@@ -418,6 +423,7 @@ public class MypageController {
 		List<Board> qnaList = mypageService.selectNList(pInfo);
 		
 		for(int i=0;i<qnaList.size();i++) {
+			qnaList.get(i).setQnaContent(qnaList.get(i).getQnaContent().replaceAll("<br>", " "));
 			if(qnaList.get(i).getQnaContent().length()>20) {
 				qnaList.get(i).setQnaContent(qnaList.get(i).getQnaContent().substring(0,20)+"...");
 			}
@@ -1000,6 +1006,9 @@ public class MypageController {
 		
 		model.addAttribute("pInfo", pInfo);
 		model.addAttribute("memberList", memberList);
+		
+		model.addAttribute("sesarchKey", sKey);
+		model.addAttribute("searchValue", sVal);
 
 		return "mypage/adminmember";
 	}
