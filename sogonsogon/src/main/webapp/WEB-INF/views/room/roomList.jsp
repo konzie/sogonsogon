@@ -177,7 +177,18 @@
    <div class="pageN">
       <div class="pagination2" style="display: inline-block;">
       
-        <a href="${url}1">&laquo;</a> <%-- '<<' --%> <!-- ${url} : cp=  -->
+      <c:if test="${pInfo.currentPage  > pInfo.pagingBarSize}">	
+	        <a href="${url}1">&laquo;</a> <%-- '<<' --%> <!-- ${url} : cp=  -->
+	        
+	       	<fmt:parseNumber var="operand1" 
+				value="${(pInfo.currentPage-1)/pInfo.pagingBarSize}"
+				integerOnly="true" />
+			<c:set var="prev" value="${operand1 * 10 }" />
+	 		<%-- <a class="page-link text-primary" href="${pInfo.boardType}?cp=${prev}">&lt;</a> --%>
+	 		<a href="${url}${prev}">&lt;</a>
+ 		
+ 		</c:if>
+                   		
         
         <%-- 10개 목록 --%>
 		<c:forEach var="p" begin="${pInfo.startPage}" end="${pInfo.endPage}">
@@ -191,7 +202,18 @@
 			</c:choose>
 		</c:forEach>
          
+         <!-- 다음 페이지로(>) -->
+         <c:if test="${pInfo.maxPage>pInfo.endPage}">
+         <!-- 다음페이지(>) -->
+            <fmt:parseNumber var="operand2" value="${(pInfo.currentPage+9)/10}" integerOnly="true"/>
+            <c:set var="next" value="${operand2*10+1}"/>
+            <%-- <a class="page-link text-primary" href="${pInfo.boardType}?cp=${next}">&gt;</a> --%>
+            <a href="${url}${next}">&gt;</a>
+
+         
+         
         <a href="${url}${pInfo.maxPage}">&raquo;</a>  <%-- '>>' --%>
+            </c:if>
       </div>
    </div>
        

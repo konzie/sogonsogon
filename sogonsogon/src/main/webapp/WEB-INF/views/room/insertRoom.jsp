@@ -131,7 +131,7 @@
                     <div class="form-group">
                        <label for="exampleFormControlInput1" class="bold">방 이름</label> 
                        <input type="text" class="form-control" id="title" name="roomTitle"
-                          placeholder="방 이름을 작성해주세요."  style="width: 530px;">
+                          placeholder="방 이름을 작성해주세요."  style="width: 530px;" maxlength="17">
                     </div>
                     
                     
@@ -171,9 +171,9 @@
                            <label for="exampleFormControlTextarea1" class="tagform bold">태그 입력</label>
                            <div class="plusbutton">+</div>
                            <div class="tagbox">
-                              <input type="text" class="form-control tags"  id="tags" name="roomTag">
-                              <input type="text" class="form-control tags"  id="tags" name="roomTag">
-                              <input type="text" class="form-control tags"  id="tags" name="roomTag">
+                              <input type="text" class="form-control tags"  id="tags" name="roomTag" maxlength="5">
+                              <input type="text" class="form-control tags"  id="tags" name="roomTag" maxlength="5">
+                              <input type="text" class="form-control tags"  id="tags" name="roomTag" maxlength="5">
                            </div>
               
                             <button type="button" class="btn2"  id="return-btn">목록으로</button>
