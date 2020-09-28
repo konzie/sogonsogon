@@ -37,8 +37,6 @@ public class AnswerController {
 		   Answer answer = answerService.selectAnswer(helpNo);
 		   
 		   Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
-		   
-		   System.out.println("답변 : " + answer);
 
 		   return gson.toJson(answer);	
 		   

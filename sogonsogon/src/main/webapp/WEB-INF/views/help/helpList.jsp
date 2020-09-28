@@ -57,7 +57,7 @@
                                 <span>개씩 보기</span> -->
                             </div>
                         </div>
-                        <div class="col-sm-9">
+                        <!-- <div class="col-sm-9">
                             <button type="button" id="searchBtn" class="btn btn-primary"><i class="fa fa-search"></i></button>
                             <div class="filter-group">
                                 <input type="text" name="sVal" class="form-control" placeholder="검색어를 입력해주세요.">
@@ -78,7 +78,7 @@
                                 </select>
                             </div>
                             <span class="filter-icon"><i class="fa fa-filter"></i></span>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
                 <table class="table table-striped table-hover" id="list-table">
@@ -98,7 +98,7 @@
                         <c:choose>
                   <c:when test="${empty helpList}">
                      <tr>
-                        <td colspan="7">존재하는 게시글이 없습니다.</td>
+                        <td colspan="7" align="center" onclick="event.cancelBubble=true" style="cursor: auto;">존재하는 게시글이 없습니다.</td>
                      </tr>
                   </c:when>                   
                   <c:otherwise>
@@ -295,6 +295,8 @@
                 var $sVal = $("input[name='sVal']");
                 
                 alert($ct);
+                alert($sKey);
+                alert($sVal);
           	  
           	  //1) 검색에 필요한 카테고리 또는 검색어가 입력 되었는지 확인
           	  //	-입력이 되지 않은 경우 -> 해당 게시판 첫 페이지로 돌아가는 url 생성

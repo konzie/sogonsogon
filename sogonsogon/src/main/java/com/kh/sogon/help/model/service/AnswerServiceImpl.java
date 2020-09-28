@@ -33,6 +33,9 @@ public class AnswerServiceImpl implements AnswerService{
 			//크로스사이트스크립트 방지 처리
 			answer.setAnswerContent(replaceParameter(answer.getAnswerContent()));
 			
+			//개행문자 처리 \n-> <br>
+			answer.setAnswerContent(answer.getAnswerContent().replaceAll("\n", "<br>"));
+			
 			upResult = answerDAO.insertAnswer(answer);
 		}
 		return upResult;
